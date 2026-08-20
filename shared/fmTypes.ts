@@ -198,6 +198,7 @@ export type FMCharacterSheet = {
     description: string;
   };
   technique: FMTechnique;
+  techniqueLibraryId: string | null;
   attributes: {
     base: FMAttributes;
     permanentBonuses: FMAttributes;
@@ -263,6 +264,7 @@ export const createEmptyFMSheet = (): FMCharacterSheet => ({
     requiredItems: "",
     reviewNotes: "",
   },
+  techniqueLibraryId: null,
   attributes: {
     base: { strength: 10, dexterity: 10, constitution: 10, intelligence: 10, wisdom: 10, presence: 10 },
     permanentBonuses: { strength: 0, dexterity: 0, constitution: 0, intelligence: 0, wisdom: 0, presence: 0 },

@@ -37,8 +37,22 @@ export const fmCharacterShares = mysqlTable("fm_character_shares", {
   ownerIndex: index("fm_character_shares_owner_index").on(table.ownerId),
 }));
 
+export const fmTechniques = mysqlTable("fm_techniques", {
+  id: varchar("id", { length: 64 }).primaryKey(),
+  ownerId: int("ownerId").notNull(),
+  name: varchar("name", { length: 160 }).notNull(),
+  technique: json("technique").$type<Record<string, unknown>>().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, table => ({
+  ownerIndex: index("fm_techniques_owner_index").on(table.ownerId),
+  ownerUpdatedIndex: index("fm_techniques_owner_updated_index").on(table.ownerId, table.updatedAt),
+}));
+
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 export type FMCharacter = typeof fmCharacters.$inferSelect;
 export type InsertFMCharacter = typeof fmCharacters.$inferInsert;
 export type FMCharacterShare = typeof fmCharacterShares.$inferSelect;
+export type FMTechniqueLibraryItem = typeof fmTechniques.$inferSelect;
+export type InsertFMTechniqueLibraryItem = typeof fmTechniques.$inferInsert;

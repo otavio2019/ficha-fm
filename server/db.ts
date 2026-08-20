@@ -1,6 +1,6 @@
 import { and, desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { fmCharacters, fmCharacterShares, type InsertFMCharacter, type InsertUser, users } from "../drizzle/schema";
+import { fmCharacters, fmCharacterShares, fmTechniques, type InsertFMCharacter, type InsertFMTechniqueLibraryItem, type InsertUser, users } from "../drizzle/schema";
 import { ENV } from "./_core/env";
 
 let database: ReturnType<typeof drizzle> | null = null;
@@ -53,6 +53,35 @@ export async function getFMCharacter(id: string) {
   if (!db) return undefined;
   const records = await db.select().from(fmCharacters).where(eq(fmCharacters.id, id)).limit(1);
   return records[0];
+}
+
+export async function listFMTechniques(ownerId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(fmTechniques).where(eq(fmTechniques.ownerId, ownerId)).orderBy(desc(fmTechniques.updatedAt));
+}
+
+export async function getFMTechnique(id: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const records = await db.select().from(fmTechniques).where(eq(fmTechniques.id, id)).limit(1);
+  return records[0];
+}
+
+export async function saveFMTechnique(technique: InsertFMTechniqueLibraryItem) {
+  const db = await getDb();
+  if (!db) return undefined;
+  await db.insert(fmTechniques).values(technique).onDuplicateKeyUpdate({
+    set: { name: technique.name, technique: technique.technique, updatedAt: new Date() },
+  });
+  return getFMTechnique(technique.id);
+}
+
+export async function deleteFMTechnique(id: string, ownerId: number) {
+  const db = await getDb();
+  if (!db) return false;
+  const result = await db.delete(fmTechniques).where(and(eq(fmTechniques.id, id), eq(fmTechniques.ownerId, ownerId)));
+  return result[0].affectedRows > 0;
 }
 
 export async function saveFMCharacter(character: InsertFMCharacter) {

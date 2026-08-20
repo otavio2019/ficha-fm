@@ -15,6 +15,13 @@
       "when": 1787243214069,
       "tag": "0001_deep_eternity",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1787250447136,
+      "tag": "0002_early_zemo",
+      "breakpoints": true
     }
   ]
 }

@@ -7,7 +7,7 @@ import { FM_DECLARED_MODIFIER_RULES, isDeclaredModifierInRange, type FMDeclaredM
 import { getInfiniteWorldLevel } from "../shared/infiniteWorlds";
 import { validateTechnique } from "../shared/fmTechniques";
 import { validateHouseRules } from "../shared/fmHouseRules";
-import { createFMCharacterShare, deleteFMCharacter, getFMCharacter, getFMCharacterShare, getSharedFMCharacter, listFMCharacters, listFMCharacterShares, saveFMCharacter } from "./db";
+import { createFMCharacterShare, deleteFMCharacter, deleteFMTechnique, getFMCharacter, getFMCharacterShare, getFMTechnique, getSharedFMCharacter, listFMCharacters, listFMCharacterShares, listFMTechniques, saveFMCharacter, saveFMTechnique } from "./db";
 import { emitCharacterUpdated } from "./live";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
@@ -102,6 +102,16 @@ const characterInput = z.object({
 });
 
 const characterIdInput = z.object({ id: z.string().min(6).max(64) });
+const techniqueLibraryInput = z.object({
+  id: z.string().min(6).max(64),
+  name: z.string().trim().min(1).max(160),
+  technique: z.record(z.string(), z.unknown()),
+}).superRefine((input, context) => {
+  const specialization = input.technique.kind === "martial" ? "restricted" : "fighter";
+  validateTechnique({ ...input.technique, name: input.name }, specialization).forEach(issue => {
+    context.addIssue({ code: "custom", path: ["technique", issue.field], message: issue.message });
+  });
+});
 
 export const appRouter = router({
   system: systemRouter,
@@ -109,6 +119,27 @@ export const appRouter = router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {
       ctx.res.clearCookie(COOKIE_NAME, { ...getSessionCookieOptions(ctx.req), maxAge: -1 });
+      return { success: true } as const;
+    }),
+  }),
+  techniques: router({
+    list: protectedProcedure.query(({ ctx }) => listFMTechniques(ctx.user.id)),
+    get: protectedProcedure.input(characterIdInput).query(async ({ ctx, input }) => {
+      const technique = await getFMTechnique(input.id);
+      if (!technique || technique.ownerId !== ctx.user.id) throw new TRPCError({ code: "FORBIDDEN", message: "Você não pode abrir esta técnica." });
+      return technique;
+    }),
+    save: protectedProcedure.input(techniqueLibraryInput).mutation(async ({ ctx, input }) => {
+      const existing = await getFMTechnique(input.id);
+      if (existing && existing.ownerId !== ctx.user.id) throw new TRPCError({ code: "FORBIDDEN", message: "Você não pode editar esta técnica." });
+      const saved = await saveFMTechnique({ id: input.id, ownerId: ctx.user.id, name: input.name, technique: { ...input.technique, name: input.name } });
+      if (!saved) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Não foi possível salvar a técnica." });
+      return saved;
+    }),
+    remove: protectedProcedure.input(characterIdInput).mutation(async ({ ctx, input }) => {
+      const existing = await getFMTechnique(input.id);
+      if (!existing || existing.ownerId !== ctx.user.id) throw new TRPCError({ code: "FORBIDDEN", message: "Você não pode excluir esta técnica." });
+      await deleteFMTechnique(input.id, ctx.user.id);
       return { success: true } as const;
     }),
   }),
@@ -125,6 +156,13 @@ export const appRouter = router({
       const existing = await getFMCharacter(input.id);
       if (existing && existing.ownerId !== ctx.user.id) {
         throw new TRPCError({ code: "FORBIDDEN", message: "Você não pode editar esta ficha." });
+      }
+      const techniqueLibraryId = input.sheet.techniqueLibraryId;
+      if (typeof techniqueLibraryId === "string" && techniqueLibraryId) {
+        const selectedTechnique = await getFMTechnique(techniqueLibraryId);
+        if (!selectedTechnique || selectedTechnique.ownerId !== ctx.user.id) {
+          throw new TRPCError({ code: "BAD_REQUEST", message: "A técnica selecionada não pertence à sua biblioteca." });
+        }
       }
       const nextVow = (input.sheet.houseRules as Record<string, unknown> | undefined)?.birthVow as Record<string, unknown> | undefined;
       const existingVow = (existing?.sheet.houseRules as Record<string, unknown> | undefined)?.birthVow as Record<string, unknown> | undefined;

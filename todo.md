@@ -75,3 +75,8 @@
 - [x] Validar Free Build contra origem Restringido e exigir contrajogo também na técnica quando declarado.
 - [x] Cobrir persistência, autorização de terceiros e hidratação legada do bloco `houseRules`.
 - [x] Adicionar teste explícito do merge de `houseRules` ao carregar ficha legada no editor.
+- [x] Criar uma biblioteca independente de técnicas, com cadastro, edição e remoção em nova aba.
+- [x] Permitir que cada personagem escolha ou remova uma técnica da biblioteca sem alterar a técnica compartilhada.
+- [x] Cobrir persistência, autorização e integridade do vínculo entre técnica e personagem.
+- [x] Validar a aba de técnicas e o seletor de personagem em 1280×720 e 375×812.
+- [x] Testar que a ficha salva e recupera `techniqueLibraryId` e a cópia da técnica escolhida após recarga.

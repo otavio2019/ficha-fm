@@ -4,15 +4,19 @@ import type { TrpcContext } from "./_core/context";
 vi.mock("./db", () => ({
   createFMCharacterShare: vi.fn(),
   deleteFMCharacter: vi.fn(),
+  deleteFMTechnique: vi.fn(),
   getFMCharacter: vi.fn(),
   getFMCharacterShare: vi.fn(),
+  getFMTechnique: vi.fn(),
   getSharedFMCharacter: vi.fn(),
   listFMCharacters: vi.fn(),
   listFMCharacterShares: vi.fn(),
+  listFMTechniques: vi.fn(),
   saveFMCharacter: vi.fn(),
+  saveFMTechnique: vi.fn(),
 }));
 
-import { createFMCharacterShare, deleteFMCharacter, getFMCharacter, getFMCharacterShare, getSharedFMCharacter, saveFMCharacter } from "./db";
+import { createFMCharacterShare, deleteFMCharacter, deleteFMTechnique, getFMCharacter, getFMCharacterShare, getFMTechnique, getSharedFMCharacter, listFMTechniques, saveFMCharacter, saveFMTechnique } from "./db";
 import { appRouter } from "./routers";
 
 function createContext(userId = 1): TrpcContext {
@@ -198,5 +202,52 @@ describe("biblioteca de fichas", () => {
 
     await expect(caller.characters.remove({ id: "ficha-remover" })).resolves.toEqual({ success: true });
     expect(deleteFMCharacter).toHaveBeenCalledWith("ficha-remover", 1);
+  });
+});
+
+describe("biblioteca independente de técnicas", () => {
+  const technique = { kind: "cursed", name: "Fios da Aurora", basicFunction: "Manipula fios de energia.", attributeKeys: ["dexterity"], intrinsicBenefits: "", limitations: "Exige linha de visão e pode ser interrompida por barreiras.", requiredItems: "Carretel", reviewNotes: "" };
+
+  beforeEach(() => vi.clearAllMocks());
+
+  it("lista e salva técnicas apenas na biblioteca do proprietário", async () => {
+    vi.mocked(listFMTechniques).mockResolvedValue([{ id: "tecnica-001", ownerId: 1, name: technique.name, technique, createdAt: new Date(), updatedAt: new Date() }]);
+    vi.mocked(getFMTechnique).mockResolvedValue(undefined);
+    vi.mocked(saveFMTechnique).mockResolvedValue({ id: "tecnica-002", ownerId: 1, name: technique.name, technique, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+
+    await expect(caller.techniques.list()).resolves.toHaveLength(1);
+    await expect(caller.techniques.save({ id: "tecnica-002", name: technique.name, technique })).resolves.toMatchObject({ ownerId: 1, name: technique.name });
+    expect(saveFMTechnique).toHaveBeenCalledWith(expect.objectContaining({ ownerId: 1, technique: expect.objectContaining({ name: technique.name }) }));
+  });
+
+  it("bloqueia edição e remoção de técnica pertencente a outro usuário", async () => {
+    vi.mocked(getFMTechnique).mockResolvedValue({ id: "tecnica-alheia", ownerId: 2, name: technique.name, technique, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+
+    await expect(caller.techniques.save({ id: "tecnica-alheia", name: technique.name, technique })).rejects.toMatchObject({ code: "FORBIDDEN" });
+    await expect(caller.techniques.remove({ id: "tecnica-alheia" })).rejects.toMatchObject({ code: "FORBIDDEN" });
+    expect(deleteFMTechnique).not.toHaveBeenCalled();
+  });
+
+  it("recusa vincular uma ficha a técnica de outra biblioteca", async () => {
+    vi.mocked(getFMCharacter).mockResolvedValue(undefined);
+    vi.mocked(getFMTechnique).mockResolvedValue({ id: "tecnica-alheia", ownerId: 2, name: technique.name, technique, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+
+    await expect(caller.characters.save({ id: "ficha-vinculo-invalido", name: "Yuji", sheet: { techniqueLibraryId: "tecnica-alheia" } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+    expect(saveFMCharacter).not.toHaveBeenCalled();
+  });
+
+  it("persiste e recupera o vínculo com a técnica escolhida", async () => {
+    const storedSheet = { techniqueLibraryId: "tecnica-001", progression: { specialization: "fighter" }, technique };
+    vi.mocked(getFMCharacter).mockResolvedValueOnce(undefined).mockResolvedValueOnce({ id: "ficha-vinculo", ownerId: 1, name: "Yuji", portraitUrl: null, sheet: storedSheet, createdAt: new Date(), updatedAt: new Date() });
+    vi.mocked(getFMTechnique).mockResolvedValue({ id: "tecnica-001", ownerId: 1, name: technique.name, technique, createdAt: new Date(), updatedAt: new Date() });
+    vi.mocked(saveFMCharacter).mockResolvedValue({ id: "ficha-vinculo", ownerId: 1, name: "Yuji", portraitUrl: null, sheet: storedSheet, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+
+    await caller.characters.save({ id: "ficha-vinculo", name: "Yuji", sheet: storedSheet });
+    await expect(caller.characters.get({ id: "ficha-vinculo" })).resolves.toMatchObject({ sheet: { techniqueLibraryId: "tecnica-001", technique } });
+    expect(saveFMCharacter).toHaveBeenCalledWith(expect.objectContaining({ sheet: storedSheet }));
   });
 });
