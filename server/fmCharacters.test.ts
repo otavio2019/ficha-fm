@@ -20,6 +20,8 @@ vi.mock("./storage", () => ({ storagePut: vi.fn() }));
 import { createFMCharacterShare, deleteFMCharacter, deleteFMTechnique, getFMCharacter, getFMCharacterShare, getFMTechnique, getSharedFMCharacter, listFMTechniques, saveFMCharacter, saveFMTechnique } from "./db";
 import { appRouter } from "./routers";
 import { storagePut } from "./storage";
+import { applyInfiniteWorldMission } from "../shared/infiniteWorlds";
+import { createEmptyFMSheet } from "../shared/fmTypes";
 
 function createContext(userId = 1): TrpcContext {
   return {
@@ -113,6 +115,21 @@ describe("biblioteca de fichas", () => {
 
     await caller.characters.save({ id: "ficha-casa", name: "Maki", sheet: { houseRules } });
     await expect(caller.characters.get({ id: "ficha-casa" })).resolves.toMatchObject({ sheet: { houseRules } });
+  });
+
+  it("persiste e recupera XP, grau, descanso e Interlúdios após registrar uma missão", async () => {
+    const base = createEmptyFMSheet();
+    base.progression.experience = 75;
+    base.progression.level = 4;
+    base.progression.specializationLevels = 4;
+    base.identity.grade = "4º Grau";
+    const sheet = applyInfiniteWorldMission(base, "hard-plus", "normal", 1000).sheet;
+    vi.mocked(getFMCharacter).mockResolvedValueOnce(undefined).mockResolvedValueOnce({ id: "ficha-missao", ownerId: 1, name: "Megumi", portraitUrl: null, sheet, createdAt: new Date(), updatedAt: new Date() });
+    vi.mocked(saveFMCharacter).mockResolvedValue({ id: "ficha-missao", ownerId: 1, name: "Megumi", portraitUrl: null, sheet, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+
+    await caller.characters.save({ id: "ficha-missao", name: "Megumi", sheet });
+    await expect(caller.characters.get({ id: "ficha-missao" })).resolves.toMatchObject({ sheet: { progression: { experience: 87, level: 4 }, identity: { grade: "4º Grau" }, houseRules: { rest: { exhaustion: 1, missionCount: 1 }, downtime: { interludes: 1.5 } } } });
   });
 
   it("persiste e recupera origem selecionada e invocações da ficha", async () => {

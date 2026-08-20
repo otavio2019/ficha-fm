@@ -109,3 +109,9 @@
 - [x] Exibir no editor de técnica uma orientação clara sobre contrajogo para rascunhos e publicações na biblioteca.
 - [x] Validar visualmente a galeria preenchida, suas legendas, ação de retrato e remoção em desktop e celular.
 - [x] Cobrir em teste a hidratação dos controles de galeria após recarregar uma ficha com imagens.
+- [x] Corrigir o seletor de navegação móvel para preservar contraste, agrupamento e legibilidade no tema Infinite Worlds.
+- [x] Separar Progressão, Missões e Registros em categorias próprias na área de Campanha.
+- [x] Aplicar Interlúdios por dificuldade: Difícil concede 1 e Difícil+ concede 1,5, com registro no Diário.
+- [x] Cobrir regras, persistência e responsividade da nova organização de Campanha e recompensas de Interlúdio.
+- [x] Testar persistência após missão para XP, grau, exaustão, missões e Interlúdios.
+- [x] Validar visualmente Progressão e Grau em desktop e celular na nova categoria Campanha.

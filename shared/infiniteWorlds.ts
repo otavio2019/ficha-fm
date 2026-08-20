@@ -1,3 +1,5 @@
+import type { FMCharacterSheet } from "./fmTypes";
+
 export const INFINITE_WORLDS_XP_BY_LEVEL = {
   1: 0, 2: 20, 3: 45, 4: 75, 5: 100, 6: 145, 7: 200, 8: 265, 9: 300, 10: 375,
   11: 460, 12: 555, 13: 665, 14: 800, 15: 960, 16: 1130, 17: 1300, 18: 1530,
@@ -65,4 +67,26 @@ export function getMissionMoneyReward(grade: InfiniteWorldGradeId, difficulty: I
   const grades: InfiniteWorldGradeId[] = ["fourth", "third", "second", "first", "special"];
   const rewardGrade = dedicationRewarding ? grades[Math.min(grades.length - 1, Math.max(0, grades.indexOf(grade)) + 1)] ?? grade : grade;
   return INFINITE_WORLDS_GRADES.find(item => item.id === rewardGrade)?.missionMoney[difficulty] ?? 0;
+}
+
+export function getMissionInterludeReward(difficulty: InfiniteWorldMissionDifficulty) {
+  return difficulty === "hard" ? 1 : difficulty === "hard-plus" ? 1.5 : 0;
+}
+
+export function applyInfiniteWorldMission(sheet: FMCharacterSheet, difficulty: InfiniteWorldMissionDifficulty, moneyDifficulty: InfiniteWorldMoneyDifficulty, at = Date.now()) {
+  const currentProgress = getInfiniteWorldProgress(sheet.progression.experience ?? 0);
+  const experience = getMissionExperienceReward(currentProgress.grade.id, difficulty);
+  const money = getMissionMoneyReward(currentProgress.grade.id, moneyDifficulty, sheet.houseRules.dedicationRewarding);
+  const interludes = getMissionInterludeReward(difficulty);
+  const nextProgress = getInfiniteWorldProgress(currentProgress.experience + experience);
+  return {
+    rewards: { experience, money, interludes, grade: currentProgress.grade.label },
+    sheet: {
+      ...sheet,
+      progression: { ...sheet.progression, experience: nextProgress.experience, level: nextProgress.level, specializationLevels: nextProgress.level },
+      identity: { ...sheet.identity, grade: nextProgress.grade.label },
+      guild: { ...(sheet.guild ?? { currency: 0 }), currency: (sheet.guild?.currency ?? 0) + money },
+      houseRules: { ...sheet.houseRules, rest: { ...sheet.houseRules.rest, exhaustion: sheet.houseRules.rest.exhaustion + 1, missionCount: sheet.houseRules.rest.missionCount + 1, lastMissionAt: at, longRestMissionCount: null }, downtime: { ...sheet.houseRules.downtime, interludes: sheet.houseRules.downtime.interludes + interludes } },
+    },
+  };
 }
