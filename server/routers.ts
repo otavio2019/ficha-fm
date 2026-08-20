@@ -10,6 +10,7 @@ import { validateTechnique } from "../shared/fmTechniques";
 import { validateHouseRules } from "../shared/fmHouseRules";
 import { FM_CLAN_CATALOG, FM_ORIGIN_CATALOG, getClanCatalogEntry, getOriginAttributeAllocation, getOriginCatalogEntry } from "../shared/fmOrigins";
 import { FM_INVOCATION_GRADE_RULES } from "../shared/fmInvocations";
+import { getAptitudeCatalogEntry } from "../shared/fmCampaignCapabilities";
 import { storagePut } from "./storage";
 import { createFMCharacterShare, deleteFMCharacter, deleteFMTechnique, getFMCharacter, getFMCharacterShare, getFMTechnique, getSharedFMCharacter, listFMCharacters, listFMCharacterShares, listFMTechniques, saveFMCharacter, saveFMTechnique } from "./db";
 import { emitCharacterUpdated } from "./live";
@@ -107,6 +108,30 @@ const characterInput = z.object({
       if (!requirement || track.specialization === "restricted") return;
       if (!requirement.attributes.some(attribute => Number(base[attribute] ?? 0) + Number(bonuses[attribute] ?? 0) >= requirement.minimum)) context.addIssue({ code: "custom", path: ["sheet", "progression", "specializationTracks", index], message: `A Multiclasse em ${track.specialization} requer ${requirement.label}.` });
     });
+  }
+  const aptitudes = input.sheet.aptitudes;
+  if (aptitudes !== undefined && !Array.isArray(aptitudes)) {
+    context.addIssue({ code: "custom", path: ["sheet", "aptitudes"], message: "Aptidões devem ser uma lista." });
+  }
+  if (Array.isArray(aptitudes)) {
+    const selectedCatalogIds = aptitudes.map(aptitude => (aptitude as Record<string, unknown>).catalogId).filter((catalogId): catalogId is string => typeof catalogId === "string");
+    if (new Set(selectedCatalogIds).size !== selectedCatalogIds.length) context.addIssue({ code: "custom", path: ["sheet", "aptitudes"], message: "Cada aptidão só pode ser escolhida uma vez." });
+    let spent = 0;
+    aptitudes.forEach((aptitude, index) => {
+      const value = aptitude as Record<string, unknown>;
+      const catalogId = typeof value.catalogId === "string" ? value.catalogId : "";
+      const catalog = getAptitudeCatalogEntry(catalogId);
+      if (!catalog) {
+        context.addIssue({ code: "custom", path: ["sheet", "aptitudes", index, "catalogId"], message: "A aptidão selecionada não corresponde ao catálogo oficial." });
+        return;
+      }
+      spent += catalog.cost;
+      if (value.name !== catalog.name || value.group !== catalog.group || value.requiredLevel !== catalog.requiredLevel || value.cost !== catalog.cost || value.prerequisite !== catalog.prerequisite || value.effect !== catalog.effect) context.addIssue({ code: "custom", path: ["sheet", "aptitudes", index], message: "Os dados da aptidão devem corresponder ao catálogo oficial." });
+      if (level < catalog.requiredLevel) context.addIssue({ code: "custom", path: ["sheet", "aptitudes", index, "catalogId"], message: `${catalog.name} exige nível ${catalog.requiredLevel}.` });
+      if (catalog.prerequisite !== "—" && !aptitudes.some(candidate => (candidate as Record<string, unknown>).name === catalog.prerequisite)) context.addIssue({ code: "custom", path: ["sheet", "aptitudes", index, "catalogId"], message: `${catalog.name} exige ${catalog.prerequisite}.` });
+    });
+    const budget = Math.floor(Math.max(1, Math.min(30, level)) / 2) + Math.floor(Math.max(1, Math.min(30, level)) / 10);
+    if (spent > budget) context.addIssue({ code: "custom", path: ["sheet", "aptitudes"], message: `A ficha possui ${spent} ponto(s) de aptidão gastos, mas o nível ${level} libera apenas ${budget}.` });
   }
   const houseRules = input.sheet.houseRules;
   validateHouseRules(houseRules).forEach(message => {

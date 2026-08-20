@@ -177,10 +177,25 @@ describe("biblioteca de fichas", () => {
     await expect(caller.characters.get({ id: "ficha-invocacao" })).resolves.toMatchObject({ sheet: { origin, invocations, images } });
   });
 
+  it("persiste e recupera aptidões, treinamentos, aliados, ferramentas e domínio", async () => {
+    const sheet = { progression: { level: 3, specialization: "fighter" }, aptitudes: [{ id: "apt-1", catalogId: "barriers", name: "Barreiras", group: "domain", requiredLevel: 3, cost: 1, prerequisite: "—", effect: "Permite estruturar barreiras com efeito e contrajogo registrados.", approved: true }], training: [{ trackId: "barriers", stage: 2, notes: "Treino concluído." }], allies: [{ id: "ally-1", name: "Ieiri", role: "Suporte", bond: "Médica da equipe", healthCurrent: 12, healthMaximum: 12, defense: 13, actions: [{ id: "act-1", name: "Curar", effect: "Recupera recursos." }], notes: "Disponível na base." }], cursedTools: [{ id: "tool-1", name: "Lâmina Selada", category: "weapon", grade: "second", costTier: 2, spaces: 1, requirements: "Manejo de arma", effect: "Corte amaldiçoado.", approved: true, enchantments: [{ id: "ench-1", name: "Corte Vivo", effect: "Amplia o corte.", approved: false }], notes: "Revisada." }], domainExpansion: { name: "Jardim Vazio", type: "incomplete", requiredLevel: 8, energyCost: 12, barrierHealth: 30, barrierResilience: 4, guaranteedHit: false, maximumTechnique: "", effect: "Silencia a área.", counterplay: "Domínio simples.", approved: false } };
+    vi.mocked(getFMCharacter).mockResolvedValueOnce(undefined).mockResolvedValueOnce({ id: "ficha-capacidades", ownerId: 1, name: "Megumi", portraitUrl: null, sheet, createdAt: new Date(), updatedAt: new Date() });
+    vi.mocked(saveFMCharacter).mockResolvedValue({ id: "ficha-capacidades", ownerId: 1, name: "Megumi", portraitUrl: null, sheet, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+
+    await caller.characters.save({ id: "ficha-capacidades", name: "Megumi", sheet });
+    await expect(caller.characters.get({ id: "ficha-capacidades" })).resolves.toMatchObject({ sheet: { aptitudes: [{ catalogId: "barriers", approved: true }], training: [{ trackId: "barriers", stage: 2 }], allies: [{ name: "Ieiri", actions: [{ name: "Curar" }] }], cursedTools: [{ name: "Lâmina Selada", enchantments: [{ name: "Corte Vivo" }] }], domainExpansion: { name: "Jardim Vazio", counterplay: "Domínio simples." } } });
+  });
+
   it("recusa origem ou ação de Invocação inválidas", async () => {
     const caller = appRouter.createCaller(createContext(1));
     await expect(caller.characters.save({ id: "ficha-origem-invalida", name: "Yuji", sheet: { origin: { catalogId: "origem-inexistente" } } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
     await expect(caller.characters.save({ id: "ficha-invocacao-invalida", name: "Yuji", sheet: { invocations: [{ name: "Shikigami", grade: "fourth", actions: [{ name: "Investida" }] }] } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+  });
+
+  it("recusa aptidões fora do catálogo, nível, custo ou pré-requisito", async () => {
+    const caller = appRouter.createCaller(createContext(1));
+    await expect(caller.characters.save({ id: "ficha-aptidao-invalida", name: "Yuji", sheet: { progression: { level: 1, specialization: "fighter" }, aptitudes: [{ id: "apt-1", catalogId: "complete-domain", name: "Expansão de Domínio Completa", group: "domain", requiredLevel: 12, cost: 1, prerequisite: "Expansão de Domínio Incompleta", effect: "Habilita expansão completa com custo e contrajogo declarados.", approved: false }] } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
   });
 
   it("bloqueia selecionar poder de técnica antes do nível liberado", async () => {

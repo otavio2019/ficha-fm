@@ -15,6 +15,11 @@ describe("hidratação de fichas legadas", () => {
     expect(sheet.invocations).toEqual([]);
     expect(sheet.images).toEqual([]);
     expect(sheet.missionRewards).toEqual([]);
+    expect(sheet.aptitudes).toEqual([]);
+    expect(sheet.training).toEqual([]);
+    expect(sheet.allies).toEqual([]);
+    expect(sheet.cursedTools).toEqual([]);
+    expect(sheet.domainExpansion).toBeNull();
   });
 
   it("reconhece um nome de clã legado sem perder a linhagem textual", () => {
@@ -55,5 +60,10 @@ describe("hidratação de fichas legadas", () => {
   it("preserva o livro-razão de recompensas ao recarregar a ficha", () => {
     const sheet = hydrateSheet({ missionRewards: [{ id: "mission-1", at: 500, title: "Rastro de Cinzas", grade: "4º Grau", difficulty: "hard", moneyDifficulty: "normal", base: { experience: 8, money: 5000, interludes: 1, description: "Tabela Infinite Worlds" }, extra: { experience: 2, money: 1000, interludes: 0, description: "Recebeu um talismã" }, total: { experience: 10, money: 6000, interludes: 1, description: "Recebeu um talismã" } }] });
     expect(sheet.missionRewards).toMatchObject([{ id: "mission-1", title: "Rastro de Cinzas", total: { experience: 10, money: 6000, interludes: 1 } }]);
+  });
+
+  it("preserva as capacidades avançadas ao recarregar a ficha", () => {
+    const sheet = hydrateSheet({ aptitudes: [{ id: "apt-1", catalogId: "barriers", name: "Barreiras", group: "domain", requiredLevel: 3, cost: 1, prerequisite: "—", effect: "Cria barreiras.", approved: true }], training: [{ trackId: "barriers", stage: 2, notes: "Treino" }], allies: [{ id: "ally-1", name: "Ieiri", role: "Suporte", bond: "Médica", healthCurrent: 12, healthMaximum: 12, defense: 13, actions: [], notes: "" }], cursedTools: [{ id: "tool-1", name: "Lâmina Selada", category: "weapon", grade: "second", costTier: 2, spaces: 1, requirements: "", effect: "Corte", approved: true, enchantments: [], notes: "" }], domainExpansion: { name: "Jardim Vazio", type: "incomplete", requiredLevel: 8, energyCost: 12, barrierHealth: 30, barrierResilience: 4, guaranteedHit: false, maximumTechnique: "", effect: "Silencia", counterplay: "Domínio simples", approved: false } });
+    expect(sheet).toMatchObject({ aptitudes: [{ catalogId: "barriers" }], training: [{ trackId: "barriers", stage: 2 }], allies: [{ name: "Ieiri" }], cursedTools: [{ name: "Lâmina Selada" }], domainExpansion: { name: "Jardim Vazio", type: "incomplete" } });
   });
 });

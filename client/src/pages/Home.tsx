@@ -7,9 +7,10 @@ import { getLiveSocketAuth } from "@/lib/liveAuth";
 import { HouseRulesPanel } from "@/components/HouseRulesPanel";
 import { TechniqueLibraryPanel } from "@/components/TechniqueLibraryPanel";
 import { CharacterTechniqueSelector } from "@/components/CharacterTechniqueSelector";
+import { AptitudesTrainingPanel, AssetsPanelWithActions, DomainExpansionPanel } from "@/components/CampaignCapabilitiesPanels";
 import { FM_RULE_CITATIONS } from "@shared/fmCitations";
 import { useAuth } from "@/_core/hooks/useAuth";
-import { BookOpen, ChevronLeft, CirclePlus, Copy, Dice5, Download, Flame, ImagePlus, Library, Loader2, LogOut, Menu, MoonStar, Plus, Printer, ScrollText, Share2, Shield, Swords, Trash2, WandSparkles } from "lucide-react";
+import { BookOpen, ChevronLeft, CirclePlus, Copy, Dice5, Download, Flame, ImagePlus, Library, Loader2, LogOut, Menu, MoonStar, Plus, Printer, ScrollText, Share2, Shield, Sparkles, Swords, Trash2, WandSparkles, Wrench } from "lucide-react";
 import React, { useEffect, useMemo, useState } from "react";
 import { io } from "socket.io-client";
 import { toast } from "sonner";
@@ -22,13 +23,13 @@ import { applyInfiniteWorldMission, getExperienceForLevel, getInfiniteWorldProgr
 import { FM_TECHNIQUE_CREATION_CITATION, getPrimaryTechniqueAttribute, getTechniqueCopy, getTechniqueKindForSpecialization, isTechniqueReady, validateTechnique } from "@shared/fmTechniques";
 import { FM_HOUSE_RULES_CITATION, getHouseRestAvailability, getMassiveDamageOutcome, rollHouseAttributeGeneration } from "@shared/fmHouseRules";
 
-type TabId = "overview" | "attributes" | "specialization" | "skills" | "technique" | "spells" | "invocations" | "combat" | "equipment" | "progression" | "missions" | "house" | "diary";
+type TabId = "overview" | "attributes" | "specialization" | "skills" | "aptitudes" | "technique" | "spells" | "domain" | "invocations" | "combat" | "equipment" | "assets" | "progression" | "missions" | "house" | "diary";
 
 type SheetNavItem = { id: TabId; label: string; icon: typeof BookOpen };
 const navigationGroups: Array<{ label: string; items: SheetNavItem[] }> = [
   { label: "Perfil", items: [{ id: "overview", label: "Resumo e identidade", icon: BookOpen }, { id: "attributes", label: "Atributos e defesas", icon: Flame }] },
-  { label: "Capacidades", items: [{ id: "specialization", label: "Especialização e multiclasse", icon: ScrollText }, { id: "skills", label: "Perícias e treinamento", icon: ScrollText }, { id: "technique", label: "Técnica e vínculo", icon: WandSparkles }, { id: "spells", label: "Poderes e feitiços", icon: WandSparkles }, { id: "invocations", label: "Invocações", icon: WandSparkles }] },
-  { label: "Aventura", items: [{ id: "combat", label: "Combate e ataques", icon: Swords }, { id: "equipment", label: "Equipamento e carga", icon: Shield }] },
+  { label: "Capacidades", items: [{ id: "specialization", label: "Especialização e multiclasse", icon: ScrollText }, { id: "skills", label: "Perícias e treinamento", icon: ScrollText }, { id: "aptitudes", label: "Aptidões e treinamentos", icon: Sparkles }, { id: "technique", label: "Técnica e vínculo", icon: WandSparkles }, { id: "spells", label: "Poderes e feitiços", icon: WandSparkles }, { id: "domain", label: "Domínio e expansão", icon: Shield }, { id: "invocations", label: "Invocações", icon: WandSparkles }] },
+  { label: "Aventura", items: [{ id: "combat", label: "Combate e ataques", icon: Swords }, { id: "equipment", label: "Equipamento e carga", icon: Shield }, { id: "assets", label: "Aliados e ferramentas", icon: Wrench }] },
   { label: "Campanha", items: [{ id: "missions", label: "Missões, Grau e Interlúdios", icon: Swords }, { id: "house", label: "Regras da Casa", icon: Shield }, { id: "diary", label: "Diário e registros", icon: BookOpen }] },
 ];
 const tabs = navigationGroups.flatMap(group => group.items);
@@ -83,6 +84,11 @@ export function hydrateSheet(raw: Record<string, unknown> | null | undefined): F
     combatants: Array.isArray(source.combatants) ? source.combatants : [],
     diary: Array.isArray(source.diary) ? source.diary : [],
     missionRewards: Array.isArray(source.missionRewards) ? source.missionRewards : [],
+    aptitudes: Array.isArray(source.aptitudes) ? source.aptitudes : [],
+    training: Array.isArray(source.training) ? source.training : [],
+    allies: Array.isArray(source.allies) ? source.allies : [],
+    cursedTools: Array.isArray(source.cursedTools) ? source.cursedTools : [],
+    domainExpansion: source.domainExpansion ?? null,
   };
 }
 
@@ -141,7 +147,7 @@ export default function Home() {
   const [sheet, setSheet] = useState<FMCharacterSheet | null>(null);
   const [tab, setTab] = useState<TabId>(() => {
     const requested = new URLSearchParams(window.location.search).get("tab") as TabId | null;
-      return ["overview", "attributes", "specialization", "skills", "technique", "spells", "invocations", "combat", "equipment", "missions", "house", "diary"].includes(requested ?? "") ? requested! : "overview";
+      return ["overview", "attributes", "specialization", "skills", "aptitudes", "technique", "spells", "domain", "invocations", "combat", "equipment", "assets", "missions", "house", "diary"].includes(requested ?? "") ? requested! : "overview";
   });
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [creating, setCreating] = useState(false);
@@ -190,6 +196,7 @@ export default function Home() {
       if (previewVariant === "full") { const previewImage = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="960" height="640"><defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#24113a"/><stop offset="1" stop-color="#8a611e"/></linearGradient></defs><rect width="100%" height="100%" fill="#09060f"/><circle cx="740" cy="155" r="120" fill="url(#g)" opacity=".9"/><path d="M0 520C190 430 260 575 450 480s285-135 510-35v195H0z" fill="#120c1d"/><text x="54" y="94" fill="#f4c85f" font-family="serif" font-size="42">INFINITE WORLDS</text><text x="54" y="148" fill="#eee8df" font-family="sans-serif" font-size="25">Referência visual local</text></svg>')}`; initialSheet.images = [{ id: "preview-image-1", key: "preview/reference.svg", url: previewImage, name: "referência-local.svg", caption: "Símbolo da técnica para o cenário de validação.", createdAt: 0 }]; initialSheet.identity.portraitUrl = previewImage; }
       if (previewVariant === "full") initialSheet.invocations = [{ id: "preview-invocation", name: "Lobo de Papel", concept: "Shikigami de rastreio feito de talismãs dobrados.", grade: "fourth", attributes: { strength: 10, dexterity: 12, constitution: 10, intelligence: 8, wisdom: 12, presence: 8 }, movement: 12, trainedAttack: "melee", trainedSavingThrow: "reflexos", trainedSkills: ["Percepção"], actions: [{ id: "preview-invocation-action", name: "Farejar Maldição", kind: "simple", effect: "Localiza uma presença amaldiçoada em alcance narrativo.", counterplay: "Barreira, ocultação ou contramedida da cena." }], notes: "Exemplo local de validação; não é salvo.", active: false }];
       if (previewVariant === "full") initialSheet.missionRewards = [{ id: "preview-mission-1", at: 0, title: "Ecos do Santuário", grade: "4º Grau", difficulty: "hard", moneyDifficulty: "normal", base: { experience: 8, money: 5000, interludes: 1, description: "Recompensas automáticas da tabela Infinite Worlds." }, extra: { experience: 2, money: 1000, interludes: 0, description: "Talismã selado recebido ao fim da missão." }, total: { experience: 10, money: 6000, interludes: 1, description: "Talismã selado recebido ao fim da missão." } }];
+      if (previewVariant === "full") { initialSheet.progression = { ...initialSheet.progression, level: 12, specializationLevels: 12, specializationTracks: [{ specialization: "technique-specialist", level: 12 }] }; initialSheet.houseRules.downtime.interludes = 3; initialSheet.aptitudes = [{ id: "preview-apt-1", catalogId: "barriers", name: "Barreiras", group: "domain", requiredLevel: 3, cost: 1, prerequisite: "—", effect: "Estrutura barreiras com efeito e contrajogo registrados.", approved: true }, { id: "preview-apt-2", catalogId: "incomplete-domain", name: "Expansão de Domínio Incompleta", group: "domain", requiredLevel: 8, cost: 2, prerequisite: "Barreiras", effect: "Expansão incompleta aprovada para a campanha.", approved: false }]; initialSheet.training = [{ trackId: "barriers", stage: 3, notes: "Aprimorando a resistência da barreira." }, { trackId: "comprehension", stage: 1, notes: "Estudos sobre leitura de energia." }]; initialSheet.allies = [{ id: "preview-ally-1", name: "Ieiri", role: "Suporte médico", bond: "Aliada da guilda em missões críticas.", healthCurrent: 18, healthMaximum: 18, defense: 13, actions: [{ id: "preview-ally-action", name: "Tratamento", effect: "Estabiliza um aliado em cena." }], notes: "Exemplo local; não é salvo." }]; initialSheet.cursedTools = [{ id: "preview-tool-1", name: "Lâmina do Selo", category: "weapon", grade: "second", costTier: 2, spaces: 1, requirements: "Manejo de arma", effect: "Canaliza energia em cortes declarados.", approved: true, enchantments: [{ id: "preview-enchantment-1", name: "Corte Vivo", effect: "Amplia a área do corte uma vez por cena.", approved: true }], notes: "Exemplo local; não é salvo." }]; initialSheet.domainExpansion = { name: "Jardim do Silêncio", type: "incomplete", requiredLevel: 8, energyCost: 12, barrierHealth: 30, barrierResilience: 4, guaranteedHit: false, maximumTechnique: "", effect: "Abafa a energia no interior da barreira e limita técnicas declaradas.", counterplay: "Domínio simples, fuga da área ou quebra da barreira.", approved: false }; }
       setSheet(initialSheet);
       return;
     }
@@ -509,7 +516,7 @@ function TechniqueForge({ characters, selectedCharacterId, target, loading, onSe
 function GurpsDossierFrame({ tab, children }: { tab: TabId; children: React.ReactNode }) {
   const section = tabs.find(item => item.id === tab)!;
   const group = navigationGroups.find(item => item.items.some(entry => entry.id === tab))!;
-  const flow: Record<TabId, string> = { overview: "Identidade → recursos → referências", attributes: "Características → modificadores → resistências", specialization: "Núcleo → níveis → multiclasse", skills: "Perícia → atributo → treinamento", technique: "Vínculo → limites → poderes derivados", spells: "Poder → custo → resolução", invocations: "Grau → atributos → ações", combat: "Ataque → defesa → cena", equipment: "Item → carga → observações", progression: "XP → nível → grau", missions: "Missão → base → extras → registro", house: "Regra → registro → consequência", diary: "Rolagem → evento → memória" };
+  const flow: Record<TabId, string> = { overview: "Identidade → recursos → referências", attributes: "Características → modificadores → resistências", specialization: "Núcleo → níveis → multiclasse", skills: "Perícia → atributo → treinamento", aptitudes: "Pontos → aptidões → focos", technique: "Vínculo → limites → poderes derivados", spells: "Poder → custo → resolução", domain: "Tipo → barreira → contrajogo", invocations: "Grau → atributos → ações", combat: "Ataque → defesa → cena", equipment: "Item → carga → observações", assets: "Vínculo → ferramenta → aprovação", progression: "XP → nível → grau", missions: "Missão → base → extras → registro", house: "Regra → registro → consequência", diary: "Rolagem → evento → memória" };
   return <div className="grid gap-4 xl:grid-cols-[188px_minmax(0,1fr)]"><aside className="hidden rounded-2xl border border-violet-300/10 bg-[#110a1b] p-4 xl:block"><p className="font-display text-[10px] uppercase tracking-[.2em] text-amber-300/60">Dossiê de personagem</p><p className="mt-4 text-xs uppercase tracking-[.13em] text-stone-500">Grupo</p><p className="mt-1 font-display text-lg text-amber-100">{group.label}</p><div className="mt-5 border-t border-violet-300/10 pt-4"><p className="text-xs uppercase tracking-[.13em] text-stone-500">Seção atual</p><p className="mt-1 text-sm leading-6 text-stone-200">{section.label}</p></div><div className="mt-5 border-t border-violet-300/10 pt-4"><p className="text-xs uppercase tracking-[.13em] text-stone-500">Fluxo</p><p className="mt-1 text-xs leading-5 text-stone-400">{flow[tab]}</p></div></aside><div className="min-w-0">{children}</div></div>;
 }
 
@@ -521,11 +528,14 @@ function GurpsSectionLedger({ tab, sheet, derived }: { tab: TabId; sheet: FMChar
     attributes: [["Primárias", "FOR · DES · CON · INT · SAB · PRE"], ["Secundárias", `Defesa ${derived.defense} · Atenção ${derived.attention}`], ["Resistências", "Treinamento e bônus declarados"]],
     specialization: [["Primária", sheet.progression.primarySpecialization ? FM_SPECIALIZATION_LABELS[sheet.progression.primarySpecialization] : "Ainda não escolhida"], ["Nível", String(sheet.progression.level)], ["Núcleos", String(getSpecializationTracks(sheet).length)]],
     skills: [["Base", "Atributo-chave"], ["Treinamento", "Destreinado · Treinado · Mestre"], ["Resultado", "Bônus exibido em cada perícia"]],
+    aptitudes: [["Aptidões", String(sheet.aptitudes.length)], ["Trilhas", String(sheet.training.length)], ["Focos", String(Math.max(0, Math.floor(sheet.houseRules.downtime.interludes * 2) - sheet.training.reduce((sum, track) => sum + track.stage, 0)))]],
     technique: [["Núcleo", sheet.technique.name || "Não definido"], ["CD", String(derived.techniqueDc)], ["Origem", sheet.techniqueLibraryId ? "Biblioteca vinculada" : "Cópia local"]],
     spells: [["Capacidade", sheet.technique.name || "Técnica não definida"], ["Energia", `${sheet.resources.energy.current}/${derived.energyMaximum} ${resourceLabel}`], ["Acesso", `Nível máximo ${getHighestSpellLevel(sheet.progression.level)}`]],
+    domain: [["Registro", sheet.domainExpansion ? "Estruturado" : "Ausente"], ["Aprovação", sheet.domainExpansion?.approved ? "Mestre aprovou" : "Pendente"], ["Custo", String(sheet.domainExpansion?.energyCost ?? 0)]],
     invocations: [["Arquivo", `${sheet.invocations.length} Invocação(ões)`], ["Controle", sheet.progression.specialization === "controller" ? "Especialização Controlador" : "Disponível por autorização"], ["Campo", `${sheet.invocations.filter(invocation => invocation.active).length} ativa(s)`]],
     combat: [["Ataques", String(sheet.attacks.length)], ["Defesas", String(sheet.defenses.length)], ["Iniciativa", `${derived.initiative >= 0 ? "+" : ""}${derived.initiative}`]],
     equipment: [["Itens", String(sheet.equipment.length)], ["Arsenal", "Armas, proteções e ferramentas"], ["Carga", `${inventory.spaces}/${inventory.capacity} espaços`]],
+    assets: [["Aliados", String(sheet.allies.length)], ["Ferramentas", String(sheet.cursedTools.length)], ["Aprovadas", String(sheet.cursedTools.filter(tool => tool.approved).length)]],
     progression: [["Nível", String(sheet.progression.level)], ["XP", String(sheet.progression.experience)], ["Grau", getInfiniteWorldProgress(sheet.progression.experience).grade.label]],
     missions: [["Interlúdios", String(sheet.houseRules.downtime.interludes)], ["Concessões", String(sheet.missionRewards.length)], ["Missões", String(sheet.houseRules.rest.missionCount)]],
     house: [["Atributos", "Geração, Vida Mínima e modificadores"], ["Descanso", `Exaustão ${sheet.houseRules.rest.exhaustion}`], ["Campanha", "Votos, Interlúdios e Dedicação"]],
@@ -539,11 +549,14 @@ function renderTab({ tab, sheet, derived, updateSheet, addDiary, newNote, setNew
     : tab === "attributes" ? <AttributesTab sheet={sheet} derived={derived} updateSheet={updateSheet} />
     : tab === "specialization" ? <SpecializationTab sheet={sheet} derived={derived} updateSheet={updateSheet} />
     : tab === "skills" ? <SkillsCatalogTab sheet={sheet} derived={derived} updateSheet={updateSheet} />
+    : tab === "aptitudes" ? <AptitudesTrainingPanel sheet={sheet} onUpdate={updateSheet} onDiary={addDiary} />
     : tab === "technique" ? <TechniqueProfileTab sheet={sheet} derived={derived} techniques={techniques} updateSheet={updateSheet} addDiary={addDiary} />
     : tab === "spells" ? <SpellsTab sheet={sheet} derived={derived} updateSheet={updateSheet} addDiary={addDiary} />
+    : tab === "domain" ? <DomainExpansionPanel sheet={sheet} onUpdate={updateSheet} onDiary={addDiary} />
     : tab === "invocations" ? <InvocationsTab sheet={sheet} derived={derived} updateSheet={updateSheet} addDiary={addDiary} />
     : tab === "combat" ? <CombatTab sheet={sheet} derived={derived} updateSheet={updateSheet} addDiary={addDiary} />
     : tab === "equipment" ? <EquipmentCatalogTab sheet={sheet} updateSheet={updateSheet} />
+    : tab === "assets" ? <AssetsPanelWithActions sheet={sheet} onUpdate={updateSheet} onDiary={addDiary} />
     : tab === "missions" ? <MissionsTab sheet={sheet} updateSheet={updateSheet} addDiary={addDiary} />
     : tab === "house" ? <HouseRulesPanel sheet={sheet} derived={derived} updateSheet={updateSheet} addDiary={addDiary} />
     : <DiaryTab sheet={sheet} derived={derived} updateSheet={updateSheet} newNote={newNote} setNewNote={setNewNote} addDiary={addDiary} />;

@@ -1,0 +1,6209 @@
+# Mapeamento da planilha Infinite Worlds
+
+Arquivo analisado: `infinite-worlds-referencia.xlsx`
+
+## Cálculos 
+
+Dimensão declarada: `None` linhas × `None` colunas`.
+
+### Células preenchidas
+
+- `Q3`: Grau de jogador
+- `X3`: restringido
+- `C4`: 2.0
+- `D4`: 3.0
+- `E4`: 4.0
+- `F4`: 5.0
+- `G4`: 6.0
+- `H4`: 7.0
+- `I4`: 8.0
+- `X4`: 1.0
+- `Y4`: 0.0
+- `B5`: 1.0
+- `C5`: inicial
+- `D5`: Minima
+- `E5`: Máxima
+- `F5`: inicial (F cntrl)
+- `G5`: Mín (F. Cntrl)
+- `H5`: Máx(Físico cntrl)
+- `I5`: Energia
+- `K5`: Final
+- `X5`: 2.0
+- `Y5`: 0.0
+- `B6`: Lutador
+- `I6`: 4.0
+- `Q6`: Quarto grau
+- `R6`: Dois itens de custo 1
+- `X6`: 3.0
+- `Y6`: 1.0
+- `B7`: Esp em Combate
+- `I7`: 4.0
+- `K7`: Vida Máxima
+- `Q7`: Terceiro grau
+- `R7`: Três itens de custo 1 e um de custo 2
+- `X7`: 4.0
+- `Y7`: 1.0
+- `B8`: Esp. em Técnica
+- `I8`: 6.0
+- `Q8`: Segundo grau
+- `R8`: Três itens de custo 1, dois de custo 2 e um item custo 3
+- `X8`: 5.0
+- `Y8`: 1.0
+- `B9`: Controlador
+- `I9`: 5.0
+- `K9`: Integridade Máxima
+- `Q9`: Primeiro grau
+- `R9`: Três itens de custo 1 , Três itens de custo 2, dois itens de custo 3 e um de custo 4
+- `X9`: 6.0
+- `Y9`: 1.0
+- `B10`: Suporte
+- `I10`: 5.0
+- `Q10`: Grau especial
+- `R10`: Ilimitado para itens de  custo 1, quatro itens de custo 2, tres itens de custo e dois itens itens de custo 4
+- `X10`: 7.0
+- `Y10`: 1.0
+- `B11`: Restringido
+- `I11`: 4.0
+- `X11`: 8.0
+- `Y11`: 1.0
+- `B12`: nenhuma
+- `C12`: 0.0
+- `D12`: 0.0
+- `E12`: 0.0
+- `F12`: 0.0
+- `G12`: 0.0
+- `H12`: 0.0
+- `I12`: 0.0
+- `Q12`: Inventario
+- `X12`: 9.0
+- `Y12`: 2.0
+- `X13`: 10.0
+- `Y13`: 2.0
+- `B14`: Classe / Multiclasse
+- `I14`: Classe / Multiclasse (Energia)
+- `Q14`: peso min
+- `S14`: -5.0
+- `T14`: -5.0
+- `X14`: 11.0
+- `Y14`: 2.0
+- `S15`: -4.0
+- `T15`: -4.0
+- `X15`: 12.0
+- `Y15`: 2.0
+- `B16`: Min (p/Nivel)
+- `C16`: Max (p/Nivel)
+- `E16`: Min (p/Nivel)
+- `F16`: Max (p/Nivel)
+- `S16`: -3.0
+- `T16`: -3.0
+- `X16`: 13.0
+- `Y16`: 2.0
+- `J17`: Nível  lendário
+- `K17`: Classe
+- `L17`: multiclasse
+- `M17`: Total
+- `Q17`: peso max
+- `S17`: -2.0
+- `T17`: -2.0
+- `X17`: 14.0
+- `Y17`: 2.0
+- `B18`: Inicial
+- `S18`: -1.0
+- `T18`: -1.0
+- `X18`: 15.0
+- `Y18`: 2.0
+- `E19`: Total
+- `S19`: 0.0
+- `T19`: 0.0
+- `X19`: 16.0
+- `Y19`: 3.0
+- `Q20`: sobrecarga
+- `S20`: 1.0
+- `T20`: 2.0
+- `X20`: 17.0
+- `Y20`: 3.0
+- `S21`: 2.0
+- `T21`: 4.0
+- `X21`: 18.0
+- `Y21`: 3.0
+- `B22`: Classe / Multiclasse (Fisico Controlado)
+- `J22`: Kokusen
+- `S22`: 3.0
+- `T22`: 6.0
+- `X22`: 19.0
+- `Y22`: 3.0
+- `J23`: E. Inesgotável
+- `S23`: 4.0
+- `T23`: 8.0
+- `X23`: 20.0
+- `Y23`: 3.0
+- `B24`: Min (p/Nivel)
+- `C24`: Max (p/Nivel)
+- `E24`: Min (p/Nivel)
+- `F24`: Max (p/Nivel)
+- `J24`: Maestria
+- `S24`: 5.0
+- `T24`: 10.0
+- `J25`: Atributo
+- `S25`: 6.0
+- `T25`: 12.0
+- `B26`: Inicial
+- `J26`: Adições
+- `S26`: 7.0
+- `T26`: 14.0
+- `E27`: Total
+- `J27`: Clã gozo
+- `S27`: 8.0
+- `T27`: 16.0
+- `J28`: Maldição
+- `S28`: 9.0
+- `T28`: 18.0
+- `X28`: Lutador
+- `Z28`: Esp. em Combate
+- `AB28`: Esp em Técnica
+- `J29`: Subtração
+- `S29`: 10.0
+- `T29`: 20.0
+- `X29`: Armas Simples, Armas Marciais e Escudo Leve. Um Teste de Resistência entre Fortitude ou Reflexos. Uma perícia de Ofício, Atletismo ou Acrobacia e outras três perícias quaisquer.
+- `Z29`: Todas as armas e escudos. Um Teste de Resistência entre Fortitude ou Reflexos. Duas perícias de Ofício, Atletismo ou Acrobacia e três outras perícias quaisquer.
+- `AB29`: Armas Simples e Armas a Distância. Um Teste de Resistência entre Astúcia ou Vontade. Duas perícias de Ofício, Feitiçaria, Ocultismo e duas outras perícias quaisquer.
+- `B30`: Adicionais
+- `B32`: F. amaldiçoado
+- `E32`: Sup
+- `G32`: sab
+- `J32`: Classe de Dificulade
+- `Q32`: Maximo de tecnicas
+- `B33`: Corpo de aço
+- `E33`: -1.0
+- `F33`: 0.0
+- `J33`: Atributo
+- `B34`: Corpo calejado
+- `E34`: 0.0
+- `F34`: 0.0
+- `G34`: car
+- `Q34`: Lutador
+- `T34`: Metade
+- `B35`: Corpo calejado
+- `E35`: 1.0
+- `F35`: 0.0
+- `Q35`: Esp em Combate
+- `T35`: Inteira
+- `X35`: Controlador
+- `Z35`: Suporte
+- `AB35`: Restringido
+- `B36`: Robustez ap
+- `E36`: 2.0
+- `F36`: 0.0
+- `G36`: Lutador
+- `H36`: d10
+- `Q36`: Esp. em Técnica
+- `T36`: Ambas
+- `X36`: Armas Simples e Armas a Distância. Um Teste de Resistência entre Astúcia ou Vontade. Uma perícia de Ofício, Percepção, Persuasão e outras duas perícias quaisquer.
+- `Z36`: Armas Simples e Escudos. Um Teste de Resistência entre Astúcia ou Vontade. Duas perícias de Ofício, Medicina, Prestidigitação e outras três quaisquer.
+- `AB36`: Todas as armas e escudos. Testes de Resistência de Fortitude e Reflexos. Uma perícia de Ofício e outras quatro perícias quaisquer, exceto Feitiçaria.
+- `E37`: 3.0
+- `F37`: 0.0
+- `G37`: Esp em Combate
+- `H37`: d10
+- `Q37`: Controlador
+- `T37`: N/A
+- `U37`: 0.0
+- `E38`: 4.0
+- `F38`: 0.0
+- `G38`: Esp. em Técnica
+- `H38`: d8
+- `Q38`: Suporte
+- `B39`: Clã Kamo
+- `E39`: 5.0
+- `F39`: 1.0
+- `G39`: Controlador
+- `H39`: d8
+- `Q39`: Restringido
+- `E40`: 6.0
+- `F40`: 2.0
+- `G40`: Suporte
+- `H40`: d8
+- `Q40`: nenhuma
+- `R40`: 0.0
+- `E41`: 7.0
+- `F41`: 3.0
+- `G41`: Restringido
+- `H41`: d12
+- `E42`: 8.0
+- `F42`: 4.0
+- `G42`: nenhuma
+- `H42`: Aguardando
+- `X42`: Esp em Técnica
+- `E43`: 9.0
+- `F43`: 5.0
+- `X43`: Armas Simples e Armas a Distância. Um Teste de Resistência entre Astúcia ou Vontade. Duas perícias de Ofício, Feitiçaria, Ocultismo e duas outras perícias quaisquer.
+- `E44`: 10.0
+- `F44`: 6.0
+- `D45`: True
+- `C48`: Sanidade
+- `C51`: sanidade
+- `F51`: Integridade
+- `I51`: Integridade
+- `C55`: Classe de armadura
+- `C56`: For
+- `C57`: dex
+- `C58`: con
+- `F58`: E. Defensivo
+- `C59`: int
+- `F59`: E. Duplo
+- `C60`: sab
+- `F60`: Aura maciça
+- `C61`: Pre
+- `C62`: N/A
+- `D62`: 0.0
+- `F62`: Corpo Calejado
+
+### Fórmulas
+
+- `C6`: `=12+Con`
+- `D6`: `=6+Con`
+- `E6`: `=10+Con`
+- `F6`: `=12 + IF('Ficha Pessoal'!AR12 = "Sab", MIN(G33, 4), IF('Ficha Pessoal'!AR12 = "Pre", MIN(G35, 4), 0))`
+- `G6`: `=6+IF('Ficha Pessoal'!AR12="Sab", G33,IF('Ficha Pessoal'!AR12="Car", G35))`
+- `H6`: `=10+IF('Ficha Pessoal'!AR12="Sab", G33,IF('Ficha Pessoal'!AR12="Car", G35))`
+- `C7`: `=12+Con`
+- `D7`: `=6+Con`
+- `E7`: `=10+Con`
+- `F7`: `=12 + IF('Ficha Pessoal'!AR12 = "Sab", MIN(G33, 4), IF('Ficha Pessoal'!AR12 = "Pre", MIN(G35, 4), 0))`
+- `G7`: `=6+IF('Ficha Pessoal'!AR12="Sab", G33,IF('Ficha Pessoal'!AR12="Car", G35))`
+- `H7`: `=10+IF('Ficha Pessoal'!AR12="Sab", G33,IF('Ficha Pessoal'!AR12="Car", G35))`
+- `M7`: `=IF('Ficha Pessoal'!AR10="Max", IF('Ficha Pessoal'!AR12="Sab", E28,IF('Ficha Pessoal'!AR12="Car",E28,IF('Ficha Pessoal'!AR12="N/A",E20))))`
+- `C8`: `=10+Con`
+- `D8`: `=5+Con`
+- `E8`: `=8+Con`
+- `F8`: `=10 + IF('Ficha Pessoal'!AR12 = "Sab", MIN(G33, 4), IF('Ficha Pessoal'!AR12 = "Pre", MIN(G35, 4), 0))`
+- `G8`: `=5+IF('Ficha Pessoal'!AR12="Sab", G33,IF('Ficha Pessoal'!AR12="Car", G35))`
+- `H8`: `=8+IF('Ficha Pessoal'!AR12="Sab", G33,IF('Ficha Pessoal'!AR12="Car", G35))`
+- `K8`: `=IF('Ficha Pessoal'!AR10="Max",M7,IF('Ficha Pessoal'!AR10="Min",M8,IF('Ficha Pessoal'!AR10="Roll",M9)))+'Ficha Pessoal'!AD15-'Ficha Pessoal'!AI15+(SUM(C32:C36))+(IF('Ficha Pessoal'!AH3="Herdado: Kamo", C41))-IF(Exaustão>=5,IF(50<VidaMáxima/2,VidaMáxima/2,50),IF(Exaustão>=3,IF(20<(VidaMáxima/4),VidaMáxima/4,20)))-'Ficha Pessoal'!AO35+'Ficha Pessoal'!AM35`
+- `M8`: `=IF('Ficha Pessoal'!AR10="Min", IF('Ficha Pessoal'!AR12="Sab", E28,IF('Ficha Pessoal'!AR12="Car",E28,IF('Ficha Pessoal'!AR12="N/A",E20))))`
+- `C9`: `=10+Con`
+- `D9`: `=5+Con`
+- `E9`: `=8+Con`
+- `F9`: `=10 + IF('Ficha Pessoal'!AR12 = "Sab", MIN(G33, 4), IF('Ficha Pessoal'!AR12 = "Pre", MIN(G35, 4), 0))`
+- `G9`: `=5+IF('Ficha Pessoal'!AR12="Sab", G33,IF('Ficha Pessoal'!AR12="Car", G35))`
+- `H9`: `=8+IF('Ficha Pessoal'!AR12="Sab", G33,IF('Ficha Pessoal'!AR12="Car", G35))`
+- `M9`: `=IF('Ficha Pessoal'!AR10="Roll",'Ficha Pessoal'!AQ11)`
+- `C10`: `=10+Con`
+- `D10`: `=5+Con`
+- `E10`: `=8+Con`
+- `F10`: `=10 + IF('Ficha Pessoal'!AR12 = "Sab", MIN(G33, 4), IF('Ficha Pessoal'!AR12 = "Pre", MIN(G35, 4), 0))`
+- `G10`: `=5+IF('Ficha Pessoal'!AR12="Sab", G33,IF('Ficha Pessoal'!AR12="Car", G35))`
+- `H10`: `=8+IF('Ficha Pessoal'!AR12="Sab", G33,IF('Ficha Pessoal'!AR12="Car", G35))`
+- `K10`: `=IF('Ficha Pessoal'!AR10="Max",M7,IF('Ficha Pessoal'!AR10="Min",M8,IF('Ficha Pessoal'!AR10="Roll",M9)))+'Ficha Pessoal'!AD15-'Ficha Pessoal'!AI15+(SUM(C32:C36))+(IF('Ficha Pessoal'!AH3="Herdado: Kamo", C41))-IF(Exaustão>=5,IF(50<VidaMáxima/2,VidaMáxima/2,50),IF(Exaustão>=3,IF(20<(VidaMáxima/4),VidaMáxima/4,20)))`
+- `C11`: `=16+Con`
+- `D11`: `=7+Con`
+- `E11`: `=12+Con`
+- `F11`: `=16 + IF('Ficha Pessoal'!AR12 = "Sab", MIN(G33, 4), IF('Ficha Pessoal'!AR12 = "Pre", MIN(G35, 4), 0))`
+- `G11`: `=7+IF('Ficha Pessoal'!AR12="Sab", G33,IF('Ficha Pessoal'!AR12="Car", G35))`
+- `H11`: `=12+IF('Ficha Pessoal'!AR12="Sab", G33,IF('Ficha Pessoal'!AR12="Car", G35))`
+- `Q15`: `='Registro e Inventário'!AF30`
+- `B17`: `=VLOOKUP('Ficha Pessoal'!AH4, $B$6:$I$12, 3, FALSE)*'Ficha Pessoal'!AN4-(VLOOKUP('Ficha Pessoal'!AH4, $B$6:$I$12, 3, FALSE))`
+- `C17`: `=VLOOKUP('Ficha Pessoal'!AH4, $B$6:$I$12, 4, FALSE)*'Ficha Pessoal'!AN4-(VLOOKUP('Ficha Pessoal'!AH4, $B$6:$I$12, 4, FALSE))`
+- `E17`: `=VLOOKUP('Ficha Pessoal'!AH5, $B$6:$I$12, 3, FALSE)*'Ficha Pessoal'!AN5`
+- `F17`: `=VLOOKUP('Ficha Pessoal'!AH5, $B$6:$I$12, 4, FALSE)*'Ficha Pessoal'!AN5`
+- `K18`: `=VLOOKUP('Ficha Pessoal'!AH4, $B$6:$I$12, 8,FALSE)*'Ficha Pessoal'!AN4`
+- `L18`: `=VLOOKUP('Ficha Pessoal'!AH5, $B$6:$I$12, 8,FALSE)*'Ficha Pessoal'!AN5`
+- `M18`: `=(SUM(K18+L18))+(SUM(K22:K28))-K29`
+- `Q18`: `='Registro e Inventário'!AW30`
+- `B19`: `=VLOOKUP('Ficha Pessoal'!AH4, $B$6:$I$12, 2, FALSE)`
+- `E20`: `=B19+IF('Ficha Pessoal'!AR10="Min",B17, IF('Ficha Pessoal'!AR10="Max",C17))+IF('Ficha Pessoal'!AR10="Min",E17, IF('Ficha Pessoal'!AR10="Max",F17))`
+- `Q21`: `=IF(Q15=Q18, TRUE)`
+- `K22`: `='Ficha Pessoal'!AR22`
+- `K23`: `=IF('Ficha Pessoal'!AR23=FALSE,'Ficha Pessoal'!AH4="Esp. em Técnica",'Ficha Pessoal'!AN4/2)+IF('Ficha Pessoal'!AR23=FALSE,'Ficha Pessoal'!AH5="Esp. em Técnica",'Ficha Pessoal'!AN5/2)`
+- `K24`: `=IF('Ficha Pessoal'!AR24, 'Ficha Pessoal'!V4)`
+- `B25`: `=VLOOKUP('Ficha Pessoal'!AH4, $B$6:$I$12, 6, FALSE)*'Ficha Pessoal'!AN4-(VLOOKUP('Ficha Pessoal'!AH4, $B$6:$I$12, 6, FALSE))`
+- `C25`: `=VLOOKUP('Ficha Pessoal'!AH4, $B$6:$I$12, 7, FALSE)*'Ficha Pessoal'!AN4-(VLOOKUP('Ficha Pessoal'!AH4, $B$6:$I$12, 7, FALSE))`
+- `E25`: `=VLOOKUP('Ficha Pessoal'!AH5, $B$6:$I$12, 6, FALSE)*'Ficha Pessoal'!AN5`
+- `F25`: `=VLOOKUP('Ficha Pessoal'!AH5, $B$6:$I$12, 7, FALSE)*'Ficha Pessoal'!AN5`
+- `K25`: `=VLOOKUP('Ficha Pessoal'!AR25,$C$56:$D$62,2,FALSE)`
+- `K26`: `='Ficha Pessoal'!AN29`
+- `B27`: `=VLOOKUP('Ficha Pessoal'!AH4, $B$6:$I$12, 5, FALSE)`
+- `K27`: `=IF('Ficha Pessoal'!AH3="Herdado: Gojo", FLOOR('Ficha Pessoal'!V3/2,1))`
+- `E28`: `=B27+(IF('Ficha Pessoal'!AR10="Min",B25,IF('Ficha Pessoal'!AR10="Max",C25)))+(IF('Ficha Pessoal'!AR10="Min",E25,IF('Ficha Pessoal'!AR10="Max",F26)))`
+- `K28`: `=IF('Ficha Pessoal'!AH3="Maldição", 'Ficha Pessoal'!V3)`
+- `K29`: `='Ficha Pessoal'!AR29+2*'Perfil Amaldiçoado '!CD20+2*'Perfil Amaldiçoado '!CD21+2*'Perfil Amaldiçoado '!CD22+2*'Perfil Amaldiçoado '!CD23+2*'Perfil Amaldiçoado '!CD24+2*'Perfil Amaldiçoado '!CD25+2*'Perfil Amaldiçoado '!CD26+2*'Perfil Amaldiçoado '!CD27+2*'Perfil Amaldiçoado '!CD28+2*'Perfil Amaldiçoado '!CD29+2*'Perfil Amaldiçoado '!CD30+2*'Perfil Amaldiçoado '!CD31+2*'Perfil Amaldiçoado '!CD32+2*'Perfil Amaldiçoado '!CD33+2*'Perfil Amaldiçoado '!CD34+2*'Perfil Amaldiçoado '!CD35+2*'Perfil Amaldiçoado '!CD36+2*'Perfil Amaldiçoado '!CD37`
+- `C32`: `=IF('Ficha Pessoal'!AR13="Sab", 'Ficha Pessoal'!T13,IF('Ficha Pessoal'!AR13="Int",'Ficha Pessoal'!T11))`
+- `C33`: `=IF('Ficha Pessoal'!AR14,Con)`
+- `G33`: `=SUM(Sab-(VLOOKUP(Sab,$E$33:$F$44,2,FALSE)))`
+- `K33`: `=VLOOKUP('Ficha Pessoal'!AT66,$C$56:$D$62,2,FALSE)`
+- `C34`: `=(IF('Ficha Pessoal'!AR15,(IF('Ficha Pessoal'!AH4="Lutador",ROUNDDOWN('Ficha Pessoal'!AN4,0),IF('Ficha Pessoal'!AH5="Lutador",ROUNDDOWN('Ficha Pessoal'!AN5,0))))))`
+- `R34`: `='Ficha Pessoal'!V4+(MAX(For,Dex))`
+- `U34`: `=FLOOR(Tre/2,1)`
+- `C35`: `=IF('Ficha Pessoal'!AR15=D45,(IF('Ficha Pessoal'!AH4="Restringido ",ROUNDDOWN('Ficha Pessoal'!AN4,0))))`
+- `G35`: `=SUM(Pre-(VLOOKUP(Pre,$E$33:$F$44,2,FALSE)))`
+- `R35`: `='Ficha Pessoal'!V4+(MAX(For,Dex))`
+- `U35`: `=Tre`
+- `C36`: `=IF('Ficha Pessoal'!AR16,Nivel)`
+- `R36`: `='Ficha Pessoal'!V3+(MAX(Int, Sab))`
+- `U36`: `=SUM(U34:U35)`
+- `R37`: `=ROUNDDOWN('Ficha Pessoal'!V3/2,0)+(MAX(Pre,Sab))`
+- `R38`: `=ROUNDDOWN('Ficha Pessoal'!V3/2,0)+(MAX(Pre,Sab))`
+- `R39`: `=ROUNDDOWN('Ficha Pessoal'!V3/3,0)+2`
+- `C41`: `=Nivel+IF(Nivel>=10,Con)`
+- `D51`: `=MAX('Ficha Pessoal'!T11, 'Ficha Pessoal'!T13, 'Ficha Pessoal'!T15)*2`
+- `G51`: `=K10`
+- `J51`: `=100`
+- `D56`: `=For`
+- `D57`: `=Dex`
+- `D58`: `=Con`
+- `G58`: `=(IF('Ficha Pessoal'!BD15, IFS('Ficha Pessoal'!V3<4,2,'Ficha Pessoal'!V3<8,3,'Ficha Pessoal'!V3<12,4,'Ficha Pessoal'!V3<16,5,'Ficha Pessoal'!V3<31,6)))`
+- `D59`: `=Int`
+- `G59`: `=(IF('Ficha Pessoal'!BD16, IFS('Ficha Pessoal'!V3<4,1,'Ficha Pessoal'!V3<8,2,'Ficha Pessoal'!V3<12,3,'Ficha Pessoal'!V3<16,4,'Ficha Pessoal'!V3<31,5)))`
+- `D60`: `=Sab`
+- `G60`: `=IF('Ficha Pessoal'!BG15,'Perfil Amaldiçoado '!O22)`
+- `D61`: `=Pre`
+- `G62`: `=IF('Ficha Pessoal'!AR15,ROUNDDOWN('Ficha Pessoal'!K15/2,0))`
+- `R65`: `=IF('Perfil Amaldiçoado '!F29=Q53,R61,IF('Perfil Amaldiçoado '!F29<>Q53,R52))`
+- `V65`: `=IF('Perfil Amaldiçoado '!F33=X49,(VLOOKUP('Perfil Amaldiçoado '!F31,$U$59:$V$64,2,false)))`
+
+## Ficha Pessoal
+
+Dimensão declarada: `None` linhas × `None` colunas`.
+
+### Células preenchidas
+
+- `B1`: Feiticeiros e Maldições
+- `R1`: PARA EDITAR, CRIE UMA CÓPIA!
+- `BJ2`: Habilidades de Especialização
+- `B3`: Nome
+- `R3`: Nível
+- `V3`: <openpyxl.worksheet.formula.ArrayFormula object at 0x7f64e0f027e0>
+- `AD3`: Origem
+- `AH3`: Inato
+- `AQ3`: Jogador
+- `AU3`: XXXXXXX
+- `R4`: Treinamento
+- `AD4`: Especialização
+- `AH4`: Lutador
+- `AN4`: 1.0
+- `AQ4`: Guilda
+- `AU4`: Infinite Worlds
+- `BP4`: Descrição
+- `BU4`: Possui
+- `R5`: Experiência
+- `AD5`: Multiclasse
+- `AH5`: nenhuma
+- `AN5`: 0.0
+- `AQ5`: Grau
+- `BJ5`: Escreva a Habilidade Base Aqui
+- `BN5`: Escreva a Habilidade Base Aqui
+- `BP5`: Base
+- `BU5`: True
+- `BJ6`: Escreva a Habilidade Base Aqui
+- `BN6`: Escreva a Habilidade Base Aqui
+- `BU6`: False
+- `B7`: Atributos
+- `AC7`: Pontos de Vida
+- `AV7`: Defesa
+- `BJ7`: Escreva a Habilidade Base Aqui
+- `BN7`: Escreva a Habilidade Base Aqui
+- `BU7`: False
+- `BJ8`: Escreva a Habilidade Base Aqui
+- `BN8`: Escreva a Habilidade Base Aqui
+- `BU8`: False
+- `B9`: Atributo
+- `G9`: Valor
+- `K9`: Modificador
+- `O9`: Atributo
+- `T9`: Valor
+- `X9`: Modificador
+- `AC9`: Máxima
+- `AD9`: Atual
+- `AN9`: Painel de Controle
+- `AW9`: Total
+- `BA9`: Painel de Controle
+- `BJ9`: Escreva a Habilidade Base Aqui
+- `BN9`: Escreva a Habilidade Base Aqui
+- `BU9`: False
+- `AG10`: Perdido
+- `AI10`: Curado
+- `AK10`: Temp.
+- `AM10`: Voto
+- `AN10`: Vida Média
+- `AR10`: Min
+- `BA10`: Uniforme
+- `BE10`: Dex
+- `BJ10`: Escreva a Habilidade Base Aqui
+- `BN10`: Escreva a Habilidade Base Aqui
+- `BU10`: False
+- `B11`: Força
+- `G11`: 10.0
+- `O11`: Inteligência
+- `T11`: 10.0
+- `AG11`: 0.0
+- `AI11`: 0.0
+- `AK11`: 0.0
+- `AM11`: 0.0
+- `AN11`: HP Máximo
+- `AQ11`: 1.0
+- `BA11`: ---
+- `BD11`: 0.0
+- `BE11`: N/A
+- `BJ11`: Escreva a Habilidade Base Aqui
+- `BN11`: Escreva a Habilidade Base Aqui
+- `BU11`: False
+- `AN12`: Fís. Controlado
+- `AR12`: N/A
+- `BA12`: Buffs
+- `BD12`: 0.0
+- `BE12`: N/A
+- `BJ12`: -
+- `BN12`: -
+- `BP12`: -
+- `BU12`: -
+- `B13`: Destreza
+- `G13`: 10.0
+- `O13`: Sabedoria
+- `T13`: 10.0
+- `BA13`: Debuff
+- `BD13`: 0.0
+- `BE13`: N/A
+- `BJ13`: Nivel 02:
+- `BU13`: False
+- `AD14`: Outros
+- `AI14`: Perca Perma.
+- `AN14`: Corpo de Aço
+- `AR14`: False
+- `BA14`: Outros
+- `BD14`: 0.0
+- `BE14`: N/A
+- `BJ14`: Nivel 03:
+- `BU14`: False
+- `B15`: Constituição
+- `G15`: 10.0
+- `O15`: Presença
+- `T15`: 10.0
+- `AD15`: 0.0
+- `AI15`: 0.0
+- `AN15`: Corpo Calejado
+- `AR15`: False
+- `BA15`: Defensivo
+- `BD15`: False
+- `BE15`: Maciça
+- `BG15`: False
+- `BJ15`: Nivel 04:
+- `BU15`: False
+- `AN16`: Robustez Ap.
+- `AR16`: False
+- `BJ16`: Nivel 05:
+- `BU16`: False
+- `BJ17`: Nivel 06:
+- `BU17`: False
+- `B18`: Perícias
+- `BJ18`: Nivel 07:
+- `BU18`: False
+- `BJ19`: Nivel 08:
+- `BU19`: False
+- `B20`: Nome
+- `F20`: Atributo
+- `H20`: Outros
+- `J20`: Tr
+- `K20`: Ms
+- `L20`: Total
+- `P20`: Nome
+- `T20`: Atributo
+- `V20`: Outros
+- `X20`: Tr
+- `Y20`: Ms
+- `Z20`: Total
+- `AN20`: Painel de Controle
+- `BJ20`: Nivel 09:
+- `BU20`: False
+- `B21`: Atletismo
+- `F21`: FOR
+- `J21`: False
+- `K21`: False
+- `P21`: História
+- `T21`: INT
+- `X21`: False
+- `Y21`: False
+- `AC21`: Máximo
+- `AD21`: Atual (PE)
+- `AN21`: Comida - Energética
+- `AR21`: 0.0
+- `AX21`: Testes de Morte
+- `BJ21`: Nivel 10:
+- `BU21`: False
+- `B22`: Acrobacia
+- `F22`: DEX
+- `J22`: False
+- `K22`: False
+- `P22`: Feitiçaria
+- `T22`: INT
+- `X22`: False
+- `Y22`: False
+- `AG22`: Perdido
+- `AI22`: Outros
+- `AK22`: Temp.
+- `AM22`: Voto
+- `AN22`: Kokusen
+- `AR22`: 0.0
+- `AX22`: Sucessos
+- `BD22`: False
+- `BE22`: False
+- `BF22`: False
+- `BJ22`: Nivel 11:
+- `BU22`: False
+- `B23`: Furtividade
+- `F23`: DEX
+- `J23`: False
+- `K23`: False
+- `P23`: Cozinheiro
+- `T23`: INT
+- `X23`: False
+- `Y23`: False
+- `AG23`: 0.0
+- `AK23`: 0.0
+- `AM23`: 0.0
+- `AN23`: E. Inacabavel
+- `AR23`: False
+- `AX23`: Fracassos
+- `BD23`: False
+- `BE23`: False
+- `BF23`: False
+- `BJ23`: Nivel 12
+- `BU23`: False
+- `B24`: Prestidigitação
+- `F24`: DEX
+- `J24`: False
+- `K24`: False
+- `P24`: Nenhum
+- `T24`: INT
+- `X24`: False
+- `Y24`: False
+- `AN24`: B. Maestria
+- `AR24`: False
+- `BJ24`: Nivel 13:
+- `BU24`: False
+- `B25`: Manobra
+- `F25`: FOR
+- `P25`: Nenhum
+- `T25`: INT
+- `X25`: False
+- `Y25`: False
+- `AN25`: Atributo
+- `AR25`: N/A
+- `AW25`: Dados de vida
+- `BJ25`: Nivel 14:
+- `BU25`: False
+- `B26`: Direção
+- `F26`: SAB
+- `J26`: False
+- `K26`: False
+- `P26`: Nenhum
+- `T26`: INT
+- `X26`: False
+- `Y26`: False
+- `AD26`: Atual (ER)
+- `AN26`: Treino de Energia
+- `AW26`: Possuídos
+- `BJ26`: Nivel 15:
+- `BU26`: False
+- `B27`: Intuição
+- `F27`: SAB
+- `J27`: False
+- `K27`: False
+- `P27`: Teologia
+- `T27`: INT
+- `X27`: False
+- `Y27`: False
+- `AG27`: Maximo
+- `AJ27`: Perdido
+- `AW27`: Usados
+- `BB27`: 0.0
+- `BE27`: 0.0
+- `BJ27`: Nivel 16:
+- `BU27`: False
+- `B28`: Medicina
+- `F28`: SAB
+- `J28`: False
+- `K28`: False
+- `P28`: Tecnologia
+- `T28`: INT
+- `X28`: False
+- `Y28`: False
+- `AJ28`: 0.0
+- `AN28`: Outros
+- `AR28`: P.Perma
+- `BJ28`: Nivel 17:
+- `BU28`: False
+- `B29`: Percepção
+- `F29`: SAB
+- `J29`: False
+- `K29`: False
+- `P29`: Persuasão
+- `T29`: PRE
+- `X29`: False
+- `Y29`: False
+- `AN29`: 0.0
+- `AR29`: 0.0
+- `AX29`: Exaustão
+- `BJ29`: Nivel 18:
+- `BU29`: False
+- `B30`: Ocultismo
+- `F30`: SAB
+- `J30`: False
+- `K30`: False
+- `P30`: Enganação
+- `T30`: PRE
+- `X30`: False
+- `Y30`: False
+- `AX30`: Atual
+- `AZ30`: 0.0
+- `BC30`: Máxima
+- `BJ30`: Nivel 19:
+- `BU30`: False
+- `B31`: Sobrevivência
+- `F31`: SAB
+- `J31`: False
+- `K31`: False
+- `P31`: Intimidação
+- `T31`: PRE
+- `X31`: False
+- `Y31`: False
+- `BJ31`: Nivel 20:
+- `BU31`: False
+- `B32`: Investigação
+- `F32`: INT
+- `J32`: False
+- `K32`: False
+- `P32`: Performance
+- `T32`: PRE
+- `X32`: False
+- `Y32`: False
+- `AC32`: Sanidade e Integridade
+- `AX32`: Empolgação
+- `BJ32`: -
+- `BN32`: -
+- `BP32`: -
+- `BU32`: -
+- `BJ33`: Hab. até Nível 09:
+- `BU33`: False
+- `B34`: Salvaguardas
+- `P34`: Ataques
+- `AD34`: Sanidade
+- `AG34`: Perdido
+- `AI34`: Rec.
+- `AM34`: Rec.
+- `AO34`: Perdido
+- `AQ34`: Integridade
+- `AX34`: Níveis
+- `BC34`: Dados
+- `BJ34`: Hab. após Nível 10:
+- `BU34`: False
+- `AG35`: 0.0
+- `AI35`: 0.0
+- `AM35`: 0.0
+- `AO35`: 0.0
+- `AX35`: Nível 2
+- `BA35`: False
+- `BC35`: 1d4
+- `BJ35`: -
+- `BN35`: -
+- `BP35`: -
+- `BU35`: -
+- `B36`: Nome
+- `F36`: Atributo
+- `H36`: Outros
+- `J36`: Tr
+- `K36`: Ms
+- `L36`: Total
+- `P36`: Nome
+- `T36`: Atributo
+- `V36`: Outros
+- `X36`: Tr
+- `Y36`: Ms
+- `Z36`: Total
+- `AX36`: Nível 3
+- `BA36`: False
+- `BC36`: 1d6
+- `BU36`: False
+- `B37`: Reflexos
+- `F37`: DEX
+- `J37`: False
+- `K37`: False
+- `P37`: Corpo a Corpo
+- `T37`: DEX
+- `X37`: False
+- `AG37`: Add
+- `AI37`: 0.0
+- `AM37`: 0.0
+- `AO37`: Add
+- `AX37`: Nível 4
+- `BA37`: False
+- `BC37`: 2d4
+- `BU37`: False
+- `B38`: Fortitude
+- `F38`: CON
+- `J38`: False
+- `K38`: False
+- `P38`: Distância
+- `T38`: DEX
+- `X38`: False
+- `AX38`: Nível 5
+- `BA38`: False
+- `BC38`: 2d6
+- `B39`: Integridade
+- `F39`: CON
+- `J39`: False
+- `K39`: False
+- `P39`: Amaldiçoado
+- `T39`: SAB
+- `X39`: False
+- `BJ39`: Origem / Característica
+- `B40`: Vontade
+- `F40`: SAB
+- `J40`: False
+- `K40`: False
+- `P40`: Concentração
+- `B41`: Astúcia
+- `F41`: INT
+- `J41`: False
+- `K41`: False
+- `AC41`: Derivados
+- `AY41`: Melhorias superiores e Habilidades Lendárias
+- `BJ41`: Nome
+- `BN41`: Nome
+- `BO41`: Descrição
+- `BU41`: Possui
+- `AC42`: Atenção
+- `AG42`: Retirado
+- `AI42`: Movimento
+- `AM42`: Retirado
+- `AO42`: Iniciativa
+- `AS42`: Retirado
+- `BJ42`: Bônus de Atributo.
+- `BU42`: False
+- `B43`: Reduções de Dano
+- `AY43`: Nível
+- `BA43`: Nome
+- `BE43`: Descrição
+- `BJ43`: 2° Tópico:
+- `BU43`: False
+- `AG44`: Add
+- `AM44`: Add
+- `AS44`: Add
+- `AY44`: Nivel 21:
+- `BJ44`: 3° Tópico:
+- `BU44`: False
+- `B45`: Tipo de dano
+- `H45`: Quantidade
+- `L45`: Total
+- `P45`: Tipo de dano
+- `V45`: Quantidade
+- `Z45`: Total
+- `AY45`: Nivel 22:
+- `BJ45`: -
+- `BN45`: -
+- `BO45`: -
+- `BU45`: -
+- `B46`: Cortante
+- `P46`: Sonico
+- `AY46`: Nivel 23:
+- `BJ46`: Característica 01:
+- `BU46`: False
+- `B47`: Perfurante
+- `P47`: Necrótico
+- `AC47`: Registro Rápido
+- `AY47`: Nivel 24:
+- `BJ47`: Característica 05:
+- `BU47`: False
+- `B48`: Impacto
+- `P48`: Psíquico
+- `AY48`: Nivel 25:
+- `BJ48`: Característica 10:
+- `BU48`: False
+- `B49`: Ácido
+- `P49`: Queimante
+- `AC49`: Arma
+- `AG49`: Pericia
+- `AI49`: B
+- `AJ49`: Acerto
+- `AL49`: Dano
+- `AP49`: Crítico
+- `AR49`: Tipo
+- `AU49`: Alcance
+- `AY49`: Nivel 26:
+- `BJ49`: Característica 15:
+- `BU49`: False
+- `B50`: Chocante
+- `P50`: Radiante
+- `AG50`: CaC
+- `AY50`: Nivel 27:
+- `BJ50`: Característica 20:
+- `BU50`: False
+- `B51`: Congelante
+- `P51`: Venenoso
+- `AG51`: N/A
+- `AY51`: Nivel 28:
+- `B52`: Energia Reversa
+- `P52`: Dano na alma
+- `AG52`: N/A
+- `AY52`: Nivel 29:
+- `BJ52`: Votos Contratuais
+- `B53`: Energético
+- `P53`: RD Geral
+- `AG53`: N/A
+- `AY53`: Nivel 30:
+- `B54`: Resistências
+- `T54`: Inspiração
+- `X54`: Limite de E.
+- `AC54`: Características
+- `T55`: 1.0
+- `X55`: 999999.0
+- `B56`: Vulnerabilidade
+- `B59`: Pontos de Preparo
+- `K59`: Total
+- `P59`: Perdidos
+- `U59`: Vantagens em Condições
+- `P60`: 0.0
+- `B64`: Condições
+- `AM64`: Classe de Dificuldade
+- `AW64`: Votos de Restrição
+- `AM66`: Especialização 1:
+- `AP66`: Atributo
+- `AT66`: N/A
+- `AW66`: Nome e Efeito
+- `BM66`: Quantidade de Votos
+- `B67`: Abalado
+- `G67`: False
+- `H67`: Condenado
+- `M67`: False
+- `N67`: Enredado
+- `S67`: False
+- `T67`: Lento
+- `Y67`: False
+- `Z67`: Sangramento
+- `AF67`: Congelamento
+- `AP67`: Treinamento
+- `AT67`: N/A
+- `B68`: Agarrado
+- `G68`: False
+- `H68`: Confuso
+- `M68`: False
+- `N68`: Envenenado
+- `S68`: False
+- `T68`: Paralisado
+- `Y68`: False
+- `Z68`: Fraco
+- `AE68`: False
+- `AF68`: Leve
+- `AK68`: False
+- `AM68`: Especialização 2:
+- `AP68`: Atributo
+- `AT68`: N/A
+- `B69`: Amedrontado
+- `G69`: False
+- `H69`: Desorientado
+- `M69`: False
+- `N69`: Exposto
+- `S69`: False
+- `T69`: Surdo
+- `Y69`: False
+- `Z69`: Médio
+- `AE69`: False
+- `AF69`: Médio
+- `AK69`: False
+- `AP69`: Treinamento
+- `AT69`: N/A
+- `B70`: Atordoado
+- `G70`: False
+- `H70`: Desprevenido
+- `M70`: False
+- `N70`: Fragilizado
+- `S70`: False
+- `T70`: Sofrendo
+- `Y70`: False
+- `Z70`: Forte
+- `AE70`: False
+- `AF70`: Total
+- `AK70`: False
+- `AM70`: Aptidão:
+- `AP70`: Atributo
+- `AT70`: N/A
+- `B71`: Caído
+- `G71`: False
+- `H71`: Enfeitiçado
+- `M71`: False
+- `N71`: Imóvel
+- `S71`: False
+- `T71`: Surpreso
+- `Y71`: False
+- `Z71`: Extremo
+- `AE71`: False
+- `AP71`: Treinamento
+- `AT71`: N/A
+- `B72`: Cego
+- `G72`: False
+- `H72`: Enjoado
+- `M72`: False
+- `N72`: Inconsciente
+- `S72`: False
+- `Y72`: False
+- `AM72`: Outros (Esp. 1):
+- `B73`: Aterrorizado
+- `G73`: False
+- `H73`: Engasgando
+- `M73`: False
+- `N73`: Indefeso
+- `S73`: False
+- `Y73`: False
+- `AM73`: Outros (Esp. 2):
+- `BM73`: Atual
+- `BR73`: Máxima
+- `AM74`: Outros (Aptidão):
+
+### Fórmulas
+
+- `V4`: `=Int(SUM(1+ROUNDUP(V3/4,0)))`
+- `BJ4`: `=AH4`
+- `BN4`: `=AH5`
+- `V5`: `=Carteira!AB21`
+- `AU5`: `=IFS(V3<=4, "Quarto Grau", V3<=8,"Terceiro Grau", V3<=12,"Segundo Grau", V3<=16,"Primeiro Grau",V3<=17, "Grau Especial")`
+- `AG9`: `=IFERROR(__xludf.DUMMYFUNCTION("SPARKLINE (AM9,{""charttype"",""bar"";""max"",1;""color1"",""green""})"),"")`
+- `AM9`: `=(AD10/AC10)`
+- `AC10`: `='Cálculos '!K8+IF(Treinamentos!AJ17=TRUE,4)+IF(Treinamentos!AJ20=TRUE,6)+IF(Treinamentos!AJ20=TRUE,10)`
+- `AD10`: `=SUM(AC10-AG11+AI11+AK11+AM11)`
+- `AW10`: `=10+(SUM(BG10:BG14))+(SUM(BD10:BD12))-BD13+(SUM('Cálculos '!G58:G62))-(IF('Registro e Inventário'!AF30>'Registro e Inventário'!AW30, 5))+(IF(AH4="Restringido ", VLOOKUP(V3,'Cálculos '!$X$4:$Y$23,2,FALSE)))+BD14+IF(Treinamentos!I18=TRUE,2)-IF(M70=TRUE,3)-IF(S67=TRUE,2)-IF(Y68=TRUE,10)-IF(Y70=TRUE,10)+ROUNDDOWN(Nivel/2,0)`
+- `BD10`: `='Registro e Inventário'!AW37`
+- `BG10`: `=VLOOKUP(BE10,'Cálculos '!$C$56:$D$62,2,FALSE)`
+- `K11`: `=IF(G11>=10,ROUNDDOWN((G11-10)/2,0),ROUNDUP((G11-10)/2,0))`
+- `X11`: `=IF(T11>=10,ROUNDDOWN((T11-10)/2,0),ROUNDUP((T11-10)/2,0))`
+- `BG11`: `=VLOOKUP(BE11,'Cálculos '!$C$56:$D$62,2,FALSE)`
+- `BG12`: `=VLOOKUP(BE12,'Cálculos '!$C$56:$D$62,2,FALSE)`
+- `K13`: `=IF(G13>=10,ROUNDDOWN((G13-10)/2,0),ROUNDUP((G13-10)/2,0))`
+- `X13`: `=IF(T13>=10,ROUNDDOWN((T13-10)/2,0),ROUNDUP((T13-10)/2,0))`
+- `BG13`: `=VLOOKUP(BE13,'Cálculos '!$C$56:$D$62,2,FALSE)`
+- `BG14`: `=VLOOKUP(BE14,'Cálculos '!$C$56:$D$62,2,FALSE)`
+- `K15`: `=IF(G15>=10,ROUNDDOWN((G15-10)/2,0),ROUNDUP((G15-10)/2,0))`
+- `X15`: `=IF(T15>=10,ROUNDDOWN((T15-10)/2,0),ROUNDUP((T15-10)/2,0))`
+- `AC19`: `=IF(AH3="Restringido", "Vigor",IF(AH3<>"Restringido", "Energia Amaldiçoada"))`
+- `L21`: `=H21+IF(F21="FOR",For,IF(F21="DEX",Dex,IF(F21="CON",Con,IF(F21="INT",Int,IF(F21="SAB",Sab,IF(F21="PRE",Pre,0))))))+IF(K21,Tre*1.5,IF(J21,Tre,0))+ROUNDDOWN(Nivel/2,0)+IF(Amedrontado,-5,IF(Abalado,-1)+IF(S68=TRUE,-2))-(1*Exaustão)`
+- `Z21`: `=V21+IF(T21="FOR",For,IF(T21="DEX",Dex,IF(T21="CON",Con,IF(T21="INT",Int,IF(T21="SAB",Sab,IF(T21="PRE",Pre,0))))))+IF(Y21,Tre*1.5,IF(X21,Tre,0))+ROUNDDOWN(Nivel/2,0)+IF(Amedrontado,-5,IF(Abalado,-1)+IF(AG68=TRUE,-2))-(1*Exaustão)`
+- `AG21`: `=IFERROR(__xludf.DUMMYFUNCTION("SPARKLINE (AM21,{""charttype"",""bar"";""max"",1;""color1"",""blue""})"),"")`
+- `AM21`: `=(AD22/AC22)`
+- `L22`: `=H22+IF(F22="FOR",For,IF(F22="DEX",Dex,IF(F22="CON",Con,IF(F22="INT",Int,IF(F22="SAB",Sab,IF(F22="PRE",Pre,0))))))+IF(K22,Tre*1.5,IF(J22,Tre,0))+ROUNDDOWN(Nivel/2,0)+IF(Amedrontado,-5,IF(Abalado,-1)+IF(S69=TRUE,-2))-(1*Exaustão)+IF(Treinamentos!I6,2)+'Registro e Inventário'!AW36+'Registro e Inventário'!BJ36`
+- `Z22`: `=V22+IF(T22="FOR",For,IF(T22="DEX",Dex,IF(T22="CON",Con,IF(T22="INT",Int,IF(T22="SAB",Sab,IF(T22="PRE",Pre,0))))))+IF(Y22,Tre*1.5,IF(X22,Tre,0))+ROUNDDOWN(Nivel/2,0)+IF(Amedrontado,-5,IF(Abalado,-1)+IF(AG69=TRUE,-2))-(1*Exaustão)+IF(Treinamentos!AA6,1)+IF(Treinamentos!AA8,2)`
+- `AC22`: `=ROUNDDOWN('Cálculos '!M18+AI23+AR21-(AJ28*2)+IF(Treinamentos!AA5=TRUE,2)+IF(Treinamentos!AA7=TRUE,3)+IF(Treinamentos!AJ5=TRUE,2)+IF(Treinamentos!AJ7=TRUE,3)+IF(Treinamentos!AS17=TRUE,2)+IF(Treinamentos!AS19=TRUE,4),0)`
+- `AD22`: `=SUM(AC22+AM23-AG23+AK23)`
+- `L23`: `=H23+IF(F23="FOR",For,IF(F23="DEX",Dex,IF(F23="CON",Con,IF(F23="INT",Int,IF(F23="SAB",Sab,IF(F23="PRE",Pre,0))))))+IF(K23,Tre*1.5,IF(J23,Tre,0))+ROUNDDOWN(Nivel/2,0)+IF(Amedrontado,-5,IF(Abalado,-1)+IF(S70=TRUE,-2))-(1*Exaustão)+'Registro e Inventário'!AW36+'Registro e Inventário'!BJ36`
+- `Z23`: `=V23+IF(T23="FOR",For,IF(T23="DEX",Dex,IF(T23="CON",Con,IF(T23="INT",Int,IF(T23="SAB",Sab,IF(T23="PRE",Pre,0))))))+IF(Y23,Tre*1.5,IF(X23,Tre,0))+ROUNDDOWN(Nivel/2,0)+IF(Amedrontado,-5,IF(Abalado,-1)+IF(AG70=TRUE,-2))-(1*Exaustão)`
+- `AI23`: `=0+IF(Treinamentos!AJ6=TRUE,4)`
+- `L24`: `=H24+IF(F24="FOR",For,IF(F24="DEX",Dex,IF(F24="CON",Con,IF(F24="INT",Int,IF(F24="SAB",Sab,IF(F24="PRE",Pre,0))))))+IF(K24,Tre*1.5,IF(J24,Tre,0))+ROUNDDOWN(Nivel/2,0)+IF(Amedrontado,-5,IF(Abalado,-1)+IF(S71=TRUE,-2))-(1*Exaustão)+'Registro e Inventário'!AW36+'Registro e Inventário'!BJ36`
+- `Z24`: `=V24+IF(T24="FOR",For,IF(T24="DEX",Dex,IF(T24="CON",Con,IF(T24="INT",Int,IF(T24="SAB",Sab,IF(T24="PRE",Pre,0))))))+IF(Y24,Tre*1.5,IF(X24,Tre,0))+ROUNDDOWN(Nivel/2,0)+IF(Amedrontado,-5,IF(Abalado,-1)+IF(AG71=TRUE,-2))-(1*Exaustão)`
+- `L25`: `=L21+H25+IF(Treinamentos!I18=TRUE,2)`
+- `Z25`: `=V25+IF(T25="FOR",For,IF(T25="DEX",Dex,IF(T25="CON",Con,IF(T25="INT",Int,IF(T25="SAB",Sab,IF(T25="PRE",Pre,0))))))+IF(Y25,Tre*1.5,IF(X25,Tre,0))+ROUNDDOWN(Nivel/2,0)+IF(Amedrontado,-5,IF(Abalado,-1)+IF(AG72=TRUE,-2))-(1*Exaustão)`
+- `BB25`: `=VLOOKUP(AH4,'Cálculos '!$G$36:$H$42,2,FALSE)`
+- `BE25`: `=VLOOKUP(AH5,'Cálculos '!$G$36:$H$42,2,FALSE)`
+- `L26`: `=H26+IF(F26="FOR",For,IF(F26="DEX",Dex,IF(F26="CON",Con,IF(F26="INT",Int,IF(F26="SAB",Sab,IF(F26="PRE",Pre,0))))))+IF(K26,Tre*1.5,IF(J26,Tre,0))+ROUNDDOWN(Nivel/2,0)+IF(Amedrontado,-5,IF(Abalado,-1)+IF(S73=TRUE,-2))-(1*Exaustão)`
+- `Z26`: `=V26+IF(T26="FOR",For,IF(T26="DEX",Dex,IF(T26="CON",Con,IF(T26="INT",Int,IF(T26="SAB",Sab,IF(T26="PRE",Pre,0))))))+IF(Y26,Tre*1.5,IF(X26,Tre,0))+ROUNDDOWN(Nivel/2,0)+IF(Amedrontado,-5,IF(Abalado,-1)+IF(AG73=TRUE,-2))-(1*Exaustão)`
+- `AG26`: `=IFERROR(__xludf.DUMMYFUNCTION("SPARKLINE (AK26,{""charttype"",""bar"";""max"",1;""color1"",""red""})"),"")`
+- `AK26`: `=(AD27/AG28)`
+- `AR26`: `=ROUNDDOWN(IF(Treinamentos!AJ8=TRUE,V4/2),0)`
+- `BB26`: `=AN4-BC27`
+- `BE26`: `=AN5-BF27`
+- `L27`: `=H27+IF(F27="FOR",For,IF(F27="DEX",Dex,IF(F27="CON",Con,IF(F27="INT",Int,IF(F27="SAB",Sab,IF(F27="PRE",Pre,0))))))+IF(K27,Tre*1.5,IF(J27,Tre,0))+ROUNDDOWN(Nivel/2,0)+IF(Amedrontado,-5,IF(Abalado,-1)+IF(S74=TRUE,-2))-(1*Exaustão)`
+- `Z27`: `=V27+IF(T27="FOR",For,IF(T27="DEX",Dex,IF(T27="CON",Con,IF(T27="INT",Int,IF(T27="SAB",Sab,IF(T27="PRE",Pre,0))))))+IF(Y27,Tre*1.5,IF(X27,Tre,0))+ROUNDDOWN(Nivel/2,0)+IF(Amedrontado,-5,IF(Abalado,-1)+IF(AG74=TRUE,-2))-(1*Exaustão)`
+- `AD27`: `=AG28-AJ28-(ROUNDDOWN(AG23/2,0))`
+- `L28`: `=H28+IF(F28="FOR",For,IF(F28="DEX",Dex,IF(F28="CON",Con,IF(F28="INT",Int,IF(F28="SAB",Sab,IF(F28="PRE",Pre,0))))))+IF(K28,Tre*1.5,IF(J28,Tre,0))+ROUNDDOWN(Nivel/2,0)+IF(Amedrontado,-5,IF(Abalado,-1)+IF(S75=TRUE,-2))-(1*Exaustão)`
+- `Z28`: `=V28+IF(T28="FOR",For,IF(T28="DEX",Dex,IF(T28="CON",Con,IF(T28="INT",Int,IF(T28="SAB",Sab,IF(T28="PRE",Pre,0))))))+IF(Y28,Tre*1.5,IF(X28,Tre,0))+ROUNDDOWN(Nivel/2,0)+IF(Amedrontado,-5,IF(Abalado,-1)+IF(AG75=TRUE,-2))-(1*Exaustão)`
+- `AG28`: `=FLOOR(SUM('Cálculos '!M18+AK23)/2,1)`
+- `L29`: `=H29+IF(F29="FOR",For,IF(F29="DEX",Dex,IF(F29="CON",Con,IF(F29="INT",Int,IF(F29="SAB",Sab,IF(F29="PRE",Pre,0))))))+IF(K29,Tre*1.5,IF(J29,Tre,0))+ROUNDDOWN(Nivel/2,0)+IF(Amedrontado,-5,IF(Abalado,-1)+IF(S76=TRUE,-2))+IF(G72,-5)-(1*Exaustão)`
+- `Z29`: `=V29+IF(T29="FOR",For,IF(T29="DEX",Dex,IF(T29="CON",Con,IF(T29="INT",Int,IF(T29="SAB",Sab,IF(T29="PRE",Pre,0))))))+IF(Y29,Tre*1.5,IF(X29,Tre,0))+ROUNDDOWN(Nivel/2,0)+IF(Amedrontado,-5,IF(Abalado,-1)+IF(AG76=TRUE,-2))-(1*Exaustão)`
+- `L30`: `=H30+IF(F30="FOR",For,IF(F30="DEX",Dex,IF(F30="CON",Con,IF(F30="INT",Int,IF(F30="SAB",Sab,IF(F30="PRE",Pre,0))))))+IF(K30,Tre*1.5,IF(J30,Tre,0))+ROUNDDOWN(Nivel/2,0)+IF(Amedrontado,-5,IF(Abalado,-1)+IF(S77=TRUE,-2))-(1*Exaustão)+IF(Treinamentos!AA6,1)+IF(Treinamentos!AA8,2)`
+- `Z30`: `=V30+IF(T30="FOR",For,IF(T30="DEX",Dex,IF(T30="CON",Con,IF(T30="INT",Int,IF(T30="SAB",Sab,IF(T30="PRE",Pre,0))))))+IF(Y30,Tre*1.5,IF(X30,Tre,0))+ROUNDDOWN(Nivel/2,0)+IF(Amedrontado,-5,IF(Abalado,-1)+IF(AG77=TRUE,-2))-(1*Exaustão)`
+- `BE30`: `=5-AZ30`
+- `L31`: `=H31+IF(F31="FOR",For,IF(F31="DEX",Dex,IF(F31="CON",Con,IF(F31="INT",Int,IF(F31="SAB",Sab,IF(F31="PRE",Pre,0))))))+IF(K31,Tre*1.5,IF(J31,Tre,0))+ROUNDDOWN(Nivel/2,0)+IF(Amedrontado,-5,IF(Abalado,-1)+IF(S78=TRUE,-2))-(1*Exaustão)`
+- `Z31`: `=V31+IF(T31="FOR",For,IF(T31="DEX",Dex,IF(T31="CON",Con,IF(T31="INT",Int,IF(T31="SAB",Sab,IF(T31="PRE",Pre,0))))))+IF(Y31,Tre*1.5,IF(X31,Tre,0))+ROUNDDOWN(Nivel/2,0)+IF(Amedrontado,-5,IF(Abalado,-1)+IF(AG78=TRUE,-2))-(1*Exaustão)`
+- `L32`: `=H32+IF(F32="FOR",For,IF(F32="DEX",Dex,IF(F32="CON",Con,IF(F32="INT",Int,IF(F32="SAB",Sab,IF(F32="PRE",Pre,0))))))+IF(K32,Tre*1.5,IF(J32,Tre,0))+ROUNDDOWN(Nivel/2,0)+IF(Amedrontado,-5,IF(Abalado,-1)+IF(S79=TRUE,-2))-(1*Exaustão)`
+- `Z32`: `=V32+IF(T32="FOR",For,IF(T32="DEX",Dex,IF(T32="CON",Con,IF(T32="INT",Int,IF(T32="SAB",Sab,IF(T32="PRE",Pre,0))))))+IF(Y32,Tre*1.5,IF(X32,Tre,0))+ROUNDDOWN(Nivel/2,0)+IF(Amedrontado,-5,IF(Abalado,-1)+IF(AG79=TRUE,-2))-(1*Exaustão)`
+- `AD35`: `='Cálculos '!D51-AG35+AI35+AI37`
+- `AQ35`: `=IntegridadeMáxima-AO35+AM35+AM37`
+- `L37`: `=H37+IF(F37="FOR",For,IF(F37="DEX",Dex,IF(F37="CON",Con,IF(F37="INT",Int,IF(F37="SAB",Sab,IF(F37="PRE",Pre,0))))))+IF(K37,Tre*1.5,IF(J37,Tre,0))+ROUNDDOWN(Nivel/2,0)-IF(M70=TRUE,3)+IF(Treinamentos!I8,2)`
+- `Z37`: `=V37+IF(T37="FOR",For,IF(T37="DEX",Dex,IF(T37="CON",Con,IF(T37="INT",Int,IF(T37="SAB",Sab,IF(T37="PRE",Pre,0))))))+IF(X37,Tre,0)+ROUNDDOWN(Nivel/2,0)+IF(G67=TRUE,-1)+IF(S68=TRUE,-2)+IF(G71,-3,0)-IF(S67=TRUE,2)`
+- `L38`: `=H38+IF(F38="FOR",For,IF(F38="DEX",Dex,IF(F38="CON",Con,IF(F38="INT",Int,IF(F38="SAB",Sab,IF(F38="PRE",Pre,0))))))+IF(K38,Tre*1.5,IF(J38,Tre,0))+ROUNDDOWN(Nivel/2,0)+IF(AR16=TRUE,2)+IF(Treinamentos!AJ19=TRUE,2)`
+- `Z38`: `=V38+IF(T38="FOR",For,IF(T38="DEX",Dex,IF(T38="CON",Con,IF(T38="INT",Int,IF(T38="SAB",Sab,IF(T38="PRE",Pre,0))))))+IF(X38,Tre,0)+ROUNDDOWN(Nivel/2,0)+IF(G67=TRUE,-1)+IF(S68=TRUE,-2)-IF(S67=TRUE,2)`
+- `AD38`: `=IFERROR(__xludf.DUMMYFUNCTION("SPARKLINE (AI38,{""charttype"",""bar"";""max"",1;""color1"",""purple""})"),"")`
+- `AI38`: `=(AD35/'Cálculos '!D51)`
+- `AM38`: `=IFERROR(__xludf.DUMMYFUNCTION("SPARKLINE (AR38,{""charttype"",""bar"";""max"",1;""color1"",""orange""})"),"")`
+- `AR38`: `=(AQ35/'Cálculos '!G51)`
+- `L39`: `=H39+IF(F39="FOR",For,IF(F39="DEX",Dex,IF(F39="CON",Con,IF(F39="INT",Int,IF(F39="SAB",Sab,IF(F39="PRE",Pre,0))))))+IF(K39,Tre*1.5,IF(J39,Tre,0))+ROUNDDOWN(Nivel/2,0)`
+- `Z39`: `=V39+IF(T39="FOR",For,IF(T39="DEX",Dex,IF(T39="CON",Con,IF(T39="INT",Int,IF(T39="SAB",Sab,IF(T39="PRE",Pre,0))))))+IF(X39,Tre,0)+ROUNDDOWN(Nivel/2,0)+IF(G67=TRUE,-1)+IF(S68=TRUE,-2)+IF(S67=TRUE,-2)`
+- `L40`: `=H40+IF(F40="FOR",For,IF(F40="DEX",Dex,IF(F40="CON",Con,IF(F40="INT",Int,IF(F40="SAB",Sab,IF(F40="PRE",Pre,0))))))+IF(K40,Tre*1.5,IF(J40,Tre,0))+ROUNDDOWN(Nivel/2,0)`
+- `Z40`: `=SUM(V40+L38)`
+- `L41`: `=H41+IF(F41="FOR",For,IF(F41="DEX",Dex,IF(F41="CON",Con,IF(F41="INT",Int,IF(F41="SAB",Sab,IF(F41="PRE",Pre,0))))))+IF(K41,Tre*1.5,IF(J41,Tre,0))+ROUNDDOWN(Nivel/2,0)`
+- `AD42`: `=10+L29+AG45-AG43`
+- `AJ42`: `=IF(S71=TRUE,      0,      IF(G71,          4.5,          ((9 + IF('Ficha Pessoal'!AH3="Herdado: Uchikatsu",3,0) + IF(AH3="restringido",3,0) + AM45 - AM43 - IF('Registro e Inventário'!AF29>'Registro e Inventário'!AW29,4.5,0) + IF(Treinamentos!I5=TRUE,1.5,0) + IF(Treinamentos!I8,4.5,0) - (AZ30*1.5)) * IF(OR(Y67=TRUE,S67=TRUE), 0.5, 1) - IF(Y70=TRUE,3,0))     ) )`
+- `AP42`: `=K13+AS45-AS43+IF(Treinamentos!I7,2)`
+- `L46`: `=IF(S71=TRUE, 0,H46 + V53)+'Registro e Inventário'!BJ37`
+- `Z46`: `=IF(S71=TRUE, 0,V46 + V53)`
+- `L47`: `=IF(S71=TRUE, 0,H47 + V53)+'Registro e Inventário'!BJ37`
+- `Z47`: `=IF(S71=TRUE, 0,V47 + V53)`
+- `L48`: `=IF(S71=TRUE, 0,H48 + V53)+'Registro e Inventário'!BJ37`
+- `Z48`: `=IF(S71=TRUE, 0,V48 + V53)`
+- `L49`: `=IF(S71=TRUE, 0,H49 + V53)`
+- `Z49`: `=IF(S71=TRUE, 0,V49 + V53)`
+- `L50`: `=IF(S71=TRUE, 0,H50 + V53)`
+- `Z50`: `=IF(S71=TRUE, 0,V50 + V53)`
+- `AJ50`: `=AI50+SUM(IF(AG50="N/A",0,IF(AG50="CaC",Z37,IF(AG50="Dis",Z38,IF(AG50="Amal",Z39,0)))))`
+- `L51`: `=IF(S71=TRUE, 0,H51 + V53)`
+- `Z51`: `=IF(S71=TRUE, 0,V51 + V53)`
+- `AJ51`: `=AI51+SUM(IF(AG51="N/A",0,IF(AG51="CaC",Z37,IF(AG51="Dis",Z38,IF(AG51="Amal",Z39,0)))))`
+- `L52`: `=IF(S71=TRUE, 0,H52 + V53)`
+- `Z52`: `=IF(S71=TRUE, 0,V52  + 0)`
+- `AJ52`: `=AI52+SUM(IF(AG52="N/A",0,IF(AG52="CaC",Z37,IF(AG52="Dis",Z38,IF(AG52="Amal",Z39,0)))))`
+- `L53`: `=IF(S72=TRUE, 0,H53 + V53)`
+- `AJ53`: `=AI53+SUM(IF(AG53="N/A",0,IF(AG53="CaC",Z37,IF(AG53="Dis",Z38,IF(AG53="Amal",Z39,0)))))`
+- `AY55`: `=AH4`
+- `AY57`: `=IF(AY55="Lutador",'Cálculos '!X29,IF(AY55="Esp em Combate",'Cálculos '!Z29,IF(AY55="Controlador",'Cálculos '!X36,IF(AY55="Suporte",'Cálculos '!Z36,IF(AY55="Esp. em Técnica",'Cálculos '!AB29,'Cálculos '!AB29)))))`
+- `K60`: `=IF(AH4="Esp em Combate",AN4+V4)+IF(AH5="Esp em Combate",AN5+V4)-P60`
+- `AN66`: `=10+(AN4/2)+AN72+V4+IF(AT66="For",K11,IF(AT66="Dex",K13,IF(AT66="Con",K15,IF(AT66="Int",X11,IF(AT66="Sab",X13,IF(AT66="Pre",X15))))))+IF(AT67="Metade",V4/2,IF(AT67="Inteira",V4,IF(AT67="Ambas",V4+(V4/2))))`
+- `BM67`: `=COUNTA(AW67:BL72)`
+- `BR67`: `=V4`
+- `AN68`: `=10+(AN5/2)+AN73+V4+ IF(AT68="For",K11,IF(AT68="Dex",K13,IF(AT68="Con",K15,IF(AT68="Int",X11,IF(AT68="Sab",X13,IF(AT68="Pre",X15))))))+IF(AT69="Metade",V4/2,IF(AT69="Inteira",V4,IF(AT69="Ambas",V4+(V4/2))))`
+- `AN70`: `=10+(V3/2)+AN74+V4+ IF(AT70="For",K11,IF(AT70="Dex",K13,IF(AT70="Con",K15,IF(AT70="Int",X11,IF(AT70="Sab",X13,IF(AT70="Pre",X15))))))+IF(AT71="Metade",V4/2,IF(AT71="Inteira",V4,IF(AT71="Ambas",V4+(V4/2))))`
+
+## Registro e Inventário
+
+Dimensão declarada: `None` linhas × `None` colunas`.
+
+### Células preenchidas
+
+- `B2`: Nome
+- `V2`: INVENTÁRIO
+- `B4`: Aparência
+- `V4`: Nome do Item
+- `AD4`: Espaços
+- `AF4`: Quant.
+- `AH4`: Ocup
+- `AJ4`: Custo
+- `AM4`: Nome do Item
+- `AU4`: Espaços
+- `AW4`: Quant.
+- `AY4`: Ocup
+- `BA4`: Custo
+- `J5`: Idade
+- `J6`: Altura
+- `J7`: Peso
+- `J8`: Gênero
+- `J9`: Cabelos
+- `BD9`: Venenos
+- `J10`: Olhos
+- `J11`: Carteira
+- `BD11`: CD:
+- `BH11`: Custo 1
+- `BL11`: Outros Valores
+- `BM11`: 0.0
+- `J15`: Traços de Personalidade
+- `J19`: Ideais
+- `B23`: Historia
+- `V29`: Espaços Ocupados
+- `AM29`: Limite de Espaços
+- `AM30`: Espaços Extras
+- `B32`: Arma
+- `U32`: Arma
+- `AN32`: Uniforme
+- `BA32`: Escudo
+- `H33`: Grau
+- `K33`: Sem Grau
+- `N33`: Grupo
+- `Q33`: N/A
+- `AA33`: Grau
+- `AD33`: Sem Grau
+- `AG33`: Grupo
+- `AJ33`: N/A
+- `AT33`: Grau
+- `AW33`: Sem Grau
+- `BG33`: Grau
+- `BJ33`: Sem Grau
+- `H34`: Custo
+- `K34`: Custo 1
+- `N34`: Dado
+- `Q34`: N/A
+- `AA34`: Custo
+- `AG34`: Dado
+- `AJ34`: N/A
+- `AT34`: Custo
+- `AW34`: Custo 1
+- `BG34`: Custo
+- `BJ34`: Custo 1
+- `H35`: Peso
+- `N35`: Nivel
+- `Q35`: Padrão
+- `AA35`: Peso
+- `AG35`: Nivel
+- `AJ35`: Padrão
+- `AT35`: Peso
+- `BG35`: Peso
+- `H36`: Dano
+- `N36`: Alcance
+- `Q36`: 1,5 Metros
+- `AA36`: Dano
+- `AG36`: Alcance
+- `AT36`: Ônus
+- `BG36`: Ônus
+- `H37`: Características
+- `AA37`: Características
+- `AT37`: Defesa
+- `BG37`: RD(Física)
+- `H38`: Propriedades:
+- `AA38`: Propriedades:
+- `AT38`: Características
+- `BG38`: Características
+- `H39`: 4° Grau:
+- `AA39`: 4° Grau:
+- `AE39`: Nenhuma
+- `AT39`: 4° Grau:
+- `BG39`: 4° Grau:
+- `BK39`: Nenhuma
+- `H40`: 3° Grau:
+- `AA40`: 3° Grau:
+- `AT40`: 3° Grau:
+- `BG40`: 3° Grau:
+- `H41`: 2° Grau:
+- `AA41`: 2° Grau:
+- `AT41`: 2° Grau:
+- `BG41`: 2° Grau:
+- `H42`: 1° Grau:
+- `AA42`: 1° Grau:
+- `AT42`: 1° Grau:
+- `BG42`: 1° Grau:
+- `H43`: Grau Especial:
+- `AA43`: Grau Especial:
+- `AT43`: Grau Especial:
+- `BG43`: Grau Especial:
+- `H44`: Manejo de Arma:
+- `AA44`: Manejo de Arma:
+- `H45`: manejo Especial:
+- `AA45`: manejo Especial:
+- `H46`: Manejo Único:
+- `AA46`: Manejo Único:
+- `B47`: Habilidade Especial
+- `U47`: Habilidade Especial
+- `AN47`: Habilidade Especial
+- `BA47`: Habilidade Especial
+- `B54`: Característica Especial da arma
+- `U54`: Característica Especial da arma
+- `AN54`: Característica Especial
+- `BA54`: Característica Especial
+
+### Fórmulas
+
+- `E2`: `='Ficha Pessoal'!F3`
+- `BD2`: `='Ficha Pessoal'!AU5`
+- `BD4`: `=VLOOKUP(BD2, 'Cálculos '!$Q$6:$R$10, 2, FALSE)`
+- `AH5`: `=AD5*AF5`
+- `AY5`: `=AU5*AW5`
+- `AH6`: `=AD6*AF6`
+- `AY6`: `=AU6*AW6`
+- `AH7`: `=AD7*AF7`
+- `AY7`: `=AU7*AW7`
+- `AH8`: `=AD8*AF8`
+- `AY8`: `=AU8*AW8`
+- `AH9`: `=AD9*AF9`
+- `AY9`: `=AU9*AW9`
+- `AH10`: `=AD10*AF10`
+- `AY10`: `=AU10*AW10`
+- `AH11`: `=AD11*AF11`
+- `AY11`: `=AU11*AW11`
+- `BF11`: `=BM11+IF(BH11="Custo 1",15,IF(BH11="Custo 2",25,IF(BH11="Custo 3",35,IF(BH11="Custo 4",45,))))`
+- `J12`: `=500+Carteira!AB9-Carteira!AB13+Carteira!AB17`
+- `AH12`: `=AD12*AF12`
+- `AY12`: `=AU12*AW12`
+- `AH13`: `=AD13*AF13`
+- `AY13`: `=AU13*AW13`
+- `AH14`: `=AD14*AF14`
+- `AY14`: `=AU14*AW14`
+- `AH15`: `=AD15*AF15`
+- `AY15`: `=AU15*AW15`
+- `AH16`: `=AD16*AF16`
+- `AY16`: `=AU16*AW16`
+- `AH17`: `=AD17*AF17`
+- `AY17`: `=AU17*AW17`
+- `AH18`: `=AD18*AF18`
+- `AY18`: `=AU18*AW18`
+- `AH19`: `=AD19*AF19`
+- `AY19`: `=AU19*AW19`
+- `AH20`: `=AD20*AF20`
+- `AY20`: `=AU20*AW20`
+- `AH21`: `=AD21*AF21`
+- `AY21`: `=AU21*AW21`
+- `AH22`: `=AD22*AF22`
+- `AY22`: `=AU22*AW22`
+- `AH23`: `=AD23*AF23`
+- `AY23`: `=AU23*AW23`
+- `AH24`: `=AD24*AF24`
+- `AY24`: `=AU24*AW24`
+- `AH25`: `=AD25*AF25`
+- `AY25`: `=AU25*AW25`
+- `AH26`: `=AD26*AF26`
+- `AY26`: `=AU26*AW26`
+- `AH27`: `=AD27*AF27`
+- `AY27`: `=AU27*AW27`
+- `AF29`: `=SUM(AH4:AI27)+(SUM(AY4:AZ27)-K35-AD35-AW35-BJ35)`
+- `AW29`: `=VLOOKUP('Ficha Pessoal'!K11, 'Cálculos '!$S$9:$T$29, 2,FALSE)+8+AW30`
+- `K36`: `=(IF(K33="Grau 4", 1, IF(K33="Grau 3", 2, IF(K33="Grau 2", 3,IF(K33="Grau 1", 4, IF(K33="Especial", 5, IF(K33="Sem Grau",0)))))))`
+- `AD36`: `=(IF(AD33="Grau 4", 1, IF(AD33="Grau 3", 2, IF(AD33="Grau 2", 3,IF(AD33="Grau 1", 4, IF(AD33="Especial", 5, IF(AD33="Sem Grau",0)))))))`
+
+## Perfil Amaldiçoado 
+
+Dimensão declarada: `None` linhas × `None` colunas`.
+
+### Células preenchidas
+
+- `B2`: Técnica Amaldiçoada
+- `S2`: Aptidões Amaldiçoadas
+- `AD2`: Habilidades de Técnica
+- `BW2`: Liberação Máxima
+- `S3`: Nome
+- `BW3`: Habilidades Nível 1
+- `CB3`: Habilidades Nível 2
+- `S4`: Nível 01:
+- `U4`: Não recebe aptidão.
+- `AD4`: Habilidades Nível 0 (0 PE)
+- `AM4`: Habilidades Nível 1 (2 PE)
+- `AV4`: Habilidades Nível 2 (5 PE)
+- `BE4`: Expansão de Domínio
+- `S5`: Nível 02:
+- `B6`: Mecânica Única
+- `K6`: CD
+- `S6`: Nível 03:
+- `BE6`: Nome da Expansão
+- `N7`: Nivel
+- `S7`: Nível 04:
+- `N8`: Atributo
+- `P8`: Nulo
+- `S8`: Nível 05:
+- `BW8`: Habilidades Nível 3
+- `CB8`: Habilidades Nível 4
+- `N9`: Outros
+- `S9`: Nível 06:
+- `BE9`: Tipo de Expansão
+- `N10`: Maestria
+- `P10`: N/A
+- `S10`: Nível 07:
+- `B11`: Descrição da Técnica
+- `K11`: Habilidades de técnica
+- `S11`: Nível 08:
+- `BE11`: Descrição da Expansão
+- `K12`: Habilidades Conhecidas
+- `P12`: 8.0
+- `S12`: Nível 09:
+- `S13`: Nível 10:
+- `BW13`: Habilidades Nível 5
+- `K14`: Vida da Barreira
+- `N14`: P.R.
+- `O14`: False
+- `S14`: Nível 11:
+- `S15`: Nível 12:
+- `K16`: Atributo
+- `S16`: Nível 13:
+- `S17`: Nível 14:
+- `AD17`: Habilidades Nível 3 (8 PE)
+- `AM17`: Habilidades Nível 4 (12 PE)
+- `AV17`: Habilidades Nível 5 (20 PE)
+- `K18`: Nivel de Aptidão
+- `S18`: Nível 15:
+- `K19`: Livres
+- `S19`: Nível 16:
+- `BW19`: Habilidades Passivas
+- `CD19`: Nivel
+- `S20`: Nível 17:
+- `CD20`: 0.0
+- `K21`: Talento/Hab. Esp
+- `O21`: 0.0
+- `S21`: Nível 18:
+- `BE21`: Habilidade Máxima de Técnica
+- `CD21`: 0.0
+- `K22`: Energia
+- `O22`: 0.0
+- `S22`: Nível 19:
+- `CD22`: 0.0
+- `K23`: Cntrl e leitura
+- `O23`: 0.0
+- `S23`: Nível 20:
+- `BE23`: Nome da Habilidade
+- `CD23`: 0.0
+- `K24`: Dominio
+- `O24`: 0.0
+- `S24`: Nível 21:
+- `CD24`: 0.0
+- `K25`: Barreira
+- `O25`: 0.0
+- `S25`: Nível 22:
+- `CD25`: 0.0
+- `K26`: Energia reversa
+- `O26`: 0.0
+- `S26`: Nível 23:
+- `BE26`: Descrição da Habilidade
+- `CD26`: 0.0
+- `S27`: Nível 24:
+- `CD27`: 0.0
+- `B28`: Funcionamento Básico
+- `S28`: Nível 25:
+- `CD28`: 0.0
+- `S29`: Nível 26:
+- `CD29`: 0.0
+- `S30`: Nível 27:
+- `AD30`: Níveis de Aptidão
+- `CD30`: 0.0
+- `S31`: Nível 28:
+- `CD31`: 0.0
+- `S32`: Nível 29:
+- `CD32`: 0.0
+- `S33`: Nível 30:
+- `CD33`: 0.0
+- `S34`: Extra:
+- `CD34`: 0.0
+- `S35`: Extra:
+- `CD35`: 0.0
+- `S36`: Extra:
+- `AE36`: Aptidão em Energia
+- `AJ36`: Aptidão em Controle e Leitura
+- `AO36`: Aptidão em Barreira
+- `AT36`: Aptidão em Domínio
+- `AY36`: Aptidão em Energia Reversa
+- `CD36`: 0.0
+- `S37`: Extra:
+- `CD37`: 0.0
+
+### Fórmulas
+
+- `K7`: `=10+P9+P7+'Ficha Pessoal'!V4+(IF(P8="For", 'Ficha Pessoal'!K11, IF(P8="Dex", 'Ficha Pessoal'!K13,IF(P8="Con", 'Ficha Pessoal'!K15, IF(P8="Int", 'Ficha Pessoal'!X11, IF(P8="Sab", 'Ficha Pessoal'!X13, IF(P8="Car", 'Ficha Pessoal'!X15)))))))+(VLOOKUP(P10,'Cálculos '!$T$34:$U$37,2,FALSE))`
+- `P7`: `=FLOOR('Ficha Pessoal'!V3/2,1)`
+- `P14`: `=ROUNDDOWN( IF(O14=FALSE,5+(AO32*('Ficha Pessoal'!V3/2)),10+AO32*'Ficha Pessoal'!V3) +IF(Treinamentos!R5,10)+IF(Treinamentos!R7,10),0)`
+- `P16`: `=P8`
+- `O19`: `=ROUNDDOWN('Ficha Pessoal'!V3/2,0) - SUM(O22:Q26) + SUM(O21:Q21) + ROUNDDOWN('Ficha Pessoal'!V3 / 10,0)`
+- `AE32`: `=O22`
+- `AJ32`: `=O23+IF(Treinamentos!AJ8=TRUE,1)`
+- `AO32`: `=O25+IF(Treinamentos!R6=TRUE,1)`
+- `AT32`: `=O24`
+- `AY32`: `=O26+IF(Treinamentos!BB6=TRUE,1)`
+
+## Treinamentos
+
+Dimensão declarada: `None` linhas × `None` colunas`.
+
+### Células preenchidas
+
+- `B2`: TREINAMENTOS
+- `BE2`: Interludios
+- `BI3`: Focos atuais
+- `C4`: Treino de Agilidade
+- `L4`: Treino de Barreiras
+- `U4`: Treino de Compreensão
+- `AD4`: Controle de Energia
+- `AM4`: Treino de Domínios
+- `AV4`: Energia Reversa
+- `C5`: 1° Etapa
+- `I5`: False
+- `L5`: 1° Etapa
+- `R5`: False
+- `U5`: 1° Etapa
+- `AA5`: False
+- `AD5`: 1° Etapa
+- `AJ5`: False
+- `AM5`: 1° Etapa
+- `AS5`: False
+- `AV5`: 1° Etapa
+- `BB5`: False
+- `BI5`: Focos Gastos
+- `C6`: 2° Etapa
+- `I6`: False
+- `L6`: 2° Etapa
+- `R6`: False
+- `U6`: 2° Etapa
+- `AA6`: False
+- `AD6`: 2° Etapa
+- `AJ6`: False
+- `AM6`: 2° Etapa
+- `AS6`: False
+- `AV6`: 2° Etapa
+- `BB6`: False
+- `C7`: 3° Etapa
+- `I7`: False
+- `L7`: 3° Etapa
+- `R7`: False
+- `U7`: 3° Etapa
+- `AA7`: False
+- `AD7`: 3° Etapa
+- `AJ7`: False
+- `AM7`: 3° Etapa
+- `AS7`: False
+- `AV7`: 3° Etapa
+- `BB7`: False
+- `BE7`: Sobre "focos"
+- `C8`: 4° Etapa
+- `I8`: False
+- `L8`: 4° Etapa
+- `R8`: False
+- `U8`: 4° Etapa
+- `AA8`: False
+- `AD8`: 4° Etapa
+- `AJ8`: False
+- `AM8`: 4° Etapa
+- `AS8`: False
+- `AV8`: 4° Etapa
+- `BB8`: False
+- `BE8`: Os focos são a forma de se obter qualquer uma destas ações de interlúdio, mantendo em mente que 1 interlúdio equivale a dois focos e estes dois focos podem ser utilizados como bem quiser dentro das ações de interlúdio.
+- `C9`: Treinamento Completo
+- `L9`: Treinamento Completo
+- `U9`: Treinamento Completo
+- `AD9`: Treinamento Completo
+- `AM9`: Treinamento Completo
+- `AV9`: Treinamento Completo
+- `C10`: Com grande velocidade e agilidade, você se torna rápido e capaz de um nível  superior de mobilidade e esquivas. Sua margem necessária para conseguir um  sucesso crítico em um TR de Reflexos reduz em 2. Seu Deslocamento aumenta em 4,5  metros.
+- `L10`: Você domina a técnica de barreiras, conseguindo as conferir uma resistência  elevada. Toda parede que você criar com Técnicas de Barreira recebe RD igual ao  seu Nível de Aptidão em Barreiras
+- `U10`: Você chega muito perto de compreender profundamente a energia amaldiçoada, tornando-se familiar com ela e entendendo melhor uma parte dela. Você aumenta um nível de aptidão a sua escolha em 1.
+- `AD10`: Você já estabeleceu uma profunda conexão com a energia amaldiçoada, assim  como a conhece cada vez mais completamente. Em uma situação de combate,  imerso no fervor da batalha, você consegue gerar energia: durante uma cena de  combate, no começo de toda rodada, você ganha PE temporário igual a metade do  seu bônus de treinamento.
+- `AM10`: Você se torna um mestre das expansões, entendo o como conseguir a moldar perfeitamente diante a sua vontade e necessidade do momento. Você recebe a aptidão amaldiçoada Modificação Completa.
+- `AV10`: Sua maestria sobre a energia reversa te permite recuperar até mesmo aquilo que parece impossível: você pode usar a aptidão amaldiçoada Regeneração Aprimorada para curar sua exaustão de técnica após usar expansão de domínio, reduzindo em um turno para 2 pontos de energia reversa gastos.
+- `C16`: Treino de Luta
+- `L16`: Manejo de Arma
+- `U16`: Treino de Perícia
+- `AD16`: Treino de Resistência
+- `AM16`: Potêncial Fisico
+- `C17`: 1° Etapa
+- `I17`: False
+- `L17`: 1° Etapa
+- `R17`: False
+- `U17`: 1° Etapa
+- `AA17`: False
+- `AD17`: 1° Etapa
+- `AJ17`: False
+- `AM17`: 1° Etapa
+- `AS17`: False
+- `AV17`: 1° Etapa
+- `BB17`: False
+- `C18`: 2° Etapa
+- `I18`: False
+- `L18`: 2° Etapa
+- `R18`: False
+- `U18`: 2° Etapa
+- `AA18`: False
+- `AD18`: 2° Etapa
+- `AJ18`: False
+- `AM18`: 2° Etapa
+- `AS18`: False
+- `AV18`: 2° Etapa
+- `BB18`: False
+- `BE18`: Interludios Realizados
+- `BN18`: Valores
+- `C19`: 3° Etapa
+- `I19`: False
+- `L19`: 3° Etapa
+- `R19`: False
+- `U19`: 3° Etapa
+- `AA19`: False
+- `AD19`: 3° Etapa
+- `AJ19`: False
+- `AM19`: 3° Etapa
+- `AS19`: False
+- `AV19`: 3° Etapa
+- `BB19`: False
+- `C20`: 4° Etapa
+- `I20`: False
+- `L20`: 4° Etapa
+- `R20`: False
+- `U20`: 4° Etapa
+- `AA20`: False
+- `AD20`: 4° Etapa
+- `AJ20`: False
+- `AM20`: 4° Etapa
+- `AS20`: False
+- `AV20`: 4° Etapa
+- `BB20`: False
+- `BE20`: Treino: Habilidade até Nível 09:
+- `BN20`: False
+- `C21`: Treinamento Completo
+- `L21`: Treinamento Completo
+- `U21`: Treinamento Completo
+- `AD21`: Treinamento Completo
+- `AM21`: Treinamento Completo
+- `AV21`: Treinamento Completo
+- `BE21`: Treino: Habilidade após Nível 10:
+- `BN21`: False
+- `C22`: Você se torna altamente proficiente em luta, conseguindo extrair ao máximo de seu  corpo e manobras. Você recebe acesso ao efeito de crítico de ataques desarmados  (pugilato). Além disso, você pode, uma vez por rodada, escolher realizar uma  rolagem de Acrobacia ou Atletismo com vantagem.
+- `L22`: Você se torna um mestre no manejo da arma para qual se dedicou a treinar  e dominar. Enquanto estiver manejando a arma escolhida, ela recebe um  Encantamento de ferramenta amaldiçoada adicional
+- `U22`: Você treinou e se dedicou tanto a uma perícia específica, que ela se tornou algo no  qual você é quase incapaz de falhar, mantendo uma consistência invejável. Caso  realize um teste da perícia escolhida e obtenha um resultado menor do que 5 no d20,  você pode o rolar novamente e manter o melhor resultado
+- `AD22`: Seu físico atinge um nível superior, concedendo-o uma grande resistência e vigor. Sua margem necessária para conseguir um sucesso crítico em um TR de Fortitude reduz em 2. Uma vez por cena, você ignora a primeira falha em testes de morte. Seus pontos de vida máximos aumentam em mais 10 pontos.
+- `AM22`: Você conseguiu chegar em um ponto onde seu corpo constantemente se renova e  sua energia parece nunca ter fim. Durante uma cena de combate, no começo de toda  rodada, você recebe uma quantidade de pontos de vigor temporários igual a metade  do seu bônus de treinamento.
+- `BE22`: Revisão de Técnica:
+- `BN22`: 0.0
+- `BE23`: Estudos:
+- `BN23`: 0.0
+- `BE24`: Criação de Itens:
+- `BN24`: 0.0
+- `BE25`: Adaptação:
+- `BN25`: 0.0
+- `BE26`: Selos de Comando
+- `BN26`: 0.0
+- `C30`: Revisão de tecnica
+- `Q30`: Treinamento para habilidade
+- `AE30`: Estudos
+- `AS30`: Criação de itens
+- `BE30`: Adaptação
+- `C31`: Ao escolher a opção de Revisão de Técnica, você pode modificar uma quantidade de habilidades de técnica igual a metade do seu nível de personagem. Tal modificação permite mudar aspectos das habilidades, mas sem uma mudança completa delas, por exemplo, mudando o nível, alcance ou características do seu funcionamento. Uma maneira se usá-la, por exemplo, seria transformar uma habilidade de técnica que dispara uma flecha potente de fogo em várias pequenas flechas que se espalham ou subir o nível dela para transformar a flecha em uma explosão.
+- `Q31`: Ao escolher a opção do Treinamento para Habilidade, você deve escolher uma habilidade de especialização cujos requisitos sejam atendidos, transformando-a no objetivo do seu treinamento. Logo após, você deve escolher um dos seus atributos e descrever como é o treino, realizando quatro testes de habilidade com o atributo escolhido. Os testes possuem CD igual a 12 + metade do seu nível, e o personagem deve suceder em pelo menos três deles para completar o seu treinamento. Caso não consiga completar o treinamento, você mantém os seus sucessos, podendo tentar novamente em outro interlúdio. Um personagem pode obter apenas uma habilidade adicional a partir desse treinamento até o 9° nível. A partir do 10° nível, pode obter uma habilidade a mais
+- `AE31`: Ao escolher a opção de Estudos, você pode escolher uma perícia na qual não possua maestria para estudar, realizando testes de Inteligência ou Sabedoria, a sua escolha. Você deve realizar quatro testes de habilidade usando o atributo escolhido e, caso suceda em pelo menos dois deles, você obterá maestria na perícia. A dificuldade do teste é igual a 12 + seu bônus de maestria. Você também pode escolher esta opção para se tornar especialista em uma perícia com a qual já possua maestria. Você deve realizar três testes de períciacom a perícia escolhida, necessitando de suceder em pelo menos dois dos três,para assim se tornar especialista. A dificuldade do teste é igual a 15 + seu nível de personagem.
+- `AS31`: Ao escolher a opção de Criação de Itens, um personagem pode criar uma quantidade de itens igual a 1 + seu bônus de maestria.  Caso falhe em um teste de criação, você pode trocar uma das suas oportunidades de criação por uma tentativa adicional, rolando novamente o teste em que falhou.
+- `BE31`: Ao escolher a opção de Adaptação, um personagem pode trocar uma quantidade de habilidades de especialização por outras. Essa quantidade é igual a metade do nível do personagem e as habilidades devem ser trocadas por outras da mesma especialização, isso significa que você, por exemplo, só pode trocar uma habilidade de lutador por outra habilidade diferente de lutador
+
+### Fórmulas
+
+- `BE3`: `=Carteira!AB25`
+- `BI4`: `=SUM(BE3*2)-BI6+IF(BN20=TRUE,-1)+IF(BN21=TRUE,-1)-BN22-BN23-BN24-BN25-BN26`
+
+## Invocações
+
+Dimensão declarada: `None` linhas × `None` colunas`.
+
+### Células preenchidas
+
+- `B5`: Configurações de Shikigami
+- `T5`: Nome:
+- `X5`: Invocação 1(Técnica)
+- `AG5`: Custo:
+- `AL5`: XXPE
+- `AR5`: Nome:
+- `AV5`: Invocação 2
+- `BE5`: Custo:
+- `BH5`: XX
+- `BJ5`: Pontos de Energia
+- `BP5`: Nome:
+- `BT5`: Invocação 3
+- `CC5`: Custo:
+- `CF5`: XX
+- `CH5`: Pontos de Energia
+- `B7`: Vida do Shikigami
+- `J7`: Defesa do Shikigami
+- `B8`: Quarto Grau
+- `J8`: Quarto Grau
+- `B9`: Terceiro Grau
+- `J9`: Terceiro Grau
+- `B10`: Segundo Grau
+- `J10`: Segundo Grau
+- `B11`: Primeiro Grau
+- `J11`: Primeiro Grau
+- `B12`: Grau Especial
+- `J12`: Grau Especial
+- `B13`: Resistência Sobrecarregada
+- `B14`: 0.0
+- `T19`: Grau da Invocação
+- `AR19`: Grau da Invocação
+- `BP19`: Grau da Invocação
+- `T20`: Quarto Grau
+- `AR20`: Quarto Grau
+- `BP20`: Quarto Grau
+- `Z22`: 0.0
+- `AC22`: 0.0
+- `AF22`: 0.0
+- `AI22`: 0.0
+- `AL22`: 0.0
+- `AX22`: 0.0
+- `BA22`: 0.0
+- `BD22`: 0.0
+- `BG22`: 0.0
+- `BJ22`: 0.0
+- `BV22`: 0.0
+- `BY22`: 0.0
+- `CB22`: 0.0
+- `CE22`: 0.0
+- `CH22`: 0.0
+- `T26`: Máximo
+- `W26`: Atuais
+- `Z26`: Vida Temp.
+- `AC26`: Outros
+- `AF26`: Robustez
+- `AI26`: Curado
+- `AL26`: Recebido
+- `AR26`: Máximo
+- `AU26`: Atuais
+- `AX26`: Vida Temp.
+- `BA26`: Outros
+- `BD26`: Robustez
+- `BG26`: Curado
+- `BJ26`: Recebido
+- `BP26`: Máximo
+- `BS26`: Atuais
+- `BV26`: Vida Temp.
+- `BY26`: Outros
+- `CB26`: Robustez
+- `CE26`: Curado
+- `CH26`: Recebido
+- `T27`: Pontos de Vida
+- `AR27`: Pontos de Vida
+- `BP27`: Pontos de Vida
+- `W30`: ADD
+- `AB30`: ADD
+- `AG30`: ADD
+- `AM30`: ADD
+- `AU30`: ADD
+- `AZ30`: ADD
+- `BE30`: ADD
+- `BK30`: ADD
+- `BS30`: ADD
+- `BX30`: ADD
+- `CC30`: ADD
+- `CI30`: ADD
+- `T33`: Defesa
+- `W33`: Retidado
+- `Y33`: Atenção
+- `AB33`: Retidado
+- `AD33`: Iniciativa
+- `AG33`: Retidado
+- `AI33`: Deslocamento
+- `AM33`: Retidado
+- `AR33`: Defesa
+- `AU33`: Retidado
+- `AW33`: Atenção
+- `AZ33`: Retidado
+- `BB33`: Iniciativa
+- `BE33`: Retidado
+- `BG33`: Deslocamento
+- `BK33`: Retidado
+- `BP33`: Defesa
+- `BS33`: Retidado
+- `BU33`: Atenção
+- `BX33`: Retidado
+- `BZ33`: Iniciativa
+- `CC33`: Retidado
+- `CE33`: Deslocamento
+- `CI33`: Retidado
+- `T34`: Derivados
+- `AR34`: Derivados
+- `BP34`: Derivados
+- `T35`: Atributos
+- `AH35`: Classe de Dificuldade
+- `AR35`: Atributos
+- `BF35`: Classe de Dificuldade
+- `BP35`: Atributos
+- `CD35`: Classe de Dificuldade
+- `T36`: Atributo
+- `X36`: Valor
+- `AB36`: Modificador
+- `AR36`: Atributo
+- `AV36`: Valor
+- `AZ36`: Modificador
+- `BP36`: Atributo
+- `BT36`: Valor
+- `BX36`: Modificador
+- `T37`: Força
+- `X37`: 8.0
+- `AH37`: FOR
+- `AR37`: Força
+- `AV37`: 8.0
+- `BF37`: FOR
+- `BP37`: Força
+- `BT37`: 8.0
+- `CD37`: FOR
+- `T38`: Destreza
+- `X38`: 8.0
+- `AR38`: Destreza
+- `AV38`: 8.0
+- `BP38`: Destreza
+- `BT38`: 8.0
+- `T39`: Constituição
+- `X39`: 8.0
+- `AH39`: Reduções de Dano
+- `AR39`: Constituição
+- `AV39`: 8.0
+- `BF39`: Reduções de Dano
+- `BP39`: Constituição
+- `BT39`: 8.0
+- `CD39`: Reduções de Dano
+- `T40`: Inteligência
+- `X40`: 8.0
+- `AR40`: Inteligência
+- `AV40`: 8.0
+- `BP40`: Inteligência
+- `BT40`: 8.0
+- `T41`: Sabedoria
+- `X41`: 8.0
+- `AH41`: RD(Cortante)
+- `AR41`: Sabedoria
+- `AV41`: 8.0
+- `BF41`: RD(Cortante)
+- `BP41`: Sabedoria
+- `BT41`: 8.0
+- `CD41`: RD(Cortante)
+- `T42`: Presença
+- `X42`: 8.0
+- `AH42`: RD(Perfurante)
+- `AR42`: Presença
+- `AV42`: 8.0
+- `BF42`: RD(Perfurante)
+- `BP42`: Presença
+- `BT42`: 8.0
+- `CD42`: RD(Perfurante)
+- `T43`: Ações
+- `AA43`: Características
+- `AH43`: RD(Impacto)
+- `AR43`: Ações
+- `AY43`: Características
+- `BF43`: RD(Impacto)
+- `BP43`: Ações
+- `BW43`: Características
+- `CD43`: RD(Impacto)
+- `AH44`: RD(Queimante)
+- `BF44`: RD(Queimante)
+- `CD44`: RD(Queimante)
+- `AH45`: RD(Congelante)
+- `BF45`: RD(Congelante)
+- `CD45`: RD(Congelante)
+- `AH46`: RD(Chocante)
+- `BF46`: RD(Chocante)
+- `CD46`: RD(Chocante)
+- `AH47`: RD(Sônico)
+- `BF47`: RD(Sônico)
+- `CD47`: RD(Sônico)
+- `AH48`: RD(Ácido)
+- `BF48`: RD(Ácido)
+- `CD48`: RD(Ácido)
+- `AH49`: RD(Radiante)
+- `BF49`: RD(Radiante)
+- `CD49`: RD(Radiante)
+- `AH50`: RD(Energético)
+- `BF50`: RD(Energético)
+- `CD50`: RD(Energético)
+- `AH51`: RD(Psíquico)
+- `BF51`: RD(Psíquico)
+- `CD51`: RD(Psíquico)
+- `AH52`: RD(Necrótico)
+- `BF52`: RD(Necrótico)
+- `CD52`: RD(Necrótico)
+- `AH53`: RD(Venenoso)
+- `BF53`: RD(Venenoso)
+- `CD53`: RD(Venenoso)
+- `T54`: Acerto
+- `AH54`: RD(Alma)
+- `AR54`: Acerto
+- `BF54`: RD(Alma)
+- `BP54`: Acerto
+- `CD54`: RD(Alma)
+- `T55`: Nome
+- `W55`: Atributo
+- `Y55`: Outros
+- `AB55`: Tr.
+- `AC55`: Ms.
+- `AD55`: Total
+- `AH55`: Resistências
+- `AR55`: Nome
+- `AU55`: Atributo
+- `AW55`: Outros
+- `AZ55`: Tr.
+- `BA55`: Ms.
+- `BB55`: Total
+- `BF55`: Resistências
+- `BP55`: Nome
+- `BS55`: Atributo
+- `BU55`: Outros
+- `BX55`: Tr.
+- `BY55`: Ms.
+- `BZ55`: Total
+- `CD55`: Resistências
+- `T56`: Corpo-a-corpo
+- `W56`: FOR
+- `AB56`: False
+- `AR56`: Corpo-a-corpo
+- `AU56`: FOR
+- `AZ56`: False
+- `BP56`: Corpo-a-corpo
+- `BS56`: FOR
+- `BX56`: False
+- `T57`: Distância
+- `W57`: DEX
+- `AB57`: False
+- `AH57`: RD(Cortante)
+- `AM57`: False
+- `AR57`: Distância
+- `AU57`: DEX
+- `AZ57`: False
+- `BF57`: RD(Cortante)
+- `BK57`: False
+- `BP57`: Distância
+- `BS57`: DEX
+- `BX57`: False
+- `CD57`: RD(Cortante)
+- `CI57`: False
+- `T58`: Salvaguardas
+- `AH58`: RD(Perfurante)
+- `AM58`: False
+- `AR58`: Salvaguardas
+- `BF58`: RD(Perfurante)
+- `BK58`: False
+- `BP58`: Salvaguardas
+- `CD58`: RD(Perfurante)
+- `CI58`: False
+- `T59`: Reflexo
+- `W59`: DEX
+- `AB59`: False
+- `AC59`: False
+- `AH59`: RD(Impacto)
+- `AM59`: False
+- `AR59`: Reflexo
+- `AU59`: DEX
+- `AZ59`: False
+- `BA59`: False
+- `BF59`: RD(Impacto)
+- `BK59`: False
+- `BP59`: Reflexo
+- `BS59`: DEX
+- `BX59`: False
+- `BY59`: False
+- `CD59`: RD(Impacto)
+- `CI59`: False
+- `T60`: Fortitude
+- `W60`: CON
+- `AB60`: False
+- `AC60`: False
+- `AH60`: RD(Queimante)
+- `AM60`: False
+- `AR60`: Fortitude
+- `AU60`: CON
+- `AZ60`: False
+- `BA60`: False
+- `BF60`: RD(Queimante)
+- `BK60`: False
+- `BP60`: Fortitude
+- `BS60`: CON
+- `BX60`: False
+- `BY60`: False
+- `CD60`: RD(Queimante)
+- `CI60`: False
+- `T61`: Integridade
+- `W61`: CON
+- `AB61`: False
+- `AC61`: False
+- `AH61`: RD(Congelante)
+- `AM61`: False
+- `AR61`: Integridade
+- `AU61`: CON
+- `AZ61`: False
+- `BA61`: False
+- `BF61`: RD(Congelante)
+- `BK61`: False
+- `BP61`: Integridade
+- `BS61`: CON
+- `BX61`: False
+- `BY61`: False
+- `CD61`: RD(Congelante)
+- `CI61`: False
+- `T62`: Vontade
+- `W62`: SAB
+- `AB62`: False
+- `AC62`: False
+- `AH62`: RD(Chocante)
+- `AM62`: False
+- `AR62`: Vontade
+- `AU62`: SAB
+- `AZ62`: False
+- `BA62`: False
+- `BF62`: RD(Chocante)
+- `BK62`: False
+- `BP62`: Vontade
+- `BS62`: SAB
+- `BX62`: False
+- `BY62`: False
+- `CD62`: RD(Chocante)
+- `CI62`: False
+- `T63`: Astúcia
+- `W63`: INT
+- `AB63`: False
+- `AC63`: False
+- `AH63`: RD(Sônico)
+- `AM63`: False
+- `AR63`: Astúcia
+- `AU63`: INT
+- `AZ63`: False
+- `BA63`: False
+- `BF63`: RD(Sônico)
+- `BK63`: False
+- `BP63`: Astúcia
+- `BS63`: INT
+- `BX63`: False
+- `BY63`: False
+- `CD63`: RD(Sônico)
+- `CI63`: False
+- `T64`: Perícias
+- `AH64`: RD(Energético)
+- `AM64`: False
+- `AR64`: Perícias
+- `BF64`: RD(Energético)
+- `BK64`: False
+- `BP64`: Perícias
+- `CD64`: RD(Energético)
+- `CI64`: False
+- `T65`: Atletismo
+- `W65`: FOR
+- `AB65`: False
+- `AC65`: False
+- `AH65`: RD(Psíquico)
+- `AM65`: False
+- `AR65`: Atletismo
+- `AU65`: FOR
+- `AZ65`: False
+- `BA65`: False
+- `BF65`: RD(Psíquico)
+- `BK65`: False
+- `BP65`: Atletismo
+- `BS65`: FOR
+- `BX65`: False
+- `BY65`: False
+- `CD65`: RD(Psíquico)
+- `CI65`: False
+- `T66`: Acrobacia
+- `W66`: DEX
+- `AB66`: False
+- `AC66`: False
+- `AH66`: RD(Radiante)
+- `AM66`: False
+- `AR66`: Acrobacia
+- `AU66`: DEX
+- `AZ66`: False
+- `BA66`: False
+- `BF66`: RD(Radiante)
+- `BK66`: False
+- `BP66`: Acrobacia
+- `BS66`: DEX
+- `BX66`: False
+- `BY66`: False
+- `CD66`: RD(Radiante)
+- `CI66`: False
+- `T67`: Furtividade
+- `W67`: DEX
+- `AB67`: False
+- `AC67`: False
+- `AH67`: RD(Alma)
+- `AM67`: False
+- `AR67`: Furtividade
+- `AU67`: DEX
+- `AZ67`: False
+- `BA67`: False
+- `BF67`: RD(Alma)
+- `BK67`: False
+- `BP67`: Furtividade
+- `BS67`: DEX
+- `BX67`: False
+- `BY67`: False
+- `CD67`: RD(Alma)
+- `CI67`: False
+- `T68`: Prestidigitação
+- `W68`: DEX
+- `AB68`: False
+- `AC68`: False
+- `AH68`: RD(Energia Reversa)
+- `AM68`: False
+- `AR68`: Prestidigitação
+- `AU68`: DEX
+- `AZ68`: False
+- `BA68`: False
+- `BF68`: RD(Energia Reversa)
+- `BK68`: False
+- `BP68`: Prestidigitação
+- `BS68`: DEX
+- `BX68`: False
+- `BY68`: False
+- `CD68`: RD(Energia Reversa)
+- `CI68`: False
+- `T69`: Direção
+- `W69`: SAB
+- `AB69`: False
+- `AC69`: False
+- `AH69`: RD(Venenoso)
+- `AM69`: False
+- `AR69`: Direção
+- `AU69`: SAB
+- `AZ69`: False
+- `BA69`: False
+- `BF69`: RD(Venenoso)
+- `BK69`: False
+- `BP69`: Direção
+- `BS69`: SAB
+- `BX69`: False
+- `BY69`: False
+- `CD69`: RD(Venenoso)
+- `CI69`: False
+- `T70`: Intuição
+- `W70`: SAB
+- `AB70`: False
+- `AC70`: False
+- `AH70`: RD(Necrótico)
+- `AM70`: False
+- `AR70`: Intuição
+- `AU70`: SAB
+- `AZ70`: False
+- `BA70`: False
+- `BF70`: RD(Necrótico)
+- `BK70`: False
+- `BP70`: Intuição
+- `BS70`: SAB
+- `BX70`: False
+- `BY70`: False
+- `CD70`: RD(Necrótico)
+- `CI70`: False
+- `T71`: Medicina
+- `W71`: SAB
+- `AB71`: False
+- `AC71`: False
+- `AH71`: Configuração de Shikigami
+- `AR71`: Medicina
+- `AU71`: SAB
+- `AZ71`: False
+- `BA71`: False
+- `BF71`: Configuração de Shikigami
+- `BP71`: Medicina
+- `BS71`: SAB
+- `BX71`: False
+- `BY71`: False
+- `CD71`: Configuração de Shikigami
+- `T72`: Percepção
+- `W72`: SAB
+- `AB72`: False
+- `AC72`: False
+- `AH72`: Controle Aprimorado
+- `AM72`: False
+- `AR72`: Percepção
+- `AU72`: SAB
+- `AZ72`: False
+- `BA72`: False
+- `BF72`: Controle Aprimorado
+- `BK72`: False
+- `BP72`: Percepção
+- `BS72`: SAB
+- `BX72`: False
+- `BY72`: False
+- `CD72`: Controle Aprimorado
+- `CI72`: False
+- `T73`: Ocultismo
+- `W73`: SAB
+- `AB73`: False
+- `AC73`: False
+- `AH73`: Frenesi da Invocação
+- `AM73`: False
+- `AR73`: Ocultismo
+- `AU73`: SAB
+- `AZ73`: False
+- `BA73`: False
+- `BF73`: Frenesi da Invocação
+- `BK73`: False
+- `BP73`: Ocultismo
+- `BS73`: SAB
+- `BX73`: False
+- `BY73`: False
+- `CD73`: Frenesi da Invocação
+- `CI73`: False
+- `T74`: Sobrevivência
+- `W74`: SAB
+- `AB74`: False
+- `AC74`: False
+- `AH74`: Invocações Móveis
+- `AM74`: False
+- `AR74`: Sobrevivência
+- `AU74`: SAB
+- `AZ74`: False
+- `BA74`: False
+- `BF74`: Invocações Móveis
+- `BK74`: False
+- `BP74`: Sobrevivência
+- `BS74`: SAB
+- `BX74`: False
+- `BY74`: False
+- `CD74`: Invocações Móveis
+- `CI74`: False
+- `T75`: Investigação
+- `W75`: INT
+- `AB75`: False
+- `AC75`: False
+- `AH75`: Invocações Resistêntes
+- `AM75`: False
+- `AR75`: Investigação
+- `AU75`: INT
+- `AZ75`: False
+- `BA75`: False
+- `BF75`: Invocações Resistêntes
+- `BK75`: False
+- `BP75`: Investigação
+- `BS75`: INT
+- `BX75`: False
+- `BY75`: False
+- `CD75`: Invocações Resistêntes
+- `CI75`: False
+- `T76`: História
+- `W76`: INT
+- `AB76`: False
+- `AC76`: False
+- `AH76`: Melhoria de Contr(Agres)
+- `AR76`: História
+- `AU76`: INT
+- `AZ76`: False
+- `BA76`: False
+- `BF76`: Melhoria de Contr(Agres)
+- `BP76`: História
+- `BS76`: INT
+- `BX76`: False
+- `BY76`: False
+- `CD76`: Melhoria de Contr(Agres)
+- `T77`: Feitiçaria
+- `W77`: INT
+- `AB77`: False
+- `AC77`: False
+- `AH77`: Melhoria de Contr(Resist)
+- `AM77`: False
+- `AR77`: Feitiçaria
+- `AU77`: INT
+- `AZ77`: False
+- `BA77`: False
+- `BF77`: Melhoria de Contr(Resist)
+- `BK77`: False
+- `BP77`: Feitiçaria
+- `BS77`: INT
+- `BX77`: False
+- `BY77`: False
+- `CD77`: Melhoria de Contr(Resist)
+- `CI77`: False
+- `T78`: Teologia
+- `W78`: INT
+- `AB78`: False
+- `AC78`: False
+- `AH78`: Melhoria de Contr(mobili)
+- `AM78`: False
+- `AR78`: Teologia
+- `AU78`: INT
+- `AZ78`: False
+- `BA78`: False
+- `BF78`: Melhoria de Contr(mobili)
+- `BK78`: False
+- `BP78`: Teologia
+- `BS78`: INT
+- `BX78`: False
+- `BY78`: False
+- `CD78`: Melhoria de Contr(mobili)
+- `CI78`: False
+- `T79`: Tecnologia
+- `W79`: INT
+- `AB79`: False
+- `AC79`: False
+- `AH79`: Melhoria de Contr(Prec/acert)
+- `AM79`: False
+- `AR79`: Tecnologia
+- `AU79`: INT
+- `AZ79`: False
+- `BA79`: False
+- `BF79`: Melhoria de Contr(Prec/acert)
+- `BK79`: False
+- `BP79`: Tecnologia
+- `BS79`: INT
+- `BX79`: False
+- `BY79`: False
+- `CD79`: Melhoria de Contr(Prec/acert)
+- `CI79`: False
+- `T80`: Persuasão
+- `W80`: PRE
+- `AB80`: False
+- `AC80`: False
+- `AH80`: Melhoria de Contr(Prec/CD)
+- `AM80`: False
+- `AR80`: Persuasão
+- `AU80`: PRE
+- `AZ80`: False
+- `BA80`: False
+- `BF80`: Melhoria de Contr(Prec/CD)
+- `BK80`: False
+- `BP80`: Persuasão
+- `BS80`: PRE
+- `BX80`: False
+- `BY80`: False
+- `CD80`: Melhoria de Contr(Prec/CD)
+- `CI80`: False
+- `T81`: Enganação
+- `W81`: PRE
+- `AB81`: False
+- `AC81`: False
+- `AH81`: Concentrar Poder
+- `AM81`: False
+- `AR81`: Enganação
+- `AU81`: PRE
+- `AZ81`: False
+- `BA81`: False
+- `BF81`: Concentrar Poder
+- `BK81`: False
+- `BP81`: Enganação
+- `BS81`: PRE
+- `BX81`: False
+- `BY81`: False
+- `CD81`: Concentrar Poder
+- `CI81`: False
+- `T82`: Intimidação
+- `W82`: PRE
+- `AB82`: False
+- `AC82`: False
+- `AH82`: Resistência Sobrecarregada
+- `AM82`: False
+- `AR82`: Intimidação
+- `AU82`: PRE
+- `AZ82`: False
+- `BA82`: False
+- `BF82`: Resistência Sobrecarregada
+- `BK82`: False
+- `BP82`: Intimidação
+- `BS82`: PRE
+- `BX82`: False
+- `BY82`: False
+- `CD82`: Resistência Sobrecarregada
+- `CI82`: False
+- `T83`: Performance
+- `W83`: PRE
+- `AB83`: False
+- `AC83`: False
+- `AH83`: Fantoche Supremo
+- `AM83`: False
+- `AR83`: Performance
+- `AU83`: PRE
+- `AZ83`: False
+- `BA83`: False
+- `BF83`: Fantoche Supremo
+- `BK83`: False
+- `BP83`: Performance
+- `BS83`: PRE
+- `BX83`: False
+- `BY83`: False
+- `CD83`: Fantoche Supremo
+- `CI83`: False
+- `T86`: Nome:
+- `X86`: Invocação 4
+- `AG86`: Custo:
+- `AJ86`: XX
+- `AL86`: Pontos de Energia
+- `AR86`: Nome:
+- `AV86`: Invocação 5
+- `BE86`: Custo:
+- `BH86`: XX
+- `BJ86`: Pontos de Energia
+- `BP86`: Nome:
+- `BT86`: Invocação 6
+- `CC86`: Custo:
+- `CF86`: XX
+- `CH86`: Pontos de Energia
+- `T100`: Grau da Invocação
+- `AR100`: Grau da Invocação
+- `BP100`: Grau da Invocação
+- `T101`: Quarto Grau
+- `AR101`: Quarto Grau
+- `BP101`: Quarto Grau
+- `Z103`: 0.0
+- `AC103`: 0.0
+- `AF103`: 0.0
+- `AI103`: 0.0
+- `AL103`: 0.0
+- `AX103`: 0.0
+- `BA103`: 0.0
+- `BD103`: 0.0
+- `BG103`: 0.0
+- `BJ103`: 0.0
+- `BV103`: 0.0
+- `BY103`: 0.0
+- `CB103`: 0.0
+- `CE103`: 0.0
+- `CH103`: 0.0
+- `T107`: Máximo
+- `W107`: Atuais
+- `Z107`: Vida Temp.
+- `AC107`: Outros
+- `AF107`: Robustez
+- `AI107`: Curado
+- `AL107`: Recebido
+- `AR107`: Máximo
+- `AU107`: Atuais
+- `AX107`: Vida Temp.
+- `BA107`: Outros
+- `BD107`: Robustez
+- `BG107`: Curado
+- `BJ107`: Recebido
+- `BP107`: Máximo
+- `BS107`: Atuais
+- `BV107`: Vida Temp.
+- `BY107`: Outros
+- `CB107`: Robustez
+- `CE107`: Curado
+- `CH107`: Recebido
+- `T108`: Pontos de Vida
+- `AR108`: Pontos de Vida
+- `BP108`: Pontos de Vida
+- `W111`: ADD
+- `AB111`: ADD
+- `AG111`: ADD
+- `AM111`: ADD
+- `AU111`: ADD
+- `AZ111`: ADD
+- `BE111`: ADD
+- `BK111`: ADD
+- `BS111`: ADD
+- `BX111`: ADD
+- `CC111`: ADD
+- `CI111`: ADD
+- `T114`: Defesa
+- `W114`: Retidado
+- `Y114`: Atenção
+- `AB114`: Retidado
+- `AD114`: Iniciativa
+- `AG114`: Retidado
+- `AI114`: Deslocamento
+- `AM114`: Retidado
+- `AR114`: Defesa
+- `AU114`: Retidado
+- `AW114`: Atenção
+- `AZ114`: Retidado
+- `BB114`: Iniciativa
+- `BE114`: Retidado
+- `BG114`: Deslocamento
+- `BK114`: Retidado
+- `BP114`: Defesa
+- `BS114`: Retidado
+- `BU114`: Atenção
+- `BX114`: Retidado
+- `BZ114`: Iniciativa
+- `CC114`: Retidado
+- `CE114`: Deslocamento
+- `CI114`: Retidado
+- `T115`: Derivados
+- `AR115`: Derivados
+- `BP115`: Derivados
+- `T116`: Atributos
+- `AH116`: Classe de Dificuldade
+- `AR116`: Atributos
+- `BF116`: Classe de Dificuldade
+- `BP116`: Atributos
+- `CD116`: Classe de Dificuldade
+- `T117`: Atributo
+- `X117`: Valor
+- `AB117`: Modificador
+- `AR117`: Atributo
+- `AV117`: Valor
+- `AZ117`: Modificador
+- `BP117`: Atributo
+- `BT117`: Valor
+- `BX117`: Modificador
+- `T118`: Força
+- `X118`: 8.0
+- `AH118`: FOR
+- `AR118`: Força
+- `AV118`: 8.0
+- `BF118`: FOR
+- `BP118`: Força
+- `BT118`: 8.0
+- `CD118`: FOR
+- `T119`: Destreza
+- `X119`: 8.0
+- `AR119`: Destreza
+- `AV119`: 8.0
+- `BP119`: Destreza
+- `BT119`: 8.0
+- `T120`: Constituição
+- `X120`: 8.0
+- `AH120`: Reduções de Dano
+- `AR120`: Constituição
+- `AV120`: 8.0
+- `BF120`: Reduções de Dano
+- `BP120`: Constituição
+- `BT120`: 8.0
+- `CD120`: Reduções de Dano
+- `T121`: Inteligência
+- `X121`: 8.0
+- `AR121`: Inteligência
+- `AV121`: 8.0
+- `BP121`: Inteligência
+- `BT121`: 8.0
+- `T122`: Sabedoria
+- `X122`: 8.0
+- `AH122`: RD(Cortante)
+- `AR122`: Sabedoria
+- `AV122`: 8.0
+- `BF122`: RD(Cortante)
+- `BP122`: Sabedoria
+- `BT122`: 8.0
+- `CD122`: RD(Cortante)
+- `T123`: Presença
+- `X123`: 8.0
+- `AH123`: RD(Perfurante)
+- `AR123`: Presença
+- `AV123`: 8.0
+- `BF123`: RD(Perfurante)
+- `BP123`: Presença
+- `BT123`: 8.0
+- `CD123`: RD(Perfurante)
+- `T124`: Ações
+- `AA124`: Características
+- `AH124`: RD(Impacto)
+- `AR124`: Ações
+- `AY124`: Características
+- `BF124`: RD(Impacto)
+- `BP124`: Ações
+- `BW124`: Características
+- `CD124`: RD(Impacto)
+- `AH125`: RD(Queimante)
+- `BF125`: RD(Queimante)
+- `CD125`: RD(Queimante)
+- `AH126`: RD(Congelante)
+- `BF126`: RD(Congelante)
+- `CD126`: RD(Congelante)
+- `AH127`: RD(Chocante)
+- `BF127`: RD(Chocante)
+- `CD127`: RD(Chocante)
+- `AH128`: RD(Sônico)
+- `BF128`: RD(Sônico)
+- `CD128`: RD(Sônico)
+- `AH129`: RD(Ácido)
+- `BF129`: RD(Ácido)
+- `CD129`: RD(Ácido)
+- `AH130`: RD(Radiante)
+- `BF130`: RD(Radiante)
+- `CD130`: RD(Radiante)
+- `AH131`: RD(Energético)
+- `BF131`: RD(Energético)
+- `CD131`: RD(Energético)
+- `AH132`: RD(Psíquico)
+- `BF132`: RD(Psíquico)
+- `CD132`: RD(Psíquico)
+- `AH133`: RD(Necrótico)
+- `BF133`: RD(Necrótico)
+- `CD133`: RD(Necrótico)
+- `AH134`: RD(Venenoso)
+- `BF134`: RD(Venenoso)
+- `CD134`: RD(Venenoso)
+- `T135`: Acerto
+- `AH135`: RD(Alma)
+- `AR135`: Acerto
+- `BF135`: RD(Alma)
+- `BP135`: Acerto
+- `CD135`: RD(Alma)
+- `T136`: Nome
+- `W136`: Atributo
+- `Y136`: Outros
+- `AB136`: Tr.
+- `AC136`: Ms.
+- `AD136`: Total
+- `AH136`: Resistências
+- `AR136`: Nome
+- `AU136`: Atributo
+- `AW136`: Outros
+- `AZ136`: Tr.
+- `BA136`: Ms.
+- `BB136`: Total
+- `BF136`: Resistências
+- `BP136`: Nome
+- `BS136`: Atributo
+- `BU136`: Outros
+- `BX136`: Tr.
+- `BY136`: Ms.
+- `BZ136`: Total
+- `CD136`: Resistências
+- `T137`: Corpo-a-corpo
+- `W137`: FOR
+- `AB137`: False
+- `AR137`: Corpo-a-corpo
+- `AU137`: FOR
+- `AZ137`: False
+- `BP137`: Corpo-a-corpo
+- `BS137`: FOR
+- `BX137`: False
+- `T138`: Distância
+- `W138`: DEX
+- `AB138`: False
+- `AH138`: RD(Cortante)
+- `AM138`: False
+- `AR138`: Distância
+- `AU138`: DEX
+- `AZ138`: False
+- `BF138`: RD(Cortante)
+- `BK138`: False
+- `BP138`: Distância
+- `BS138`: DEX
+- `BX138`: False
+- `CD138`: RD(Cortante)
+- `CI138`: False
+- `T139`: Salvaguardas
+- `AH139`: RD(Perfurante)
+- `AM139`: False
+- `AR139`: Salvaguardas
+- `BF139`: RD(Perfurante)
+- `BK139`: False
+- `BP139`: Salvaguardas
+- `CD139`: RD(Perfurante)
+- `CI139`: False
+- `T140`: Reflexo
+- `W140`: DEX
+- `AB140`: False
+- `AC140`: False
+- `AH140`: RD(Impacto)
+- `AM140`: False
+- `AR140`: Reflexo
+- `AU140`: DEX
+- `AZ140`: False
+- `BA140`: False
+- `BF140`: RD(Impacto)
+- `BK140`: False
+- `BP140`: Reflexo
+- `BS140`: DEX
+- `BX140`: False
+- `BY140`: False
+- `CD140`: RD(Impacto)
+- `CI140`: False
+- `T141`: Fortitude
+- `W141`: CON
+- `AB141`: False
+- `AC141`: False
+- `AH141`: RD(Queimante)
+- `AM141`: False
+- `AR141`: Fortitude
+- `AU141`: CON
+- `AZ141`: False
+- `BA141`: False
+- `BF141`: RD(Queimante)
+- `BK141`: False
+- `BP141`: Fortitude
+- `BS141`: CON
+- `BX141`: False
+- `BY141`: False
+- `CD141`: RD(Queimante)
+- `CI141`: False
+- `T142`: Integridade
+- `W142`: CON
+- `AB142`: False
+- `AC142`: False
+- `AH142`: RD(Congelante)
+- `AM142`: False
+- `AR142`: Integridade
+- `AU142`: CON
+- `AZ142`: False
+- `BA142`: False
+- `BF142`: RD(Congelante)
+- `BK142`: False
+- `BP142`: Integridade
+- `BS142`: CON
+- `BX142`: False
+- `BY142`: False
+- `CD142`: RD(Congelante)
+- `CI142`: False
+- `T143`: Vontade
+- `W143`: SAB
+- `AB143`: False
+- `AC143`: False
+- `AH143`: RD(Chocante)
+- `AM143`: False
+- `AR143`: Vontade
+- `AU143`: SAB
+- `AZ143`: False
+- `BA143`: False
+- `BF143`: RD(Chocante)
+- `BK143`: False
+- `BP143`: Vontade
+- `BS143`: SAB
+- `BX143`: False
+- `BY143`: False
+- `CD143`: RD(Chocante)
+- `CI143`: False
+- `T144`: Astúcia
+- `W144`: INT
+- `AB144`: False
+- `AC144`: False
+- `AH144`: RD(Sônico)
+- `AM144`: False
+- `AR144`: Astúcia
+- `AU144`: INT
+- `AZ144`: False
+- `BA144`: False
+- `BF144`: RD(Sônico)
+- `BK144`: False
+- `BP144`: Astúcia
+- `BS144`: INT
+- `BX144`: False
+- `BY144`: False
+- `CD144`: RD(Sônico)
+- `CI144`: False
+- `T145`: Perícias
+- `AH145`: RD(Energético)
+- `AM145`: False
+- `AR145`: Perícias
+- `BF145`: RD(Energético)
+- `BK145`: False
+- `BP145`: Perícias
+- `CD145`: RD(Energético)
+- `CI145`: False
+- `T146`: Atletismo
+- `W146`: FOR
+- `AB146`: False
+- `AC146`: False
+- `AH146`: RD(Psíquico)
+- `AM146`: False
+- `AR146`: Atletismo
+- `AU146`: FOR
+- `AZ146`: False
+- `BA146`: False
+- `BF146`: RD(Psíquico)
+- `BK146`: False
+- `BP146`: Atletismo
+- `BS146`: FOR
+- `BX146`: False
+- `BY146`: False
+- `CD146`: RD(Psíquico)
+- `CI146`: False
+- `T147`: Acrobacia
+- `W147`: DEX
+- `AB147`: False
+- `AC147`: False
+- `AH147`: RD(Radiante)
+- `AM147`: False
+- `AR147`: Acrobacia
+- `AU147`: DEX
+- `AZ147`: False
+- `BA147`: False
+- `BF147`: RD(Radiante)
+- `BK147`: False
+- `BP147`: Acrobacia
+- `BS147`: DEX
+- `BX147`: False
+- `BY147`: False
+- `CD147`: RD(Radiante)
+- `CI147`: False
+- `T148`: Furtividade
+- `W148`: DEX
+- `AB148`: False
+- `AC148`: False
+- `AH148`: RD(Alma)
+- `AM148`: False
+- `AR148`: Furtividade
+- `AU148`: DEX
+- `AZ148`: False
+- `BA148`: False
+- `BF148`: RD(Alma)
+- `BK148`: False
+- `BP148`: Furtividade
+- `BS148`: DEX
+- `BX148`: False
+- `BY148`: False
+- `CD148`: RD(Alma)
+- `CI148`: False
+- `T149`: Prestidigitação
+- `W149`: DEX
+- `AB149`: False
+- `AC149`: False
+- `AH149`: RD(Energia Reversa)
+- `AM149`: False
+- `AR149`: Prestidigitação
+- `AU149`: DEX
+- `AZ149`: False
+- `BA149`: False
+- `BF149`: RD(Energia Reversa)
+- `BK149`: False
+- `BP149`: Prestidigitação
+- `BS149`: DEX
+- `BX149`: False
+- `BY149`: False
+- `CD149`: RD(Energia Reversa)
+- `CI149`: False
+- `T150`: Direção
+- `W150`: SAB
+- `AB150`: False
+- `AC150`: False
+- `AH150`: RD(Venenoso)
+- `AM150`: False
+- `AR150`: Direção
+- `AU150`: SAB
+- `AZ150`: False
+- `BA150`: False
+- `BF150`: RD(Venenoso)
+- `BK150`: False
+- `BP150`: Direção
+- `BS150`: SAB
+- `BX150`: False
+- `BY150`: False
+- `CD150`: RD(Venenoso)
+- `CI150`: False
+- `T151`: Intuição
+- `W151`: SAB
+- `AB151`: False
+- `AC151`: False
+- `AH151`: RD(Necrótico)
+- `AM151`: False
+- `AR151`: Intuição
+- `AU151`: SAB
+- `AZ151`: False
+- `BA151`: False
+- `BF151`: RD(Necrótico)
+- `BK151`: False
+- `BP151`: Intuição
+- `BS151`: SAB
+- `BX151`: False
+- `BY151`: False
+- `CD151`: RD(Necrótico)
+- `CI151`: False
+- `T152`: Medicina
+- `W152`: SAB
+- `AB152`: False
+- `AC152`: False
+- `AH152`: Configuração de Shikigami
+- `AR152`: Medicina
+- `AU152`: SAB
+- `AZ152`: False
+- `BA152`: False
+- `BF152`: Configuração de Shikigami
+- `BP152`: Medicina
+- `BS152`: SAB
+- `BX152`: False
+- `BY152`: False
+- `CD152`: Configuração de Shikigami
+- `T153`: Percepção
+- `W153`: SAB
+- `AB153`: False
+- `AC153`: False
+- `AH153`: Controle Aprimorado
+- `AM153`: False
+- `AR153`: Percepção
+- `AU153`: SAB
+- `AZ153`: False
+- `BA153`: False
+- `BF153`: Controle Aprimorado
+- `BK153`: False
+- `BP153`: Percepção
+- `BS153`: SAB
+- `BX153`: False
+- `BY153`: False
+- `CD153`: Controle Aprimorado
+- `CI153`: False
+- `T154`: Ocultismo
+- `W154`: SAB
+- `AB154`: False
+- `AC154`: False
+- `AH154`: Frenesi da Invocação
+- `AM154`: False
+- `AR154`: Ocultismo
+- `AU154`: SAB
+- `AZ154`: False
+- `BA154`: False
+- `BF154`: Frenesi da Invocação
+- `BK154`: False
+- `BP154`: Ocultismo
+- `BS154`: SAB
+- `BX154`: False
+- `BY154`: False
+- `CD154`: Frenesi da Invocação
+- `CI154`: False
+- `T155`: Sobrevivência
+- `W155`: SAB
+- `AB155`: False
+- `AC155`: False
+- `AH155`: Invocações Móveis
+- `AM155`: False
+- `AR155`: Sobrevivência
+- `AU155`: SAB
+- `AZ155`: False
+- `BA155`: False
+- `BF155`: Invocações Móveis
+- `BK155`: False
+- `BP155`: Sobrevivência
+- `BS155`: SAB
+- `BX155`: False
+- `BY155`: False
+- `CD155`: Invocações Móveis
+- `CI155`: False
+- `T156`: Investigação
+- `W156`: INT
+- `AB156`: False
+- `AC156`: False
+- `AH156`: Invocações Resistêntes
+- `AM156`: False
+- `AR156`: Investigação
+- `AU156`: INT
+- `AZ156`: False
+- `BA156`: False
+- `BF156`: Invocações Resistêntes
+- `BK156`: False
+- `BP156`: Investigação
+- `BS156`: INT
+- `BX156`: False
+- `BY156`: False
+- `CD156`: Invocações Resistêntes
+- `CI156`: False
+- `T157`: História
+- `W157`: INT
+- `AB157`: False
+- `AC157`: False
+- `AH157`: Melhoria de Contr(Agres)
+- `AR157`: História
+- `AU157`: INT
+- `AZ157`: False
+- `BA157`: False
+- `BF157`: Melhoria de Contr(Agres)
+- `BP157`: História
+- `BS157`: INT
+- `BX157`: False
+- `BY157`: False
+- `CD157`: Melhoria de Contr(Agres)
+- `T158`: Feitiçaria
+- `W158`: INT
+- `AB158`: False
+- `AC158`: False
+- `AH158`: Melhoria de Contr(Resist)
+- `AM158`: False
+- `AR158`: Feitiçaria
+- `AU158`: INT
+- `AZ158`: False
+- `BA158`: False
+- `BF158`: Melhoria de Contr(Resist)
+- `BK158`: False
+- `BP158`: Feitiçaria
+- `BS158`: INT
+- `BX158`: False
+- `BY158`: False
+- `CD158`: Melhoria de Contr(Resist)
+- `CI158`: False
+- `T159`: Teologia
+- `W159`: INT
+- `AB159`: False
+- `AC159`: False
+- `AH159`: Melhoria de Contr(mobili)
+- `AM159`: False
+- `AR159`: Teologia
+- `AU159`: INT
+- `AZ159`: False
+- `BA159`: False
+- `BF159`: Melhoria de Contr(mobili)
+- `BK159`: False
+- `BP159`: Teologia
+- `BS159`: INT
+- `BX159`: False
+- `BY159`: False
+- `CD159`: Melhoria de Contr(mobili)
+- `CI159`: False
+- `T160`: Tecnologia
+- `W160`: INT
+- `AB160`: False
+- `AC160`: False
+- `AH160`: Melhoria de Contr(Prec/acert)
+- `AM160`: False
+- `AR160`: Tecnologia
+- `AU160`: INT
+- `AZ160`: False
+- `BA160`: False
+- `BF160`: Melhoria de Contr(Prec/acert)
+- `BK160`: False
+- `BP160`: Tecnologia
+- `BS160`: INT
+- `BX160`: False
+- `BY160`: False
+- `CD160`: Melhoria de Contr(Prec/acert)
+- `CI160`: False
+- `T161`: Persuasão
+- `W161`: PRE
+- `AB161`: False
+- `AC161`: False
+- `AH161`: Melhoria de Contr(Prec/CD)
+- `AM161`: False
+- `AR161`: Persuasão
+- `AU161`: PRE
+- `AZ161`: False
+- `BA161`: False
+- `BF161`: Melhoria de Contr(Prec/CD)
+- `BK161`: False
+- `BP161`: Persuasão
+- `BS161`: PRE
+- `BX161`: False
+- `BY161`: False
+- `CD161`: Melhoria de Contr(Prec/CD)
+- `CI161`: False
+- `T162`: Enganação
+- `W162`: PRE
+- `AB162`: False
+- `AC162`: False
+- `AH162`: Concentrar Poder
+- `AM162`: False
+- `AR162`: Enganação
+- `AU162`: PRE
+- `AZ162`: False
+- `BA162`: False
+- `BF162`: Concentrar Poder
+- `BK162`: False
+- `BP162`: Enganação
+- `BS162`: PRE
+- `BX162`: False
+- `BY162`: False
+- `CD162`: Concentrar Poder
+- `CI162`: False
+- `T163`: Intimidação
+- `W163`: PRE
+- `AB163`: False
+- `AC163`: False
+- `AH163`: Resistência Sobrecarregada
+- `AM163`: False
+- `AR163`: Intimidação
+- `AU163`: PRE
+- `AZ163`: False
+- `BA163`: False
+- `BF163`: Resistência Sobrecarregada
+- `BK163`: False
+- `BP163`: Intimidação
+- `BS163`: PRE
+- `BX163`: False
+- `BY163`: False
+- `CD163`: Resistência Sobrecarregada
+- `CI163`: False
+- `T164`: Performance
+- `W164`: PRE
+- `AB164`: False
+- `AC164`: False
+- `AH164`: Fantoche Supremo
+- `AM164`: False
+- `AR164`: Performance
+- `AU164`: PRE
+- `AZ164`: False
+- `BA164`: False
+- `BF164`: Fantoche Supremo
+- `BK164`: False
+- `BP164`: Performance
+- `BS164`: PRE
+- `BX164`: False
+- `BY164`: False
+- `CD164`: Fantoche Supremo
+- `CI164`: False
+- `T167`: Nome:
+- `X167`: Invocação 7
+- `AG167`: Custo:
+- `AJ167`: XX
+- `AL167`: Pontos de Energia
+- `AR167`: Nome:
+- `AV167`: Invocação 8
+- `BE167`: Custo:
+- `BH167`: XX
+- `BJ167`: Pontos de Energia
+- `BP167`: Nome:
+- `BT167`: Invocação 9
+- `CC167`: Custo:
+- `CF167`: XX
+- `CH167`: Pontos de Energia
+- `T181`: Grau da Invocação
+- `AR181`: Grau da Invocação
+- `BP181`: Grau da Invocação
+- `T182`: Quarto Grau
+- `AR182`: Quarto Grau
+- `BP182`: Quarto Grau
+- `Z184`: 0.0
+- `AC184`: 0.0
+- `AF184`: 0.0
+- `AI184`: 0.0
+- `AL184`: 0.0
+- `AX184`: 0.0
+- `BA184`: 0.0
+- `BD184`: 0.0
+- `BG184`: 0.0
+- `BJ184`: 0.0
+- `BV184`: 0.0
+- `BY184`: 0.0
+- `CB184`: 0.0
+- `CE184`: 0.0
+- `CH184`: 0.0
+- `T188`: Máximo
+- `W188`: Atuais
+- `Z188`: Vida Temp.
+- `AC188`: Outros
+- `AF188`: Robustez
+- `AI188`: Curado
+- `AL188`: Recebido
+- `AR188`: Máximo
+- `AU188`: Atuais
+- `AX188`: Vida Temp.
+- `BA188`: Outros
+- `BD188`: Robustez
+- `BG188`: Curado
+- `BJ188`: Recebido
+- `BP188`: Máximo
+- `BS188`: Atuais
+- `BV188`: Vida Temp.
+- `BY188`: Outros
+- `CB188`: Robustez
+- `CE188`: Curado
+- `CH188`: Recebido
+- `T189`: Pontos de Vida
+- `AR189`: Pontos de Vida
+- `BP189`: Pontos de Vida
+- `W192`: ADD
+- `AB192`: ADD
+- `AG192`: ADD
+- `AM192`: ADD
+- `AU192`: ADD
+- `AZ192`: ADD
+- `BE192`: ADD
+- `BK192`: ADD
+- `BS192`: ADD
+- `BX192`: ADD
+- `CC192`: ADD
+- `CI192`: ADD
+- `T195`: Defesa
+- `W195`: Retidado
+- `Y195`: Atenção
+- `AB195`: Retidado
+- `AD195`: Iniciativa
+- `AG195`: Retidado
+- `AI195`: Deslocamento
+- `AM195`: Retidado
+- `AR195`: Defesa
+- `AU195`: Retidado
+- `AW195`: Atenção
+- `AZ195`: Retidado
+- `BB195`: Iniciativa
+- `BE195`: Retidado
+- `BG195`: Deslocamento
+- `BK195`: Retidado
+- `BP195`: Defesa
+- `BS195`: Retidado
+- `BU195`: Atenção
+- `BX195`: Retidado
+- `BZ195`: Iniciativa
+- `CC195`: Retidado
+- `CE195`: Deslocamento
+- `CI195`: Retidado
+- `T196`: Derivados
+- `AR196`: Derivados
+- `BP196`: Derivados
+- `T197`: Atributos
+- `AH197`: Classe de Dificuldade
+- `AR197`: Atributos
+- `BF197`: Classe de Dificuldade
+- `BP197`: Atributos
+- `CD197`: Classe de Dificuldade
+- `T198`: Atributo
+- `X198`: Valor
+- `AB198`: Modificador
+- `AR198`: Atributo
+- `AV198`: Valor
+- `AZ198`: Modificador
+- `BP198`: Atributo
+- `BT198`: Valor
+- `BX198`: Modificador
+- `T199`: Força
+- `X199`: 8.0
+- `AH199`: FOR
+- `AR199`: Força
+- `AV199`: 8.0
+- `BF199`: FOR
+- `BP199`: Força
+- `BT199`: 8.0
+- `CD199`: FOR
+- `T200`: Destreza
+- `X200`: 8.0
+- `AR200`: Destreza
+- `AV200`: 8.0
+- `BP200`: Destreza
+- `BT200`: 8.0
+- `T201`: Constituição
+- `X201`: 8.0
+- `AH201`: Reduções de Dano
+- `AR201`: Constituição
+- `AV201`: 8.0
+- `BF201`: Reduções de Dano
+- `BP201`: Constituição
+- `BT201`: 8.0
+- `CD201`: Reduções de Dano
+- `T202`: Inteligência
+- `X202`: 8.0
+- `AR202`: Inteligência
+- `AV202`: 8.0
+- `BP202`: Inteligência
+- `BT202`: 8.0
+- `T203`: Sabedoria
+- `X203`: 8.0
+- `AH203`: RD(Cortante)
+- `AR203`: Sabedoria
+- `AV203`: 8.0
+- `BF203`: RD(Cortante)
+- `BP203`: Sabedoria
+- `BT203`: 8.0
+- `CD203`: RD(Cortante)
+- `T204`: Presença
+- `X204`: 8.0
+- `AH204`: RD(Perfurante)
+- `AR204`: Presença
+- `AV204`: 8.0
+- `BF204`: RD(Perfurante)
+- `BP204`: Presença
+- `BT204`: 8.0
+- `CD204`: RD(Perfurante)
+- `T205`: Ações
+- `AA205`: Características
+- `AH205`: RD(Impacto)
+- `AR205`: Ações
+- `AY205`: Características
+- `BF205`: RD(Impacto)
+- `BP205`: Ações
+- `BW205`: Características
+- `CD205`: RD(Impacto)
+- `AH206`: RD(Queimante)
+- `BF206`: RD(Queimante)
+- `CD206`: RD(Queimante)
+- `AH207`: RD(Congelante)
+- `BF207`: RD(Congelante)
+- `CD207`: RD(Congelante)
+- `AH208`: RD(Chocante)
+- `BF208`: RD(Chocante)
+- `CD208`: RD(Chocante)
+- `AH209`: RD(Sônico)
+- `BF209`: RD(Sônico)
+- `CD209`: RD(Sônico)
+- `AH210`: RD(Ácido)
+- `BF210`: RD(Ácido)
+- `CD210`: RD(Ácido)
+- `AH211`: RD(Radiante)
+- `BF211`: RD(Radiante)
+- `CD211`: RD(Radiante)
+- `AH212`: RD(Energético)
+- `BF212`: RD(Energético)
+- `CD212`: RD(Energético)
+- `AH213`: RD(Psíquico)
+- `BF213`: RD(Psíquico)
+- `CD213`: RD(Psíquico)
+- `AH214`: RD(Necrótico)
+- `BF214`: RD(Necrótico)
+- `CD214`: RD(Necrótico)
+- `AH215`: RD(Venenoso)
+- `BF215`: RD(Venenoso)
+- `CD215`: RD(Venenoso)
+- `T216`: Acerto
+- `AH216`: RD(Alma)
+- `AR216`: Acerto
+- `BF216`: RD(Alma)
+- `BP216`: Acerto
+- `CD216`: RD(Alma)
+- `T217`: Nome
+- `W217`: Atributo
+- `Y217`: Outros
+- `AB217`: Tr.
+- `AC217`: Ms.
+- `AD217`: Total
+- `AH217`: Resistências
+- `AR217`: Nome
+- `AU217`: Atributo
+- `AW217`: Outros
+- `AZ217`: Tr.
+- `BA217`: Ms.
+- `BB217`: Total
+- `BF217`: Resistências
+- `BP217`: Nome
+- `BS217`: Atributo
+- `BU217`: Outros
+- `BX217`: Tr.
+- `BY217`: Ms.
+- `BZ217`: Total
+- `CD217`: Resistências
+- `T218`: Corpo-a-corpo
+- `W218`: FOR
+- `AB218`: False
+- `AR218`: Corpo-a-corpo
+- `AU218`: FOR
+- `AZ218`: False
+- `BP218`: Corpo-a-corpo
+- `BS218`: FOR
+- `BX218`: False
+- `T219`: Distância
+- `W219`: DEX
+- `AB219`: False
+- `AH219`: RD(Cortante)
+- `AM219`: False
+- `AR219`: Distância
+- `AU219`: DEX
+- `AZ219`: False
+- `BF219`: RD(Cortante)
+- `BK219`: False
+- `BP219`: Distância
+- `BS219`: DEX
+- `BX219`: False
+- `CD219`: RD(Cortante)
+- `CI219`: False
+- `T220`: Salvaguardas
+- `AH220`: RD(Perfurante)
+- `AM220`: False
+- `AR220`: Salvaguardas
+- `BF220`: RD(Perfurante)
+- `BK220`: False
+- `BP220`: Salvaguardas
+- `CD220`: RD(Perfurante)
+- `CI220`: False
+- `T221`: Reflexo
+- `W221`: DEX
+- `AB221`: False
+- `AC221`: False
+- `AH221`: RD(Impacto)
+- `AM221`: False
+- `AR221`: Reflexo
+- `AU221`: DEX
+- `AZ221`: False
+- `BA221`: False
+- `BF221`: RD(Impacto)
+- `BK221`: False
+- `BP221`: Reflexo
+- `BS221`: DEX
+- `BX221`: False
+- `BY221`: False
+- `CD221`: RD(Impacto)
+- `CI221`: False
+- `T222`: Fortitude
+- `W222`: CON
+- `AB222`: False
+- `AC222`: False
+- `AH222`: RD(Queimante)
+- `AM222`: False
+- `AR222`: Fortitude
+- `AU222`: CON
+- `AZ222`: False
+- `BA222`: False
+- `BF222`: RD(Queimante)
+- `BK222`: False
+- `BP222`: Fortitude
+- `BS222`: CON
+- `BX222`: False
+- `BY222`: False
+- `CD222`: RD(Queimante)
+- `CI222`: False
+- `T223`: Integridade
+- `W223`: CON
+- `AB223`: False
+- `AC223`: False
+- `AH223`: RD(Congelante)
+- `AM223`: False
+- `AR223`: Integridade
+- `AU223`: CON
+- `AZ223`: False
+- `BA223`: False
+- `BF223`: RD(Congelante)
+- `BK223`: False
+- `BP223`: Integridade
+- `BS223`: CON
+- `BX223`: False
+- `BY223`: False
+- `CD223`: RD(Congelante)
+- `CI223`: False
+- `T224`: Vontade
+- `W224`: SAB
+- `AB224`: False
+- `AC224`: False
+- `AH224`: RD(Chocante)
+- `AM224`: False
+- `AR224`: Vontade
+- `AU224`: SAB
+- `AZ224`: False
+- `BA224`: False
+- `BF224`: RD(Chocante)
+- `BK224`: False
+- `BP224`: Vontade
+- `BS224`: SAB
+- `BX224`: False
+- `BY224`: False
+- `CD224`: RD(Chocante)
+- `CI224`: False
+- `T225`: Astúcia
+- `W225`: INT
+- `AB225`: False
+- `AC225`: False
+- `AH225`: RD(Sônico)
+- `AM225`: False
+- `AR225`: Astúcia
+- `AU225`: INT
+- `AZ225`: False
+- `BA225`: False
+- `BF225`: RD(Sônico)
+- `BK225`: False
+- `BP225`: Astúcia
+- `BS225`: INT
+- `BX225`: False
+- `BY225`: False
+- `CD225`: RD(Sônico)
+- `CI225`: False
+- `T226`: Perícias
+- `AH226`: RD(Energético)
+- `AM226`: False
+- `AR226`: Perícias
+- `BF226`: RD(Energético)
+- `BK226`: False
+- `BP226`: Perícias
+- `CD226`: RD(Energético)
+- `CI226`: False
+- `T227`: Atletismo
+- `W227`: FOR
+- `AB227`: False
+- `AC227`: False
+- `AH227`: RD(Psíquico)
+- `AM227`: False
+- `AR227`: Atletismo
+- `AU227`: FOR
+- `AZ227`: False
+- `BA227`: False
+- `BF227`: RD(Psíquico)
+- `BK227`: False
+- `BP227`: Atletismo
+- `BS227`: FOR
+- `BX227`: False
+- `BY227`: False
+- `CD227`: RD(Psíquico)
+- `CI227`: False
+- `T228`: Acrobacia
+- `W228`: DEX
+- `AB228`: False
+- `AC228`: False
+- `AH228`: RD(Radiante)
+- `AM228`: False
+- `AR228`: Acrobacia
+- `AU228`: DEX
+- `AZ228`: False
+- `BA228`: False
+- `BF228`: RD(Radiante)
+- `BK228`: False
+- `BP228`: Acrobacia
+- `BS228`: DEX
+- `BX228`: False
+- `BY228`: False
+- `CD228`: RD(Radiante)
+- `CI228`: False
+- `T229`: Furtividade
+- `W229`: DEX
+- `AB229`: False
+- `AC229`: False
+- `AH229`: RD(Alma)
+- `AM229`: False
+- `AR229`: Furtividade
+- `AU229`: DEX
+- `AZ229`: False
+- `BA229`: False
+- `BF229`: RD(Alma)
+- `BK229`: False
+- `BP229`: Furtividade
+- `BS229`: DEX
+- `BX229`: False
+- `BY229`: False
+- `CD229`: RD(Alma)
+- `CI229`: False
+- `T230`: Prestidigitação
+- `W230`: DEX
+- `AB230`: False
+- `AC230`: False
+- `AH230`: RD(Energia Reversa)
+- `AM230`: False
+- `AR230`: Prestidigitação
+- `AU230`: DEX
+- `AZ230`: False
+- `BA230`: False
+- `BF230`: RD(Energia Reversa)
+- `BK230`: False
+- `BP230`: Prestidigitação
+- `BS230`: DEX
+- `BX230`: False
+- `BY230`: False
+- `CD230`: RD(Energia Reversa)
+- `CI230`: False
+- `T231`: Direção
+- `W231`: SAB
+- `AB231`: False
+- `AC231`: False
+- `AH231`: RD(Venenoso)
+- `AM231`: False
+- `AR231`: Direção
+- `AU231`: SAB
+- `AZ231`: False
+- `BA231`: False
+- `BF231`: RD(Venenoso)
+- `BK231`: False
+- `BP231`: Direção
+- `BS231`: SAB
+- `BX231`: False
+- `BY231`: False
+- `CD231`: RD(Venenoso)
+- `CI231`: False
+- `T232`: Intuição
+- `W232`: SAB
+- `AB232`: False
+- `AC232`: False
+- `AH232`: RD(Necrótico)
+- `AM232`: False
+- `AR232`: Intuição
+- `AU232`: SAB
+- `AZ232`: False
+- `BA232`: False
+- `BF232`: RD(Necrótico)
+- `BK232`: False
+- `BP232`: Intuição
+- `BS232`: SAB
+- `BX232`: False
+- `BY232`: False
+- `CD232`: RD(Necrótico)
+- `CI232`: False
+- `T233`: Medicina
+- `W233`: SAB
+- `AB233`: False
+- `AC233`: False
+- `AH233`: Configuração de Shikigami
+- `AR233`: Medicina
+- `AU233`: SAB
+- `AZ233`: False
+- `BA233`: False
+- `BF233`: Configuração de Shikigami
+- `BP233`: Medicina
+- `BS233`: SAB
+- `BX233`: False
+- `BY233`: False
+- `CD233`: Configuração de Shikigami
+- `T234`: Percepção
+- `W234`: SAB
+- `AB234`: False
+- `AC234`: False
+- `AH234`: Controle Aprimorado
+- `AM234`: False
+- `AR234`: Percepção
+- `AU234`: SAB
+- `AZ234`: False
+- `BA234`: False
+- `BF234`: Controle Aprimorado
+- `BK234`: False
+- `BP234`: Percepção
+- `BS234`: SAB
+- `BX234`: False
+- `BY234`: False
+- `CD234`: Controle Aprimorado
+- `CI234`: False
+- `T235`: Ocultismo
+- `W235`: SAB
+- `AB235`: False
+- `AC235`: False
+- `AH235`: Frenesi da Invocação
+- `AM235`: False
+- `AR235`: Ocultismo
+- `AU235`: SAB
+- `AZ235`: False
+- `BA235`: False
+- `BF235`: Frenesi da Invocação
+- `BK235`: False
+- `BP235`: Ocultismo
+- `BS235`: SAB
+- `BX235`: False
+- `BY235`: False
+- `CD235`: Frenesi da Invocação
+- `CI235`: False
+- `T236`: Sobrevivência
+- `W236`: SAB
+- `AB236`: False
+- `AC236`: False
+- `AH236`: Invocações Móveis
+- `AM236`: False
+- `AR236`: Sobrevivência
+- `AU236`: SAB
+- `AZ236`: False
+- `BA236`: False
+- `BF236`: Invocações Móveis
+- `BK236`: False
+- `BP236`: Sobrevivência
+- `BS236`: SAB
+- `BX236`: False
+- `BY236`: False
+- `CD236`: Invocações Móveis
+- `CI236`: False
+- `T237`: Investigação
+- `W237`: INT
+- `AB237`: False
+- `AC237`: False
+- `AH237`: Invocações Resistêntes
+- `AM237`: False
+- `AR237`: Investigação
+- `AU237`: INT
+- `AZ237`: False
+- `BA237`: False
+- `BF237`: Invocações Resistêntes
+- `BK237`: False
+- `BP237`: Investigação
+- `BS237`: INT
+- `BX237`: False
+- `BY237`: False
+- `CD237`: Invocações Resistêntes
+- `CI237`: False
+- `T238`: História
+- `W238`: INT
+- `AB238`: False
+- `AC238`: False
+- `AH238`: Melhoria de Contr(Agres)
+- `AR238`: História
+- `AU238`: INT
+- `AZ238`: False
+- `BA238`: False
+- `BF238`: Melhoria de Contr(Agres)
+- `BP238`: História
+- `BS238`: INT
+- `BX238`: False
+- `BY238`: False
+- `CD238`: Melhoria de Contr(Agres)
+- `T239`: Feitiçaria
+- `W239`: INT
+- `AB239`: False
+- `AC239`: False
+- `AH239`: Melhoria de Contr(Resist)
+- `AM239`: False
+- `AR239`: Feitiçaria
+- `AU239`: INT
+- `AZ239`: False
+- `BA239`: False
+- `BF239`: Melhoria de Contr(Resist)
+- `BK239`: False
+- `BP239`: Feitiçaria
+- `BS239`: INT
+- `BX239`: False
+- `BY239`: False
+- `CD239`: Melhoria de Contr(Resist)
+- `CI239`: False
+- `T240`: Teologia
+- `W240`: INT
+- `AB240`: False
+- `AC240`: False
+- `AH240`: Melhoria de Contr(mobili)
+- `AM240`: False
+- `AR240`: Teologia
+- `AU240`: INT
+- `AZ240`: False
+- `BA240`: False
+- `BF240`: Melhoria de Contr(mobili)
+- `BK240`: False
+- `BP240`: Teologia
+- `BS240`: INT
+- `BX240`: False
+- `BY240`: False
+- `CD240`: Melhoria de Contr(mobili)
+- `CI240`: False
+- `T241`: Tecnologia
+- `W241`: INT
+- `AB241`: False
+- `AC241`: False
+- `AH241`: Melhoria de Contr(Prec/acert)
+- `AM241`: False
+- `AR241`: Tecnologia
+- `AU241`: INT
+- `AZ241`: False
+- `BA241`: False
+- `BF241`: Melhoria de Contr(Prec/acert)
+- `BK241`: False
+- `BP241`: Tecnologia
+- `BS241`: INT
+- `BX241`: False
+- `BY241`: False
+- `CD241`: Melhoria de Contr(Prec/acert)
+- `CI241`: False
+- `T242`: Persuasão
+- `W242`: PRE
+- `AB242`: False
+- `AC242`: False
+- `AH242`: Melhoria de Contr(Prec/CD)
+- `AM242`: False
+- `AR242`: Persuasão
+- `AU242`: PRE
+- `AZ242`: False
+- `BA242`: False
+- `BF242`: Melhoria de Contr(Prec/CD)
+- `BK242`: False
+- `BP242`: Persuasão
+- `BS242`: PRE
+- `BX242`: False
+- `BY242`: False
+- `CD242`: Melhoria de Contr(Prec/CD)
+- `CI242`: False
+- `T243`: Enganação
+- `W243`: PRE
+- `AB243`: False
+- `AC243`: False
+- `AH243`: Concentrar Poder
+- `AM243`: False
+- `AR243`: Enganação
+- `AU243`: PRE
+- `AZ243`: False
+- `BA243`: False
+- `BF243`: Concentrar Poder
+- `BK243`: False
+- `BP243`: Enganação
+- `BS243`: PRE
+- `BX243`: False
+- `BY243`: False
+- `CD243`: Concentrar Poder
+- `CI243`: False
+- `T244`: Intimidação
+- `W244`: PRE
+- `AB244`: False
+- `AC244`: False
+- `AH244`: Resistência Sobrecarregada
+- `AM244`: False
+- `AR244`: Intimidação
+- `AU244`: PRE
+- `AZ244`: False
+- `BA244`: False
+- `BF244`: Resistência Sobrecarregada
+- `BK244`: False
+- `BP244`: Intimidação
+- `BS244`: PRE
+- `BX244`: False
+- `BY244`: False
+- `CD244`: Resistência Sobrecarregada
+- `CI244`: False
+- `T245`: Performance
+- `W245`: PRE
+- `AB245`: False
+- `AC245`: False
+- `AH245`: Fantoche Supremo
+- `AM245`: False
+- `AR245`: Performance
+- `AU245`: PRE
+- `AZ245`: False
+- `BA245`: False
+- `BF245`: Fantoche Supremo
+- `BK245`: False
+- `BP245`: Performance
+- `BS245`: PRE
+- `BX245`: False
+- `BY245`: False
+- `CD245`: Fantoche Supremo
+- `CI245`: False
+- `T248`: Nome:
+- `X248`: Invocação 10
+- `AG248`: Custo:
+- `AJ248`: XX
+- `AL248`: Pontos de Energia
+- `AR248`: Nome:
+- `AV248`: Invocação 11
+- `BE248`: Custo:
+- `BH248`: XX
+- `BJ248`: Pontos de Energia
+- `BP248`: Nome:
+- `BT248`: Invocação 12
+- `CC248`: Custo:
+- `CF248`: XX
+- `CH248`: Pontos de Energia
+- `T262`: Grau da Invocação
+- `AR262`: Grau da Invocação
+- `BP262`: Grau da Invocação
+- `T263`: Quarto Grau
+- `AR263`: Quarto Grau
+- `BP263`: Quarto Grau
+- `Z265`: 0.0
+- `AC265`: 0.0
+- `AF265`: 0.0
+- `AI265`: 0.0
+- `AL265`: 0.0
+- `AX265`: 0.0
+- `BA265`: 0.0
+- `BD265`: 0.0
+- `BG265`: 0.0
+- `BJ265`: 0.0
+- `BV265`: 0.0
+- `BY265`: 0.0
+- `CB265`: 0.0
+- `CE265`: 0.0
+- `CH265`: 0.0
+- `T269`: Máximo
+- `W269`: Atuais
+- `Z269`: Vida Temp.
+- `AC269`: Outros
+- `AF269`: Robustez
+- `AI269`: Curado
+- `AL269`: Recebido
+- `AR269`: Máximo
+- `AU269`: Atuais
+- `AX269`: Vida Temp.
+- `BA269`: Outros
+- `BD269`: Robustez
+- `BG269`: Curado
+- `BJ269`: Recebido
+- `BP269`: Máximo
+- `BS269`: Atuais
+- `BV269`: Vida Temp.
+- `BY269`: Outros
+- `CB269`: Robustez
+- `CE269`: Curado
+- `CH269`: Recebido
+- `T270`: Pontos de Vida
+- `AR270`: Pontos de Vida
+- `BP270`: Pontos de Vida
+- `W273`: ADD
+- `AB273`: ADD
+- `AG273`: ADD
+- `AM273`: ADD
+- `AU273`: ADD
+- `AZ273`: ADD
+- `BE273`: ADD
+- `BK273`: ADD
+- `BS273`: ADD
+- `BX273`: ADD
+- `CC273`: ADD
+- `CI273`: ADD
+- `T276`: Defesa
+- `W276`: Retidado
+- `Y276`: Atenção
+- `AB276`: Retidado
+- `AD276`: Iniciativa
+- `AG276`: Retidado
+- `AI276`: Deslocamento
+- `AM276`: Retidado
+- `AR276`: Defesa
+- `AU276`: Retidado
+- `AW276`: Atenção
+- `AZ276`: Retidado
+- `BB276`: Iniciativa
+- `BE276`: Retidado
+- `BG276`: Deslocamento
+- `BK276`: Retidado
+- `BP276`: Defesa
+- `BS276`: Retidado
+- `BU276`: Atenção
+- `BX276`: Retidado
+- `BZ276`: Iniciativa
+- `CC276`: Retidado
+- `CE276`: Deslocamento
+- `CI276`: Retidado
+- `T277`: Derivados
+- `AR277`: Derivados
+- `BP277`: Derivados
+- `T278`: Atributos
+- `AH278`: Classe de Dificuldade
+- `AR278`: Atributos
+- `BF278`: Classe de Dificuldade
+- `BP278`: Atributos
+- `CD278`: Classe de Dificuldade
+- `T279`: Atributo
+- `X279`: Valor
+- `AB279`: Modificador
+- `AR279`: Atributo
+- `AV279`: Valor
+- `AZ279`: Modificador
+- `BP279`: Atributo
+- `BT279`: Valor
+- `BX279`: Modificador
+- `T280`: Força
+- `X280`: 8.0
+- `AH280`: FOR
+- `AR280`: Força
+- `AV280`: 8.0
+- `BF280`: FOR
+- `BP280`: Força
+- `BT280`: 8.0
+- `CD280`: FOR
+- `T281`: Destreza
+- `X281`: 8.0
+- `AR281`: Destreza
+- `AV281`: 8.0
+- `BP281`: Destreza
+- `BT281`: 8.0
+- `T282`: Constituição
+- `X282`: 8.0
+- `AH282`: Reduções de Dano
+- `AR282`: Constituição
+- `AV282`: 8.0
+- `BF282`: Reduções de Dano
+- `BP282`: Constituição
+- `BT282`: 8.0
+- `CD282`: Reduções de Dano
+- `T283`: Inteligência
+- `X283`: 8.0
+- `AR283`: Inteligência
+- `AV283`: 8.0
+- `BP283`: Inteligência
+- `BT283`: 8.0
+- `T284`: Sabedoria
+- `X284`: 8.0
+- `AH284`: RD(Cortante)
+- `AR284`: Sabedoria
+- `AV284`: 8.0
+- `BF284`: RD(Cortante)
+- `BP284`: Sabedoria
+- `BT284`: 8.0
+- `CD284`: RD(Cortante)
+- `T285`: Presença
+- `X285`: 8.0
+- `AH285`: RD(Perfurante)
+- `AR285`: Presença
+- `AV285`: 8.0
+- `BF285`: RD(Perfurante)
+- `BP285`: Presença
+- `BT285`: 8.0
+- `CD285`: RD(Perfurante)
+- `T286`: Ações
+- `AA286`: Características
+- `AH286`: RD(Impacto)
+- `AR286`: Ações
+- `AY286`: Características
+- `BF286`: RD(Impacto)
+- `BP286`: Ações
+- `BW286`: Características
+- `CD286`: RD(Impacto)
+- `AH287`: RD(Queimante)
+- `BF287`: RD(Queimante)
+- `CD287`: RD(Queimante)
+- `AH288`: RD(Congelante)
+- `BF288`: RD(Congelante)
+- `CD288`: RD(Congelante)
+- `AH289`: RD(Chocante)
+- `BF289`: RD(Chocante)
+- `CD289`: RD(Chocante)
+- `AH290`: RD(Sônico)
+- `BF290`: RD(Sônico)
+- `CD290`: RD(Sônico)
+- `AH291`: RD(Ácido)
+- `BF291`: RD(Ácido)
+- `CD291`: RD(Ácido)
+- `AH292`: RD(Radiante)
+- `BF292`: RD(Radiante)
+- `CD292`: RD(Radiante)
+- `AH293`: RD(Energético)
+- `BF293`: RD(Energético)
+- `CD293`: RD(Energético)
+- `AH294`: RD(Psíquico)
+- `BF294`: RD(Psíquico)
+- `CD294`: RD(Psíquico)
+- `AH295`: RD(Necrótico)
+- `BF295`: RD(Necrótico)
+- `CD295`: RD(Necrótico)
+- `AH296`: RD(Venenoso)
+- `BF296`: RD(Venenoso)
+- `CD296`: RD(Venenoso)
+- `T297`: Acerto
+- `AH297`: RD(Alma)
+- `AR297`: Acerto
+- `BF297`: RD(Alma)
+- `BP297`: Acerto
+- `CD297`: RD(Alma)
+- `T298`: Nome
+- `W298`: Atributo
+- `Y298`: Outros
+- `AB298`: Tr.
+- `AC298`: Ms.
+- `AD298`: Total
+- `AH298`: Resistências
+- `AR298`: Nome
+- `AU298`: Atributo
+- `AW298`: Outros
+- `AZ298`: Tr.
+- `BA298`: Ms.
+- `BB298`: Total
+- `BF298`: Resistências
+- `BP298`: Nome
+- `BS298`: Atributo
+- `BU298`: Outros
+- `BX298`: Tr.
+- `BY298`: Ms.
+- `BZ298`: Total
+- `CD298`: Resistências
+- `T299`: Corpo-a-corpo
+- `W299`: FOR
+- `AB299`: False
+- `AR299`: Corpo-a-corpo
+- `AU299`: FOR
+- `AZ299`: False
+- `BP299`: Corpo-a-corpo
+- `BS299`: FOR
+- `BX299`: False
+- `T300`: Distância
+- `W300`: DEX
+- `AB300`: False
+- `AH300`: RD(Cortante)
+- `AM300`: False
+- `AR300`: Distância
+- `AU300`: DEX
+- `AZ300`: False
+- `BF300`: RD(Cortante)
+- `BK300`: False
+- `BP300`: Distância
+- `BS300`: DEX
+- `BX300`: False
+- `CD300`: RD(Cortante)
+- `CI300`: False
+- `T301`: Salvaguardas
+- `AH301`: RD(Perfurante)
+- `AM301`: False
+- `AR301`: Salvaguardas
+- `BF301`: RD(Perfurante)
+- `BK301`: False
+- `BP301`: Salvaguardas
+- `CD301`: RD(Perfurante)
+- `CI301`: False
+- `T302`: Reflexo
+- `W302`: DEX
+- `AB302`: False
+- `AC302`: False
+- `AH302`: RD(Impacto)
+- `AM302`: False
+- `AR302`: Reflexo
+- `AU302`: DEX
+- `AZ302`: False
+- `BA302`: False
+- `BF302`: RD(Impacto)
+- `BK302`: False
+- `BP302`: Reflexo
+- `BS302`: DEX
+- `BX302`: False
+- `BY302`: False
+- `CD302`: RD(Impacto)
+- `CI302`: False
+- `T303`: Fortitude
+- `W303`: CON
+- `AB303`: False
+- `AC303`: False
+- `AH303`: RD(Queimante)
+- `AM303`: False
+- `AR303`: Fortitude
+- `AU303`: CON
+- `AZ303`: False
+- `BA303`: False
+- `BF303`: RD(Queimante)
+- `BK303`: False
+- `BP303`: Fortitude
+- `BS303`: CON
+- `BX303`: False
+- `BY303`: False
+- `CD303`: RD(Queimante)
+- `CI303`: False
+- `T304`: Integridade
+- `W304`: CON
+- `AB304`: False
+- `AC304`: False
+- `AH304`: RD(Congelante)
+- `AM304`: False
+- `AR304`: Integridade
+- `AU304`: CON
+- `AZ304`: False
+- `BA304`: False
+- `BF304`: RD(Congelante)
+- `BK304`: False
+- `BP304`: Integridade
+- `BS304`: CON
+- `BX304`: False
+- `BY304`: False
+- `CD304`: RD(Congelante)
+- `CI304`: False
+- `T305`: Vontade
+- `W305`: SAB
+- `AB305`: False
+- `AC305`: False
+- `AH305`: RD(Chocante)
+- `AM305`: False
+- `AR305`: Vontade
+- `AU305`: SAB
+- `AZ305`: False
+- `BA305`: False
+- `BF305`: RD(Chocante)
+- `BK305`: False
+- `BP305`: Vontade
+- `BS305`: SAB
+- `BX305`: False
+- `BY305`: False
+- `CD305`: RD(Chocante)
+- `CI305`: False
+- `T306`: Astúcia
+- `W306`: INT
+- `AB306`: False
+- `AC306`: False
+- `AH306`: RD(Sônico)
+- `AM306`: False
+- `AR306`: Astúcia
+- `AU306`: INT
+- `AZ306`: False
+- `BA306`: False
+- `BF306`: RD(Sônico)
+- `BK306`: False
+- `BP306`: Astúcia
+- `BS306`: INT
+- `BX306`: False
+- `BY306`: False
+- `CD306`: RD(Sônico)
+- `CI306`: False
+- `T307`: Perícias
+- `AH307`: RD(Energético)
+- `AM307`: False
+- `AR307`: Perícias
+- `BF307`: RD(Energético)
+- `BK307`: False
+- `BP307`: Perícias
+- `CD307`: RD(Energético)
+- `CI307`: False
+- `T308`: Atletismo
+- `W308`: FOR
+- `AB308`: False
+- `AC308`: False
+- `AH308`: RD(Psíquico)
+- `AM308`: False
+- `AR308`: Atletismo
+- `AU308`: FOR
+- `AZ308`: False
+- `BA308`: False
+- `BF308`: RD(Psíquico)
+- `BK308`: False
+- `BP308`: Atletismo
+- `BS308`: FOR
+- `BX308`: False
+- `BY308`: False
+- `CD308`: RD(Psíquico)
+- `CI308`: False
+- `T309`: Acrobacia
+- `W309`: DEX
+- `AB309`: False
+- `AC309`: False
+- `AH309`: RD(Radiante)
+- `AM309`: False
+- `AR309`: Acrobacia
+- `AU309`: DEX
+- `AZ309`: False
+- `BA309`: False
+- `BF309`: RD(Radiante)
+- `BK309`: False
+- `BP309`: Acrobacia
+- `BS309`: DEX
+- `BX309`: False
+- `BY309`: False
+- `CD309`: RD(Radiante)
+- `CI309`: False
+- `T310`: Furtividade
+- `W310`: DEX
+- `AB310`: False
+- `AC310`: False
+- `AH310`: RD(Alma)
+- `AM310`: False
+- `AR310`: Furtividade
+- `AU310`: DEX
+- `AZ310`: False
+- `BA310`: False
+- `BF310`: RD(Alma)
+- `BK310`: False
+- `BP310`: Furtividade
+- `BS310`: DEX
+- `BX310`: False
+- `BY310`: False
+- `CD310`: RD(Alma)
+- `CI310`: False
+- `T311`: Prestidigitação
+- `W311`: DEX
+- `AB311`: False
+- `AC311`: False
+- `AH311`: RD(Energia Reversa)
+- `AM311`: False
+- `AR311`: Prestidigitação
+- `AU311`: DEX
+- `AZ311`: False
+- `BA311`: False
+- `BF311`: RD(Energia Reversa)
+- `BK311`: False
+- `BP311`: Prestidigitação
+- `BS311`: DEX
+- `BX311`: False
+- `BY311`: False
+- `CD311`: RD(Energia Reversa)
+- `CI311`: False
+- `T312`: Direção
+- `W312`: SAB
+- `AB312`: False
+- `AC312`: False
+- `AH312`: RD(Venenoso)
+- `AM312`: False
+- `AR312`: Direção
+- `AU312`: SAB
+- `AZ312`: False
+- `BA312`: False
+- `BF312`: RD(Venenoso)
+- `BK312`: False
+- `BP312`: Direção
+- `BS312`: SAB
+- `BX312`: False
+- `BY312`: False
+- `CD312`: RD(Venenoso)
+- `CI312`: False
+- `T313`: Intuição
+- `W313`: SAB
+- `AB313`: False
+- `AC313`: False
+- `AH313`: RD(Necrótico)
+- `AM313`: False
+- `AR313`: Intuição
+- `AU313`: SAB
+- `AZ313`: False
+- `BA313`: False
+- `BF313`: RD(Necrótico)
+- `BK313`: False
+- `BP313`: Intuição
+- `BS313`: SAB
+- `BX313`: False
+- `BY313`: False
+- `CD313`: RD(Necrótico)
+- `CI313`: False
+- `T314`: Medicina
+- `W314`: SAB
+- `AB314`: False
+- `AC314`: False
+- `AH314`: Configuração de Shikigami
+- `AR314`: Medicina
+- `AU314`: SAB
+- `AZ314`: False
+- `BA314`: False
+- `BF314`: Configuração de Shikigami
+- `BP314`: Medicina
+- `BS314`: SAB
+- `BX314`: False
+- `BY314`: False
+- `CD314`: Configuração de Shikigami
+- `T315`: Percepção
+- `W315`: SAB
+- `AB315`: False
+- `AC315`: False
+- `AH315`: Controle Aprimorado
+- `AM315`: False
+- `AR315`: Percepção
+- `AU315`: SAB
+- `AZ315`: False
+- `BA315`: False
+- `BF315`: Controle Aprimorado
+- `BK315`: False
+- `BP315`: Percepção
+- `BS315`: SAB
+- `BX315`: False
+- `BY315`: False
+- `CD315`: Controle Aprimorado
+- `CI315`: False
+- `T316`: Ocultismo
+- `W316`: SAB
+- `AB316`: False
+- `AC316`: False
+- `AH316`: Frenesi da Invocação
+- `AM316`: False
+- `AR316`: Ocultismo
+- `AU316`: SAB
+- `AZ316`: False
+- `BA316`: False
+- `BF316`: Frenesi da Invocação
+- `BK316`: False
+- `BP316`: Ocultismo
+- `BS316`: SAB
+- `BX316`: False
+- `BY316`: False
+- `CD316`: Frenesi da Invocação
+- `CI316`: False
+- `T317`: Sobrevivência
+- `W317`: SAB
+- `AB317`: False
+- `AC317`: False
+- `AH317`: Invocações Móveis
+- `AM317`: False
+- `AR317`: Sobrevivência
+- `AU317`: SAB
+- `AZ317`: False
+- `BA317`: False
+- `BF317`: Invocações Móveis
+- `BK317`: False
+- `BP317`: Sobrevivência
+- `BS317`: SAB
+- `BX317`: False
+- `BY317`: False
+- `CD317`: Invocações Móveis
+- `CI317`: False
+- `T318`: Investigação
+- `W318`: INT
+- `AB318`: False
+- `AC318`: False
+- `AH318`: Invocações Resistêntes
+- `AM318`: False
+- `AR318`: Investigação
+- `AU318`: INT
+- `AZ318`: False
+- `BA318`: False
+- `BF318`: Invocações Resistêntes
+- `BK318`: False
+- `BP318`: Investigação
+- `BS318`: INT
+- `BX318`: False
+- `BY318`: False
+- `CD318`: Invocações Resistêntes
+- `CI318`: False
+- `T319`: História
+- `W319`: INT
+- `AB319`: False
+- `AC319`: False
+- `AH319`: Melhoria de Contr(Agres)
+- `AR319`: História
+- `AU319`: INT
+- `AZ319`: False
+- `BA319`: False
+- `BF319`: Melhoria de Contr(Agres)
+- `BP319`: História
+- `BS319`: INT
+- `BX319`: False
+- `BY319`: False
+- `CD319`: Melhoria de Contr(Agres)
+- `T320`: Feitiçaria
+- `W320`: INT
+- `AB320`: False
+- `AC320`: False
+- `AH320`: Melhoria de Contr(Resist)
+- `AM320`: False
+- `AR320`: Feitiçaria
+- `AU320`: INT
+- `AZ320`: False
+- `BA320`: False
+- `BF320`: Melhoria de Contr(Resist)
+- `BK320`: False
+- `BP320`: Feitiçaria
+- `BS320`: INT
+- `BX320`: False
+- `BY320`: False
+- `CD320`: Melhoria de Contr(Resist)
+- `CI320`: False
+- `T321`: Teologia
+- `W321`: INT
+- `AB321`: False
+- `AC321`: False
+- `AH321`: Melhoria de Contr(mobili)
+- `AM321`: False
+- `AR321`: Teologia
+- `AU321`: INT
+- `AZ321`: False
+- `BA321`: False
+- `BF321`: Melhoria de Contr(mobili)
+- `BK321`: False
+- `BP321`: Teologia
+- `BS321`: INT
+- `BX321`: False
+- `BY321`: False
+- `CD321`: Melhoria de Contr(mobili)
+- `CI321`: False
+- `T322`: Tecnologia
+- `W322`: INT
+- `AB322`: False
+- `AC322`: False
+- `AH322`: Melhoria de Contr(Prec/acert)
+- `AM322`: False
+- `AR322`: Tecnologia
+- `AU322`: INT
+- `AZ322`: False
+- `BA322`: False
+- `BF322`: Melhoria de Contr(Prec/acert)
+- `BK322`: False
+- `BP322`: Tecnologia
+- `BS322`: INT
+- `BX322`: False
+- `BY322`: False
+- `CD322`: Melhoria de Contr(Prec/acert)
+- `CI322`: False
+- `T323`: Persuasão
+- `W323`: PRE
+- `AB323`: False
+- `AC323`: False
+- `AH323`: Melhoria de Contr(Prec/CD)
+- `AM323`: False
+- `AR323`: Persuasão
+- `AU323`: PRE
+- `AZ323`: False
+- `BA323`: False
+- `BF323`: Melhoria de Contr(Prec/CD)
+- `BK323`: False
+- `BP323`: Persuasão
+- `BS323`: PRE
+- `BX323`: False
+- `BY323`: False
+- `CD323`: Melhoria de Contr(Prec/CD)
+- `CI323`: False
+- `T324`: Enganação
+- `W324`: PRE
+- `AB324`: False
+- `AC324`: False
+- `AH324`: Concentrar Poder
+- `AM324`: False
+- `AR324`: Enganação
+- `AU324`: PRE
+- `AZ324`: False
+- `BA324`: False
+- `BF324`: Concentrar Poder
+- `BK324`: False
+- `BP324`: Enganação
+- `BS324`: PRE
+- `BX324`: False
+- `BY324`: False
+- `CD324`: Concentrar Poder
+- `CI324`: False
+- `T325`: Intimidação
+- `W325`: PRE
+- `AB325`: False
+- `AC325`: False
+- `AH325`: Resistência Sobrecarregada
+- `AM325`: False
+- `AR325`: Intimidação
+- `AU325`: PRE
+- `AZ325`: False
+- `BA325`: False
+- `BF325`: Resistência Sobrecarregada
+- `BK325`: False
+- `BP325`: Intimidação
+- `BS325`: PRE
+- `BX325`: False
+- `BY325`: False
+- `CD325`: Resistência Sobrecarregada
+- `CI325`: False
+- `T326`: Performance
+- `W326`: PRE
+- `AB326`: False
+- `AC326`: False
+- `AH326`: Fantoche Supremo
+- `AM326`: False
+- `AR326`: Performance
+- `AU326`: PRE
+- `AZ326`: False
+- `BA326`: False
+- `BF326`: Fantoche Supremo
+- `BK326`: False
+- `BP326`: Performance
+- `BS326`: PRE
+- `BX326`: False
+- `BY326`: False
+- `CD326`: Fantoche Supremo
+- `CI326`: False
+- `T329`: Nome:
+- `X329`: Invocação 13
+- `AG329`: Custo:
+- `AJ329`: XX
+- `AL329`: Pontos de Energia
+- `AR329`: Nome:
+- `AV329`: Invocação 14
+- `BE329`: Custo:
+- `BH329`: XX
+- `BJ329`: Pontos de Energia
+- `T343`: Grau da Invocação
+- `AR343`: Grau da Invocação
+- `T344`: Quarto Grau
+- `AR344`: Quarto Grau
+- `Z346`: 0.0
+- `AC346`: 0.0
+- `AF346`: 0.0
+- `AI346`: 0.0
+- `AL346`: 0.0
+- `AX346`: 0.0
+- `BA346`: 0.0
+- `BD346`: 0.0
+- `BG346`: 0.0
+- `BJ346`: 0.0
+- `T350`: Máximo
+- `W350`: Atuais
+- `Z350`: Vida Temp.
+- `AC350`: Outros
+- `AF350`: Robustez
+- `AI350`: Curado
+- `AL350`: Recebido
+- `AR350`: Máximo
+- `AU350`: Atuais
+- `AX350`: Vida Temp.
+- `BA350`: Outros
+- `BD350`: Robustez
+- `BG350`: Curado
+- `BJ350`: Recebido
+- `T351`: Pontos de Vida
+- `AR351`: Pontos de Vida
+- `W354`: ADD
+- `AB354`: ADD
+- `AG354`: ADD
+- `AM354`: ADD
+- `AU354`: ADD
+- `AZ354`: ADD
+- `BE354`: ADD
+- `BK354`: ADD
+- `T357`: Defesa
+- `W357`: Retidado
+- `Y357`: Atenção
+- `AB357`: Retidado
+- `AD357`: Iniciativa
+- `AG357`: Retidado
+- `AI357`: Deslocamento
+- `AM357`: Retidado
+- `AR357`: Defesa
+- `AU357`: Retidado
+- `AW357`: Atenção
+- `AZ357`: Retidado
+- `BB357`: Iniciativa
+- `BE357`: Retidado
+- `BG357`: Deslocamento
+- `BK357`: Retidado
+- `T358`: Derivados
+- `AR358`: Derivados
+- `T359`: Atributos
+- `AH359`: Classe de Dificuldade
+- `AR359`: Atributos
+- `BF359`: Classe de Dificuldade
+- `T360`: Atributo
+- `X360`: Valor
+- `AB360`: Modificador
+- `AR360`: Atributo
+- `AV360`: Valor
+- `AZ360`: Modificador
+- `T361`: Força
+- `X361`: 8.0
+- `AH361`: SAB
+- `AR361`: Força
+- `AV361`: 8.0
+- `BF361`: SAB
+- `T362`: Destreza
+- `X362`: 8.0
+- `AR362`: Destreza
+- `AV362`: 8.0
+- `T363`: Constituição
+- `X363`: 8.0
+- `AH363`: Reduções de Dano
+- `AR363`: Constituição
+- `AV363`: 8.0
+- `BF363`: Reduções de Dano
+- `T364`: Inteligência
+- `X364`: 8.0
+- `AR364`: Inteligência
+- `AV364`: 8.0
+- `T365`: Sabedoria
+- `X365`: 8.0
+- `AH365`: RD(Cortante)
+- `AR365`: Sabedoria
+- `AV365`: 8.0
+- `BF365`: RD(Cortante)
+- `T366`: Presença
+- `X366`: 8.0
+- `AH366`: RD(Perfurante)
+- `AR366`: Presença
+- `AV366`: 8.0
+- `BF366`: RD(Perfurante)
+- `T367`: Ações
+- `AA367`: Características
+- `AH367`: RD(Impacto)
+- `AR367`: Ações
+- `AY367`: Características
+- `BF367`: RD(Impacto)
+- `AH368`: RD(Queimante)
+- `BF368`: RD(Queimante)
+- `AH369`: RD(Congelante)
+- `BF369`: RD(Congelante)
+- `AH370`: RD(Chocante)
+- `BF370`: RD(Chocante)
+- `AH371`: RD(Sônico)
+- `BF371`: RD(Sônico)
+- `AH372`: RD(Ácido)
+- `BF372`: RD(Ácido)
+- `AH373`: RD(Radiante)
+- `BF373`: RD(Radiante)
+- `AH374`: RD(Energético)
+- `BF374`: RD(Energético)
+- `AH375`: RD(Psíquico)
+- `BF375`: RD(Psíquico)
+- `AH376`: RD(Necrótico)
+- `BF376`: RD(Necrótico)
+- `AH377`: RD(Venenoso)
+- `BF377`: RD(Venenoso)
+- `T378`: Acerto
+- `AH378`: RD(Alma)
+- `AR378`: Acerto
+- `BF378`: RD(Alma)
+- `T379`: Nome
+- `W379`: Atributo
+- `Y379`: Outros
+- `AB379`: Tr.
+- `AC379`: Ms.
+- `AD379`: Total
+- `AH379`: Resistências
+- `AR379`: Nome
+- `AU379`: Atributo
+- `AW379`: Outros
+- `AZ379`: Tr.
+- `BA379`: Ms.
+- `BB379`: Total
+- `BF379`: Resistências
+- `T380`: Corpo-a-corpo
+- `W380`: FOR
+- `AB380`: False
+- `AR380`: Corpo-a-corpo
+- `AU380`: FOR
+- `AZ380`: False
+- `T381`: Distância
+- `W381`: DEX
+- `AB381`: True
+- `AH381`: RD(Cortante)
+- `AM381`: False
+- `AR381`: Distância
+- `AU381`: DEX
+- `AZ381`: True
+- `BF381`: RD(Cortante)
+- `BK381`: False
+- `T382`: Salvaguardas
+- `AH382`: RD(Perfurante)
+- `AM382`: False
+- `AR382`: Salvaguardas
+- `BF382`: RD(Perfurante)
+- `BK382`: False
+- `T383`: Reflexo
+- `W383`: DEX
+- `AB383`: False
+- `AC383`: False
+- `AH383`: RD(Impacto)
+- `AM383`: False
+- `AR383`: Reflexo
+- `AU383`: DEX
+- `AZ383`: False
+- `BA383`: False
+- `BF383`: RD(Impacto)
+- `BK383`: False
+- `T384`: Fortitude
+- `W384`: CON
+- `AB384`: False
+- `AC384`: False
+- `AH384`: RD(Queimante)
+- `AM384`: False
+- `AR384`: Fortitude
+- `AU384`: CON
+- `AZ384`: False
+- `BA384`: False
+- `BF384`: RD(Queimante)
+- `BK384`: False
+- `T385`: Integridade
+- `W385`: CON
+- `AB385`: False
+- `AC385`: False
+- `AH385`: RD(Congelante)
+- `AM385`: False
+- `AR385`: Integridade
+- `AU385`: CON
+- `AZ385`: False
+- `BA385`: False
+- `BF385`: RD(Congelante)
+- `BK385`: False
+- `T386`: Vontade
+- `W386`: SAB
+- `AB386`: True
+- `AC386`: False
+- `AH386`: RD(Chocante)
+- `AM386`: False
+- `AR386`: Vontade
+- `AU386`: SAB
+- `AZ386`: True
+- `BA386`: False
+- `BF386`: RD(Chocante)
+- `BK386`: False
+- `T387`: Astúcia
+- `W387`: INT
+- `AB387`: False
+- `AC387`: False
+- `AH387`: RD(Sônico)
+- `AM387`: False
+- `AR387`: Astúcia
+- `AU387`: INT
+- `AZ387`: False
+- `BA387`: False
+- `BF387`: RD(Sônico)
+- `BK387`: False
+- `T388`: Perícias
+- `AH388`: RD(Energético)
+- `AM388`: False
+- `AR388`: Perícias
+- `BF388`: RD(Energético)
+- `BK388`: False
+- `T389`: Atletismo
+- `W389`: FOR
+- `AB389`: False
+- `AC389`: False
+- `AH389`: RD(Psíquico)
+- `AM389`: False
+- `AR389`: Atletismo
+- `AU389`: FOR
+- `AZ389`: False
+- `BA389`: False
+- `BF389`: RD(Psíquico)
+- `BK389`: False
+- `T390`: Acrobacia
+- `W390`: DEX
+- `AB390`: False
+- `AC390`: False
+- `AH390`: RD(Radiante)
+- `AM390`: False
+- `AR390`: Acrobacia
+- `AU390`: DEX
+- `AZ390`: False
+- `BA390`: False
+- `BF390`: RD(Radiante)
+- `BK390`: False
+- `T391`: Furtividade
+- `W391`: DEX
+- `AB391`: False
+- `AC391`: False
+- `AH391`: RD(Alma)
+- `AM391`: False
+- `AR391`: Furtividade
+- `AU391`: DEX
+- `AZ391`: False
+- `BA391`: False
+- `BF391`: RD(Alma)
+- `BK391`: False
+- `T392`: Prestidigitação
+- `W392`: DEX
+- `AB392`: False
+- `AC392`: False
+- `AH392`: RD(Energia Reversa)
+- `AM392`: False
+- `AR392`: Prestidigitação
+- `AU392`: DEX
+- `AZ392`: False
+- `BA392`: False
+- `BF392`: RD(Energia Reversa)
+- `BK392`: False
+- `T393`: Direção
+- `W393`: SAB
+- `AB393`: False
+- `AC393`: False
+- `AH393`: RD(Venenoso)
+- `AM393`: False
+- `AR393`: Direção
+- `AU393`: SAB
+- `AZ393`: False
+- `BA393`: False
+- `BF393`: RD(Venenoso)
+- `BK393`: False
+- `T394`: Intuição
+- `W394`: SAB
+- `AB394`: False
+- `AC394`: False
+- `AH394`: RD(Necrótico)
+- `AM394`: False
+- `AR394`: Intuição
+- `AU394`: SAB
+- `AZ394`: False
+- `BA394`: False
+- `BF394`: RD(Necrótico)
+- `BK394`: False
+- `T395`: Medicina
+- `W395`: SAB
+- `AB395`: False
+- `AC395`: False
+- `AH395`: Configuração de Shikigami
+- `AR395`: Medicina
+- `AU395`: SAB
+- `AZ395`: False
+- `BA395`: False
+- `BF395`: Configuração de Shikigami
+- `T396`: Percepção
+- `W396`: SAB
+- `AB396`: False
+- `AC396`: False
+- `AH396`: Controle Aprimorado
+- `AM396`: True
+- `AR396`: Percepção
+- `AU396`: SAB
+- `AZ396`: False
+- `BA396`: False
+- `BF396`: Controle Aprimorado
+- `BK396`: True
+- `T397`: Ocultismo
+- `W397`: SAB
+- `AB397`: False
+- `AC397`: False
+- `AH397`: Frenesi da Invocação
+- `AM397`: False
+- `AR397`: Ocultismo
+- `AU397`: SAB
+- `AZ397`: False
+- `BA397`: False
+- `BF397`: Frenesi da Invocação
+- `BK397`: False
+- `T398`: Sobrevivência
+- `W398`: SAB
+- `AB398`: False
+- `AC398`: False
+- `AH398`: Invocações Móveis
+- `AM398`: False
+- `AR398`: Sobrevivência
+- `AU398`: SAB
+- `AZ398`: False
+- `BA398`: False
+- `BF398`: Invocações Móveis
+- `BK398`: False
+- `T399`: Investigação
+- `W399`: INT
+- `AB399`: False
+- `AC399`: False
+- `AH399`: Invocações Resistêntes
+- `AM399`: True
+- `AR399`: Investigação
+- `AU399`: INT
+- `AZ399`: False
+- `BA399`: False
+- `BF399`: Invocações Resistêntes
+- `BK399`: True
+- `T400`: História
+- `W400`: INT
+- `AB400`: False
+- `AC400`: False
+- `AH400`: Melhoria de Contr(Agres)
+- `AR400`: História
+- `AU400`: INT
+- `AZ400`: False
+- `BA400`: False
+- `BF400`: Melhoria de Contr(Agres)
+- `T401`: Feitiçaria
+- `W401`: INT
+- `AB401`: False
+- `AC401`: False
+- `AH401`: Melhoria de Contr(Resist)
+- `AM401`: False
+- `AR401`: Feitiçaria
+- `AU401`: INT
+- `AZ401`: False
+- `BA401`: False
+- `BF401`: Melhoria de Contr(Resist)
+- `BK401`: False
+- `T402`: Teologia
+- `W402`: INT
+- `AB402`: False
+- `AC402`: False
+- `AH402`: Melhoria de Contr(mobili)
+- `AM402`: False
+- `AR402`: Teologia
+- `AU402`: INT
+- `AZ402`: False
+- `BA402`: False
+- `BF402`: Melhoria de Contr(mobili)
+- `BK402`: False
+- `T403`: Tecnologia
+- `W403`: INT
+- `AB403`: False
+- `AC403`: False
+- `AH403`: Melhoria de Contr(Prec/acert)
+- `AM403`: False
+- `AR403`: Tecnologia
+- `AU403`: INT
+- `AZ403`: False
+- `BA403`: False
+- `BF403`: Melhoria de Contr(Prec/acert)
+- `BK403`: False
+- `T404`: Persuasão
+- `W404`: PRE
+- `AB404`: False
+- `AC404`: False
+- `AH404`: Melhoria de Contr(Prec/CD)
+- `AM404`: False
+- `AR404`: Persuasão
+- `AU404`: PRE
+- `AZ404`: False
+- `BA404`: False
+- `BF404`: Melhoria de Contr(Prec/CD)
+- `BK404`: False
+- `T405`: Enganação
+- `W405`: PRE
+- `AB405`: False
+- `AC405`: False
+- `AH405`: Concentrar Poder
+- `AM405`: False
+- `AR405`: Enganação
+- `AU405`: PRE
+- `AZ405`: False
+- `BA405`: False
+- `BF405`: Concentrar Poder
+- `BK405`: False
+- `T406`: Intimidação
+- `W406`: PRE
+- `AB406`: False
+- `AC406`: False
+- `AH406`: Resistência Sobrecarregada
+- `AM406`: False
+- `AR406`: Intimidação
+- `AU406`: PRE
+- `AZ406`: False
+- `BA406`: False
+- `BF406`: Resistência Sobrecarregada
+- `BK406`: False
+- `T407`: Performance
+- `W407`: PRE
+- `AB407`: False
+- `AC407`: False
+- `AH407`: Fantoche Supremo
+- `AM407`: False
+- `AR407`: Performance
+- `AU407`: PRE
+- `AZ407`: False
+- `BA407`: False
+- `BF407`: Fantoche Supremo
+- `BK407`: False
+
+### Fórmulas
+
+- `AJ5`: `=IF(T20="Quarto Grau",2,IF(T20="Terceiro Grau",4,IF(T20="Segundo Grau",6,IF(T20="Primeiro Grau",8,IF(T20="Grau Especial",12)))))`
+- `H8`: `=ROUNDDOWN(10+'Ficha Pessoal'!V3,0)`
+- `P8`: `=ROUNDDOWN(10+'Ficha Pessoal'!V4,0)`
+- `H9`: `=ROUNDDOWN(25+'Ficha Pessoal'!V3,0)`
+- `P9`: `=ROUNDDOWN(12+'Ficha Pessoal'!V4,0)`
+- `H10`: `=ROUNDDOWN(40+'Ficha Pessoal'!V3,0)`
+- `P10`: `=ROUNDDOWN(16+'Ficha Pessoal'!V4,0)`
+- `H11`: `=ROUNDDOWN(60+('Ficha Pessoal'!V3*1.5),0)`
+- `P11`: `=ROUNDDOWN(20+'Ficha Pessoal'!V4,0)`
+- `H12`: `=ROUNDDOWN(80+('Ficha Pessoal'!V3*2),0)`
+- `P12`: `=ROUNDDOWN(24+'Ficha Pessoal'!V4,0)`
+- `F14`: `=SUM(B14*10)`
+- `T22`: `=SUM(AF22+AC22+IF(T20="Quarto Grau",H8+(X39/2),IF(T20="Terceiro Grau",H9+(X39/2),IF(T20="Segundo Grau",H10+X39,IF(T20="Primeiro Grau",H11+X39,IF(T20="Grau Especial",H12+X39))))))+IF(AM75=TRUE,(IF('Ficha Pessoal'!V4=2,10,IF('Ficha Pessoal'!V4=3,15,IF('Ficha Pessoal'!V4=4,20,IF('Ficha Pessoal'!V4=5,25,IF('Ficha Pessoal'!V4=6,30)))))))+IF(AM81=TRUE,(IF('Ficha Pessoal'!V3<=5,5,IF('Ficha Pessoal'!V3<=11,10,IF('Ficha Pessoal'!V3<=17,20,IF('Ficha Pessoal'!V3>=18,30))))))+IF(AM82=TRUE,F14)+IF(AM83=TRUE,'Ficha Pessoal'!V4*5)`
+- `W22`: `=SUM(T22+Z22+AI22-AL22)`
+- `AR22`: `=SUM(BA22+BD22+IF(AR20="Quarto Grau",H8+(AV39/2),IF(AR20="Terceiro Grau",H9+(AV39/2),IF(AR20="Segundo Grau",H10+AV39,IF(AR20="Primeiro Grau",H11+AV39,IF(AR20="Grau Especial",H12+AV39))))))+IF(BK75=TRUE,(IF('Ficha Pessoal'!V4=2,10,IF('Ficha Pessoal'!V4=3,15,IF('Ficha Pessoal'!V4=4,20,IF('Ficha Pessoal'!V4=5,25,IF('Ficha Pessoal'!V4=6,30)))))))+IF(BK81=TRUE,(IF('Ficha Pessoal'!V3<=5,5,IF('Ficha Pessoal'!V3<=11,10,IF('Ficha Pessoal'!V3<=17,20,IF('Ficha Pessoal'!V3>=18,30))))))+IF(BK82=TRUE,F14)+IF(BK83=TRUE,'Ficha Pessoal'!V4*5)`
+- `AU22`: `=SUM(AR22+AX22+BG22-BJ22)`
+- `BP22`: `=SUM(BY22+CB22+IF(BP20="Quarto Grau",H8+(BT39/2),IF(BP20="Terceiro Grau",H9+(BT39/2),IF(BP20="Segundo Grau",H10+BT39,IF(BP20="Primeiro Grau",H11+BT39,IF(BP20="Grau Especial",H12+BT39))))))+IF(CI75=TRUE,(IF('Ficha Pessoal'!V4=2,10,IF('Ficha Pessoal'!V4=3,15,IF('Ficha Pessoal'!V4=4,20,IF('Ficha Pessoal'!V4=5,25,IF('Ficha Pessoal'!V4=6,30)))))))+IF(CI81=TRUE,(IF('Ficha Pessoal'!V3<=5,5,IF('Ficha Pessoal'!V3<=11,10,IF('Ficha Pessoal'!V3<=17,20,IF('Ficha Pessoal'!V3>=18,30))))))+IF(CI82=TRUE,AD14)+IF(CI83=TRUE,'Ficha Pessoal'!V4*5)`
+- `BS22`: `=SUM(BP22+BV22+CE22-CH22)`
+- `T28`: `=SUM(W28-W31+IF(T20="Quarto Grau",P8+AB38,IF(T20="Terceiro Grau",P9+AB38,IF(T20="Segundo Grau",P10+AB38,IF(T20="Primeiro Grau",P11+AB38,IF(T20="Grau Especial",P12+AB38))))))-IF(AM73=TRUE,5)+IF(AM77=TRUE,(IF('Ficha Pessoal'!V3<=7,2,IF('Ficha Pessoal'!V3<=17,3,IF('Ficha Pessoal'!V3>=18,5)))))+IF(AM81=TRUE,(IF('Ficha Pessoal'!V3<=5,1,IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3<=17,3,IF('Ficha Pessoal'!V3>=18,5))))))+IF(AM83=TRUE,'Ficha Pessoal'!V4*2)`
+- `Y28`: `=SUM(10+AB28+AD72-AB31)`
+- `AD28`: `=SUM(AB38+AG28-AG31)`
+- `AI28`: `=SUM(9+AM28-AM31+IF(AM74=TRUE,(IF('Ficha Pessoal'!V3<=5,1.5,IF('Ficha Pessoal'!V3<=11,3,IF('Ficha Pessoal'!V3<=17,4.5,IF('Ficha Pessoal'!V3>=18,6)))))))+IF(AM78=TRUE,(IF('Ficha Pessoal'!V3<=3,1.5,IF('Ficha Pessoal'!V3<=7,3,IF('Ficha Pessoal'!V3<=11,4.5,IF('Ficha Pessoal'!V3<=15,6,IF('Ficha Pessoal'!V3<=17,7.5,IF('Ficha Pessoal'!V3>=18,9))))))))+IF(AM83=TRUE,4.5)`
+- `AR28`: `=SUM(AU28-AU31+IF(AR20="Quarto Grau",P8+AZ38,IF(AR20="Terceiro Grau",P9+AZ38,IF(AR20="Segundo Grau",P10+AZ38,IF(AR20="Primeiro Grau",P11+AZ38,IF(AR20="Grau Especial",P12+AZ38))))))-IF(BK73=TRUE,5)+IF(BK77=TRUE,(IF('Ficha Pessoal'!V3<=7,2,IF('Ficha Pessoal'!V3<=17,3,IF('Ficha Pessoal'!V3>=18,5)))))+IF(BK81=TRUE,(IF('Ficha Pessoal'!V3<=5,1,IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3<=17,3,IF('Ficha Pessoal'!V3>=18,5))))))+IF(BK83=TRUE,'Ficha Pessoal'!V4*2)`
+- `AW28`: `=SUM(10+AZ28+BB72-AZ31)`
+- `BB28`: `=SUM(AZ38+BE28-BE31)`
+- `BG28`: `=SUM(9+BK28-BK31+IF(BK74=TRUE,(IF('Ficha Pessoal'!V3<=5,1.5,IF('Ficha Pessoal'!V3<=11,3,IF('Ficha Pessoal'!V3<=17,4.5,IF('Ficha Pessoal'!V3>=18,6)))))))+IF(BK78=TRUE,(IF('Ficha Pessoal'!V3<=3,1.5,IF('Ficha Pessoal'!V3<=7,3,IF('Ficha Pessoal'!V3<=11,4.5,IF('Ficha Pessoal'!V3<=15,6,IF('Ficha Pessoal'!V3<=17,7.5,IF('Ficha Pessoal'!V3>=18,9))))))))+IF(BK83=TRUE,4.5)`
+- `BP28`: `=SUM(BS28-BS31+IF(BP20="Quarto Grau",P8+BX38,IF(BP20="Terceiro Grau",P9+BX38,IF(BP20="Segundo Grau",P10+BX38,IF(BP20="Primeiro Grau",P11+BX38,IF(BP20="Grau Especial",P12+BX38))))))-IF(CI73=TRUE,5)+IF(CI77=TRUE,(IF('Ficha Pessoal'!V3<=7,2,IF('Ficha Pessoal'!V3<=17,3,IF('Ficha Pessoal'!V3>=18,5)))))+IF(CI81=TRUE,(IF('Ficha Pessoal'!V3<=5,1,IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3<=17,3,IF('Ficha Pessoal'!V3>=18,5))))))+IF(CI83=TRUE,'Ficha Pessoal'!V4*2)`
+- `BU28`: `=SUM(10+BX28+BZ72-BX31)`
+- `BZ28`: `=SUM(BX38+CC28-CC31)`
+- `CE28`: `=SUM(9+CI28-CI31+IF(CI74=TRUE,(IF('Ficha Pessoal'!V3<=5,1.5,IF('Ficha Pessoal'!V3<=11,3,IF('Ficha Pessoal'!V3<=17,4.5,IF('Ficha Pessoal'!V3>=18,6)))))))+IF(CI78=TRUE,(IF('Ficha Pessoal'!V3<=3,1.5,IF('Ficha Pessoal'!V3<=7,3,IF('Ficha Pessoal'!V3<=11,4.5,IF('Ficha Pessoal'!V3<=15,6,IF('Ficha Pessoal'!V3<=17,7.5,IF('Ficha Pessoal'!V3>=18,9))))))))+IF(CI83=TRUE,4.5)`
+- `AB37`: `=IF(X37>=10,ROUNDDOWN((X37-10)/2,0),ROUNDUP((X37-10)/2,0))`
+- `AM37`: `=SUM(10+AK37+IF(AH37="FOR",AB37,IF(AH37="DEX",AB38,IF(AH37="CON",AB39,IF(AH37="INT",AB40,IF(AH37="SAB",AB41,IF(W21=AH37,AB42)))))))+('Ficha Pessoal'!V3/2)+IF(AM80=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `AZ37`: `=IF(AV37>=10,ROUNDDOWN((AV37-10)/2,0),ROUNDUP((AV37-10)/2,0))`
+- `BK37`: `=SUM(10+BI37+IF(BF37="FOR",AZ37,IF(BF37="DEX",AZ38,IF(BF37="CON",AZ39,IF(BF37="INT",AZ40,IF(BF37="SAB",AZ41,IF(AU21=BF37,AZ42)))))))+('Ficha Pessoal'!V3/2)+IF(BK80=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `BX37`: `=IF(BT37>=10,ROUNDDOWN((BT37-10)/2,0),ROUNDUP((BT37-10)/2,0))`
+- `CI37`: `=SUM(10+CG37+IF(CD37="FOR",BX37,IF(CD37="DEX",BX38,IF(CD37="CON",BX39,IF(CD37="INT",BX40,IF(CD37="SAB",BX41,IF(BS21=CD37,BX42)))))))+('Ficha Pessoal'!V3/2)+IF(CI80=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `AB38`: `=IF(X38>=10,ROUNDDOWN((X38-10)/2,0),ROUNDUP((X38-10)/2,0))`
+- `AZ38`: `=IF(AV38>=10,ROUNDDOWN((AV38-10)/2,0),ROUNDUP((AV38-10)/2,0))`
+- `BX38`: `=IF(BT38>=10,ROUNDDOWN((BT38-10)/2,0),ROUNDUP((BT38-10)/2,0))`
+- `AB39`: `=IF(X39>=10,ROUNDDOWN((X39-10)/2,0),ROUNDUP((X39-10)/2,0))`
+- `AZ39`: `=IF(AV39>=10,ROUNDDOWN((AV39-10)/2,0),ROUNDUP((AV39-10)/2,0))`
+- `BX39`: `=IF(BT39>=10,ROUNDDOWN((BT39-10)/2,0),ROUNDUP((BT39-10)/2,0))`
+- `AB40`: `=IF(X40>=10,ROUNDDOWN((X40-10)/2,0),ROUNDUP((X40-10)/2,0))`
+- `AZ40`: `=IF(AV40>=10,ROUNDDOWN((AV40-10)/2,0),ROUNDUP((AV40-10)/2,0))`
+- `BX40`: `=IF(BT40>=10,ROUNDDOWN((BT40-10)/2,0),ROUNDUP((BT40-10)/2,0))`
+- `AB41`: `=IF(X41>=10,ROUNDDOWN((X41-10)/2,0),ROUNDUP((X41-10)/2,0))`
+- `AM41`: `=SUM(AL41+IF(AM77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AZ41`: `=IF(AV41>=10,ROUNDDOWN((AV41-10)/2,0),ROUNDUP((AV41-10)/2,0))`
+- `BK41`: `=SUM(BJ41+IF(BK77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BX41`: `=IF(BT41>=10,ROUNDDOWN((BT41-10)/2,0),ROUNDUP((BT41-10)/2,0))`
+- `CI41`: `=SUM(CH41+IF(CI77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AB42`: `=IF(X42>=10,ROUNDDOWN((X42-10)/2,0),ROUNDUP((X42-10)/2,0))`
+- `AM42`: `=SUM(AL42+IF(AM77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AZ42`: `=IF(AV42>=10,ROUNDDOWN((AV42-10)/2,0),ROUNDUP((AV42-10)/2,0))`
+- `BK42`: `=SUM(BJ42+IF(BK77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BX42`: `=IF(BT42>=10,ROUNDDOWN((BT42-10)/2,0),ROUNDUP((BT42-10)/2,0))`
+- `CI42`: `=SUM(CH42+IF(CI77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM43`: `=SUM(AL43+IF(AM77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK43`: `=SUM(BJ43+IF(BK77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI43`: `=SUM(CH43+IF(CI77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM44`: `=SUM(AL44+IF(AM77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK44`: `=SUM(BJ44+IF(BK77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI44`: `=SUM(CH44+IF(CI77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM45`: `=SUM(AL45+IF(AM77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK45`: `=SUM(BJ45+IF(BK77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI45`: `=SUM(CH45+IF(CI77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM46`: `=SUM(AL46+IF(AM77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK46`: `=SUM(BJ46+IF(BK77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI46`: `=SUM(CH46+IF(CI77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM47`: `=SUM(AL47+IF(AM77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK47`: `=SUM(BJ47+IF(BK77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI47`: `=SUM(CH47+IF(CI77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM48`: `=SUM(AL48+IF(AM77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK48`: `=SUM(BJ48+IF(BK77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI48`: `=SUM(CH48+IF(CI77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM49`: `=SUM(AL49+IF(AM77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK49`: `=SUM(BJ49+IF(BK77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI49`: `=SUM(CH49+IF(CI77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM50`: `=SUM(AL50+IF(AM77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK50`: `=SUM(BJ50+IF(BK77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI50`: `=SUM(CH50+IF(CI77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM51`: `=SUM(AL51+IF(AM77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK51`: `=SUM(BJ51+IF(BK77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI51`: `=SUM(CH51+IF(CI77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM52`: `=SUM(AL52+IF(AM77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK52`: `=SUM(BJ52+IF(BK77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI52`: `=SUM(CH52+IF(CI77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM53`: `=SUM(AL53+IF(AM77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK53`: `=SUM(BJ53+IF(BK77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI53`: `=SUM(CH53+IF(CI77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM54`: `=SUM(AL54+IF(AM77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK54`: `=SUM(BJ54+IF(BK77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI54`: `=SUM(CH54+IF(CI77=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AD56`: `=SUM(Y56+IF(W56="FOR",AB37,IF(W56="DEX",AB38,IF(W56="CON",AB39,IF(W56="INT",AB40,IF(W56="SAB",AB41,IF(W21="PRE",AB42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AB56=TRUE,AJ5)+IF(AM72=TRUE,(IF(T20="Quarto Grau",2,IF(T20="Terceiro Grau",3,IF(T20="Segundo Grau",4,IF(T20="Primeiro Grau",5,IF(T20="Grau Especial",6)))))))+IF(AM79=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `BB56`: `=SUM(AW56+IF(AU56="FOR",AZ37,IF(AU56="DEX",AZ38,IF(AU56="CON",AZ39,IF(AU56="INT",AZ40,IF(AU56="SAB",AZ41,IF(AU21="PRE",AZ42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AZ56=TRUE,'Ficha Pessoal'!V4)+IF(BK72=TRUE,(IF(AR20="Quarto Grau",2,IF(AR20="Terceiro Grau",3,IF(AR20="Segundo Grau",4,IF(AR20="Primeiro Grau",5,IF(AR20="Grau Especial",6)))))))+IF(BK79=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `BZ56`: `=SUM(BU56+IF(BS56="FOR",BX37,IF(BS56="DEX",BX38,IF(BS56="CON",BX39,IF(BS56="INT",BX40,IF(BS56="SAB",BX41,IF(BS21="PRE",BX42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BX56=TRUE,'Ficha Pessoal'!V4)+IF(CI72=TRUE,(IF(BP20="Quarto Grau",2,IF(BP20="Terceiro Grau",3,IF(BP20="Segundo Grau",4,IF(BP20="Primeiro Grau",5,IF(BP20="Grau Especial",6)))))))+IF(CI79=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `AD57`: `=SUM(Y57+IF(W57="FOR",AB37,IF(W57="DEX",AB38,IF(W57="CON",AB39,IF(W57="INT",AB40,IF(W57="SAB",AB41,IF(W57="PRE",AB42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AB57=TRUE,AJ5)+IF(AM72=TRUE,(IF(T20="Quarto Grau",2,IF(T20="Terceiro Grau",3,IF(T20="Segundo Grau",4,IF(T20="Primeiro Grau",5,IF(T20="Grau Especial",6)))))))+IF(AM79=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `BB57`: `=SUM(AW57+IF(AU57="FOR",AZ37,IF(AU57="DEX",AZ38,IF(AU57="CON",AZ39,IF(AU57="INT",AZ40,IF(AU57="SAB",AZ41,IF(AU57="PRE",AZ42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AZ57=TRUE,'Ficha Pessoal'!V4)+IF(BK72=TRUE,(IF(AR20="Quarto Grau",2,IF(AR20="Terceiro Grau",3,IF(AR20="Segundo Grau",4,IF(AR20="Primeiro Grau",5,IF(AR20="Grau Especial",6)))))))+IF(BK79=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `BZ57`: `=SUM(BU57+IF(BS57="FOR",BX37,IF(BS57="DEX",BX38,IF(BS57="CON",BX39,IF(BS57="INT",BX40,IF(BS57="SAB",BX41,IF(BS57="PRE",BX42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BX57=TRUE,'Ficha Pessoal'!V4)+IF(CI72=TRUE,(IF(BP20="Quarto Grau",2,IF(BP20="Terceiro Grau",3,IF(BP20="Segundo Grau",4,IF(BP20="Primeiro Grau",5,IF(BP20="Grau Especial",6)))))))+IF(CI79=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `AD59`: `=SUM(Y59+IF(W59="FOR",AB37,IF(W59="DEX",AB38,IF(W59="CON",AB39,IF(W59="INT",AB40,IF(W59="SAB",AB41,IF(W59="PRE",AB42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC59=TRUE,AJ5*1.5,IF(AB59=TRUE,AJ5))+IF(AM72=TRUE,(IF(T20="Quarto Grau",2,IF(T20="Terceiro Grau",3,IF(T20="Segundo Grau",4,IF(T20="Primeiro Grau",5,IF(T20="Grau Especial",6)))))))-IF(AM73=TRUE,5)+IF(AM81=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BB59`: `=SUM(AW59+IF(AU59="FOR",AZ37,IF(AU59="DEX",AZ38,IF(AU59="CON",AZ39,IF(AU59="INT",AZ40,IF(AU59="SAB",AZ41,IF(AU59="PRE",AZ42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA59=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ59=TRUE,'Ficha Pessoal'!V4))+IF(BK72=TRUE,(IF(AR20="Quarto Grau",2,IF(AR20="Terceiro Grau",3,IF(AR20="Segundo Grau",4,IF(AR20="Primeiro Grau",5,IF(AR20="Grau Especial",6)))))))-IF(BK73=TRUE,5)+IF(BK81=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BZ59`: `=SUM(BU59+IF(BS59="FOR",BX37,IF(BS59="DEX",BX38,IF(BS59="CON",BX39,IF(BS59="INT",BX40,IF(BS59="SAB",BX41,IF(BS59="PRE",BX42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY59=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX59=TRUE,'Ficha Pessoal'!V4))+IF(CI72=TRUE,(IF(BP20="Quarto Grau",2,IF(BP20="Terceiro Grau",3,IF(BP20="Segundo Grau",4,IF(BP20="Primeiro Grau",5,IF(BP20="Grau Especial",6)))))))-IF(CI73=TRUE,5)+IF(CI81=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `AD60`: `=SUM(Y60+IF(W60="FOR",AB37,IF(W60="DEX",AB38,IF(W60="CON",AB39,IF(W60="INT",AB40,IF(W60="SAB",AB41,IF(W60="PRE",AB42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC60=TRUE,AJ5*1.5,IF(AB60=TRUE,AJ5))+IF(AM72=TRUE,(IF(T20="Quarto Grau",2,IF(T20="Terceiro Grau",3,IF(T20="Segundo Grau",4,IF(T20="Primeiro Grau",5,IF(T20="Grau Especial",6)))))))-IF(AM73=TRUE,5)+IF(AM81=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BB60`: `=SUM(AW60+IF(AU60="FOR",AZ37,IF(AU60="DEX",AZ38,IF(AU60="CON",AZ39,IF(AU60="INT",AZ40,IF(AU60="SAB",AZ41,IF(AU60="PRE",AZ42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA60=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ60=TRUE,'Ficha Pessoal'!V4))+IF(BK72=TRUE,(IF(AR20="Quarto Grau",2,IF(AR20="Terceiro Grau",3,IF(AR20="Segundo Grau",4,IF(AR20="Primeiro Grau",5,IF(AR20="Grau Especial",6)))))))-IF(BK73=TRUE,5)+IF(BK81=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BZ60`: `=SUM(BU60+IF(BS60="FOR",BX37,IF(BS60="DEX",BX38,IF(BS60="CON",BX39,IF(BS60="INT",BX40,IF(BS60="SAB",BX41,IF(BS60="PRE",BX42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY60=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX60=TRUE,'Ficha Pessoal'!V4))+IF(CI72=TRUE,(IF(BP20="Quarto Grau",2,IF(BP20="Terceiro Grau",3,IF(BP20="Segundo Grau",4,IF(BP20="Primeiro Grau",5,IF(BP20="Grau Especial",6)))))))-IF(CI73=TRUE,5)+IF(CI81=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `AD61`: `=SUM(Y61+IF(W61="FOR",AB37,IF(W61="DEX",AB38,IF(W61="CON",AB39,IF(W61="INT",AB40,IF(W61="SAB",AB41,IF(W61="PRE",AB42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC61=TRUE,AJ5*1.5,IF(AB61=TRUE,AJ5))+IF(AM72=TRUE,(IF(T20="Quarto Grau",2,IF(T20="Terceiro Grau",3,IF(T20="Segundo Grau",4,IF(T20="Primeiro Grau",5,IF(T20="Grau Especial",6)))))))-IF(AM73=TRUE,5)+IF(AM81=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BB61`: `=SUM(AW61+IF(AU61="FOR",AZ37,IF(AU61="DEX",AZ38,IF(AU61="CON",AZ39,IF(AU61="INT",AZ40,IF(AU61="SAB",AZ41,IF(AU61="PRE",AZ42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA61=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ61=TRUE,'Ficha Pessoal'!V4))+IF(BK72=TRUE,(IF(AR20="Quarto Grau",2,IF(AR20="Terceiro Grau",3,IF(AR20="Segundo Grau",4,IF(AR20="Primeiro Grau",5,IF(AR20="Grau Especial",6)))))))-IF(BK73=TRUE,5)+IF(BK81=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BZ61`: `=SUM(BU61+IF(BS61="FOR",BX37,IF(BS61="DEX",BX38,IF(BS61="CON",BX39,IF(BS61="INT",BX40,IF(BS61="SAB",BX41,IF(BS61="PRE",BX42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY61=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX61=TRUE,'Ficha Pessoal'!V4))+IF(CI72=TRUE,(IF(BP20="Quarto Grau",2,IF(BP20="Terceiro Grau",3,IF(BP20="Segundo Grau",4,IF(BP20="Primeiro Grau",5,IF(BP20="Grau Especial",6)))))))-IF(CI73=TRUE,5)+IF(CI81=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `AD62`: `=SUM(Y62+IF(W62="FOR",AB37,IF(W62="DEX",AB38,IF(W62="CON",AB39,IF(W62="INT",AB40,IF(W62="SAB",AB41,IF(W61="PRE",AB42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC62=TRUE,AJ5*1.5,IF(AB62=TRUE,AJ5))+IF(AM72=TRUE,(IF(T20="Quarto Grau",2,IF(T20="Terceiro Grau",3,IF(T20="Segundo Grau",4,IF(T20="Primeiro Grau",5,IF(T20="Grau Especial",6)))))))-IF(AM73=TRUE,5)+IF(AM81=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BB62`: `=SUM(AW62+IF(AU62="FOR",AZ37,IF(AU62="DEX",AZ38,IF(AU62="CON",AZ39,IF(AU62="INT",AZ40,IF(AU62="SAB",AZ41,IF(AU61="PRE",AZ42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA62=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ62=TRUE,'Ficha Pessoal'!V4))+IF(BK72=TRUE,(IF(AR20="Quarto Grau",2,IF(AR20="Terceiro Grau",3,IF(AR20="Segundo Grau",4,IF(AR20="Primeiro Grau",5,IF(AR20="Grau Especial",6)))))))-IF(BK73=TRUE,5)+IF(BK81=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BZ62`: `=SUM(BU62+IF(BS62="FOR",BX37,IF(BS62="DEX",BX38,IF(BS62="CON",BX39,IF(BS62="INT",BX40,IF(BS62="SAB",BX41,IF(BS61="PRE",BX42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY62=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX62=TRUE,'Ficha Pessoal'!V4))+IF(CI72=TRUE,(IF(BP20="Quarto Grau",2,IF(BP20="Terceiro Grau",3,IF(BP20="Segundo Grau",4,IF(BP20="Primeiro Grau",5,IF(BP20="Grau Especial",6)))))))-IF(CI73=TRUE,5)+IF(CI81=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `AD63`: `=SUM(Y63+IF(W63="FOR",AB37,IF(W63="DEX",AB38,IF(W63="CON",AB39,IF(W63="INT",AB40,IF(W63="SAB",AB41,IF(W63="PRE",AB42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC63=TRUE,AJ5*1.5,IF(AB63=TRUE,AJ5))+IF(AM72=TRUE,(IF(T20="Quarto Grau",2,IF(T20="Terceiro Grau",3,IF(T20="Segundo Grau",4,IF(T20="Primeiro Grau",5,IF(T20="Grau Especial",6)))))))-IF(AM73=TRUE,5)+IF(AM81=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BB63`: `=SUM(AW63+IF(AU63="FOR",AZ37,IF(AU63="DEX",AZ38,IF(AU63="CON",AZ39,IF(AU63="INT",AZ40,IF(AU63="SAB",AZ41,IF(AU63="PRE",AZ42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA63=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ63=TRUE,'Ficha Pessoal'!V4))+IF(BK72=TRUE,(IF(AR20="Quarto Grau",2,IF(AR20="Terceiro Grau",3,IF(AR20="Segundo Grau",4,IF(AR20="Primeiro Grau",5,IF(AR20="Grau Especial",6)))))))-IF(BK73=TRUE,5)+IF(BK81=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BZ63`: `=SUM(BU63+IF(BS63="FOR",BX37,IF(BS63="DEX",BX38,IF(BS63="CON",BX39,IF(BS63="INT",BX40,IF(BS63="SAB",BX41,IF(BS63="PRE",BX42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY63=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX63=TRUE,'Ficha Pessoal'!V4))+IF(CI72=TRUE,(IF(BP20="Quarto Grau",2,IF(BP20="Terceiro Grau",3,IF(BP20="Segundo Grau",4,IF(BP20="Primeiro Grau",5,IF(BP20="Grau Especial",6)))))))-IF(CI73=TRUE,5)+IF(CI81=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `AD65`: `=SUM(Y65+IF(W65="FOR",AB37,IF(W65="DEX",AB38,IF(W65="CON",AB39,IF(W65="INT",AB40,IF(W65="SAB",AB41,IF(W65="PRE",AB42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC65=TRUE,AJ5*1.5,IF(AB65=TRUE,AJ5))+IF(AM72=TRUE,(IF(T20="Quarto Grau",2,IF(T20="Terceiro Grau",3,IF(T20="Segundo Grau",4,IF(T20="Primeiro Grau",5,IF(T20="Grau Especial",6)))))))`
+- `BB65`: `=SUM(AW65+IF(AU65="FOR",AZ37,IF(AU65="DEX",AZ38,IF(AU65="CON",AZ39,IF(AU65="INT",AZ40,IF(AU65="SAB",AZ41,IF(AU65="PRE",AZ42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA65=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ65=TRUE,'Ficha Pessoal'!V4))+IF(BK72=TRUE,(IF(AR20="Quarto Grau",2,IF(AR20="Terceiro Grau",3,IF(AR20="Segundo Grau",4,IF(AR20="Primeiro Grau",5,IF(AR20="Grau Especial",6)))))))`
+- `BZ65`: `=SUM(BU65+IF(BS65="FOR",BX37,IF(BS65="DEX",BX38,IF(BS65="CON",BX39,IF(BS65="INT",BX40,IF(BS65="SAB",BX41,IF(BS65="PRE",BX42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY65=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX65=TRUE,'Ficha Pessoal'!V4))+IF(CI72=TRUE,(IF(BP20="Quarto Grau",2,IF(BP20="Terceiro Grau",3,IF(BP20="Segundo Grau",4,IF(BP20="Primeiro Grau",5,IF(BP20="Grau Especial",6)))))))`
+- `AD66`: `=SUM(Y66+IF(W66="FOR",AB37,IF(W66="DEX",AB38,IF(W66="CON",AB39,IF(W66="INT",AB40,IF(W66="SAB",AB41,IF(W66="PRE",AB42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC66=TRUE,AJ5*1.5,IF(AB66=TRUE,AJ5))+IF(AM72=TRUE,(IF(T20="Quarto Grau",2,IF(T20="Terceiro Grau",3,IF(T20="Segundo Grau",4,IF(T20="Primeiro Grau",5,IF(T20="Grau Especial",6)))))))`
+- `BB66`: `=SUM(AW66+IF(AU66="FOR",AZ37,IF(AU66="DEX",AZ38,IF(AU66="CON",AZ39,IF(AU66="INT",AZ40,IF(AU66="SAB",AZ41,IF(AU66="PRE",AZ42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA66=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ66=TRUE,'Ficha Pessoal'!V4))+IF(BK72=TRUE,(IF(AR20="Quarto Grau",2,IF(AR20="Terceiro Grau",3,IF(AR20="Segundo Grau",4,IF(AR20="Primeiro Grau",5,IF(AR20="Grau Especial",6)))))))`
+- `BZ66`: `=SUM(BU66+IF(BS66="FOR",BX37,IF(BS66="DEX",BX38,IF(BS66="CON",BX39,IF(BS66="INT",BX40,IF(BS66="SAB",BX41,IF(BS66="PRE",BX42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY66=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX66=TRUE,'Ficha Pessoal'!V4))+IF(CI72=TRUE,(IF(BP20="Quarto Grau",2,IF(BP20="Terceiro Grau",3,IF(BP20="Segundo Grau",4,IF(BP20="Primeiro Grau",5,IF(BP20="Grau Especial",6)))))))`
+- `AD67`: `=SUM(Y67+IF(W67="FOR",AB37,IF(W67="DEX",AB38,IF(W67="CON",AB39,IF(W67="INT",AB40,IF(W67="SAB",AB41,IF(W67="PRE",AB42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC67=TRUE,AJ5*1.5,IF(AB67=TRUE,AJ5))+IF(AM72=TRUE,(IF(T20="Quarto Grau",2,IF(T20="Terceiro Grau",3,IF(T20="Segundo Grau",4,IF(T20="Primeiro Grau",5,IF(T20="Grau Especial",6)))))))`
+- `BB67`: `=SUM(AW67+IF(AU67="FOR",AZ37,IF(AU67="DEX",AZ38,IF(AU67="CON",AZ39,IF(AU67="INT",AZ40,IF(AU67="SAB",AZ41,IF(AU67="PRE",AZ42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA67=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ67=TRUE,'Ficha Pessoal'!V4))+IF(BK72=TRUE,(IF(AR20="Quarto Grau",2,IF(AR20="Terceiro Grau",3,IF(AR20="Segundo Grau",4,IF(AR20="Primeiro Grau",5,IF(AR20="Grau Especial",6)))))))`
+- `BZ67`: `=SUM(BU67+IF(BS67="FOR",BX37,IF(BS67="DEX",BX38,IF(BS67="CON",BX39,IF(BS67="INT",BX40,IF(BS67="SAB",BX41,IF(BS67="PRE",BX42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY67=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX67=TRUE,'Ficha Pessoal'!V4))+IF(CI72=TRUE,(IF(BP20="Quarto Grau",2,IF(BP20="Terceiro Grau",3,IF(BP20="Segundo Grau",4,IF(BP20="Primeiro Grau",5,IF(BP20="Grau Especial",6)))))))`
+- `AD68`: `=SUM(Y68+IF(W68="FOR",AB37,IF(W68="DEX",AB38,IF(W68="CON",AB39,IF(W68="INT",AB40,IF(W68="SAB",AB41,IF(W68="PRE",AB42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC68=TRUE,AJ5*1.5,IF(AB68=TRUE,AJ5))+IF(AM72=TRUE,(IF(T20="Quarto Grau",2,IF(T20="Terceiro Grau",3,IF(T20="Segundo Grau",4,IF(T20="Primeiro Grau",5,IF(T20="Grau Especial",6)))))))`
+- `BB68`: `=SUM(AW68+IF(AU68="FOR",AZ37,IF(AU68="DEX",AZ38,IF(AU68="CON",AZ39,IF(AU68="INT",AZ40,IF(AU68="SAB",AZ41,IF(AU68="PRE",AZ42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA68=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ68=TRUE,'Ficha Pessoal'!V4))+IF(BK72=TRUE,(IF(AR20="Quarto Grau",2,IF(AR20="Terceiro Grau",3,IF(AR20="Segundo Grau",4,IF(AR20="Primeiro Grau",5,IF(AR20="Grau Especial",6)))))))`
+- `BZ68`: `=SUM(BU68+IF(BS68="FOR",BX37,IF(BS68="DEX",BX38,IF(BS68="CON",BX39,IF(BS68="INT",BX40,IF(BS68="SAB",BX41,IF(BS68="PRE",BX42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY68=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX68=TRUE,'Ficha Pessoal'!V4))+IF(CI72=TRUE,(IF(BP20="Quarto Grau",2,IF(BP20="Terceiro Grau",3,IF(BP20="Segundo Grau",4,IF(BP20="Primeiro Grau",5,IF(BP20="Grau Especial",6)))))))`
+- `AD69`: `=SUM(Y69+IF(W69="FOR",AB37,IF(W69="DEX",AB38,IF(W69="CON",AB39,IF(W69="INT",AB40,IF(W69="SAB",AB41,IF(W69="PRE",AB42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC69=TRUE,AJ5*1.5,IF(AB69=TRUE,AJ5))+IF(AM72=TRUE,(IF(T20="Quarto Grau",2,IF(T20="Terceiro Grau",3,IF(T20="Segundo Grau",4,IF(T20="Primeiro Grau",5,IF(T20="Grau Especial",6)))))))`
+- `BB69`: `=SUM(AW69+IF(AU69="FOR",AZ37,IF(AU69="DEX",AZ38,IF(AU69="CON",AZ39,IF(AU69="INT",AZ40,IF(AU69="SAB",AZ41,IF(AU69="PRE",AZ42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA69=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ69=TRUE,'Ficha Pessoal'!V4))+IF(BK72=TRUE,(IF(AR20="Quarto Grau",2,IF(AR20="Terceiro Grau",3,IF(AR20="Segundo Grau",4,IF(AR20="Primeiro Grau",5,IF(AR20="Grau Especial",6)))))))`
+- `BZ69`: `=SUM(BU69+IF(BS69="FOR",BX37,IF(BS69="DEX",BX38,IF(BS69="CON",BX39,IF(BS69="INT",BX40,IF(BS69="SAB",BX41,IF(BS69="PRE",BX42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY69=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX69=TRUE,'Ficha Pessoal'!V4))+IF(CI72=TRUE,(IF(BP20="Quarto Grau",2,IF(BP20="Terceiro Grau",3,IF(BP20="Segundo Grau",4,IF(BP20="Primeiro Grau",5,IF(BP20="Grau Especial",6)))))))`
+- `AD70`: `=SUM(Y70+IF(W70="FOR",AB37,IF(W70="DEX",AB38,IF(W70="CON",AB39,IF(W70="INT",AB40,IF(W70="SAB",AB41,IF(W70="PRE",AB42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC70=TRUE,AJ5*1.5,IF(AB70=TRUE,AJ5))+IF(AM72=TRUE,(IF(T20="Quarto Grau",2,IF(T20="Terceiro Grau",3,IF(T20="Segundo Grau",4,IF(T20="Primeiro Grau",5,IF(T20="Grau Especial",6)))))))`
+- `BB70`: `=SUM(AW70+IF(AU70="FOR",AZ37,IF(AU70="DEX",AZ38,IF(AU70="CON",AZ39,IF(AU70="INT",AZ40,IF(AU70="SAB",AZ41,IF(AU70="PRE",AZ42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA70=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ70=TRUE,'Ficha Pessoal'!V4))+IF(BK72=TRUE,(IF(AR20="Quarto Grau",2,IF(AR20="Terceiro Grau",3,IF(AR20="Segundo Grau",4,IF(AR20="Primeiro Grau",5,IF(AR20="Grau Especial",6)))))))`
+- `BZ70`: `=SUM(BU70+IF(BS70="FOR",BX37,IF(BS70="DEX",BX38,IF(BS70="CON",BX39,IF(BS70="INT",BX40,IF(BS70="SAB",BX41,IF(BS70="PRE",BX42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY70=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX70=TRUE,'Ficha Pessoal'!V4))+IF(CI72=TRUE,(IF(BP20="Quarto Grau",2,IF(BP20="Terceiro Grau",3,IF(BP20="Segundo Grau",4,IF(BP20="Primeiro Grau",5,IF(BP20="Grau Especial",6)))))))`
+- `AD71`: `=SUM(Y71+IF(W71="FOR",AB37,IF(W71="DEX",AB38,IF(W71="CON",AB39,IF(W71="INT",AB40,IF(W71="SAB",AB41,IF(W71="PRE",AB42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC71=TRUE,AJ5*1.5,IF(AB71=TRUE,AJ5))+IF(AM72=TRUE,(IF(T20="Quarto Grau",2,IF(T20="Terceiro Grau",3,IF(T20="Segundo Grau",4,IF(T20="Primeiro Grau",5,IF(T20="Grau Especial",6)))))))`
+- `BB71`: `=SUM(AW71+IF(AU71="FOR",AZ37,IF(AU71="DEX",AZ38,IF(AU71="CON",AZ39,IF(AU71="INT",AZ40,IF(AU71="SAB",AZ41,IF(AU71="PRE",AZ42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA71=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ71=TRUE,'Ficha Pessoal'!V4))+IF(BK72=TRUE,(IF(AR20="Quarto Grau",2,IF(AR20="Terceiro Grau",3,IF(AR20="Segundo Grau",4,IF(AR20="Primeiro Grau",5,IF(AR20="Grau Especial",6)))))))`
+- `BZ71`: `=SUM(BU71+IF(BS71="FOR",BX37,IF(BS71="DEX",BX38,IF(BS71="CON",BX39,IF(BS71="INT",BX40,IF(BS71="SAB",BX41,IF(BS71="PRE",BX42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY71=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX71=TRUE,'Ficha Pessoal'!V4))+IF(CI72=TRUE,(IF(BP20="Quarto Grau",2,IF(BP20="Terceiro Grau",3,IF(BP20="Segundo Grau",4,IF(BP20="Primeiro Grau",5,IF(BP20="Grau Especial",6)))))))`
+- `AD72`: `=SUM(Y72+IF(W72="FOR",AB37,IF(W72="DEX",AB38,IF(W72="CON",AB39,IF(W72="INT",AB40,IF(W72="SAB",AB41,IF(W72="PRE",AB42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC72=TRUE,AJ5*1.5,IF(AB72=TRUE,AJ5))+IF(AM72=TRUE,(IF(T20="Quarto Grau",2,IF(T20="Terceiro Grau",3,IF(T20="Segundo Grau",4,IF(T20="Primeiro Grau",5,IF(T20="Grau Especial",6)))))))`
+- `BB72`: `=SUM(AW72+IF(AU72="FOR",AZ37,IF(AU72="DEX",AZ38,IF(AU72="CON",AZ39,IF(AU72="INT",AZ40,IF(AU72="SAB",AZ41,IF(AU72="PRE",AZ42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA72=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ72=TRUE,'Ficha Pessoal'!V4))+IF(BK72=TRUE,(IF(AR20="Quarto Grau",2,IF(AR20="Terceiro Grau",3,IF(AR20="Segundo Grau",4,IF(AR20="Primeiro Grau",5,IF(AR20="Grau Especial",6)))))))`
+- `BZ72`: `=SUM(BU72+IF(BS72="FOR",BX37,IF(BS72="DEX",BX38,IF(BS72="CON",BX39,IF(BS72="INT",BX40,IF(BS72="SAB",BX41,IF(BS72="PRE",BX42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY72=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX72=TRUE,'Ficha Pessoal'!V4))+IF(CI72=TRUE,(IF(BP20="Quarto Grau",2,IF(BP20="Terceiro Grau",3,IF(BP20="Segundo Grau",4,IF(BP20="Primeiro Grau",5,IF(BP20="Grau Especial",6)))))))`
+- `AD73`: `=SUM(Y73+IF(W73="FOR",AB37,IF(W73="DEX",AB38,IF(W73="CON",AB39,IF(W73="INT",AB40,IF(W73="SAB",AB41,IF(W73="PRE",AB42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC73=TRUE,AJ5*1.5,IF(AB73=TRUE,AJ5))+IF(AM72=TRUE,(IF(T20="Quarto Grau",2,IF(T20="Terceiro Grau",3,IF(T20="Segundo Grau",4,IF(T20="Primeiro Grau",5,IF(T20="Grau Especial",6)))))))`
+- `BB73`: `=SUM(AW73+IF(AU73="FOR",AZ37,IF(AU73="DEX",AZ38,IF(AU73="CON",AZ39,IF(AU73="INT",AZ40,IF(AU73="SAB",AZ41,IF(AU73="PRE",AZ42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA73=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ73=TRUE,'Ficha Pessoal'!V4))+IF(BK72=TRUE,(IF(AR20="Quarto Grau",2,IF(AR20="Terceiro Grau",3,IF(AR20="Segundo Grau",4,IF(AR20="Primeiro Grau",5,IF(AR20="Grau Especial",6)))))))`
+- `BZ73`: `=SUM(BU73+IF(BS73="FOR",BX37,IF(BS73="DEX",BX38,IF(BS73="CON",BX39,IF(BS73="INT",BX40,IF(BS73="SAB",BX41,IF(BS73="PRE",BX42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY73=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX73=TRUE,'Ficha Pessoal'!V4))+IF(CI72=TRUE,(IF(BP20="Quarto Grau",2,IF(BP20="Terceiro Grau",3,IF(BP20="Segundo Grau",4,IF(BP20="Primeiro Grau",5,IF(BP20="Grau Especial",6)))))))`
+- `AD74`: `=SUM(Y74+IF(W74="FOR",AB37,IF(W74="DEX",AB38,IF(W74="CON",AB39,IF(W74="INT",AB40,IF(W74="SAB",AB41,IF(W74="PRE",AB42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC74=TRUE,AJ5*1.5,IF(AB74=TRUE,AJ5))+IF(AM72=TRUE,(IF(T20="Quarto Grau",2,IF(T20="Terceiro Grau",3,IF(T20="Segundo Grau",4,IF(T20="Primeiro Grau",5,IF(T20="Grau Especial",6)))))))`
+- `BB74`: `=SUM(AW74+IF(AU74="FOR",AZ37,IF(AU74="DEX",AZ38,IF(AU74="CON",AZ39,IF(AU74="INT",AZ40,IF(AU74="SAB",AZ41,IF(AU74="PRE",AZ42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA74=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ74=TRUE,'Ficha Pessoal'!V4))+IF(BK72=TRUE,(IF(AR20="Quarto Grau",2,IF(AR20="Terceiro Grau",3,IF(AR20="Segundo Grau",4,IF(AR20="Primeiro Grau",5,IF(AR20="Grau Especial",6)))))))`
+- `BZ74`: `=SUM(BU74+IF(BS74="FOR",BX37,IF(BS74="DEX",BX38,IF(BS74="CON",BX39,IF(BS74="INT",BX40,IF(BS74="SAB",BX41,IF(BS74="PRE",BX42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY74=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX74=TRUE,'Ficha Pessoal'!V4))+IF(CI72=TRUE,(IF(BP20="Quarto Grau",2,IF(BP20="Terceiro Grau",3,IF(BP20="Segundo Grau",4,IF(BP20="Primeiro Grau",5,IF(BP20="Grau Especial",6)))))))`
+- `AD75`: `=SUM(Y75+IF(W75="FOR",AB37,IF(W75="DEX",AB38,IF(W75="CON",AB39,IF(W75="INT",AB40,IF(W75="SAB",AB41,IF(W75="PRE",AB42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC75=TRUE,AJ5*1.5,IF(AB75=TRUE,AJ5))+IF(AM72=TRUE,(IF(T20="Quarto Grau",2,IF(T20="Terceiro Grau",3,IF(T20="Segundo Grau",4,IF(T20="Primeiro Grau",5,IF(T20="Grau Especial",6)))))))`
+- `BB75`: `=SUM(AW75+IF(AU75="FOR",AZ37,IF(AU75="DEX",AZ38,IF(AU75="CON",AZ39,IF(AU75="INT",AZ40,IF(AU75="SAB",AZ41,IF(AU75="PRE",AZ42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA75=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ75=TRUE,'Ficha Pessoal'!V4))+IF(BK72=TRUE,(IF(AR20="Quarto Grau",2,IF(AR20="Terceiro Grau",3,IF(AR20="Segundo Grau",4,IF(AR20="Primeiro Grau",5,IF(AR20="Grau Especial",6)))))))`
+- `BZ75`: `=SUM(BU75+IF(BS75="FOR",BX37,IF(BS75="DEX",BX38,IF(BS75="CON",BX39,IF(BS75="INT",BX40,IF(BS75="SAB",BX41,IF(BS75="PRE",BX42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY75=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX75=TRUE,'Ficha Pessoal'!V4))+IF(CI72=TRUE,(IF(BP20="Quarto Grau",2,IF(BP20="Terceiro Grau",3,IF(BP20="Segundo Grau",4,IF(BP20="Primeiro Grau",5,IF(BP20="Grau Especial",6)))))))`
+- `AD76`: `=SUM(Y76+IF(W76="FOR",AB37,IF(W76="DEX",AB38,IF(W76="CON",AB39,IF(W76="INT",AB40,IF(W76="SAB",AB41,IF(W76="PRE",AB42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC76=TRUE,AJ5*1.5,IF(AB76=TRUE,AJ5))+IF(AM72=TRUE,(IF(T20="Quarto Grau",2,IF(T20="Terceiro Grau",3,IF(T20="Segundo Grau",4,IF(T20="Primeiro Grau",5,IF(T20="Grau Especial",6)))))))`
+- `AM76`: `=IF('Ficha Pessoal'!V3<=3,"1d6",IF('Ficha Pessoal'!V3<=7,"1d6+3",IF('Ficha Pessoal'!V3<=11,"1d8+3",IF('Ficha Pessoal'!V3<=15,"1d8+6",IF('Ficha Pessoal'!V3<=17,"1d10+6",IF('Ficha Pessoal'!V3>=18,"1d12+6",))))))`
+- `BB76`: `=SUM(AW76+IF(AU76="FOR",AZ37,IF(AU76="DEX",AZ38,IF(AU76="CON",AZ39,IF(AU76="INT",AZ40,IF(AU76="SAB",AZ41,IF(AU76="PRE",AZ42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA76=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ76=TRUE,'Ficha Pessoal'!V4))+IF(BK72=TRUE,(IF(AR20="Quarto Grau",2,IF(AR20="Terceiro Grau",3,IF(AR20="Segundo Grau",4,IF(AR20="Primeiro Grau",5,IF(AR20="Grau Especial",6)))))))`
+- `BK76`: `=IF('Ficha Pessoal'!V3<=3,"1d6",IF('Ficha Pessoal'!V3<=7,"1d6+3",IF('Ficha Pessoal'!V3<=11,"1d8+3",IF('Ficha Pessoal'!V3<=15,"1d8+6",IF('Ficha Pessoal'!V3<=17,"1d10+6",IF('Ficha Pessoal'!V3>=18,"1d12+6",))))))`
+- `BZ76`: `=SUM(BU76+IF(BS76="FOR",BX37,IF(BS76="DEX",BX38,IF(BS76="CON",BX39,IF(BS76="INT",BX40,IF(BS76="SAB",BX41,IF(BS76="PRE",BX42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY76=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX76=TRUE,'Ficha Pessoal'!V4))+IF(CI72=TRUE,(IF(BP20="Quarto Grau",2,IF(BP20="Terceiro Grau",3,IF(BP20="Segundo Grau",4,IF(BP20="Primeiro Grau",5,IF(BP20="Grau Especial",6)))))))`
+- `CI76`: `=IF('Ficha Pessoal'!V3<=3,"1d6",IF('Ficha Pessoal'!V3<=7,"1d6+3",IF('Ficha Pessoal'!V3<=11,"1d8+3",IF('Ficha Pessoal'!V3<=15,"1d8+6",IF('Ficha Pessoal'!V3<=17,"1d10+6",IF('Ficha Pessoal'!V3>=18,"1d12+6",))))))`
+- `AD77`: `=SUM(Y77+IF(W77="FOR",AB37,IF(W77="DEX",AB38,IF(W77="CON",AB39,IF(W77="INT",AB40,IF(W77="SAB",AB41,IF(W77="PRE",AB42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC77=TRUE,AJ5*1.5,IF(AB77=TRUE,AJ5))+IF(AM72=TRUE,(IF(T20="Quarto Grau",2,IF(T20="Terceiro Grau",3,IF(T20="Segundo Grau",4,IF(T20="Primeiro Grau",5,IF(T20="Grau Especial",6)))))))`
+- `BB77`: `=SUM(AW77+IF(AU77="FOR",AZ37,IF(AU77="DEX",AZ38,IF(AU77="CON",AZ39,IF(AU77="INT",AZ40,IF(AU77="SAB",AZ41,IF(AU77="PRE",AZ42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA77=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ77=TRUE,'Ficha Pessoal'!V4))+IF(BK72=TRUE,(IF(AR20="Quarto Grau",2,IF(AR20="Terceiro Grau",3,IF(AR20="Segundo Grau",4,IF(AR20="Primeiro Grau",5,IF(AR20="Grau Especial",6)))))))`
+- `BZ77`: `=SUM(BU77+IF(BS77="FOR",BX37,IF(BS77="DEX",BX38,IF(BS77="CON",BX39,IF(BS77="INT",BX40,IF(BS77="SAB",BX41,IF(BS77="PRE",BX42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY77=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX77=TRUE,'Ficha Pessoal'!V4))+IF(CI72=TRUE,(IF(BP20="Quarto Grau",2,IF(BP20="Terceiro Grau",3,IF(BP20="Segundo Grau",4,IF(BP20="Primeiro Grau",5,IF(BP20="Grau Especial",6)))))))`
+- `AD78`: `=SUM(Y78+IF(W78="FOR",AB37,IF(W78="DEX",AB38,IF(W78="CON",AB39,IF(W78="INT",AB40,IF(W78="SAB",AB41,IF(W78="PRE",AB42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC78=TRUE,AJ5*1.5,IF(AB78=TRUE,AJ5))+IF(AM72=TRUE,(IF(T20="Quarto Grau",2,IF(T20="Terceiro Grau",3,IF(T20="Segundo Grau",4,IF(T20="Primeiro Grau",5,IF(T20="Grau Especial",6)))))))`
+- `BB78`: `=SUM(AW78+IF(AU78="FOR",AZ37,IF(AU78="DEX",AZ38,IF(AU78="CON",AZ39,IF(AU78="INT",AZ40,IF(AU78="SAB",AZ41,IF(AU78="PRE",AZ42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA78=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ78=TRUE,'Ficha Pessoal'!V4))+IF(BK72=TRUE,(IF(AR20="Quarto Grau",2,IF(AR20="Terceiro Grau",3,IF(AR20="Segundo Grau",4,IF(AR20="Primeiro Grau",5,IF(AR20="Grau Especial",6)))))))`
+- `BZ78`: `=SUM(BU78+IF(BS78="FOR",BX37,IF(BS78="DEX",BX38,IF(BS78="CON",BX39,IF(BS78="INT",BX40,IF(BS78="SAB",BX41,IF(BS78="PRE",BX42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY78=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX78=TRUE,'Ficha Pessoal'!V4))+IF(CI72=TRUE,(IF(BP20="Quarto Grau",2,IF(BP20="Terceiro Grau",3,IF(BP20="Segundo Grau",4,IF(BP20="Primeiro Grau",5,IF(BP20="Grau Especial",6)))))))`
+- `AD79`: `=SUM(Y79+IF(W79="FOR",AB37,IF(W79="DEX",AB38,IF(W79="CON",AB39,IF(W79="INT",AB40,IF(W79="SAB",AB41,IF(W79="PRE",AB42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC79=TRUE,AJ5*1.5,IF(AB79=TRUE,AJ5))+IF(AM72=TRUE,(IF(T20="Quarto Grau",2,IF(T20="Terceiro Grau",3,IF(T20="Segundo Grau",4,IF(T20="Primeiro Grau",5,IF(T20="Grau Especial",6)))))))`
+- `BB79`: `=SUM(AW79+IF(AU79="FOR",AZ37,IF(AU79="DEX",AZ38,IF(AU79="CON",AZ39,IF(AU79="INT",AZ40,IF(AU79="SAB",AZ41,IF(AU79="PRE",AZ42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA79=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ79=TRUE,'Ficha Pessoal'!V4))+IF(BK72=TRUE,(IF(AR20="Quarto Grau",2,IF(AR20="Terceiro Grau",3,IF(AR20="Segundo Grau",4,IF(AR20="Primeiro Grau",5,IF(AR20="Grau Especial",6)))))))`
+- `BZ79`: `=SUM(BU79+IF(BS79="FOR",BX37,IF(BS79="DEX",BX38,IF(BS79="CON",BX39,IF(BS79="INT",BX40,IF(BS79="SAB",BX41,IF(BS79="PRE",BX42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY79=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX79=TRUE,'Ficha Pessoal'!V4))+IF(CI72=TRUE,(IF(BP20="Quarto Grau",2,IF(BP20="Terceiro Grau",3,IF(BP20="Segundo Grau",4,IF(BP20="Primeiro Grau",5,IF(BP20="Grau Especial",6)))))))`
+- `AD80`: `=SUM(Y80+IF(W80="FOR",AB37,IF(W80="DEX",AB38,IF(W80="CON",AB39,IF(W80="INT",AB40,IF(W80="SAB",AB41,IF(W80="PRE",AB42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC80=TRUE,AJ5*1.5,IF(AB80=TRUE,AJ5))+IF(AM72=TRUE,(IF(T20="Quarto Grau",2,IF(T20="Terceiro Grau",3,IF(T20="Segundo Grau",4,IF(T20="Primeiro Grau",5,IF(T20="Grau Especial",6)))))))`
+- `BB80`: `=SUM(AW80+IF(AU80="FOR",AZ37,IF(AU80="DEX",AZ38,IF(AU80="CON",AZ39,IF(AU80="INT",AZ40,IF(AU80="SAB",AZ41,IF(AU80="PRE",AZ42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA80=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ80=TRUE,'Ficha Pessoal'!V4))+IF(BK72=TRUE,(IF(AR20="Quarto Grau",2,IF(AR20="Terceiro Grau",3,IF(AR20="Segundo Grau",4,IF(AR20="Primeiro Grau",5,IF(AR20="Grau Especial",6)))))))`
+- `BZ80`: `=SUM(BU80+IF(BS80="FOR",BX37,IF(BS80="DEX",BX38,IF(BS80="CON",BX39,IF(BS80="INT",BX40,IF(BS80="SAB",BX41,IF(BS80="PRE",BX42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY80=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX80=TRUE,'Ficha Pessoal'!V4))+IF(CI72=TRUE,(IF(BP20="Quarto Grau",2,IF(BP20="Terceiro Grau",3,IF(BP20="Segundo Grau",4,IF(BP20="Primeiro Grau",5,IF(BP20="Grau Especial",6)))))))`
+- `AD81`: `=SUM(Y81+IF(W81="FOR",AB37,IF(W81="DEX",AB38,IF(W81="CON",AB39,IF(W81="INT",AB40,IF(W81="SAB",AB41,IF(W81="PRE",AB42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC81=TRUE,AJ5*1.5,IF(AB81=TRUE,AJ5))+IF(AM72=TRUE,(IF(T20="Quarto Grau",2,IF(T20="Terceiro Grau",3,IF(T20="Segundo Grau",4,IF(T20="Primeiro Grau",5,IF(T20="Grau Especial",6)))))))`
+- `AL81`: `=IF(AM81=TRUE,(IF('Ficha Pessoal'!V3<=5,"1d4",IF('Ficha Pessoal'!V3<=11,"1d6+3",IF('Ficha Pessoal'!V3<=17,"1d8+5",IF('Ficha Pessoal'!V3>=18,"1d12+10"))))))`
+- `BB81`: `=SUM(AW81+IF(AU81="FOR",AZ37,IF(AU81="DEX",AZ38,IF(AU81="CON",AZ39,IF(AU81="INT",AZ40,IF(AU81="SAB",AZ41,IF(AU81="PRE",AZ42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA81=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ81=TRUE,'Ficha Pessoal'!V4))+IF(BK72=TRUE,(IF(AR20="Quarto Grau",2,IF(AR20="Terceiro Grau",3,IF(AR20="Segundo Grau",4,IF(AR20="Primeiro Grau",5,IF(AR20="Grau Especial",6)))))))`
+- `BJ81`: `=IF(BK81=TRUE,(IF('Ficha Pessoal'!V3<=5,"1d4",IF('Ficha Pessoal'!V3<=11,"1d6+3",IF('Ficha Pessoal'!V3<=17,"1d8+5",IF('Ficha Pessoal'!V3>=18,"1d12+10"))))))`
+- `BZ81`: `=SUM(BU81+IF(BS81="FOR",BX37,IF(BS81="DEX",BX38,IF(BS81="CON",BX39,IF(BS81="INT",BX40,IF(BS81="SAB",BX41,IF(BS81="PRE",BX42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY81=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX81=TRUE,'Ficha Pessoal'!V4))+IF(CI72=TRUE,(IF(BP20="Quarto Grau",2,IF(BP20="Terceiro Grau",3,IF(BP20="Segundo Grau",4,IF(BP20="Primeiro Grau",5,IF(BP20="Grau Especial",6)))))))`
+- `CH81`: `=IF(CI81=TRUE,(IF('Ficha Pessoal'!V3<=5,"1d4",IF('Ficha Pessoal'!V3<=11,"1d6+3",IF('Ficha Pessoal'!V3<=17,"1d8+5",IF('Ficha Pessoal'!V3>=18,"1d12+10"))))))`
+- `AD82`: `=SUM(Y82+IF(W82="FOR",AB37,IF(W82="DEX",AB38,IF(W82="CON",AB39,IF(W82="INT",AB40,IF(W82="SAB",AB41,IF(W82="PRE",AB42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC82=TRUE,AJ5*1.5,IF(AB82=TRUE,AJ5))+IF(AM72=TRUE,(IF(T20="Quarto Grau",2,IF(T20="Terceiro Grau",3,IF(T20="Segundo Grau",4,IF(T20="Primeiro Grau",5,IF(T20="Grau Especial",6)))))))`
+- `BB82`: `=SUM(AW82+IF(AU82="FOR",AZ37,IF(AU82="DEX",AZ38,IF(AU82="CON",AZ39,IF(AU82="INT",AZ40,IF(AU82="SAB",AZ41,IF(AU82="PRE",AZ42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA82=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ82=TRUE,'Ficha Pessoal'!V4))+IF(BK72=TRUE,(IF(AR20="Quarto Grau",2,IF(AR20="Terceiro Grau",3,IF(AR20="Segundo Grau",4,IF(AR20="Primeiro Grau",5,IF(AR20="Grau Especial",6)))))))`
+- `BZ82`: `=SUM(BU82+IF(BS82="FOR",BX37,IF(BS82="DEX",BX38,IF(BS82="CON",BX39,IF(BS82="INT",BX40,IF(BS82="SAB",BX41,IF(BS82="PRE",BX42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY82=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX82=TRUE,'Ficha Pessoal'!V4))+IF(CI72=TRUE,(IF(BP20="Quarto Grau",2,IF(BP20="Terceiro Grau",3,IF(BP20="Segundo Grau",4,IF(BP20="Primeiro Grau",5,IF(BP20="Grau Especial",6)))))))`
+- `AD83`: `=SUM(Y83+IF(W83="FOR",AB37,IF(W83="DEX",AB38,IF(W83="CON",AB39,IF(W83="INT",AB40,IF(W83="SAB",AB41,IF(W83="PRE",AB42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC83=TRUE,AJ5*1.5,IF(AB83=TRUE,AJ5))+IF(AM72=TRUE,(IF(T20="Quarto Grau",2,IF(T20="Terceiro Grau",3,IF(T20="Segundo Grau",4,IF(T20="Primeiro Grau",5,IF(T20="Grau Especial",6)))))))`
+- `BB83`: `=SUM(AW83+IF(AU83="FOR",AZ37,IF(AU83="DEX",AZ38,IF(AU83="CON",AZ39,IF(AU83="INT",AZ40,IF(AU83="SAB",AZ41,IF(AU83="PRE",AZ42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA83=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ83=TRUE,'Ficha Pessoal'!V4))+IF(BK72=TRUE,(IF(AR20="Quarto Grau",2,IF(AR20="Terceiro Grau",3,IF(AR20="Segundo Grau",4,IF(AR20="Primeiro Grau",5,IF(AR20="Grau Especial",6)))))))`
+- `BZ83`: `=SUM(BU83+IF(BS83="FOR",BX37,IF(BS83="DEX",BX38,IF(BS83="CON",BX39,IF(BS83="INT",BX40,IF(BS83="SAB",BX41,IF(BS83="PRE",BX42)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY83=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX83=TRUE,'Ficha Pessoal'!V4))+IF(CI72=TRUE,(IF(BP20="Quarto Grau",2,IF(BP20="Terceiro Grau",3,IF(BP20="Segundo Grau",4,IF(BP20="Primeiro Grau",5,IF(BP20="Grau Especial",6)))))))`
+- `T103`: `=SUM(AC103+AF103+IF(T101="Quarto Grau",H8+(X120/2),IF(T101="Terceiro Grau",H9+(X120/2),IF(T101="Segundo Grau",H10+X120,IF(T101="Primeiro Grau",H11+X120,IF(T101="Grau Especial",H12+X120))))))+IF(AM156=TRUE,(IF('Ficha Pessoal'!V4=2,10,IF('Ficha Pessoal'!V4=3,15,IF('Ficha Pessoal'!V4=4,20,IF('Ficha Pessoal'!V4=5,25,IF('Ficha Pessoal'!V4=6,30)))))))+IF(AM162=TRUE,(IF('Ficha Pessoal'!V3<=5,5,IF('Ficha Pessoal'!V3<=11,10,IF('Ficha Pessoal'!V3<=17,20,IF('Ficha Pessoal'!V3>=18,30))))))+IF(AM163=TRUE,F14)+IF(AM164=TRUE,'Ficha Pessoal'!V4*5)`
+- `W103`: `=SUM(T103+Z103+AI103-AL103)`
+- `AR103`: `=SUM(BA103+BD103+IF(AR101="Quarto Grau",H8+(AV120/2),IF(AR101="Terceiro Grau",H9+(AV120/2),IF(AR101="Segundo Grau",H10+AV120,IF(AR101="Primeiro Grau",H11+AV120,IF(AR101="Grau Especial",H12+AV120))))))+IF(BK156=TRUE,(IF('Ficha Pessoal'!V4=2,10,IF('Ficha Pessoal'!V4=3,15,IF('Ficha Pessoal'!V4=4,20,IF('Ficha Pessoal'!V4=5,25,IF('Ficha Pessoal'!V4=6,30)))))))+IF(BK162=TRUE,(IF('Ficha Pessoal'!V3<=5,5,IF('Ficha Pessoal'!V3<=11,10,IF('Ficha Pessoal'!V3<=17,20,IF('Ficha Pessoal'!V3>=18,30))))))+IF(BK163=TRUE,F14)+IF(BK164=TRUE,'Ficha Pessoal'!V4*5)`
+- `AU103`: `=SUM(AR103+AX103+BG103-BJ103)`
+- `BP103`: `=SUM(BY103+CB103+IF(BP101="Quarto Grau",H8+(BT120/2),IF(BP101="Terceiro Grau",H9+(BT120/2),IF(BP101="Segundo Grau",H10+BT120,IF(BP101="Primeiro Grau",H11+BT120,IF(BP101="Grau Especial",H12+BT120))))))+IF(CI156=TRUE,(IF('Ficha Pessoal'!V4=2,10,IF('Ficha Pessoal'!V4=3,15,IF('Ficha Pessoal'!V4=4,20,IF('Ficha Pessoal'!V4=5,25,IF('Ficha Pessoal'!V4=6,30)))))))+IF(CI162=TRUE,(IF('Ficha Pessoal'!V3<=5,5,IF('Ficha Pessoal'!V3<=11,10,IF('Ficha Pessoal'!V3<=17,20,IF('Ficha Pessoal'!V3>=18,30))))))+IF(CI163=TRUE,F14)+IF(CI164=TRUE,'Ficha Pessoal'!V4*5)`
+- `BS103`: `=SUM(BP103+BV103+CE103-CH103)`
+- `T109`: `=SUM(W109-W112+IF(T101="Quarto Grau",P8+AB119,IF(T101="Terceiro Grau",P9+AB119,IF(T101="Segundo Grau",P10+AB119,IF(T101="Primeiro Grau",P11+AB119,IF(T101="Grau Especial",P12+AB119))))))-IF(AM154=TRUE,5)+IF(AM158=TRUE,(IF('Ficha Pessoal'!V3<=7,2,IF('Ficha Pessoal'!V3<=17,3,IF('Ficha Pessoal'!V3>=18,5)))))+IF(AM162=TRUE,(IF('Ficha Pessoal'!V3<=5,1,IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3<=17,3,IF('Ficha Pessoal'!V3>=18,5))))))+IF(AM164=TRUE,'Ficha Pessoal'!V4*2)`
+- `Y109`: `=SUM(10+AB109+AD153-AB112)`
+- `AD109`: `=SUM(AB119+AG109-AG112)`
+- `AI109`: `=SUM(9+AM109-AM112+IF(AM155=TRUE,(IF('Ficha Pessoal'!V3<=5,1.5,IF('Ficha Pessoal'!V3<=11,3,IF('Ficha Pessoal'!V3<=17,4.5,IF('Ficha Pessoal'!V3>=18,6)))))))+IF(AM159=TRUE,(IF('Ficha Pessoal'!V3<=3,1.5,IF('Ficha Pessoal'!V3<=7,3,IF('Ficha Pessoal'!V3<=11,4.5,IF('Ficha Pessoal'!V3<=15,6,IF('Ficha Pessoal'!V3<=17,7.5,IF('Ficha Pessoal'!V3>=18,9))))))))+IF(AM164=TRUE,4.5)`
+- `AR109`: `=SUM(AU109-AU112+IF(AR101="Quarto Grau",P8+AZ119,IF(AR101="Terceiro Grau",P9+AZ119,IF(AR101="Segundo Grau",P10+AZ119,IF(AR101="Primeiro Grau",P11+AZ119,IF(AR101="Grau Especial",P12+AZ119))))))-IF(BK154=TRUE,5)+IF(BK158=TRUE,(IF('Ficha Pessoal'!V3<=7,2,IF('Ficha Pessoal'!V3<=17,3,IF('Ficha Pessoal'!V3>=18,5)))))+IF(BK162=TRUE,(IF('Ficha Pessoal'!V3<=5,1,IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3<=17,3,IF('Ficha Pessoal'!V3>=18,5))))))+IF(BK164=TRUE,'Ficha Pessoal'!V4*2)`
+- `AW109`: `=SUM(10+AZ109+BB153-AZ112)`
+- `BB109`: `=SUM(AZ119+BE109-BE112)`
+- `BG109`: `=SUM(9+BK109-BK112+IF(BK155=TRUE,(IF('Ficha Pessoal'!V3<=5,1.5,IF('Ficha Pessoal'!V3<=11,3,IF('Ficha Pessoal'!V3<=17,4.5,IF('Ficha Pessoal'!V3>=18,6)))))))+IF(BK159=TRUE,(IF('Ficha Pessoal'!V3<=3,1.5,IF('Ficha Pessoal'!V3<=7,3,IF('Ficha Pessoal'!V3<=11,4.5,IF('Ficha Pessoal'!V3<=15,6,IF('Ficha Pessoal'!V3<=17,7.5,IF('Ficha Pessoal'!V3>=18,9))))))))+IF(BK164=TRUE,4.5)`
+- `BP109`: `=SUM(BS109-BS112+IF(BP101="Quarto Grau",P8+BX119,IF(BP101="Terceiro Grau",P9+BX119,IF(BP101="Segundo Grau",P10+BX119,IF(BP101="Primeiro Grau",P11+BX119,IF(BP101="Grau Especial",P12+BX119))))))-IF(CI154=TRUE,5)+IF(CI158=TRUE,(IF('Ficha Pessoal'!V3<=7,2,IF('Ficha Pessoal'!V3<=17,3,IF('Ficha Pessoal'!V3>=18,5)))))+IF(CI162=TRUE,(IF('Ficha Pessoal'!V3<=5,1,IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3<=17,3,IF('Ficha Pessoal'!V3>=18,5))))))+IF(CI164=TRUE,'Ficha Pessoal'!V4*2)`
+- `BU109`: `=SUM(10+BX109+BZ153-BX112)`
+- `BZ109`: `=SUM(BX119+CC109-CC112)`
+- `CE109`: `=SUM(9+CI109-CI112+IF(CI155=TRUE,(IF('Ficha Pessoal'!V3<=5,1.5,IF('Ficha Pessoal'!V3<=11,3,IF('Ficha Pessoal'!V3<=17,4.5,IF('Ficha Pessoal'!V3>=18,6)))))))+IF(CI159=TRUE,(IF('Ficha Pessoal'!V3<=3,1.5,IF('Ficha Pessoal'!V3<=7,3,IF('Ficha Pessoal'!V3<=11,4.5,IF('Ficha Pessoal'!V3<=15,6,IF('Ficha Pessoal'!V3<=17,7.5,IF('Ficha Pessoal'!V3>=18,9))))))))+IF(CI164=TRUE,4.5)`
+- `AB118`: `=IF(X118>=10,ROUNDDOWN((X118-10)/2,0),ROUNDUP((X118-10)/2,0))`
+- `AM118`: `=SUM(10+AK118+IF(AH118="FOR",AB118,IF(AH118="DEX",AB119,IF(AH118="CON",AB120,IF(AH118="INT",AB121,IF(AH118="SAB",AB122,IF(W102=AH118,AB123)))))))+('Ficha Pessoal'!V3/2)+IF(AM161=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `AZ118`: `=IF(AV118>=10,ROUNDDOWN((AV118-10)/2,0),ROUNDUP((AV118-10)/2,0))`
+- `BK118`: `=SUM(10+BI118+IF(BF118="FOR",AZ118,IF(BF118="DEX",AZ119,IF(BF118="CON",AZ120,IF(BF118="INT",AZ121,IF(BF118="SAB",AZ122,IF(AU102=BF118,AZ123)))))))+('Ficha Pessoal'!V3/2)+IF(BK161=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `BX118`: `=IF(BT118>=10,ROUNDDOWN((BT118-10)/2,0),ROUNDUP((BT118-10)/2,0))`
+- `CI118`: `=SUM(10+CG118+IF(CD118="FOR",BX118,IF(CD118="DEX",BX119,IF(CD118="CON",BX120,IF(CD118="INT",BX121,IF(CD118="SAB",BX122,IF(BS102=CD118,BX123)))))))+('Ficha Pessoal'!V3/2)+IF(CI161=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `AB119`: `=IF(X119>=10,ROUNDDOWN((X119-10)/2,0),ROUNDUP((X119-10)/2,0))`
+- `AZ119`: `=IF(AV119>=10,ROUNDDOWN((AV119-10)/2,0),ROUNDUP((AV119-10)/2,0))`
+- `BX119`: `=IF(BT119>=10,ROUNDDOWN((BT119-10)/2,0),ROUNDUP((BT119-10)/2,0))`
+- `AB120`: `=IF(X120>=10,ROUNDDOWN((X120-10)/2,0),ROUNDUP((X120-10)/2,0))`
+- `AZ120`: `=IF(AV120>=10,ROUNDDOWN((AV120-10)/2,0),ROUNDUP((AV120-10)/2,0))`
+- `BX120`: `=IF(BT120>=10,ROUNDDOWN((BT120-10)/2,0),ROUNDUP((BT120-10)/2,0))`
+- `AB121`: `=IF(X121>=10,ROUNDDOWN((X121-10)/2,0),ROUNDUP((X121-10)/2,0))`
+- `AZ121`: `=IF(AV121>=10,ROUNDDOWN((AV121-10)/2,0),ROUNDUP((AV121-10)/2,0))`
+- `BX121`: `=IF(BT121>=10,ROUNDDOWN((BT121-10)/2,0),ROUNDUP((BT121-10)/2,0))`
+- `AB122`: `=IF(X122>=10,ROUNDDOWN((X122-10)/2,0),ROUNDUP((X122-10)/2,0))`
+- `AM122`: `=SUM(AL122+IF(AM158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AZ122`: `=IF(AV122>=10,ROUNDDOWN((AV122-10)/2,0),ROUNDUP((AV122-10)/2,0))`
+- `BK122`: `=SUM(BJ122+IF(BK158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BX122`: `=IF(BT122>=10,ROUNDDOWN((BT122-10)/2,0),ROUNDUP((BT122-10)/2,0))`
+- `CI122`: `=SUM(CH122+IF(CI158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AB123`: `=IF(X123>=10,ROUNDDOWN((X123-10)/2,0),ROUNDUP((X123-10)/2,0))`
+- `AM123`: `=SUM(AL123+IF(AM158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AZ123`: `=IF(AV123>=10,ROUNDDOWN((AV123-10)/2,0),ROUNDUP((AV123-10)/2,0))`
+- `BK123`: `=SUM(BJ123+IF(BK158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BX123`: `=IF(BT123>=10,ROUNDDOWN((BT123-10)/2,0),ROUNDUP((BT123-10)/2,0))`
+- `CI123`: `=SUM(CH123+IF(CI158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM124`: `=SUM(AL124+IF(AM158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK124`: `=SUM(BJ124+IF(BK158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI124`: `=SUM(CH124+IF(CI158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM125`: `=SUM(AL125+IF(AM158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK125`: `=SUM(BJ125+IF(BK158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI125`: `=SUM(CH125+IF(CI158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM126`: `=SUM(AL126+IF(AM158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK126`: `=SUM(BJ126+IF(BK158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI126`: `=SUM(CH126+IF(CI158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM127`: `=SUM(AL127+IF(AM158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK127`: `=SUM(BJ127+IF(BK158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI127`: `=SUM(CH127+IF(CI158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM128`: `=SUM(AL128+IF(AM158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK128`: `=SUM(BJ128+IF(BK158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI128`: `=SUM(CH128+IF(CI158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM129`: `=SUM(AL129+IF(AM158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK129`: `=SUM(BJ129+IF(BK158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI129`: `=SUM(CH129+IF(CI158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM130`: `=SUM(AL130+IF(AM158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK130`: `=SUM(BJ130+IF(BK158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI130`: `=SUM(CH130+IF(CI158=TRUE,(IF('Ficha Pessoal'!AT3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM131`: `=SUM(AL131+IF(AM158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK131`: `=SUM(BJ131+IF(BK158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI131`: `=SUM(CH131+IF(CI158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM132`: `=SUM(AL132+IF(AM158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK132`: `=SUM(BJ132+IF(BK158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI132`: `=SUM(CH132+IF(CI158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM133`: `=SUM(AL133+IF(AM158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK133`: `=SUM(BJ133+IF(BK158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI133`: `=SUM(CH133+IF(CI158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM134`: `=SUM(AL134+IF(AM158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK134`: `=SUM(BJ134+IF(BK158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI134`: `=SUM(CH134+IF(CI158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM135`: `=SUM(AL135+IF(AM158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK135`: `=SUM(BJ135+IF(BK158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI135`: `=SUM(CH135+IF(CI158=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AD137`: `=SUM(Y137+IF(W137="FOR",AB118,IF(W137="DEX",AB119,IF(W137="CON",AB120,IF(W137="INT",AB121,IF(W137="SAB",AB122,IF(W102="PRE",AB123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AB137=TRUE,'Ficha Pessoal'!V4)+IF(AM153=TRUE,(IF(T101="Quarto Grau",2,IF(T101="Terceiro Grau",3,IF(T101="Segundo Grau",4,IF(T101="Primeiro Grau",5,IF(T101="Grau Especial",6)))))))+IF(AM160=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `BB137`: `=SUM(AW137+IF(AU137="FOR",AZ118,IF(AU137="DEX",AZ119,IF(AU137="CON",AZ120,IF(AU137="INT",AZ121,IF(AU137="SAB",AZ122,IF(AU102="PRE",AZ123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AZ137=TRUE,'Ficha Pessoal'!V4)+IF(BK153=TRUE,(IF(AR101="Quarto Grau",2,IF(AR101="Terceiro Grau",3,IF(AR101="Segundo Grau",4,IF(AR101="Primeiro Grau",5,IF(AR101="Grau Especial",6)))))))+IF(BK160=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `BZ137`: `=SUM(BU137+IF(BS137="FOR",BX118,IF(BS137="DEX",BX119,IF(BS137="CON",BX120,IF(BS137="INT",BX121,IF(BS137="SAB",BX122,IF(BS102="PRE",BX123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BX137=TRUE,'Ficha Pessoal'!V4)+IF(CI153=TRUE,(IF(BP101="Quarto Grau",2,IF(BP101="Terceiro Grau",3,IF(BP101="Segundo Grau",4,IF(BP101="Primeiro Grau",5,IF(BP101="Grau Especial",6)))))))+IF(CI160=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `AD138`: `=SUM(Y138+IF(W138="FOR",AB118,IF(W138="DEX",AB119,IF(W138="CON",AB120,IF(W138="INT",AB121,IF(W138="SAB",AB122,IF(W138="PRE",AB123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AB138=TRUE,'Ficha Pessoal'!V4)+IF(AM153=TRUE,(IF(T101="Quarto Grau",2,IF(T101="Terceiro Grau",3,IF(T101="Segundo Grau",4,IF(T101="Primeiro Grau",5,IF(T101="Grau Especial",6)))))))+IF(AM160=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `BB138`: `=SUM(AW138+IF(AU138="FOR",AZ118,IF(AU138="DEX",AZ119,IF(AU138="CON",AZ120,IF(AU138="INT",AZ121,IF(AU138="SAB",AZ122,IF(AU138="PRE",AZ123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AZ138=TRUE,'Ficha Pessoal'!V4)+IF(BK153=TRUE,(IF(AR101="Quarto Grau",2,IF(AR101="Terceiro Grau",3,IF(AR101="Segundo Grau",4,IF(AR101="Primeiro Grau",5,IF(AR101="Grau Especial",6)))))))+IF(BK160=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `BZ138`: `=SUM(BU138+IF(BS138="FOR",BX118,IF(BS138="DEX",BX119,IF(BS138="CON",BX120,IF(BS138="INT",BX121,IF(BS138="SAB",BX122,IF(BS138="PRE",BX123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BX138=TRUE,'Ficha Pessoal'!V4)+IF(CI153=TRUE,(IF(BP101="Quarto Grau",2,IF(BP101="Terceiro Grau",3,IF(BP101="Segundo Grau",4,IF(BP101="Primeiro Grau",5,IF(BP101="Grau Especial",6)))))))+IF(CI160=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `AD140`: `=SUM(Y140+IF(W140="FOR",AB118,IF(W140="DEX",AB119,IF(W140="CON",AB120,IF(W140="INT",AB121,IF(W140="SAB",AB122,IF(W140="PRE",AB123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC140=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB140=TRUE,'Ficha Pessoal'!V4))+IF(AM153=TRUE,(IF(T101="Quarto Grau",2,IF(T101="Terceiro Grau",3,IF(T101="Segundo Grau",4,IF(T101="Primeiro Grau",5,IF(T101="Grau Especial",6)))))))-IF(AM154=TRUE,5)+IF(AM162=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BB140`: `=SUM(AW140+IF(AU140="FOR",AZ118,IF(AU140="DEX",AZ119,IF(AU140="CON",AZ120,IF(AU140="INT",AZ121,IF(AU140="SAB",AZ122,IF(AU140="PRE",AZ123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA140=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ140=TRUE,'Ficha Pessoal'!V4))+IF(BK153=TRUE,(IF(AR101="Quarto Grau",2,IF(AR101="Terceiro Grau",3,IF(AR101="Segundo Grau",4,IF(AR101="Primeiro Grau",5,IF(AR101="Grau Especial",6)))))))-IF(BK154=TRUE,5)+IF(BK162=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BZ140`: `=SUM(BU140+IF(BS140="FOR",BX118,IF(BS140="DEX",BX119,IF(BS140="CON",BX120,IF(BS140="INT",BX121,IF(BS140="SAB",BX122,IF(BS140="PRE",BX123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY140=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX140=TRUE,'Ficha Pessoal'!V4))+IF(CI153=TRUE,(IF(BP101="Quarto Grau",2,IF(BP101="Terceiro Grau",3,IF(BP101="Segundo Grau",4,IF(BP101="Primeiro Grau",5,IF(BP101="Grau Especial",6)))))))-IF(CI154=TRUE,5)+IF(CI162=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `AD141`: `=SUM(Y141+IF(W141="FOR",AB118,IF(W141="DEX",AB119,IF(W141="CON",AB120,IF(W141="INT",AB121,IF(W141="SAB",AB122,IF(W141="PRE",AB123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC141=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB141=TRUE,'Ficha Pessoal'!V4))+IF(AM153=TRUE,(IF(T101="Quarto Grau",2,IF(T101="Terceiro Grau",3,IF(T101="Segundo Grau",4,IF(T101="Primeiro Grau",5,IF(T101="Grau Especial",6)))))))-IF(AM154=TRUE,5)+IF(AM162=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BB141`: `=SUM(AW141+IF(AU141="FOR",AZ118,IF(AU141="DEX",AZ119,IF(AU141="CON",AZ120,IF(AU141="INT",AZ121,IF(AU141="SAB",AZ122,IF(AU141="PRE",AZ123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA141=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ141=TRUE,'Ficha Pessoal'!V4))+IF(BK153=TRUE,(IF(AR101="Quarto Grau",2,IF(AR101="Terceiro Grau",3,IF(AR101="Segundo Grau",4,IF(AR101="Primeiro Grau",5,IF(AR101="Grau Especial",6)))))))-IF(BK154=TRUE,5)+IF(BK162=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BZ141`: `=SUM(BU141+IF(BS141="FOR",BX118,IF(BS141="DEX",BX119,IF(BS141="CON",BX120,IF(BS141="INT",BX121,IF(BS141="SAB",BX122,IF(BS141="PRE",BX123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY141=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX141=TRUE,'Ficha Pessoal'!V4))+IF(CI153=TRUE,(IF(BP101="Quarto Grau",2,IF(BP101="Terceiro Grau",3,IF(BP101="Segundo Grau",4,IF(BP101="Primeiro Grau",5,IF(BP101="Grau Especial",6)))))))-IF(CI154=TRUE,5)+IF(CI162=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `AD142`: `=SUM(Y142+IF(W142="FOR",AB118,IF(W142="DEX",AB119,IF(W142="CON",AB120,IF(W142="INT",AB121,IF(W142="SAB",AB122,IF(W142="PRE",AB123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC142=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB142=TRUE,'Ficha Pessoal'!V4))+IF(AM153=TRUE,(IF(T101="Quarto Grau",2,IF(T101="Terceiro Grau",3,IF(T101="Segundo Grau",4,IF(T101="Primeiro Grau",5,IF(T101="Grau Especial",6)))))))-IF(AM154=TRUE,5)+IF(AM162=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BB142`: `=SUM(AW142+IF(AU142="FOR",AZ118,IF(AU142="DEX",AZ119,IF(AU142="CON",AZ120,IF(AU142="INT",AZ121,IF(AU142="SAB",AZ122,IF(AU142="PRE",AZ123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA142=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ142=TRUE,'Ficha Pessoal'!V4))+IF(BK153=TRUE,(IF(AR101="Quarto Grau",2,IF(AR101="Terceiro Grau",3,IF(AR101="Segundo Grau",4,IF(AR101="Primeiro Grau",5,IF(AR101="Grau Especial",6)))))))-IF(BK154=TRUE,5)+IF(BK162=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BZ142`: `=SUM(BU142+IF(BS142="FOR",BX118,IF(BS142="DEX",BX119,IF(BS142="CON",BX120,IF(BS142="INT",BX121,IF(BS142="SAB",BX122,IF(BS142="PRE",BX123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY142=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX142=TRUE,'Ficha Pessoal'!V4))+IF(CI153=TRUE,(IF(BP101="Quarto Grau",2,IF(BP101="Terceiro Grau",3,IF(BP101="Segundo Grau",4,IF(BP101="Primeiro Grau",5,IF(BP101="Grau Especial",6)))))))-IF(CI154=TRUE,5)+IF(CI162=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `AD143`: `=SUM(Y143+IF(W143="FOR",AB118,IF(W143="DEX",AB119,IF(W143="CON",AB120,IF(W143="INT",AB121,IF(W143="SAB",AB122,IF(W142="PRE",AB123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC143=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB143=TRUE,'Ficha Pessoal'!V4))+IF(AM153=TRUE,(IF(T101="Quarto Grau",2,IF(T101="Terceiro Grau",3,IF(T101="Segundo Grau",4,IF(T101="Primeiro Grau",5,IF(T101="Grau Especial",6)))))))-IF(AM154=TRUE,5)+IF(AM162=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BB143`: `=SUM(AW143+IF(AU143="FOR",AZ118,IF(AU143="DEX",AZ119,IF(AU143="CON",AZ120,IF(AU143="INT",AZ121,IF(AU143="SAB",AZ122,IF(AU142="PRE",AZ123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA143=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ143=TRUE,'Ficha Pessoal'!V4))+IF(BK153=TRUE,(IF(AR101="Quarto Grau",2,IF(AR101="Terceiro Grau",3,IF(AR101="Segundo Grau",4,IF(AR101="Primeiro Grau",5,IF(AR101="Grau Especial",6)))))))-IF(BK154=TRUE,5)+IF(BK162=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BZ143`: `=SUM(BU143+IF(BS143="FOR",BX118,IF(BS143="DEX",BX119,IF(BS143="CON",BX120,IF(BS143="INT",BX121,IF(BS143="SAB",BX122,IF(BS142="PRE",BX123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY143=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX143=TRUE,'Ficha Pessoal'!V4))+IF(CI153=TRUE,(IF(BP101="Quarto Grau",2,IF(BP101="Terceiro Grau",3,IF(BP101="Segundo Grau",4,IF(BP101="Primeiro Grau",5,IF(BP101="Grau Especial",6)))))))-IF(CI154=TRUE,5)+IF(CI162=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `AD144`: `=SUM(Y144+IF(W144="FOR",AB118,IF(W144="DEX",AB119,IF(W144="CON",AB120,IF(W144="INT",AB121,IF(W144="SAB",AB122,IF(W144="PRE",AB123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC144=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB144=TRUE,'Ficha Pessoal'!V4))+IF(AM153=TRUE,(IF(T101="Quarto Grau",2,IF(T101="Terceiro Grau",3,IF(T101="Segundo Grau",4,IF(T101="Primeiro Grau",5,IF(T101="Grau Especial",6)))))))-IF(AM154=TRUE,5)+IF(AM162=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BB144`: `=SUM(AW144+IF(AU144="FOR",AZ118,IF(AU144="DEX",AZ119,IF(AU144="CON",AZ120,IF(AU144="INT",AZ121,IF(AU144="SAB",AZ122,IF(AU144="PRE",AZ123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA144=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ144=TRUE,'Ficha Pessoal'!V4))+IF(BK153=TRUE,(IF(AR101="Quarto Grau",2,IF(AR101="Terceiro Grau",3,IF(AR101="Segundo Grau",4,IF(AR101="Primeiro Grau",5,IF(AR101="Grau Especial",6)))))))-IF(BK154=TRUE,5)+IF(BK162=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BZ144`: `=SUM(BU144+IF(BS144="FOR",BX118,IF(BS144="DEX",BX119,IF(BS144="CON",BX120,IF(BS144="INT",BX121,IF(BS144="SAB",BX122,IF(BS144="PRE",BX123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY144=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX144=TRUE,'Ficha Pessoal'!V4))+IF(CI153=TRUE,(IF(BP101="Quarto Grau",2,IF(BP101="Terceiro Grau",3,IF(BP101="Segundo Grau",4,IF(BP101="Primeiro Grau",5,IF(BP101="Grau Especial",6)))))))-IF(CI154=TRUE,5)+IF(CI162=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `AD146`: `=SUM(Y146+IF(W146="FOR",AB118,IF(W146="DEX",AB119,IF(W146="CON",AB120,IF(W146="INT",AB121,IF(W146="SAB",AB122,IF(W146="PRE",AB123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC146=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB146=TRUE,'Ficha Pessoal'!V4))+IF(AM153=TRUE,(IF(T101="Quarto Grau",2,IF(T101="Terceiro Grau",3,IF(T101="Segundo Grau",4,IF(T101="Primeiro Grau",5,IF(T101="Grau Especial",6)))))))`
+- `BB146`: `=SUM(AW146+IF(AU146="FOR",AZ118,IF(AU146="DEX",AZ119,IF(AU146="CON",AZ120,IF(AU146="INT",AZ121,IF(AU146="SAB",AZ122,IF(AU146="PRE",AZ123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA146=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ146=TRUE,'Ficha Pessoal'!V4))+IF(BK153=TRUE,(IF(AR101="Quarto Grau",2,IF(AR101="Terceiro Grau",3,IF(AR101="Segundo Grau",4,IF(AR101="Primeiro Grau",5,IF(AR101="Grau Especial",6)))))))`
+- `BZ146`: `=SUM(BU146+IF(BS146="FOR",BX118,IF(BS146="DEX",BX119,IF(BS146="CON",BX120,IF(BS146="INT",BX121,IF(BS146="SAB",BX122,IF(BS146="PRE",BX123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY146=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX146=TRUE,'Ficha Pessoal'!V4))+IF(CI153=TRUE,(IF(BP101="Quarto Grau",2,IF(BP101="Terceiro Grau",3,IF(BP101="Segundo Grau",4,IF(BP101="Primeiro Grau",5,IF(BP101="Grau Especial",6)))))))`
+- `AD147`: `=SUM(Y147+IF(W147="FOR",AB118,IF(W147="DEX",AB119,IF(W147="CON",AB120,IF(W147="INT",AB121,IF(W147="SAB",AB122,IF(W147="PRE",AB123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC147=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB147=TRUE,'Ficha Pessoal'!V4))+IF(AM153=TRUE,(IF(T101="Quarto Grau",2,IF(T101="Terceiro Grau",3,IF(T101="Segundo Grau",4,IF(T101="Primeiro Grau",5,IF(T101="Grau Especial",6)))))))`
+- `BB147`: `=SUM(AW147+IF(AU147="FOR",AZ118,IF(AU147="DEX",AZ119,IF(AU147="CON",AZ120,IF(AU147="INT",AZ121,IF(AU147="SAB",AZ122,IF(AU147="PRE",AZ123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA147=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ147=TRUE,'Ficha Pessoal'!V4))+IF(BK153=TRUE,(IF(AR101="Quarto Grau",2,IF(AR101="Terceiro Grau",3,IF(AR101="Segundo Grau",4,IF(AR101="Primeiro Grau",5,IF(AR101="Grau Especial",6)))))))`
+- `BZ147`: `=SUM(BU147+IF(BS147="FOR",BX118,IF(BS147="DEX",BX119,IF(BS147="CON",BX120,IF(BS147="INT",BX121,IF(BS147="SAB",BX122,IF(BS147="PRE",BX123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY147=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX147=TRUE,'Ficha Pessoal'!V4))+IF(CI153=TRUE,(IF(BP101="Quarto Grau",2,IF(BP101="Terceiro Grau",3,IF(BP101="Segundo Grau",4,IF(BP101="Primeiro Grau",5,IF(BP101="Grau Especial",6)))))))`
+- `AD148`: `=SUM(Y148+IF(W148="FOR",AB118,IF(W148="DEX",AB119,IF(W148="CON",AB120,IF(W148="INT",AB121,IF(W148="SAB",AB122,IF(W148="PRE",AB123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC148=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB148=TRUE,'Ficha Pessoal'!V4))+IF(AM153=TRUE,(IF(T101="Quarto Grau",2,IF(T101="Terceiro Grau",3,IF(T101="Segundo Grau",4,IF(T101="Primeiro Grau",5,IF(T101="Grau Especial",6)))))))`
+- `BB148`: `=SUM(AW148+IF(AU148="FOR",AZ118,IF(AU148="DEX",AZ119,IF(AU148="CON",AZ120,IF(AU148="INT",AZ121,IF(AU148="SAB",AZ122,IF(AU148="PRE",AZ123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA148=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ148=TRUE,'Ficha Pessoal'!V4))+IF(BK153=TRUE,(IF(AR101="Quarto Grau",2,IF(AR101="Terceiro Grau",3,IF(AR101="Segundo Grau",4,IF(AR101="Primeiro Grau",5,IF(AR101="Grau Especial",6)))))))`
+- `BZ148`: `=SUM(BU148+IF(BS148="FOR",BX118,IF(BS148="DEX",BX119,IF(BS148="CON",BX120,IF(BS148="INT",BX121,IF(BS148="SAB",BX122,IF(BS148="PRE",BX123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY148=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX148=TRUE,'Ficha Pessoal'!V4))+IF(CI153=TRUE,(IF(BP101="Quarto Grau",2,IF(BP101="Terceiro Grau",3,IF(BP101="Segundo Grau",4,IF(BP101="Primeiro Grau",5,IF(BP101="Grau Especial",6)))))))`
+- `AD149`: `=SUM(Y149+IF(W149="FOR",AB118,IF(W149="DEX",AB119,IF(W149="CON",AB120,IF(W149="INT",AB121,IF(W149="SAB",AB122,IF(W149="PRE",AB123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC149=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB149=TRUE,'Ficha Pessoal'!V4))+IF(AM153=TRUE,(IF(T101="Quarto Grau",2,IF(T101="Terceiro Grau",3,IF(T101="Segundo Grau",4,IF(T101="Primeiro Grau",5,IF(T101="Grau Especial",6)))))))`
+- `BB149`: `=SUM(AW149+IF(AU149="FOR",AZ118,IF(AU149="DEX",AZ119,IF(AU149="CON",AZ120,IF(AU149="INT",AZ121,IF(AU149="SAB",AZ122,IF(AU149="PRE",AZ123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA149=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ149=TRUE,'Ficha Pessoal'!V4))+IF(BK153=TRUE,(IF(AR101="Quarto Grau",2,IF(AR101="Terceiro Grau",3,IF(AR101="Segundo Grau",4,IF(AR101="Primeiro Grau",5,IF(AR101="Grau Especial",6)))))))`
+- `BZ149`: `=SUM(BU149+IF(BS149="FOR",BX118,IF(BS149="DEX",BX119,IF(BS149="CON",BX120,IF(BS149="INT",BX121,IF(BS149="SAB",BX122,IF(BS149="PRE",BX123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY149=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX149=TRUE,'Ficha Pessoal'!V4))+IF(CI153=TRUE,(IF(BP101="Quarto Grau",2,IF(BP101="Terceiro Grau",3,IF(BP101="Segundo Grau",4,IF(BP101="Primeiro Grau",5,IF(BP101="Grau Especial",6)))))))`
+- `AD150`: `=SUM(Y150+IF(W150="FOR",AB118,IF(W150="DEX",AB119,IF(W150="CON",AB120,IF(W150="INT",AB121,IF(W150="SAB",AB122,IF(W150="PRE",AB123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC150=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB150=TRUE,'Ficha Pessoal'!V4))+IF(AM153=TRUE,(IF(T101="Quarto Grau",2,IF(T101="Terceiro Grau",3,IF(T101="Segundo Grau",4,IF(T101="Primeiro Grau",5,IF(T101="Grau Especial",6)))))))`
+- `BB150`: `=SUM(AW150+IF(AU150="FOR",AZ118,IF(AU150="DEX",AZ119,IF(AU150="CON",AZ120,IF(AU150="INT",AZ121,IF(AU150="SAB",AZ122,IF(AU150="PRE",AZ123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA150=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ150=TRUE,'Ficha Pessoal'!V4))+IF(BK153=TRUE,(IF(AR101="Quarto Grau",2,IF(AR101="Terceiro Grau",3,IF(AR101="Segundo Grau",4,IF(AR101="Primeiro Grau",5,IF(AR101="Grau Especial",6)))))))`
+- `BZ150`: `=SUM(BU150+IF(BS150="FOR",BX118,IF(BS150="DEX",BX119,IF(BS150="CON",BX120,IF(BS150="INT",BX121,IF(BS150="SAB",BX122,IF(BS150="PRE",BX123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY150=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX150=TRUE,'Ficha Pessoal'!V4))+IF(CI153=TRUE,(IF(BP101="Quarto Grau",2,IF(BP101="Terceiro Grau",3,IF(BP101="Segundo Grau",4,IF(BP101="Primeiro Grau",5,IF(BP101="Grau Especial",6)))))))`
+- `AD151`: `=SUM(Y151+IF(W151="FOR",AB118,IF(W151="DEX",AB119,IF(W151="CON",AB120,IF(W151="INT",AB121,IF(W151="SAB",AB122,IF(W151="PRE",AB123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC151=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB151=TRUE,'Ficha Pessoal'!V4))+IF(AM153=TRUE,(IF(T101="Quarto Grau",2,IF(T101="Terceiro Grau",3,IF(T101="Segundo Grau",4,IF(T101="Primeiro Grau",5,IF(T101="Grau Especial",6)))))))`
+- `BB151`: `=SUM(AW151+IF(AU151="FOR",AZ118,IF(AU151="DEX",AZ119,IF(AU151="CON",AZ120,IF(AU151="INT",AZ121,IF(AU151="SAB",AZ122,IF(AU151="PRE",AZ123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA151=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ151=TRUE,'Ficha Pessoal'!V4))+IF(BK153=TRUE,(IF(AR101="Quarto Grau",2,IF(AR101="Terceiro Grau",3,IF(AR101="Segundo Grau",4,IF(AR101="Primeiro Grau",5,IF(AR101="Grau Especial",6)))))))`
+- `BZ151`: `=SUM(BU151+IF(BS151="FOR",BX118,IF(BS151="DEX",BX119,IF(BS151="CON",BX120,IF(BS151="INT",BX121,IF(BS151="SAB",BX122,IF(BS151="PRE",BX123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY151=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX151=TRUE,'Ficha Pessoal'!V4))+IF(CI153=TRUE,(IF(BP101="Quarto Grau",2,IF(BP101="Terceiro Grau",3,IF(BP101="Segundo Grau",4,IF(BP101="Primeiro Grau",5,IF(BP101="Grau Especial",6)))))))`
+- `AD152`: `=SUM(Y152+IF(W152="FOR",AB118,IF(W152="DEX",AB119,IF(W152="CON",AB120,IF(W152="INT",AB121,IF(W152="SAB",AB122,IF(W152="PRE",AB123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC152=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB152=TRUE,'Ficha Pessoal'!V4))+IF(AM153=TRUE,(IF(T101="Quarto Grau",2,IF(T101="Terceiro Grau",3,IF(T101="Segundo Grau",4,IF(T101="Primeiro Grau",5,IF(T101="Grau Especial",6)))))))`
+- `BB152`: `=SUM(AW152+IF(AU152="FOR",AZ118,IF(AU152="DEX",AZ119,IF(AU152="CON",AZ120,IF(AU152="INT",AZ121,IF(AU152="SAB",AZ122,IF(AU152="PRE",AZ123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA152=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ152=TRUE,'Ficha Pessoal'!V4))+IF(BK153=TRUE,(IF(AR101="Quarto Grau",2,IF(AR101="Terceiro Grau",3,IF(AR101="Segundo Grau",4,IF(AR101="Primeiro Grau",5,IF(AR101="Grau Especial",6)))))))`
+- `BZ152`: `=SUM(BU152+IF(BS152="FOR",BX118,IF(BS152="DEX",BX119,IF(BS152="CON",BX120,IF(BS152="INT",BX121,IF(BS152="SAB",BX122,IF(BS152="PRE",BX123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY152=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX152=TRUE,'Ficha Pessoal'!V4))+IF(CI153=TRUE,(IF(BP101="Quarto Grau",2,IF(BP101="Terceiro Grau",3,IF(BP101="Segundo Grau",4,IF(BP101="Primeiro Grau",5,IF(BP101="Grau Especial",6)))))))`
+- `AD153`: `=SUM(Y153+IF(W153="FOR",AB118,IF(W153="DEX",AB119,IF(W153="CON",AB120,IF(W153="INT",AB121,IF(W153="SAB",AB122,IF(W153="PRE",AB123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC153=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB153=TRUE,'Ficha Pessoal'!V4))+IF(AM153=TRUE,(IF(T101="Quarto Grau",2,IF(T101="Terceiro Grau",3,IF(T101="Segundo Grau",4,IF(T101="Primeiro Grau",5,IF(T101="Grau Especial",6)))))))`
+- `BB153`: `=SUM(AW153+IF(AU153="FOR",AZ118,IF(AU153="DEX",AZ119,IF(AU153="CON",AZ120,IF(AU153="INT",AZ121,IF(AU153="SAB",AZ122,IF(AU153="PRE",AZ123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA153=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ153=TRUE,'Ficha Pessoal'!V4))+IF(BK153=TRUE,(IF(AR101="Quarto Grau",2,IF(AR101="Terceiro Grau",3,IF(AR101="Segundo Grau",4,IF(AR101="Primeiro Grau",5,IF(AR101="Grau Especial",6)))))))`
+- `BZ153`: `=SUM(BU153+IF(BS153="FOR",BX118,IF(BS153="DEX",BX119,IF(BS153="CON",BX120,IF(BS153="INT",BX121,IF(BS153="SAB",BX122,IF(BS153="PRE",BX123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY153=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX153=TRUE,'Ficha Pessoal'!V4))+IF(CI153=TRUE,(IF(BP101="Quarto Grau",2,IF(BP101="Terceiro Grau",3,IF(BP101="Segundo Grau",4,IF(BP101="Primeiro Grau",5,IF(BP101="Grau Especial",6)))))))`
+- `AD154`: `=SUM(Y154+IF(W154="FOR",AB118,IF(W154="DEX",AB119,IF(W154="CON",AB120,IF(W154="INT",AB121,IF(W154="SAB",AB122,IF(W154="PRE",AB123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC154=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB154=TRUE,'Ficha Pessoal'!V4))+IF(AM153=TRUE,(IF(T101="Quarto Grau",2,IF(T101="Terceiro Grau",3,IF(T101="Segundo Grau",4,IF(T101="Primeiro Grau",5,IF(T101="Grau Especial",6)))))))`
+- `BB154`: `=SUM(AW154+IF(AU154="FOR",AZ118,IF(AU154="DEX",AZ119,IF(AU154="CON",AZ120,IF(AU154="INT",AZ121,IF(AU154="SAB",AZ122,IF(AU154="PRE",AZ123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA154=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ154=TRUE,'Ficha Pessoal'!V4))+IF(BK153=TRUE,(IF(AR101="Quarto Grau",2,IF(AR101="Terceiro Grau",3,IF(AR101="Segundo Grau",4,IF(AR101="Primeiro Grau",5,IF(AR101="Grau Especial",6)))))))`
+- `BZ154`: `=SUM(BU154+IF(BS154="FOR",BX118,IF(BS154="DEX",BX119,IF(BS154="CON",BX120,IF(BS154="INT",BX121,IF(BS154="SAB",BX122,IF(BS154="PRE",BX123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY154=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX154=TRUE,'Ficha Pessoal'!V4))+IF(CI153=TRUE,(IF(BP101="Quarto Grau",2,IF(BP101="Terceiro Grau",3,IF(BP101="Segundo Grau",4,IF(BP101="Primeiro Grau",5,IF(BP101="Grau Especial",6)))))))`
+- `AD155`: `=SUM(Y155+IF(W155="FOR",AB118,IF(W155="DEX",AB119,IF(W155="CON",AB120,IF(W155="INT",AB121,IF(W155="SAB",AB122,IF(W155="PRE",AB123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC155=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB155=TRUE,'Ficha Pessoal'!V4))+IF(AM153=TRUE,(IF(T101="Quarto Grau",2,IF(T101="Terceiro Grau",3,IF(T101="Segundo Grau",4,IF(T101="Primeiro Grau",5,IF(T101="Grau Especial",6)))))))`
+- `BB155`: `=SUM(AW155+IF(AU155="FOR",AZ118,IF(AU155="DEX",AZ119,IF(AU155="CON",AZ120,IF(AU155="INT",AZ121,IF(AU155="SAB",AZ122,IF(AU155="PRE",AZ123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA155=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ155=TRUE,'Ficha Pessoal'!V4))+IF(BK153=TRUE,(IF(AR101="Quarto Grau",2,IF(AR101="Terceiro Grau",3,IF(AR101="Segundo Grau",4,IF(AR101="Primeiro Grau",5,IF(AR101="Grau Especial",6)))))))`
+- `BZ155`: `=SUM(BU155+IF(BS155="FOR",BX118,IF(BS155="DEX",BX119,IF(BS155="CON",BX120,IF(BS155="INT",BX121,IF(BS155="SAB",BX122,IF(BS155="PRE",BX123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY155=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX155=TRUE,'Ficha Pessoal'!V4))+IF(CI153=TRUE,(IF(BP101="Quarto Grau",2,IF(BP101="Terceiro Grau",3,IF(BP101="Segundo Grau",4,IF(BP101="Primeiro Grau",5,IF(BP101="Grau Especial",6)))))))`
+- `AD156`: `=SUM(Y156+IF(W156="FOR",AB118,IF(W156="DEX",AB119,IF(W156="CON",AB120,IF(W156="INT",AB121,IF(W156="SAB",AB122,IF(W156="PRE",AB123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC156=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB156=TRUE,'Ficha Pessoal'!V4))+IF(AM153=TRUE,(IF(T101="Quarto Grau",2,IF(T101="Terceiro Grau",3,IF(T101="Segundo Grau",4,IF(T101="Primeiro Grau",5,IF(T101="Grau Especial",6)))))))`
+- `BB156`: `=SUM(AW156+IF(AU156="FOR",AZ118,IF(AU156="DEX",AZ119,IF(AU156="CON",AZ120,IF(AU156="INT",AZ121,IF(AU156="SAB",AZ122,IF(AU156="PRE",AZ123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA156=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ156=TRUE,'Ficha Pessoal'!V4))+IF(BK153=TRUE,(IF(AR101="Quarto Grau",2,IF(AR101="Terceiro Grau",3,IF(AR101="Segundo Grau",4,IF(AR101="Primeiro Grau",5,IF(AR101="Grau Especial",6)))))))`
+- `BZ156`: `=SUM(BU156+IF(BS156="FOR",BX118,IF(BS156="DEX",BX119,IF(BS156="CON",BX120,IF(BS156="INT",BX121,IF(BS156="SAB",BX122,IF(BS156="PRE",BX123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY156=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX156=TRUE,'Ficha Pessoal'!V4))+IF(CI153=TRUE,(IF(BP101="Quarto Grau",2,IF(BP101="Terceiro Grau",3,IF(BP101="Segundo Grau",4,IF(BP101="Primeiro Grau",5,IF(BP101="Grau Especial",6)))))))`
+- `AD157`: `=SUM(Y157+IF(W157="FOR",AB118,IF(W157="DEX",AB119,IF(W157="CON",AB120,IF(W157="INT",AB121,IF(W157="SAB",AB122,IF(W157="PRE",AB123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC157=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB157=TRUE,'Ficha Pessoal'!V4))+IF(AM153=TRUE,(IF(T101="Quarto Grau",2,IF(T101="Terceiro Grau",3,IF(T101="Segundo Grau",4,IF(T101="Primeiro Grau",5,IF(T101="Grau Especial",6)))))))`
+- `AM157`: `=IF('Ficha Pessoal'!V3<=3,"1d6",IF('Ficha Pessoal'!V3<=7,"1d6+3",IF('Ficha Pessoal'!V3<=11,"1d8+3",IF('Ficha Pessoal'!V3<=15,"1d8+6",IF('Ficha Pessoal'!V3<=17,"1d10+6",IF('Ficha Pessoal'!V3>=18,"1d12+6",))))))`
+- `BB157`: `=SUM(AW157+IF(AU157="FOR",AZ118,IF(AU157="DEX",AZ119,IF(AU157="CON",AZ120,IF(AU157="INT",AZ121,IF(AU157="SAB",AZ122,IF(AU157="PRE",AZ123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA157=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ157=TRUE,'Ficha Pessoal'!V4))+IF(BK153=TRUE,(IF(AR101="Quarto Grau",2,IF(AR101="Terceiro Grau",3,IF(AR101="Segundo Grau",4,IF(AR101="Primeiro Grau",5,IF(AR101="Grau Especial",6)))))))`
+- `BK157`: `=IF('Ficha Pessoal'!V3<=3,"1d6",IF('Ficha Pessoal'!V3<=7,"1d6+3",IF('Ficha Pessoal'!V3<=11,"1d8+3",IF('Ficha Pessoal'!V3<=15,"1d8+6",IF('Ficha Pessoal'!V3<=17,"1d10+6",IF('Ficha Pessoal'!V3>=18,"1d12+6",))))))`
+- `BZ157`: `=SUM(BU157+IF(BS157="FOR",BX118,IF(BS157="DEX",BX119,IF(BS157="CON",BX120,IF(BS157="INT",BX121,IF(BS157="SAB",BX122,IF(BS157="PRE",BX123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY157=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX157=TRUE,'Ficha Pessoal'!V4))+IF(CI153=TRUE,(IF(BP101="Quarto Grau",2,IF(BP101="Terceiro Grau",3,IF(BP101="Segundo Grau",4,IF(BP101="Primeiro Grau",5,IF(BP101="Grau Especial",6)))))))`
+- `CI157`: `=IF('Ficha Pessoal'!V3<=3,"1d6",IF('Ficha Pessoal'!V3<=7,"1d6+3",IF('Ficha Pessoal'!V3<=11,"1d8+3",IF('Ficha Pessoal'!V3<=15,"1d8+6",IF('Ficha Pessoal'!V3<=17,"1d10+6",IF('Ficha Pessoal'!V3>=18,"1d12+6",))))))`
+- `AD158`: `=SUM(Y158+IF(W158="FOR",AB118,IF(W158="DEX",AB119,IF(W158="CON",AB120,IF(W158="INT",AB121,IF(W158="SAB",AB122,IF(W158="PRE",AB123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC158=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB158=TRUE,'Ficha Pessoal'!V4))+IF(AM153=TRUE,(IF(T101="Quarto Grau",2,IF(T101="Terceiro Grau",3,IF(T101="Segundo Grau",4,IF(T101="Primeiro Grau",5,IF(T101="Grau Especial",6)))))))`
+- `BB158`: `=SUM(AW158+IF(AU158="FOR",AZ118,IF(AU158="DEX",AZ119,IF(AU158="CON",AZ120,IF(AU158="INT",AZ121,IF(AU158="SAB",AZ122,IF(AU158="PRE",AZ123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA158=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ158=TRUE,'Ficha Pessoal'!V4))+IF(BK153=TRUE,(IF(AR101="Quarto Grau",2,IF(AR101="Terceiro Grau",3,IF(AR101="Segundo Grau",4,IF(AR101="Primeiro Grau",5,IF(AR101="Grau Especial",6)))))))`
+- `BZ158`: `=SUM(BU158+IF(BS158="FOR",BX118,IF(BS158="DEX",BX119,IF(BS158="CON",BX120,IF(BS158="INT",BX121,IF(BS158="SAB",BX122,IF(BS158="PRE",BX123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY158=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX158=TRUE,'Ficha Pessoal'!V4))+IF(CI153=TRUE,(IF(BP101="Quarto Grau",2,IF(BP101="Terceiro Grau",3,IF(BP101="Segundo Grau",4,IF(BP101="Primeiro Grau",5,IF(BP101="Grau Especial",6)))))))`
+- `AD159`: `=SUM(Y159+IF(W159="FOR",AB118,IF(W159="DEX",AB119,IF(W159="CON",AB120,IF(W159="INT",AB121,IF(W159="SAB",AB122,IF(W159="PRE",AB123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC159=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB159=TRUE,'Ficha Pessoal'!V4))+IF(AM153=TRUE,(IF(T101="Quarto Grau",2,IF(T101="Terceiro Grau",3,IF(T101="Segundo Grau",4,IF(T101="Primeiro Grau",5,IF(T101="Grau Especial",6)))))))`
+- `BB159`: `=SUM(AW159+IF(AU159="FOR",AZ118,IF(AU159="DEX",AZ119,IF(AU159="CON",AZ120,IF(AU159="INT",AZ121,IF(AU159="SAB",AZ122,IF(AU159="PRE",AZ123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA159=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ159=TRUE,'Ficha Pessoal'!V4))+IF(BK153=TRUE,(IF(AR101="Quarto Grau",2,IF(AR101="Terceiro Grau",3,IF(AR101="Segundo Grau",4,IF(AR101="Primeiro Grau",5,IF(AR101="Grau Especial",6)))))))`
+- `BZ159`: `=SUM(BU159+IF(BS159="FOR",BX118,IF(BS159="DEX",BX119,IF(BS159="CON",BX120,IF(BS159="INT",BX121,IF(BS159="SAB",BX122,IF(BS159="PRE",BX123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY159=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX159=TRUE,'Ficha Pessoal'!V4))+IF(CI153=TRUE,(IF(BP101="Quarto Grau",2,IF(BP101="Terceiro Grau",3,IF(BP101="Segundo Grau",4,IF(BP101="Primeiro Grau",5,IF(BP101="Grau Especial",6)))))))`
+- `AD160`: `=SUM(Y160+IF(W160="FOR",AB118,IF(W160="DEX",AB119,IF(W160="CON",AB120,IF(W160="INT",AB121,IF(W160="SAB",AB122,IF(W160="PRE",AB123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC160=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB160=TRUE,'Ficha Pessoal'!V4))+IF(AM153=TRUE,(IF(T101="Quarto Grau",2,IF(T101="Terceiro Grau",3,IF(T101="Segundo Grau",4,IF(T101="Primeiro Grau",5,IF(T101="Grau Especial",6)))))))`
+- `BB160`: `=SUM(AW160+IF(AU160="FOR",AZ118,IF(AU160="DEX",AZ119,IF(AU160="CON",AZ120,IF(AU160="INT",AZ121,IF(AU160="SAB",AZ122,IF(AU160="PRE",AZ123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA160=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ160=TRUE,'Ficha Pessoal'!V4))+IF(BK153=TRUE,(IF(AR101="Quarto Grau",2,IF(AR101="Terceiro Grau",3,IF(AR101="Segundo Grau",4,IF(AR101="Primeiro Grau",5,IF(AR101="Grau Especial",6)))))))`
+- `BZ160`: `=SUM(BU160+IF(BS160="FOR",BX118,IF(BS160="DEX",BX119,IF(BS160="CON",BX120,IF(BS160="INT",BX121,IF(BS160="SAB",BX122,IF(BS160="PRE",BX123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY160=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX160=TRUE,'Ficha Pessoal'!V4))+IF(CI153=TRUE,(IF(BP101="Quarto Grau",2,IF(BP101="Terceiro Grau",3,IF(BP101="Segundo Grau",4,IF(BP101="Primeiro Grau",5,IF(BP101="Grau Especial",6)))))))`
+- `AD161`: `=SUM(Y161+IF(W161="FOR",AB118,IF(W161="DEX",AB119,IF(W161="CON",AB120,IF(W161="INT",AB121,IF(W161="SAB",AB122,IF(W161="PRE",AB123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC161=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB161=TRUE,'Ficha Pessoal'!V4))+IF(AM153=TRUE,(IF(T101="Quarto Grau",2,IF(T101="Terceiro Grau",3,IF(T101="Segundo Grau",4,IF(T101="Primeiro Grau",5,IF(T101="Grau Especial",6)))))))`
+- `BB161`: `=SUM(AW161+IF(AU161="FOR",AZ118,IF(AU161="DEX",AZ119,IF(AU161="CON",AZ120,IF(AU161="INT",AZ121,IF(AU161="SAB",AZ122,IF(AU161="PRE",AZ123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA161=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ161=TRUE,'Ficha Pessoal'!V4))+IF(BK153=TRUE,(IF(AR101="Quarto Grau",2,IF(AR101="Terceiro Grau",3,IF(AR101="Segundo Grau",4,IF(AR101="Primeiro Grau",5,IF(AR101="Grau Especial",6)))))))`
+- `BZ161`: `=SUM(BU161+IF(BS161="FOR",BX118,IF(BS161="DEX",BX119,IF(BS161="CON",BX120,IF(BS161="INT",BX121,IF(BS161="SAB",BX122,IF(BS161="PRE",BX123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY161=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX161=TRUE,'Ficha Pessoal'!V4))+IF(CI153=TRUE,(IF(BP101="Quarto Grau",2,IF(BP101="Terceiro Grau",3,IF(BP101="Segundo Grau",4,IF(BP101="Primeiro Grau",5,IF(BP101="Grau Especial",6)))))))`
+- `AD162`: `=SUM(Y162+IF(W162="FOR",AB118,IF(W162="DEX",AB119,IF(W162="CON",AB120,IF(W162="INT",AB121,IF(W162="SAB",AB122,IF(W162="PRE",AB123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC162=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB162=TRUE,'Ficha Pessoal'!V4))+IF(AM153=TRUE,(IF(T101="Quarto Grau",2,IF(T101="Terceiro Grau",3,IF(T101="Segundo Grau",4,IF(T101="Primeiro Grau",5,IF(T101="Grau Especial",6)))))))`
+- `AL162`: `=IF(AM162=TRUE,(IF('Ficha Pessoal'!V3<=5,"1d4",IF('Ficha Pessoal'!V3<=11,"1d6+3",IF('Ficha Pessoal'!V3<=17,"1d8+5",IF('Ficha Pessoal'!V3>=18,"1d12+10"))))))`
+- `BB162`: `=SUM(AW162+IF(AU162="FOR",AZ118,IF(AU162="DEX",AZ119,IF(AU162="CON",AZ120,IF(AU162="INT",AZ121,IF(AU162="SAB",AZ122,IF(AU162="PRE",AZ123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA162=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ162=TRUE,'Ficha Pessoal'!V4))+IF(BK153=TRUE,(IF(AR101="Quarto Grau",2,IF(AR101="Terceiro Grau",3,IF(AR101="Segundo Grau",4,IF(AR101="Primeiro Grau",5,IF(AR101="Grau Especial",6)))))))`
+- `BJ162`: `=IF(BK162=TRUE,(IF('Ficha Pessoal'!V3<=5,"1d4",IF('Ficha Pessoal'!V3<=11,"1d6+3",IF('Ficha Pessoal'!V3<=17,"1d8+5",IF('Ficha Pessoal'!V3>=18,"1d12+10"))))))`
+- `BZ162`: `=SUM(BU162+IF(BS162="FOR",BX118,IF(BS162="DEX",BX119,IF(BS162="CON",BX120,IF(BS162="INT",BX121,IF(BS162="SAB",BX122,IF(BS162="PRE",BX123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY162=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX162=TRUE,'Ficha Pessoal'!V4))+IF(CI153=TRUE,(IF(BP101="Quarto Grau",2,IF(BP101="Terceiro Grau",3,IF(BP101="Segundo Grau",4,IF(BP101="Primeiro Grau",5,IF(BP101="Grau Especial",6)))))))`
+- `CH162`: `=IF(CI162=TRUE,(IF('Ficha Pessoal'!V3<=5,"1d4",IF('Ficha Pessoal'!V3<=11,"1d6+3",IF('Ficha Pessoal'!V3<=17,"1d8+5",IF('Ficha Pessoal'!V3>=18,"1d12+10"))))))`
+- `AD163`: `=SUM(Y163+IF(W163="FOR",AB118,IF(W163="DEX",AB119,IF(W163="CON",AB120,IF(W163="INT",AB121,IF(W163="SAB",AB122,IF(W163="PRE",AB123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC163=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB163=TRUE,'Ficha Pessoal'!V4))+IF(AM153=TRUE,(IF(T101="Quarto Grau",2,IF(T101="Terceiro Grau",3,IF(T101="Segundo Grau",4,IF(T101="Primeiro Grau",5,IF(T101="Grau Especial",6)))))))`
+- `BB163`: `=SUM(AW163+IF(AU163="FOR",AZ118,IF(AU163="DEX",AZ119,IF(AU163="CON",AZ120,IF(AU163="INT",AZ121,IF(AU163="SAB",AZ122,IF(AU163="PRE",AZ123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA163=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ163=TRUE,'Ficha Pessoal'!V4))+IF(BK153=TRUE,(IF(AR101="Quarto Grau",2,IF(AR101="Terceiro Grau",3,IF(AR101="Segundo Grau",4,IF(AR101="Primeiro Grau",5,IF(AR101="Grau Especial",6)))))))`
+- `BZ163`: `=SUM(BU163+IF(BS163="FOR",BX118,IF(BS163="DEX",BX119,IF(BS163="CON",BX120,IF(BS163="INT",BX121,IF(BS163="SAB",BX122,IF(BS163="PRE",BX123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY163=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX163=TRUE,'Ficha Pessoal'!V4))+IF(CI153=TRUE,(IF(BP101="Quarto Grau",2,IF(BP101="Terceiro Grau",3,IF(BP101="Segundo Grau",4,IF(BP101="Primeiro Grau",5,IF(BP101="Grau Especial",6)))))))`
+- `AD164`: `=SUM(Y164+IF(W164="FOR",AB118,IF(W164="DEX",AB119,IF(W164="CON",AB120,IF(W164="INT",AB121,IF(W164="SAB",AB122,IF(W164="PRE",AB123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC164=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB164=TRUE,'Ficha Pessoal'!V4))+IF(AM153=TRUE,(IF(T101="Quarto Grau",2,IF(T101="Terceiro Grau",3,IF(T101="Segundo Grau",4,IF(T101="Primeiro Grau",5,IF(T101="Grau Especial",6)))))))`
+- `BB164`: `=SUM(AW164+IF(AU164="FOR",AZ118,IF(AU164="DEX",AZ119,IF(AU164="CON",AZ120,IF(AU164="INT",AZ121,IF(AU164="SAB",AZ122,IF(AU164="PRE",AZ123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA164=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ164=TRUE,'Ficha Pessoal'!V4))+IF(BK153=TRUE,(IF(AR101="Quarto Grau",2,IF(AR101="Terceiro Grau",3,IF(AR101="Segundo Grau",4,IF(AR101="Primeiro Grau",5,IF(AR101="Grau Especial",6)))))))`
+- `BZ164`: `=SUM(BU164+IF(BS164="FOR",BX118,IF(BS164="DEX",BX119,IF(BS164="CON",BX120,IF(BS164="INT",BX121,IF(BS164="SAB",BX122,IF(BS164="PRE",BX123)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY164=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX164=TRUE,'Ficha Pessoal'!V4))+IF(CI153=TRUE,(IF(BP101="Quarto Grau",2,IF(BP101="Terceiro Grau",3,IF(BP101="Segundo Grau",4,IF(BP101="Primeiro Grau",5,IF(BP101="Grau Especial",6)))))))`
+- `T184`: `=SUM(AC184+AF184+IF(T182="Quarto Grau",H8+(X201/2),IF(T182="Terceiro Grau",H9+(X201/2),IF(T182="Segundo Grau",H10+X201,IF(T182="Primeiro Grau",H11+X201,IF(T182="Grau Especial",H12+X201))))))+IF(AM237=TRUE,(IF('Ficha Pessoal'!V4=2,10,IF('Ficha Pessoal'!V4=3,15,IF('Ficha Pessoal'!V4=4,20,IF('Ficha Pessoal'!V4=5,25,IF('Ficha Pessoal'!V4=6,30)))))))+IF(AM243=TRUE,(IF('Ficha Pessoal'!V3<=5,5,IF('Ficha Pessoal'!V3<=11,10,IF('Ficha Pessoal'!V3<=17,20,IF('Ficha Pessoal'!V3>=18,30))))))+IF(AM244=TRUE,F14)+IF(AM245=TRUE,'Ficha Pessoal'!V4*5)`
+- `W184`: `=SUM(T184+Z184+AI184-AL184)`
+- `AR184`: `=SUM(BA184+BD184+IF(AR182="Quarto Grau",H8+(AV201/2),IF(AR182="Terceiro Grau",H9+(AV201/2),IF(AR182="Segundo Grau",H10+AV201,IF(AR182="Primeiro Grau",H11+AV201,IF(AR182="Grau Especial",H12+AV201))))))+IF(BK237=TRUE,(IF('Ficha Pessoal'!V4=2,10,IF('Ficha Pessoal'!V4=3,15,IF('Ficha Pessoal'!V4=4,20,IF('Ficha Pessoal'!V4=5,25,IF('Ficha Pessoal'!V4=6,30)))))))+IF(BK243=TRUE,(IF('Ficha Pessoal'!V3<=5,5,IF('Ficha Pessoal'!V3<=11,10,IF('Ficha Pessoal'!V3<=17,20,IF('Ficha Pessoal'!V3>=18,30))))))+IF(BK244=TRUE,F14)+IF(BK245=TRUE,'Ficha Pessoal'!V4*5)`
+- `AU184`: `=SUM(AR184+AX184+BG184-BJ184)`
+- `BP184`: `=SUM(BY184+CB184+IF(BP182="Quarto Grau",H8+(BT201/2),IF(BP182="Terceiro Grau",H9+(BT201/2),IF(BP182="Segundo Grau",H10+BT201,IF(BP182="Primeiro Grau",H11+BT201,IF(BP182="Grau Especial",H12+BT201))))))+IF(CI237=TRUE,(IF('Ficha Pessoal'!V4=2,10,IF('Ficha Pessoal'!V4=3,15,IF('Ficha Pessoal'!V4=4,20,IF('Ficha Pessoal'!V4=5,25,IF('Ficha Pessoal'!V4=6,30)))))))+IF(CI243=TRUE,(IF('Ficha Pessoal'!V3<=5,5,IF('Ficha Pessoal'!V3<=11,10,IF('Ficha Pessoal'!V3<=17,20,IF('Ficha Pessoal'!V3>=18,30))))))+IF(CI244=TRUE,F14)+IF(CI245=TRUE,'Ficha Pessoal'!V4*5)`
+- `BS184`: `=SUM(BP184+BV184+CE184-CH184)`
+- `T190`: `=SUM(W190-W193+IF(T182="Quarto Grau",P8+AB200,IF(T182="Terceiro Grau",P9+AB200,IF(T182="Segundo Grau",P10+AB200,IF(T182="Primeiro Grau",P11+AB200,IF(T182="Grau Especial",P12+AB200))))))-IF(AM235=TRUE,5)+IF(AM239=TRUE,(IF('Ficha Pessoal'!V3<=7,2,IF('Ficha Pessoal'!V3<=17,3,IF('Ficha Pessoal'!V3>=18,5)))))+IF(AM243=TRUE,(IF('Ficha Pessoal'!V3<=5,1,IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3<=17,3,IF('Ficha Pessoal'!V3>=18,5))))))+IF(AM245=TRUE,'Ficha Pessoal'!V4*2)`
+- `Y190`: `=SUM(10+AB190+AD234-AB193)`
+- `AD190`: `=SUM(AB200+AG190-AG193)`
+- `AI190`: `=SUM(9+AM190-AM193+IF(AM236=TRUE,(IF('Ficha Pessoal'!V3<=5,1.5,IF('Ficha Pessoal'!V3<=11,3,IF('Ficha Pessoal'!V3<=17,4.5,IF('Ficha Pessoal'!V3>=18,6)))))))+IF(AM240=TRUE,(IF('Ficha Pessoal'!V3<=3,1.5,IF('Ficha Pessoal'!V3<=7,3,IF('Ficha Pessoal'!V3<=11,4.5,IF('Ficha Pessoal'!V3<=15,6,IF('Ficha Pessoal'!V3<=17,7.5,IF('Ficha Pessoal'!V3>=18,9))))))))+IF(AM245=TRUE,4.5)`
+- `AR190`: `=SUM(AU190-AU193+IF(AR182="Quarto Grau",P8+AZ200,IF(AR182="Terceiro Grau",P9+AZ200,IF(AR182="Segundo Grau",P10+AZ200,IF(AR182="Primeiro Grau",P11+AZ200,IF(AR182="Grau Especial",P12+AZ200))))))-IF(BK235=TRUE,5)+IF(BK239=TRUE,(IF('Ficha Pessoal'!V3<=7,2,IF('Ficha Pessoal'!V3<=17,3,IF('Ficha Pessoal'!V3>=18,5)))))+IF(BK243=TRUE,(IF('Ficha Pessoal'!V3<=5,1,IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3<=17,3,IF('Ficha Pessoal'!V3>=18,5))))))+IF(BK245=TRUE,'Ficha Pessoal'!V4*2)`
+- `AW190`: `=SUM(10+AZ190+BB234-AZ193)`
+- `BB190`: `=SUM(AZ200+BE190-BE193)`
+- `BG190`: `=SUM(9+BK190-BK193+IF(BK236=TRUE,(IF('Ficha Pessoal'!V3<=5,1.5,IF('Ficha Pessoal'!V3<=11,3,IF('Ficha Pessoal'!V3<=17,4.5,IF('Ficha Pessoal'!V3>=18,6)))))))+IF(BK240=TRUE,(IF('Ficha Pessoal'!V3<=3,1.5,IF('Ficha Pessoal'!V3<=7,3,IF('Ficha Pessoal'!V3<=11,4.5,IF('Ficha Pessoal'!V3<=15,6,IF('Ficha Pessoal'!V3<=17,7.5,IF('Ficha Pessoal'!V3>=18,9))))))))+IF(BK245=TRUE,4.5)`
+- `BP190`: `=SUM(BS190-BS193+IF(BP182="Quarto Grau",P8+BX200,IF(BP182="Terceiro Grau",P9+BX200,IF(BP182="Segundo Grau",P10+BX200,IF(BP182="Primeiro Grau",P11+BX200,IF(BP182="Grau Especial",P12+BX200))))))-IF(CI235=TRUE,5)+IF(CI239=TRUE,(IF('Ficha Pessoal'!V3<=7,2,IF('Ficha Pessoal'!V3<=17,3,IF('Ficha Pessoal'!V3>=18,5)))))+IF(CI243=TRUE,(IF('Ficha Pessoal'!V3<=5,1,IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3<=17,3,IF('Ficha Pessoal'!V3>=18,5))))))+IF(CI245=TRUE,'Ficha Pessoal'!V4*2)`
+- `BU190`: `=SUM(10+BX190+BZ234-BX193)`
+- `BZ190`: `=SUM(BX200+CC190-CC193)`
+- `CE190`: `=SUM(9+CI190-CI193+IF(CI236=TRUE,(IF('Ficha Pessoal'!V3<=5,1.5,IF('Ficha Pessoal'!V3<=11,3,IF('Ficha Pessoal'!V3<=17,4.5,IF('Ficha Pessoal'!V3>=18,6)))))))+IF(CI240=TRUE,(IF('Ficha Pessoal'!V3<=3,1.5,IF('Ficha Pessoal'!V3<=7,3,IF('Ficha Pessoal'!V3<=11,4.5,IF('Ficha Pessoal'!V3<=15,6,IF('Ficha Pessoal'!V3<=17,7.5,IF('Ficha Pessoal'!V3>=18,9))))))))+IF(CI245=TRUE,4.5)`
+- `AB199`: `=IF(X199>=10,ROUNDDOWN((X199-10)/2,0),ROUNDUP((X199-10)/2,0))`
+- `AM199`: `=SUM(10+AK199+IF(AH199="FOR",AB199,IF(AH199="DEX",AB200,IF(AH199="CON",AB201,IF(AH199="INT",AB202,IF(AH199="SAB",AB203,IF(W183=AH199,AB204)))))))+('Ficha Pessoal'!V3/2)+IF(AM242=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `AZ199`: `=IF(AV199>=10,ROUNDDOWN((AV199-10)/2,0),ROUNDUP((AV199-10)/2,0))`
+- `BK199`: `=SUM(10+BI199+IF(BF199="FOR",AZ199,IF(BF199="DEX",AZ200,IF(BF199="CON",AZ201,IF(BF199="INT",AZ202,IF(BF199="SAB",AZ203,IF(AU183=BF199,AZ204)))))))+('Ficha Pessoal'!V3/2)+IF(BK242=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `BX199`: `=IF(BT199>=10,ROUNDDOWN((BT199-10)/2,0),ROUNDUP((BT199-10)/2,0))`
+- `CI199`: `=SUM(10+CG199+IF(CD199="FOR",BX199,IF(CD199="DEX",BX200,IF(CD199="CON",BX201,IF(CD199="INT",BX202,IF(CD199="SAB",BX203,IF(BS183=CD199,BX204)))))))+('Ficha Pessoal'!V3/2)+IF(CI242=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `AB200`: `=IF(X200>=10,ROUNDDOWN((X200-10)/2,0),ROUNDUP((X200-10)/2,0))`
+- `AZ200`: `=IF(AV200>=10,ROUNDDOWN((AV200-10)/2,0),ROUNDUP((AV200-10)/2,0))`
+- `BX200`: `=IF(BT200>=10,ROUNDDOWN((BT200-10)/2,0),ROUNDUP((BT200-10)/2,0))`
+- `AB201`: `=IF(X201>=10,ROUNDDOWN((X201-10)/2,0),ROUNDUP((X201-10)/2,0))`
+- `AZ201`: `=IF(AV201>=10,ROUNDDOWN((AV201-10)/2,0),ROUNDUP((AV201-10)/2,0))`
+- `BX201`: `=IF(BT201>=10,ROUNDDOWN((BT201-10)/2,0),ROUNDUP((BT201-10)/2,0))`
+- `AB202`: `=IF(X202>=10,ROUNDDOWN((X202-10)/2,0),ROUNDUP((X202-10)/2,0))`
+- `AZ202`: `=IF(AV202>=10,ROUNDDOWN((AV202-10)/2,0),ROUNDUP((AV202-10)/2,0))`
+- `BX202`: `=IF(BT202>=10,ROUNDDOWN((BT202-10)/2,0),ROUNDUP((BT202-10)/2,0))`
+- `AB203`: `=IF(X203>=10,ROUNDDOWN((X203-10)/2,0),ROUNDUP((X203-10)/2,0))`
+- `AM203`: `=SUM(AL203+IF(AM239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AZ203`: `=IF(AV203>=10,ROUNDDOWN((AV203-10)/2,0),ROUNDUP((AV203-10)/2,0))`
+- `BK203`: `=SUM(BJ203+IF(BK239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BX203`: `=IF(BT203>=10,ROUNDDOWN((BT203-10)/2,0),ROUNDUP((BT203-10)/2,0))`
+- `CI203`: `=SUM(CH203+IF(CI239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AB204`: `=IF(X204>=10,ROUNDDOWN((X204-10)/2,0),ROUNDUP((X204-10)/2,0))`
+- `AM204`: `=SUM(AL204+IF(AM239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AZ204`: `=IF(AV204>=10,ROUNDDOWN((AV204-10)/2,0),ROUNDUP((AV204-10)/2,0))`
+- `BK204`: `=SUM(BJ204+IF(BK239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BX204`: `=IF(BT204>=10,ROUNDDOWN((BT204-10)/2,0),ROUNDUP((BT204-10)/2,0))`
+- `CI204`: `=SUM(CH204+IF(CI239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM205`: `=SUM(AL205+IF(AM239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=3,5,)))))`
+- `BK205`: `=SUM(BJ205+IF(BK239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=3,5,)))))`
+- `CI205`: `=SUM(CH205+IF(CI239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=3,5,)))))`
+- `AM206`: `=SUM(AL206+IF(AM239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK206`: `=SUM(BJ206+IF(BK239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI206`: `=SUM(CH206+IF(CI239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM207`: `=SUM(AL207+IF(AM239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK207`: `=SUM(BJ207+IF(BK239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI207`: `=SUM(CH207+IF(CI239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM208`: `=SUM(AL208+IF(AM239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK208`: `=SUM(BJ208+IF(BK239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI208`: `=SUM(CH208+IF(CI239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM209`: `=SUM(AL209+IF(AM239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK209`: `=SUM(BJ209+IF(BK239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI209`: `=SUM(CH209+IF(CI239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM210`: `=SUM(AL210+IF(AM239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK210`: `=SUM(BJ210+IF(BK239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI210`: `=SUM(CH210+IF(CI239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM211`: `=SUM(AL211+IF(AM239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK211`: `=SUM(BJ211+IF(BK239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI211`: `=SUM(CH211+IF(CI239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM212`: `=SUM(AL212+IF(AM239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK212`: `=SUM(BJ212+IF(BK239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI212`: `=SUM(CH212+IF(CI239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM213`: `=SUM(AL213+IF(AM239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK213`: `=SUM(BJ213+IF(BK239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI213`: `=SUM(CH213+IF(CI239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM214`: `=SUM(AL214+IF(AM239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK214`: `=SUM(BJ214+IF(BK239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI214`: `=SUM(CH214+IF(CI239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM215`: `=SUM(AL215+IF(AM239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK215`: `=SUM(BJ215+IF(BK239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI215`: `=SUM(CH215+IF(CI239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM216`: `=SUM(AL216+IF(AM239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK216`: `=SUM(BJ216+IF(BK239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI216`: `=SUM(CH216+IF(CI239=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AD218`: `=SUM(Y218+IF(W218="FOR",AB199,IF(W218="DEX",AB200,IF(W218="CON",AB201,IF(W218="INT",AB202,IF(W218="SAB",AB203,IF(W183="PRE",AB204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AB218=TRUE,'Ficha Pessoal'!V4)+IF(AM234=TRUE,(IF(T182="Quarto Grau",2,IF(T182="Terceiro Grau",3,IF(T182="Segundo Grau",4,IF(T182="Primeiro Grau",5,IF(T182="Grau Especial",6)))))))+IF(AM241=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `BB218`: `=SUM(AW218+IF(AU218="FOR",AZ199,IF(AU218="DEX",AZ200,IF(AU218="CON",AZ201,IF(AU218="INT",AZ202,IF(AU218="SAB",AZ203,IF(AU183="PRE",AZ204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AZ218=TRUE,'Ficha Pessoal'!V4)+IF(BK234=TRUE,(IF(AR182="Quarto Grau",2,IF(AR182="Terceiro Grau",3,IF(AR182="Segundo Grau",4,IF(AR182="Primeiro Grau",5,IF(AR182="Grau Especial",6)))))))+IF(BK241=TRUE,(IF('Ficha Pessoal'!AT3<=3,2,IF('Ficha Pessoal'!AT3<=7,4,IF('Ficha Pessoal'!AT3<=11,6,IF('Ficha Pessoal'!AT3<=15,8,IF('Ficha Pessoal'!AT3<=17,10,IF('Ficha Pessoal'!AT3>=18,12))))))))`
+- `BZ218`: `=SUM(BU218+IF(BS218="FOR",BX199,IF(BS218="DEX",BX200,IF(BS218="CON",BX201,IF(BS218="INT",BX202,IF(BS218="SAB",BX203,IF(BS183="PRE",BX204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BX218=TRUE,'Ficha Pessoal'!V4)+IF(CI234=TRUE,(IF(BP182="Quarto Grau",2,IF(BP182="Terceiro Grau",3,IF(BP182="Segundo Grau",4,IF(BP182="Primeiro Grau",5,IF(BP182="Grau Especial",6)))))))+IF(CI241=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `AD219`: `=SUM(Y219+IF(W219="FOR",AB199,IF(W219="DEX",AB200,IF(W219="CON",AB201,IF(W219="INT",AB202,IF(W219="SAB",AB203,IF(W219="PRE",AB204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AB219=TRUE,'Ficha Pessoal'!V4)+IF(AM234=TRUE,(IF(T182="Quarto Grau",2,IF(T182="Terceiro Grau",3,IF(T182="Segundo Grau",4,IF(T182="Primeiro Grau",5,IF(T182="Grau Especial",6)))))))+IF(AM241=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `BB219`: `=SUM(AW219+IF(AU219="FOR",AZ199,IF(AU219="DEX",AZ200,IF(AU219="CON",AZ201,IF(AU219="INT",AZ202,IF(AU219="SAB",AZ203,IF(AU219="PRE",AZ204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AZ219=TRUE,'Ficha Pessoal'!V4)+IF(BK234=TRUE,(IF(AR182="Quarto Grau",2,IF(AR182="Terceiro Grau",3,IF(AR182="Segundo Grau",4,IF(AR182="Primeiro Grau",5,IF(AR182="Grau Especial",6)))))))+IF(BK241=TRUE,(IF('Ficha Pessoal'!AT3<=3,2,IF('Ficha Pessoal'!AT3<=7,4,IF('Ficha Pessoal'!AT3<=11,6,IF('Ficha Pessoal'!AT3<=15,8,IF('Ficha Pessoal'!AT3<=17,10,IF('Ficha Pessoal'!AT3>=18,12))))))))`
+- `BZ219`: `=SUM(BU219+IF(BS219="FOR",BX199,IF(BS219="DEX",BX200,IF(BS219="CON",BX201,IF(BS219="INT",BX202,IF(BS219="SAB",BX203,IF(BS219="PRE",BX204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BX219=TRUE,'Ficha Pessoal'!V4)+IF(CI234=TRUE,(IF(BP182="Quarto Grau",2,IF(BP182="Terceiro Grau",3,IF(BP182="Segundo Grau",4,IF(BP182="Primeiro Grau",5,IF(BP182="Grau Especial",6)))))))+IF(CI241=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `AD221`: `=SUM(Y221+IF(W221="FOR",AB199,IF(W221="DEX",AB200,IF(W221="CON",AB201,IF(W221="INT",AB202,IF(W221="SAB",AB203,IF(W221="PRE",AB204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC221=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB221=TRUE,'Ficha Pessoal'!V4))+IF(AM234=TRUE,(IF(T182="Quarto Grau",2,IF(T182="Terceiro Grau",3,IF(T182="Segundo Grau",4,IF(T182="Primeiro Grau",5,IF(T182="Grau Especial",6)))))))-IF(AM235=TRUE,5)+IF(AM243=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BB221`: `=SUM(AW221+IF(AU221="FOR",AZ199,IF(AU221="DEX",AZ200,IF(AU221="CON",AZ201,IF(AU221="INT",AZ202,IF(AU221="SAB",AZ203,IF(AU221="PRE",AZ204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA221=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ221=TRUE,'Ficha Pessoal'!V4))+IF(BK234=TRUE,(IF(AR182="Quarto Grau",2,IF(AR182="Terceiro Grau",3,IF(AR182="Segundo Grau",4,IF(AR182="Primeiro Grau",5,IF(AR182="Grau Especial",6)))))))-IF(BK235=TRUE,5)+IF(BK243=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BZ221`: `=SUM(BU221+IF(BS221="FOR",BX199,IF(BS221="DEX",BX200,IF(BS221="CON",BX201,IF(BS221="INT",BX202,IF(BS221="SAB",BX203,IF(BS221="PRE",BX204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY221=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX221=TRUE,'Ficha Pessoal'!V4))+IF(CI234=TRUE,(IF(BP182="Quarto Grau",2,IF(BP182="Terceiro Grau",3,IF(BP182="Segundo Grau",4,IF(BP182="Primeiro Grau",5,IF(BP182="Grau Especial",6)))))))-IF(CI235=TRUE,5)+IF(CI243=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `AD222`: `=SUM(Y222+IF(W222="FOR",AB199,IF(W222="DEX",AB200,IF(W222="CON",AB201,IF(W222="INT",AB202,IF(W222="SAB",AB203,IF(W222="PRE",AB204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC222=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB222=TRUE,'Ficha Pessoal'!V4))+IF(AM234=TRUE,(IF(T182="Quarto Grau",2,IF(T182="Terceiro Grau",3,IF(T182="Segundo Grau",4,IF(T182="Primeiro Grau",5,IF(T182="Grau Especial",6)))))))-IF(AM235=TRUE,5)+IF(AM243=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BB222`: `=SUM(AW222+IF(AU222="FOR",AZ199,IF(AU222="DEX",AZ200,IF(AU222="CON",AZ201,IF(AU222="INT",AZ202,IF(AU222="SAB",AZ203,IF(AU222="PRE",AZ204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA222=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ222=TRUE,'Ficha Pessoal'!V4))+IF(BK234=TRUE,(IF(AR182="Quarto Grau",2,IF(AR182="Terceiro Grau",3,IF(AR182="Segundo Grau",4,IF(AR182="Primeiro Grau",5,IF(AR182="Grau Especial",6)))))))-IF(BK235=TRUE,5)+IF(BK243=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BZ222`: `=SUM(BU222+IF(BS222="FOR",BX199,IF(BS222="DEX",BX200,IF(BS222="CON",BX201,IF(BS222="INT",BX202,IF(BS222="SAB",BX203,IF(BS222="PRE",BX204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY222=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX222=TRUE,'Ficha Pessoal'!V4))+IF(CI234=TRUE,(IF(BP182="Quarto Grau",2,IF(BP182="Terceiro Grau",3,IF(BP182="Segundo Grau",4,IF(BP182="Primeiro Grau",5,IF(BP182="Grau Especial",6)))))))-IF(CI235=TRUE,5)+IF(CI243=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `AD223`: `=SUM(Y223+IF(W223="FOR",AB199,IF(W223="DEX",AB200,IF(W223="CON",AB201,IF(W223="INT",AB202,IF(W223="SAB",AB203,IF(W223="PRE",AB204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC223=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB223=TRUE,'Ficha Pessoal'!V4))+IF(AM234=TRUE,(IF(T182="Quarto Grau",2,IF(T182="Terceiro Grau",3,IF(T182="Segundo Grau",4,IF(T182="Primeiro Grau",5,IF(T182="Grau Especial",6)))))))-IF(AM235=TRUE,5)+IF(AM243=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BB223`: `=SUM(AW223+IF(AU223="FOR",AZ199,IF(AU223="DEX",AZ200,IF(AU223="CON",AZ201,IF(AU223="INT",AZ202,IF(AU223="SAB",AZ203,IF(AU223="PRE",AZ204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA223=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ223=TRUE,'Ficha Pessoal'!V4))+IF(BK234=TRUE,(IF(AR182="Quarto Grau",2,IF(AR182="Terceiro Grau",3,IF(AR182="Segundo Grau",4,IF(AR182="Primeiro Grau",5,IF(AR182="Grau Especial",6)))))))-IF(BK235=TRUE,5)+IF(BK243=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BZ223`: `=SUM(BU223+IF(BS223="FOR",BX199,IF(BS223="DEX",BX200,IF(BS223="CON",BX201,IF(BS223="INT",BX202,IF(BS223="SAB",BX203,IF(BS223="PRE",BX204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY223=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX223=TRUE,'Ficha Pessoal'!V4))+IF(CI234=TRUE,(IF(BP182="Quarto Grau",2,IF(BP182="Terceiro Grau",3,IF(BP182="Segundo Grau",4,IF(BP182="Primeiro Grau",5,IF(BP182="Grau Especial",6)))))))-IF(CI235=TRUE,5)+IF(CI243=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `AD224`: `=SUM(Y224+IF(W224="FOR",AB199,IF(W224="DEX",AB200,IF(W224="CON",AB201,IF(W224="INT",AB202,IF(W224="SAB",AB203,IF(W223="PRE",AB204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC224=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB224=TRUE,'Ficha Pessoal'!V4))+IF(AM234=TRUE,(IF(T182="Quarto Grau",2,IF(T182="Terceiro Grau",3,IF(T182="Segundo Grau",4,IF(T182="Primeiro Grau",5,IF(T182="Grau Especial",6)))))))-IF(AM235=TRUE,5)+IF(AM243=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BB224`: `=SUM(AW224+IF(AU224="FOR",AZ199,IF(AU224="DEX",AZ200,IF(AU224="CON",AZ201,IF(AU224="INT",AZ202,IF(AU224="SAB",AZ203,IF(AU223="PRE",AZ204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA224=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ224=TRUE,'Ficha Pessoal'!V4))+IF(BK234=TRUE,(IF(AR182="Quarto Grau",2,IF(AR182="Terceiro Grau",3,IF(AR182="Segundo Grau",4,IF(AR182="Primeiro Grau",5,IF(AR182="Grau Especial",6)))))))-IF(BK235=TRUE,5)+IF(BK243=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BZ224`: `=SUM(BU224+IF(BS224="FOR",BX199,IF(BS224="DEX",BX200,IF(BS224="CON",BX201,IF(BS224="INT",BX202,IF(BS224="SAB",BX203,IF(BS223="PRE",BX204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY224=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX224=TRUE,'Ficha Pessoal'!V4))+IF(CI234=TRUE,(IF(BP182="Quarto Grau",2,IF(BP182="Terceiro Grau",3,IF(BP182="Segundo Grau",4,IF(BP182="Primeiro Grau",5,IF(BP182="Grau Especial",6)))))))-IF(CI235=TRUE,5)+IF(CI243=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `AD225`: `=SUM(Y225+IF(W225="FOR",AB199,IF(W225="DEX",AB200,IF(W225="CON",AB201,IF(W225="INT",AB202,IF(W225="SAB",AB203,IF(W225="PRE",AB204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC225=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB225=TRUE,'Ficha Pessoal'!V4))+IF(AM234=TRUE,(IF(T182="Quarto Grau",2,IF(T182="Terceiro Grau",3,IF(T182="Segundo Grau",4,IF(T182="Primeiro Grau",5,IF(T182="Grau Especial",6)))))))-IF(AM235=TRUE,5)+IF(AM243=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BB225`: `=SUM(AW225+IF(AU225="FOR",AZ199,IF(AU225="DEX",AZ200,IF(AU225="CON",AZ201,IF(AU225="INT",AZ202,IF(AU225="SAB",AZ203,IF(AU225="PRE",AZ204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA225=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ225=TRUE,'Ficha Pessoal'!V4))+IF(BK234=TRUE,(IF(AR182="Quarto Grau",2,IF(AR182="Terceiro Grau",3,IF(AR182="Segundo Grau",4,IF(AR182="Primeiro Grau",5,IF(AR182="Grau Especial",6)))))))-IF(BK235=TRUE,5)+IF(BK243=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BZ225`: `=SUM(BU225+IF(BS225="FOR",BX199,IF(BS225="DEX",BX200,IF(BS225="CON",BX201,IF(BS225="INT",BX202,IF(BS225="SAB",BX203,IF(BS225="PRE",BX204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY225=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX225=TRUE,'Ficha Pessoal'!V4))+IF(CI234=TRUE,(IF(BP182="Quarto Grau",2,IF(BP182="Terceiro Grau",3,IF(BP182="Segundo Grau",4,IF(BP182="Primeiro Grau",5,IF(BP182="Grau Especial",6)))))))-IF(CI235=TRUE,5)+IF(CI243=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `AD227`: `=SUM(Y227+IF(W227="FOR",AB199,IF(W227="DEX",AB200,IF(W227="CON",AB201,IF(W227="INT",AB202,IF(W227="SAB",AB203,IF(W227="PRE",AB204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC227=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB227=TRUE,'Ficha Pessoal'!V4))+IF(AM234=TRUE,(IF(T182="Quarto Grau",2,IF(T182="Terceiro Grau",3,IF(T182="Segundo Grau",4,IF(T182="Primeiro Grau",5,IF(T182="Grau Especial",6)))))))`
+- `BB227`: `=SUM(AW227+IF(AU227="FOR",AZ199,IF(AU227="DEX",AZ200,IF(AU227="CON",AZ201,IF(AU227="INT",AZ202,IF(AU227="SAB",AZ203,IF(AU227="PRE",AZ204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA227=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ227=TRUE,'Ficha Pessoal'!V4))+IF(BK234=TRUE,(IF(AR182="Quarto Grau",2,IF(AR182="Terceiro Grau",3,IF(AR182="Segundo Grau",4,IF(AR182="Primeiro Grau",5,IF(AR182="Grau Especial",6)))))))`
+- `BZ227`: `=SUM(BU227+IF(BS227="FOR",BX199,IF(BS227="DEX",BX200,IF(BS227="CON",BX201,IF(BS227="INT",BX202,IF(BS227="SAB",BX203,IF(BS227="PRE",BX204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY227=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX227=TRUE,'Ficha Pessoal'!V4))+IF(CI234=TRUE,(IF(BP182="Quarto Grau",2,IF(BP182="Terceiro Grau",3,IF(BP182="Segundo Grau",4,IF(BP182="Primeiro Grau",5,IF(BP182="Grau Especial",6)))))))`
+- `AD228`: `=SUM(Y228+IF(W228="FOR",AB199,IF(W228="DEX",AB200,IF(W228="CON",AB201,IF(W228="INT",AB202,IF(W228="SAB",AB203,IF(W228="PRE",AB204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC228=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB228=TRUE,'Ficha Pessoal'!V4))+IF(AM234=TRUE,(IF(T182="Quarto Grau",2,IF(T182="Terceiro Grau",3,IF(T182="Segundo Grau",4,IF(T182="Primeiro Grau",5,IF(T182="Grau Especial",6)))))))`
+- `BB228`: `=SUM(AW228+IF(AU228="FOR",AZ199,IF(AU228="DEX",AZ200,IF(AU228="CON",AZ201,IF(AU228="INT",AZ202,IF(AU228="SAB",AZ203,IF(AU228="PRE",AZ204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA228=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ228=TRUE,'Ficha Pessoal'!V4))+IF(BK234=TRUE,(IF(AR182="Quarto Grau",2,IF(AR182="Terceiro Grau",3,IF(AR182="Segundo Grau",4,IF(AR182="Primeiro Grau",5,IF(AR182="Grau Especial",6)))))))`
+- `BZ228`: `=SUM(BU228+IF(BS228="FOR",BX199,IF(BS228="DEX",BX200,IF(BS228="CON",BX201,IF(BS228="INT",BX202,IF(BS228="SAB",BX203,IF(BS228="PRE",BX204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY228=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX228=TRUE,'Ficha Pessoal'!V4))+IF(CI234=TRUE,(IF(BP182="Quarto Grau",2,IF(BP182="Terceiro Grau",3,IF(BP182="Segundo Grau",4,IF(BP182="Primeiro Grau",5,IF(BP182="Grau Especial",6)))))))`
+- `AD229`: `=SUM(Y229+IF(W229="FOR",AB199,IF(W229="DEX",AB200,IF(W229="CON",AB201,IF(W229="INT",AB202,IF(W229="SAB",AB203,IF(W229="PRE",AB204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC229=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB229=TRUE,'Ficha Pessoal'!V4))+IF(AM234=TRUE,(IF(T182="Quarto Grau",2,IF(T182="Terceiro Grau",3,IF(T182="Segundo Grau",4,IF(T182="Primeiro Grau",5,IF(T182="Grau Especial",6)))))))`
+- `BB229`: `=SUM(AW229+IF(AU229="FOR",AZ199,IF(AU229="DEX",AZ200,IF(AU229="CON",AZ201,IF(AU229="INT",AZ202,IF(AU229="SAB",AZ203,IF(AU229="PRE",AZ204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA229=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ229=TRUE,'Ficha Pessoal'!V4))+IF(BK234=TRUE,(IF(AR182="Quarto Grau",2,IF(AR182="Terceiro Grau",3,IF(AR182="Segundo Grau",4,IF(AR182="Primeiro Grau",5,IF(AR182="Grau Especial",6)))))))`
+- `BZ229`: `=SUM(BU229+IF(BS229="FOR",BX199,IF(BS229="DEX",BX200,IF(BS229="CON",BX201,IF(BS229="INT",BX202,IF(BS229="SAB",BX203,IF(BS229="PRE",BX204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY229=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX229=TRUE,'Ficha Pessoal'!V4))+IF(CI234=TRUE,(IF(BP182="Quarto Grau",2,IF(BP182="Terceiro Grau",3,IF(BP182="Segundo Grau",4,IF(BP182="Primeiro Grau",5,IF(BP182="Grau Especial",6)))))))`
+- `AD230`: `=SUM(Y230+IF(W230="FOR",AB199,IF(W230="DEX",AB200,IF(W230="CON",AB201,IF(W230="INT",AB202,IF(W230="SAB",AB203,IF(W230="PRE",AB204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC230=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB230=TRUE,'Ficha Pessoal'!V4))+IF(AM234=TRUE,(IF(T182="Quarto Grau",2,IF(T182="Terceiro Grau",3,IF(T182="Segundo Grau",4,IF(T182="Primeiro Grau",5,IF(T182="Grau Especial",6)))))))`
+- `BB230`: `=SUM(AW230+IF(AU230="FOR",AZ199,IF(AU230="DEX",AZ200,IF(AU230="CON",AZ201,IF(AU230="INT",AZ202,IF(AU230="SAB",AZ203,IF(AU230="PRE",AZ204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA230=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ230=TRUE,'Ficha Pessoal'!V4))+IF(BK234=TRUE,(IF(AR182="Quarto Grau",2,IF(AR182="Terceiro Grau",3,IF(AR182="Segundo Grau",4,IF(AR182="Primeiro Grau",5,IF(AR182="Grau Especial",6)))))))`
+- `BZ230`: `=SUM(BU230+IF(BS230="FOR",BX199,IF(BS230="DEX",BX200,IF(BS230="CON",BX201,IF(BS230="INT",BX202,IF(BS230="SAB",BX203,IF(BS230="PRE",BX204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY230=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX230=TRUE,'Ficha Pessoal'!V4))+IF(CI234=TRUE,(IF(BP182="Quarto Grau",2,IF(BP182="Terceiro Grau",3,IF(BP182="Segundo Grau",4,IF(BP182="Primeiro Grau",5,IF(BP182="Grau Especial",6)))))))`
+- `AD231`: `=SUM(Y231+IF(W231="FOR",AB199,IF(W231="DEX",AB200,IF(W231="CON",AB201,IF(W231="INT",AB202,IF(W231="SAB",AB203,IF(W231="PRE",AB204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC231=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB231=TRUE,'Ficha Pessoal'!V4))+IF(AM234=TRUE,(IF(T182="Quarto Grau",2,IF(T182="Terceiro Grau",3,IF(T182="Segundo Grau",4,IF(T182="Primeiro Grau",5,IF(T182="Grau Especial",6)))))))`
+- `BB231`: `=SUM(AW231+IF(AU231="FOR",AZ199,IF(AU231="DEX",AZ200,IF(AU231="CON",AZ201,IF(AU231="INT",AZ202,IF(AU231="SAB",AZ203,IF(AU231="PRE",AZ204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA231=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ231=TRUE,'Ficha Pessoal'!V4))+IF(BK234=TRUE,(IF(AR182="Quarto Grau",2,IF(AR182="Terceiro Grau",3,IF(AR182="Segundo Grau",4,IF(AR182="Primeiro Grau",5,IF(AR182="Grau Especial",6)))))))`
+- `BZ231`: `=SUM(BU231+IF(BS231="FOR",BX199,IF(BS231="DEX",BX200,IF(BS231="CON",BX201,IF(BS231="INT",BX202,IF(BS231="SAB",BX203,IF(BS231="PRE",BX204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY231=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX231=TRUE,'Ficha Pessoal'!V4))+IF(CI234=TRUE,(IF(BP182="Quarto Grau",2,IF(BP182="Terceiro Grau",3,IF(BP182="Segundo Grau",4,IF(BP182="Primeiro Grau",5,IF(BP182="Grau Especial",6)))))))`
+- `AD232`: `=SUM(Y232+IF(W232="FOR",AB199,IF(W232="DEX",AB200,IF(W232="CON",AB201,IF(W232="INT",AB202,IF(W232="SAB",AB203,IF(W232="PRE",AB204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC232=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB232=TRUE,'Ficha Pessoal'!V4))+IF(AM234=TRUE,(IF(T182="Quarto Grau",2,IF(T182="Terceiro Grau",3,IF(T182="Segundo Grau",4,IF(T182="Primeiro Grau",5,IF(T182="Grau Especial",6)))))))`
+- `BB232`: `=SUM(AW232+IF(AU232="FOR",AZ199,IF(AU232="DEX",AZ200,IF(AU232="CON",AZ201,IF(AU232="INT",AZ202,IF(AU232="SAB",AZ203,IF(AU232="PRE",AZ204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA232=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ232=TRUE,'Ficha Pessoal'!V4))+IF(BK234=TRUE,(IF(AR182="Quarto Grau",2,IF(AR182="Terceiro Grau",3,IF(AR182="Segundo Grau",4,IF(AR182="Primeiro Grau",5,IF(AR182="Grau Especial",6)))))))`
+- `BZ232`: `=SUM(BU232+IF(BS232="FOR",BX199,IF(BS232="DEX",BX200,IF(BS232="CON",BX201,IF(BS232="INT",BX202,IF(BS232="SAB",BX203,IF(BS232="PRE",BX204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY232=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX232=TRUE,'Ficha Pessoal'!V4))+IF(CI234=TRUE,(IF(BP182="Quarto Grau",2,IF(BP182="Terceiro Grau",3,IF(BP182="Segundo Grau",4,IF(BP182="Primeiro Grau",5,IF(BP182="Grau Especial",6)))))))`
+- `AD233`: `=SUM(Y233+IF(W233="FOR",AB199,IF(W233="DEX",AB200,IF(W233="CON",AB201,IF(W233="INT",AB202,IF(W233="SAB",AB203,IF(W233="PRE",AB204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC233=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB233=TRUE,'Ficha Pessoal'!V4))+IF(AM234=TRUE,(IF(T182="Quarto Grau",2,IF(T182="Terceiro Grau",3,IF(T182="Segundo Grau",4,IF(T182="Primeiro Grau",5,IF(T182="Grau Especial",6)))))))`
+- `BB233`: `=SUM(AW233+IF(AU233="FOR",AZ199,IF(AU233="DEX",AZ200,IF(AU233="CON",AZ201,IF(AU233="INT",AZ202,IF(AU233="SAB",AZ203,IF(AU233="PRE",AZ204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA233=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ233=TRUE,'Ficha Pessoal'!V4))+IF(BK234=TRUE,(IF(AR182="Quarto Grau",2,IF(AR182="Terceiro Grau",3,IF(AR182="Segundo Grau",4,IF(AR182="Primeiro Grau",5,IF(AR182="Grau Especial",6)))))))`
+- `BZ233`: `=SUM(BU233+IF(BS233="FOR",BX199,IF(BS233="DEX",BX200,IF(BS233="CON",BX201,IF(BS233="INT",BX202,IF(BS233="SAB",BX203,IF(BS233="PRE",BX204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY233=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX233=TRUE,'Ficha Pessoal'!V4))+IF(CI234=TRUE,(IF(BP182="Quarto Grau",2,IF(BP182="Terceiro Grau",3,IF(BP182="Segundo Grau",4,IF(BP182="Primeiro Grau",5,IF(BP182="Grau Especial",6)))))))`
+- `AD234`: `=SUM(Y234+IF(W234="FOR",AB199,IF(W234="DEX",AB200,IF(W234="CON",AB201,IF(W234="INT",AB202,IF(W234="SAB",AB203,IF(W234="PRE",AB204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC234=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB234=TRUE,'Ficha Pessoal'!V4))+IF(AM234=TRUE,(IF(T182="Quarto Grau",2,IF(T182="Terceiro Grau",3,IF(T182="Segundo Grau",4,IF(T182="Primeiro Grau",5,IF(T182="Grau Especial",6)))))))`
+- `BB234`: `=SUM(AW234+IF(AU234="FOR",AZ199,IF(AU234="DEX",AZ200,IF(AU234="CON",AZ201,IF(AU234="INT",AZ202,IF(AU234="SAB",AZ203,IF(AU234="PRE",AZ204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA234=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ234=TRUE,'Ficha Pessoal'!V4))+IF(BK234=TRUE,(IF(AR182="Quarto Grau",2,IF(AR182="Terceiro Grau",3,IF(AR182="Segundo Grau",4,IF(AR182="Primeiro Grau",5,IF(AR182="Grau Especial",6)))))))`
+- `BZ234`: `=SUM(BU234+IF(BS234="FOR",BX199,IF(BS234="DEX",BX200,IF(BS234="CON",BX201,IF(BS234="INT",BX202,IF(BS234="SAB",BX203,IF(BS234="PRE",BX204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY234=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX234=TRUE,'Ficha Pessoal'!V4))+IF(CI234=TRUE,(IF(BP182="Quarto Grau",2,IF(BP182="Terceiro Grau",3,IF(BP182="Segundo Grau",4,IF(BP182="Primeiro Grau",5,IF(BP182="Grau Especial",6)))))))`
+- `AD235`: `=SUM(Y235+IF(W235="FOR",AB199,IF(W235="DEX",AB200,IF(W235="CON",AB201,IF(W235="INT",AB202,IF(W235="SAB",AB203,IF(W235="PRE",AB204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC235=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB235=TRUE,'Ficha Pessoal'!V4))+IF(AM234=TRUE,(IF(T182="Quarto Grau",2,IF(T182="Terceiro Grau",3,IF(T182="Segundo Grau",4,IF(T182="Primeiro Grau",5,IF(T182="Grau Especial",6)))))))`
+- `BB235`: `=SUM(AW235+IF(AU235="FOR",AZ199,IF(AU235="DEX",AZ200,IF(AU235="CON",AZ201,IF(AU235="INT",AZ202,IF(AU235="SAB",AZ203,IF(AU235="PRE",AZ204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA235=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ235=TRUE,'Ficha Pessoal'!V4))+IF(BK234=TRUE,(IF(AR182="Quarto Grau",2,IF(AR182="Terceiro Grau",3,IF(AR182="Segundo Grau",4,IF(AR182="Primeiro Grau",5,IF(AR182="Grau Especial",6)))))))`
+- `BZ235`: `=SUM(BU235+IF(BS235="FOR",BX199,IF(BS235="DEX",BX200,IF(BS235="CON",BX201,IF(BS235="INT",BX202,IF(BS235="SAB",BX203,IF(BS235="PRE",BX204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY235=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX235=TRUE,'Ficha Pessoal'!V4))+IF(CI234=TRUE,(IF(BP182="Quarto Grau",2,IF(BP182="Terceiro Grau",3,IF(BP182="Segundo Grau",4,IF(BP182="Primeiro Grau",5,IF(BP182="Grau Especial",6)))))))`
+- `AD236`: `=SUM(Y236+IF(W236="FOR",AB199,IF(W236="DEX",AB200,IF(W236="CON",AB201,IF(W236="INT",AB202,IF(W236="SAB",AB203,IF(W236="PRE",AB204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC236=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB236=TRUE,'Ficha Pessoal'!V4))+IF(AM234=TRUE,(IF(T182="Quarto Grau",2,IF(T182="Terceiro Grau",3,IF(T182="Segundo Grau",4,IF(T182="Primeiro Grau",5,IF(T182="Grau Especial",6)))))))`
+- `BB236`: `=SUM(AW236+IF(AU236="FOR",AZ199,IF(AU236="DEX",AZ200,IF(AU236="CON",AZ201,IF(AU236="INT",AZ202,IF(AU236="SAB",AZ203,IF(AU236="PRE",AZ204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA236=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ236=TRUE,'Ficha Pessoal'!V4))+IF(BK234=TRUE,(IF(AR182="Quarto Grau",2,IF(AR182="Terceiro Grau",3,IF(AR182="Segundo Grau",4,IF(AR182="Primeiro Grau",5,IF(AR182="Grau Especial",6)))))))`
+- `BZ236`: `=SUM(BU236+IF(BS236="FOR",BX199,IF(BS236="DEX",BX200,IF(BS236="CON",BX201,IF(BS236="INT",BX202,IF(BS236="SAB",BX203,IF(BS236="PRE",BX204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY236=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX236=TRUE,'Ficha Pessoal'!V4))+IF(CI234=TRUE,(IF(BP182="Quarto Grau",2,IF(BP182="Terceiro Grau",3,IF(BP182="Segundo Grau",4,IF(BP182="Primeiro Grau",5,IF(BP182="Grau Especial",6)))))))`
+- `AD237`: `=SUM(Y237+IF(W237="FOR",AB199,IF(W237="DEX",AB200,IF(W237="CON",AB201,IF(W237="INT",AB202,IF(W237="SAB",AB203,IF(W237="PRE",AB204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC237=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB237=TRUE,'Ficha Pessoal'!V4))+IF(AM234=TRUE,(IF(T182="Quarto Grau",2,IF(T182="Terceiro Grau",3,IF(T182="Segundo Grau",4,IF(T182="Primeiro Grau",5,IF(T182="Grau Especial",6)))))))`
+- `BB237`: `=SUM(AW237+IF(AU237="FOR",AZ199,IF(AU237="DEX",AZ200,IF(AU237="CON",AZ201,IF(AU237="INT",AZ202,IF(AU237="SAB",AZ203,IF(AU237="PRE",AZ204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA237=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ237=TRUE,'Ficha Pessoal'!V4))+IF(BK234=TRUE,(IF(AR182="Quarto Grau",2,IF(AR182="Terceiro Grau",3,IF(AR182="Segundo Grau",4,IF(AR182="Primeiro Grau",5,IF(AR182="Grau Especial",6)))))))`
+- `BZ237`: `=SUM(BU237+IF(BS237="FOR",BX199,IF(BS237="DEX",BX200,IF(BS237="CON",BX201,IF(BS237="INT",BX202,IF(BS237="SAB",BX203,IF(BS237="PRE",BX204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY237=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX237=TRUE,'Ficha Pessoal'!V4))+IF(CI234=TRUE,(IF(BP182="Quarto Grau",2,IF(BP182="Terceiro Grau",3,IF(BP182="Segundo Grau",4,IF(BP182="Primeiro Grau",5,IF(BP182="Grau Especial",6)))))))`
+- `AD238`: `=SUM(Y238+IF(W238="FOR",AB199,IF(W238="DEX",AB200,IF(W238="CON",AB201,IF(W238="INT",AB202,IF(W238="SAB",AB203,IF(W238="PRE",AB204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC238=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB238=TRUE,'Ficha Pessoal'!V4))+IF(AM234=TRUE,(IF(T182="Quarto Grau",2,IF(T182="Terceiro Grau",3,IF(T182="Segundo Grau",4,IF(T182="Primeiro Grau",5,IF(T182="Grau Especial",6)))))))`
+- `AM238`: `=IF('Ficha Pessoal'!V3<=3,"1d6",IF('Ficha Pessoal'!V3<=7,"1d6+3",IF('Ficha Pessoal'!V3<=11,"1d8+3",IF('Ficha Pessoal'!V3<=15,"1d8+6",IF('Ficha Pessoal'!V3<=17,"1d10+6",IF('Ficha Pessoal'!V3>=18,"1d12+6",))))))`
+- `BB238`: `=SUM(AW238+IF(AU238="FOR",AZ199,IF(AU238="DEX",AZ200,IF(AU238="CON",AZ201,IF(AU238="INT",AZ202,IF(AU238="SAB",AZ203,IF(AU238="PRE",AZ204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA238=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ238=TRUE,'Ficha Pessoal'!V4))+IF(BK234=TRUE,(IF(AR182="Quarto Grau",2,IF(AR182="Terceiro Grau",3,IF(AR182="Segundo Grau",4,IF(AR182="Primeiro Grau",5,IF(AR182="Grau Especial",6)))))))`
+- `BK238`: `=IF('Ficha Pessoal'!V3<=3,"1d6",IF('Ficha Pessoal'!V3<=7,"1d6+3",IF('Ficha Pessoal'!V3<=11,"1d8+3",IF('Ficha Pessoal'!V3<=15,"1d8+6",IF('Ficha Pessoal'!V3<=17,"1d10+6",IF('Ficha Pessoal'!V3>=18,"1d12+6",))))))`
+- `BZ238`: `=SUM(BU238+IF(BS238="FOR",BX199,IF(BS238="DEX",BX200,IF(BS238="CON",BX201,IF(BS238="INT",BX202,IF(BS238="SAB",BX203,IF(BS238="PRE",BX204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY238=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX238=TRUE,'Ficha Pessoal'!V4))+IF(CI234=TRUE,(IF(BP182="Quarto Grau",2,IF(BP182="Terceiro Grau",3,IF(BP182="Segundo Grau",4,IF(BP182="Primeiro Grau",5,IF(BP182="Grau Especial",6)))))))`
+- `CI238`: `=IF('Ficha Pessoal'!V3<=3,"1d6",IF('Ficha Pessoal'!V3<=7,"1d6+3",IF('Ficha Pessoal'!V3<=11,"1d8+3",IF('Ficha Pessoal'!V3<=15,"1d8+6",IF('Ficha Pessoal'!V3<=17,"1d10+6",IF('Ficha Pessoal'!V3>=18,"1d12+6",))))))`
+- `AD239`: `=SUM(Y239+IF(W239="FOR",AB199,IF(W239="DEX",AB200,IF(W239="CON",AB201,IF(W239="INT",AB202,IF(W239="SAB",AB203,IF(W239="PRE",AB204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC239=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB239=TRUE,'Ficha Pessoal'!V4))+IF(AM234=TRUE,(IF(T182="Quarto Grau",2,IF(T182="Terceiro Grau",3,IF(T182="Segundo Grau",4,IF(T182="Primeiro Grau",5,IF(T182="Grau Especial",6)))))))`
+- `BB239`: `=SUM(AW239+IF(AU239="FOR",AZ199,IF(AU239="DEX",AZ200,IF(AU239="CON",AZ201,IF(AU239="INT",AZ202,IF(AU239="SAB",AZ203,IF(AU239="PRE",AZ204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA239=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ239=TRUE,'Ficha Pessoal'!V4))+IF(BK234=TRUE,(IF(AR182="Quarto Grau",2,IF(AR182="Terceiro Grau",3,IF(AR182="Segundo Grau",4,IF(AR182="Primeiro Grau",5,IF(AR182="Grau Especial",6)))))))`
+- `BZ239`: `=SUM(BU239+IF(BS239="FOR",BX199,IF(BS239="DEX",BX200,IF(BS239="CON",BX201,IF(BS239="INT",BX202,IF(BS239="SAB",BX203,IF(BS239="PRE",BX204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY239=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX239=TRUE,'Ficha Pessoal'!V4))+IF(CI234=TRUE,(IF(BP182="Quarto Grau",2,IF(BP182="Terceiro Grau",3,IF(BP182="Segundo Grau",4,IF(BP182="Primeiro Grau",5,IF(BP182="Grau Especial",6)))))))`
+- `AD240`: `=SUM(Y240+IF(W240="FOR",AB199,IF(W240="DEX",AB200,IF(W240="CON",AB201,IF(W240="INT",AB202,IF(W240="SAB",AB203,IF(W240="PRE",AB204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC240=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB240=TRUE,'Ficha Pessoal'!V4))+IF(AM234=TRUE,(IF(T182="Quarto Grau",2,IF(T182="Terceiro Grau",3,IF(T182="Segundo Grau",4,IF(T182="Primeiro Grau",5,IF(T182="Grau Especial",6)))))))`
+- `BB240`: `=SUM(AW240+IF(AU240="FOR",AZ199,IF(AU240="DEX",AZ200,IF(AU240="CON",AZ201,IF(AU240="INT",AZ202,IF(AU240="SAB",AZ203,IF(AU240="PRE",AZ204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA240=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ240=TRUE,'Ficha Pessoal'!V4))+IF(BK234=TRUE,(IF(AR182="Quarto Grau",2,IF(AR182="Terceiro Grau",3,IF(AR182="Segundo Grau",4,IF(AR182="Primeiro Grau",5,IF(AR182="Grau Especial",6)))))))`
+- `BZ240`: `=SUM(BU240+IF(BS240="FOR",BX199,IF(BS240="DEX",BX200,IF(BS240="CON",BX201,IF(BS240="INT",BX202,IF(BS240="SAB",BX203,IF(BS240="PRE",BX204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY240=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX240=TRUE,'Ficha Pessoal'!V4))+IF(CI234=TRUE,(IF(BP182="Quarto Grau",2,IF(BP182="Terceiro Grau",3,IF(BP182="Segundo Grau",4,IF(BP182="Primeiro Grau",5,IF(BP182="Grau Especial",6)))))))`
+- `AD241`: `=SUM(Y241+IF(W241="FOR",AB199,IF(W241="DEX",AB200,IF(W241="CON",AB201,IF(W241="INT",AB202,IF(W241="SAB",AB203,IF(W241="PRE",AB204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC241=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB241=TRUE,'Ficha Pessoal'!V4))+IF(AM234=TRUE,(IF(T182="Quarto Grau",2,IF(T182="Terceiro Grau",3,IF(T182="Segundo Grau",4,IF(T182="Primeiro Grau",5,IF(T182="Grau Especial",6)))))))`
+- `BB241`: `=SUM(AW241+IF(AU241="FOR",AZ199,IF(AU241="DEX",AZ200,IF(AU241="CON",AZ201,IF(AU241="INT",AZ202,IF(AU241="SAB",AZ203,IF(AU241="PRE",AZ204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA241=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ241=TRUE,'Ficha Pessoal'!V4))+IF(BK234=TRUE,(IF(AR182="Quarto Grau",2,IF(AR182="Terceiro Grau",3,IF(AR182="Segundo Grau",4,IF(AR182="Primeiro Grau",5,IF(AR182="Grau Especial",6)))))))`
+- `BZ241`: `=SUM(BU241+IF(BS241="FOR",BX199,IF(BS241="DEX",BX200,IF(BS241="CON",BX201,IF(BS241="INT",BX202,IF(BS241="SAB",BX203,IF(BS241="PRE",BX204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY241=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX241=TRUE,'Ficha Pessoal'!V4))+IF(CI234=TRUE,(IF(BP182="Quarto Grau",2,IF(BP182="Terceiro Grau",3,IF(BP182="Segundo Grau",4,IF(BP182="Primeiro Grau",5,IF(BP182="Grau Especial",6)))))))`
+- `AD242`: `=SUM(Y242+IF(W242="FOR",AB199,IF(W242="DEX",AB200,IF(W242="CON",AB201,IF(W242="INT",AB202,IF(W242="SAB",AB203,IF(W242="PRE",AB204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC242=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB242=TRUE,'Ficha Pessoal'!V4))+IF(AM234=TRUE,(IF(T182="Quarto Grau",2,IF(T182="Terceiro Grau",3,IF(T182="Segundo Grau",4,IF(T182="Primeiro Grau",5,IF(T182="Grau Especial",6)))))))`
+- `BB242`: `=SUM(AW242+IF(AU242="FOR",AZ199,IF(AU242="DEX",AZ200,IF(AU242="CON",AZ201,IF(AU242="INT",AZ202,IF(AU242="SAB",AZ203,IF(AU242="PRE",AZ204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA242=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ242=TRUE,'Ficha Pessoal'!V4))+IF(BK234=TRUE,(IF(AR182="Quarto Grau",2,IF(AR182="Terceiro Grau",3,IF(AR182="Segundo Grau",4,IF(AR182="Primeiro Grau",5,IF(AR182="Grau Especial",6)))))))`
+- `BZ242`: `=SUM(BU242+IF(BS242="FOR",BX199,IF(BS242="DEX",BX200,IF(BS242="CON",BX201,IF(BS242="INT",BX202,IF(BS242="SAB",BX203,IF(BS242="PRE",BX204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY242=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX242=TRUE,'Ficha Pessoal'!V4))+IF(CI234=TRUE,(IF(BP182="Quarto Grau",2,IF(BP182="Terceiro Grau",3,IF(BP182="Segundo Grau",4,IF(BP182="Primeiro Grau",5,IF(BP182="Grau Especial",6)))))))`
+- `AD243`: `=SUM(Y243+IF(W243="FOR",AB199,IF(W243="DEX",AB200,IF(W243="CON",AB201,IF(W243="INT",AB202,IF(W243="SAB",AB203,IF(W243="PRE",AB204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC243=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB243=TRUE,'Ficha Pessoal'!V4))+IF(AM234=TRUE,(IF(T182="Quarto Grau",2,IF(T182="Terceiro Grau",3,IF(T182="Segundo Grau",4,IF(T182="Primeiro Grau",5,IF(T182="Grau Especial",6)))))))`
+- `AL243`: `=IF(AM243=TRUE,(IF('Ficha Pessoal'!V3<=5,"1d4",IF('Ficha Pessoal'!V3<=11,"1d6+3",IF('Ficha Pessoal'!V3<=17,"1d8+5",IF('Ficha Pessoal'!V3>=18,"1d12+10"))))))`
+- `BB243`: `=SUM(AW243+IF(AU243="FOR",AZ199,IF(AU243="DEX",AZ200,IF(AU243="CON",AZ201,IF(AU243="INT",AZ202,IF(AU243="SAB",AZ203,IF(AU243="PRE",AZ204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA243=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ243=TRUE,'Ficha Pessoal'!V4))+IF(BK234=TRUE,(IF(AR182="Quarto Grau",2,IF(AR182="Terceiro Grau",3,IF(AR182="Segundo Grau",4,IF(AR182="Primeiro Grau",5,IF(AR182="Grau Especial",6)))))))`
+- `BJ243`: `=IF(BK243=TRUE,(IF('Ficha Pessoal'!V3<=5,"1d4",IF('Ficha Pessoal'!V3<=11,"1d6+3",IF('Ficha Pessoal'!V3<=17,"1d8+5",IF('Ficha Pessoal'!V3>=18,"1d12+10"))))))`
+- `BZ243`: `=SUM(BU243+IF(BS243="FOR",BX199,IF(BS243="DEX",BX200,IF(BS243="CON",BX201,IF(BS243="INT",BX202,IF(BS243="SAB",BX203,IF(BS243="PRE",BX204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY243=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX243=TRUE,'Ficha Pessoal'!V4))+IF(CI234=TRUE,(IF(BP182="Quarto Grau",2,IF(BP182="Terceiro Grau",3,IF(BP182="Segundo Grau",4,IF(BP182="Primeiro Grau",5,IF(BP182="Grau Especial",6)))))))`
+- `CH243`: `=IF(CI243=TRUE,(IF('Ficha Pessoal'!V3<=5,"1d4",IF('Ficha Pessoal'!V3<=11,"1d6+3",IF('Ficha Pessoal'!V3<=17,"1d8+5",IF('Ficha Pessoal'!V3>=18,"1d12+10"))))))`
+- `AD244`: `=SUM(Y244+IF(W244="FOR",AB199,IF(W244="DEX",AB200,IF(W244="CON",AB201,IF(W244="INT",AB202,IF(W244="SAB",AB203,IF(W244="PRE",AB204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC244=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB244=TRUE,'Ficha Pessoal'!V4))+IF(AM234=TRUE,(IF(T182="Quarto Grau",2,IF(T182="Terceiro Grau",3,IF(T182="Segundo Grau",4,IF(T182="Primeiro Grau",5,IF(T182="Grau Especial",6)))))))`
+- `BB244`: `=SUM(AW244+IF(AU244="FOR",AZ199,IF(AU244="DEX",AZ200,IF(AU244="CON",AZ201,IF(AU244="INT",AZ202,IF(AU244="SAB",AZ203,IF(AU244="PRE",AZ204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA244=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ244=TRUE,'Ficha Pessoal'!V4))+IF(BK234=TRUE,(IF(AR182="Quarto Grau",2,IF(AR182="Terceiro Grau",3,IF(AR182="Segundo Grau",4,IF(AR182="Primeiro Grau",5,IF(AR182="Grau Especial",6)))))))`
+- `BZ244`: `=SUM(BU244+IF(BS244="FOR",BX199,IF(BS244="DEX",BX200,IF(BS244="CON",BX201,IF(BS244="INT",BX202,IF(BS244="SAB",BX203,IF(BS244="PRE",BX204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY244=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX244=TRUE,'Ficha Pessoal'!V4))+IF(CI234=TRUE,(IF(BP182="Quarto Grau",2,IF(BP182="Terceiro Grau",3,IF(BP182="Segundo Grau",4,IF(BP182="Primeiro Grau",5,IF(BP182="Grau Especial",6)))))))`
+- `AD245`: `=SUM(Y245+IF(W245="FOR",AB199,IF(W245="DEX",AB200,IF(W245="CON",AB201,IF(W245="INT",AB202,IF(W245="SAB",AB203,IF(W245="PRE",AB204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC245=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB245=TRUE,'Ficha Pessoal'!V4))+IF(AM234=TRUE,(IF(T182="Quarto Grau",2,IF(T182="Terceiro Grau",3,IF(T182="Segundo Grau",4,IF(T182="Primeiro Grau",5,IF(T182="Grau Especial",6)))))))`
+- `BB245`: `=SUM(AW245+IF(AU245="FOR",AZ199,IF(AU245="DEX",AZ200,IF(AU245="CON",AZ201,IF(AU245="INT",AZ202,IF(AU245="SAB",AZ203,IF(AU245="PRE",AZ204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA245=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ245=TRUE,'Ficha Pessoal'!V4))+IF(BK234=TRUE,(IF(AR182="Quarto Grau",2,IF(AR182="Terceiro Grau",3,IF(AR182="Segundo Grau",4,IF(AR182="Primeiro Grau",5,IF(AR182="Grau Especial",6)))))))`
+- `BZ245`: `=SUM(BU245+IF(BS245="FOR",BX199,IF(BS245="DEX",BX200,IF(BS245="CON",BX201,IF(BS245="INT",BX202,IF(BS245="SAB",BX203,IF(BS245="PRE",BX204)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY245=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX245=TRUE,'Ficha Pessoal'!V4))+IF(CI234=TRUE,(IF(BP182="Quarto Grau",2,IF(BP182="Terceiro Grau",3,IF(BP182="Segundo Grau",4,IF(BP182="Primeiro Grau",5,IF(BP182="Grau Especial",6)))))))`
+- `T265`: `=SUM(AC265+AF265+IF(T263="Quarto Grau",H8+(X282/2),IF(T263="Terceiro Grau",H9+(X282/2),IF(T263="Segundo Grau",H10+X282,IF(T263="Primeiro Grau",H11+X282,IF(T263="Grau Especial",H12+X282))))))+IF(AM318=TRUE,(IF('Ficha Pessoal'!V4=2,10,IF('Ficha Pessoal'!V4=3,15,IF('Ficha Pessoal'!V4=4,20,IF('Ficha Pessoal'!V4=5,25,IF('Ficha Pessoal'!V4=6,30)))))))+IF(AM324=TRUE,(IF('Ficha Pessoal'!V3<=5,5,IF('Ficha Pessoal'!V3<=11,10,IF('Ficha Pessoal'!V3<=17,20,IF('Ficha Pessoal'!V3>=18,30))))))+IF(AM325=TRUE,F14)+IF(AM326=TRUE,'Ficha Pessoal'!V4*5)`
+- `W265`: `=SUM(T265+Z265+AI265-AL265)`
+- `AR265`: `=SUM(BA265+BD265+IF(AR263="Quarto Grau",H8+(AV282/2),IF(AR263="Terceiro Grau",H9+(AV282/2),IF(AR263="Segundo Grau",H10+AV282,IF(AR263="Primeiro Grau",H11+AV282,IF(AR263="Grau Especial",H12+AV282))))))+IF(BK318=TRUE,(IF('Ficha Pessoal'!V4=2,10,IF('Ficha Pessoal'!V4=3,15,IF('Ficha Pessoal'!V4=4,20,IF('Ficha Pessoal'!V4=5,25,IF('Ficha Pessoal'!V4=6,30)))))))+IF(BK324=TRUE,(IF('Ficha Pessoal'!AT3<=5,5,IF('Ficha Pessoal'!AT3<=11,10,IF('Ficha Pessoal'!V3<=17,20,IF('Ficha Pessoal'!V3>=18,30))))))+IF(BK325=TRUE,F14)+IF(BK326=TRUE,'Ficha Pessoal'!V4*5)`
+- `AU265`: `=SUM(AR265+AX265+BG265-BJ265)`
+- `BP265`: `=SUM(BY265+CB265+IF(BP263="Quarto Grau",H8+(BT282/2),IF(BP263="Terceiro Grau",H9+(BT282/2),IF(BP263="Segundo Grau",H10+BT282,IF(BP263="Primeiro Grau",H11+BT282,IF(BP263="Grau Especial",H12+BT282))))))+IF(CI318=TRUE,(IF('Ficha Pessoal'!V4=2,10,IF('Ficha Pessoal'!V4=3,15,IF('Ficha Pessoal'!V4=4,20,IF('Ficha Pessoal'!V4=5,25,IF('Ficha Pessoal'!V4=6,30)))))))+IF(CI324=TRUE,(IF('Ficha Pessoal'!V3<=5,5,IF('Ficha Pessoal'!V3<=11,10,IF('Ficha Pessoal'!V3<=17,20,IF('Ficha Pessoal'!V3>=18,30))))))+IF(CI325=TRUE,F14)+IF(CI326=TRUE,'Ficha Pessoal'!V4*5)`
+- `BS265`: `=SUM(BP265+BV265+CE265-CH265)`
+- `T271`: `=SUM(W271-W274+IF(T263="Quarto Grau",P8+AB281,IF(T263="Terceiro Grau",P9+AB281,IF(T263="Segundo Grau",P10+AB281,IF(T263="Primeiro Grau",P12+AB281,IF(T263="Grau Especial",P13+AB281))))))-IF(AM316=TRUE,5)+IF(AM320=TRUE,(IF('Ficha Pessoal'!V3<=7,2,IF('Ficha Pessoal'!V3<=17,3,IF('Ficha Pessoal'!V3>=18,5)))))+IF(AM324=TRUE,(IF('Ficha Pessoal'!V3<=5,1,IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3<=17,3,IF('Ficha Pessoal'!V3>=18,5))))))+IF(AM326=TRUE,'Ficha Pessoal'!V4*2)`
+- `Y271`: `=SUM(10+AB271+AD315-AB274)`
+- `AD271`: `=SUM(AB281+AG271-AG274)`
+- `AI271`: `=SUM(9+AM271-AM274+IF(AM317=TRUE,(IF('Ficha Pessoal'!V3<=5,1.5,IF('Ficha Pessoal'!V3<=11,3,IF('Ficha Pessoal'!V3<=17,4.5,IF('Ficha Pessoal'!V3>=18,6)))))))+IF(AM321=TRUE,(IF('Ficha Pessoal'!V3<=3,1.5,IF('Ficha Pessoal'!V3<=7,3,IF('Ficha Pessoal'!V3<=11,4.5,IF('Ficha Pessoal'!V3<=15,6,IF('Ficha Pessoal'!V3<=17,7.5,IF('Ficha Pessoal'!V3>=18,9))))))))+IF(AM326=TRUE,4.5)`
+- `AR271`: `=SUM(AU271-AU274+IF(AR263="Quarto Grau",P8+AZ281,IF(AR263="Terceiro Grau",P9+AZ281,IF(AR263="Segundo Grau",P10+AZ281,IF(AR263="Primeiro Grau",P12+AZ281,IF(AR263="Grau Especial",P13+AZ281))))))-IF(BK316=TRUE,5)+IF(BK320=TRUE,(IF('Ficha Pessoal'!V3<=7,2,IF('Ficha Pessoal'!V3<=17,3,IF('Ficha Pessoal'!V3>=18,5)))))+IF(BK324=TRUE,(IF('Ficha Pessoal'!V3<=5,1,IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3<=17,3,IF('Ficha Pessoal'!V3>=18,5))))))+IF(BK326=TRUE,'Ficha Pessoal'!V4*2)`
+- `AW271`: `=SUM(10+AZ271+BB315-AZ274)`
+- `BB271`: `=SUM(AZ281+BE271-BE274)`
+- `BG271`: `=SUM(9+BK271-BK274+IF(BK317=TRUE,(IF('Ficha Pessoal'!V3<=5,1.5,IF('Ficha Pessoal'!V3<=11,3,IF('Ficha Pessoal'!V3<=17,4.5,IF('Ficha Pessoal'!V3>=18,6)))))))+IF(BK321=TRUE,(IF('Ficha Pessoal'!V3<=3,1.5,IF('Ficha Pessoal'!V3<=7,3,IF('Ficha Pessoal'!V3<=11,4.5,IF('Ficha Pessoal'!V3<=15,6,IF('Ficha Pessoal'!V3<=17,7.5,IF('Ficha Pessoal'!V3>=18,9))))))))+IF(BK326=TRUE,4.5)`
+- `BP271`: `=SUM(BS271-BS274+IF(BP263="Quarto Grau",P8+BX281,IF(BP263="Terceiro Grau",P9+BX281,IF(BP263="Segundo Grau",P10+BX281,IF(BP263="Primeiro Grau",P12+BX281,IF(BP263="Grau Especial",P13+BX281))))))-IF(CI316=TRUE,5)+IF(CI320=TRUE,(IF('Ficha Pessoal'!V3<=7,2,IF('Ficha Pessoal'!V3<=17,3,IF('Ficha Pessoal'!V3>=18,5)))))+IF(CI324=TRUE,(IF('Ficha Pessoal'!V3<=5,1,IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3<=17,3,IF('Ficha Pessoal'!V3>=18,5))))))+IF(CI326=TRUE,'Ficha Pessoal'!V4*2)`
+- `BU271`: `=SUM(10+BX271+BZ315-BX274)`
+- `BZ271`: `=SUM(BX281+CC271-CC274)`
+- `CE271`: `=SUM(9+CI271-CI274+IF(CI317=TRUE,(IF('Ficha Pessoal'!V3<=5,1.5,IF('Ficha Pessoal'!V3<=11,3,IF('Ficha Pessoal'!V3<=17,4.5,IF('Ficha Pessoal'!V3>=18,6)))))))+IF(CI321=TRUE,(IF('Ficha Pessoal'!V3<=3,1.5,IF('Ficha Pessoal'!V3<=7,3,IF('Ficha Pessoal'!V3<=11,4.5,IF('Ficha Pessoal'!V3<=15,6,IF('Ficha Pessoal'!V3<=17,7.5,IF('Ficha Pessoal'!V3>=18,9))))))))+IF(CI326=TRUE,4.5)`
+- `AB280`: `=IF(X280>=10,ROUNDDOWN((X280-10)/2,0),ROUNDUP((X280-10)/2,0))`
+- `AM280`: `=SUM(10+AK280+IF(AH280="FOR",AB280,IF(AH280="DEX",AB281,IF(AH280="CON",AB282,IF(AH280="INT",AB283,IF(AH280="SAB",AB284,IF(W264=AH280,AB285)))))))+('Ficha Pessoal'!V3/2)+IF(AM323=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `AZ280`: `=IF(AV280>=10,ROUNDDOWN((AV280-10)/2,0),ROUNDUP((AV280-10)/2,0))`
+- `BK280`: `=SUM(10+BI280+IF(BF280="FOR",AZ280,IF(BF280="DEX",AZ281,IF(BF280="CON",AZ282,IF(BF280="INT",AZ283,IF(BF280="SAB",AZ284,IF(AU264=BF280,AZ285)))))))+('Ficha Pessoal'!V3/2)+IF(BK323=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `BX280`: `=IF(BT280>=10,ROUNDDOWN((BT280-10)/2,0),ROUNDUP((BT280-10)/2,0))`
+- `CI280`: `=SUM(10+CG280+IF(CD280="FOR",BX280,IF(CD280="DEX",BX281,IF(CD280="CON",BX282,IF(CD280="INT",BX283,IF(CD280="SAB",BX284,IF(BS264=CD280,BX285)))))))+('Ficha Pessoal'!V3/2)+IF(CI323=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `AB281`: `=IF(X281>=10,ROUNDDOWN((X281-10)/2,0),ROUNDUP((X281-10)/2,0))`
+- `AZ281`: `=IF(AV281>=10,ROUNDDOWN((AV281-10)/2,0),ROUNDUP((AV281-10)/2,0))`
+- `BX281`: `=IF(BT281>=10,ROUNDDOWN((BT281-10)/2,0),ROUNDUP((BT281-10)/2,0))`
+- `AB282`: `=IF(X282>=10,ROUNDDOWN((X282-10)/2,0),ROUNDUP((X282-10)/2,0))`
+- `AZ282`: `=IF(AV282>=10,ROUNDDOWN((AV282-10)/2,0),ROUNDUP((AV282-10)/2,0))`
+- `BX282`: `=IF(BT282>=10,ROUNDDOWN((BT282-10)/2,0),ROUNDUP((BT282-10)/2,0))`
+- `AB283`: `=IF(X283>=10,ROUNDDOWN((X283-10)/2,0),ROUNDUP((X283-10)/2,0))`
+- `AZ283`: `=IF(AV283>=10,ROUNDDOWN((AV283-10)/2,0),ROUNDUP((AV283-10)/2,0))`
+- `BX283`: `=IF(BT283>=10,ROUNDDOWN((BT283-10)/2,0),ROUNDUP((BT283-10)/2,0))`
+- `AB284`: `=IF(X284>=10,ROUNDDOWN((X284-10)/2,0),ROUNDUP((X284-10)/2,0))`
+- `AM284`: `=SUM(AL284+IF(AM320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AZ284`: `=IF(AV284>=10,ROUNDDOWN((AV284-10)/2,0),ROUNDUP((AV284-10)/2,0))`
+- `BK284`: `=SUM(BJ284+IF(BK320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BX284`: `=IF(BT284>=10,ROUNDDOWN((BT284-10)/2,0),ROUNDUP((BT284-10)/2,0))`
+- `CI284`: `=SUM(CH284+IF(CI320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AB285`: `=IF(X285>=10,ROUNDDOWN((X285-10)/2,0),ROUNDUP((X285-10)/2,0))`
+- `AM285`: `=SUM(AL285+IF(AM320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AZ285`: `=IF(AV285>=10,ROUNDDOWN((AV285-10)/2,0),ROUNDUP((AV285-10)/2,0))`
+- `BK285`: `=SUM(BJ285+IF(BK320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BX285`: `=IF(BT285>=10,ROUNDDOWN((BT285-10)/2,0),ROUNDUP((BT285-10)/2,0))`
+- `CI285`: `=SUM(CH285+IF(CI320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM286`: `=SUM(AL286+IF(AM320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=3,5,)))))`
+- `BK286`: `=SUM(BJ286+IF(BK320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=3,5,)))))`
+- `CI286`: `=SUM(CH286+IF(CI320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=3,5,)))))`
+- `AM287`: `=SUM(AL287+IF(AM320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK287`: `=SUM(BJ287+IF(BK320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI287`: `=SUM(CH287+IF(CI320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM288`: `=SUM(AL288+IF(AM320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK288`: `=SUM(BJ288+IF(BK320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI288`: `=SUM(CH288+IF(CI320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM289`: `=SUM(AL289+IF(AM320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK289`: `=SUM(BJ289+IF(BK320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI289`: `=SUM(CH289+IF(CI320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM290`: `=SUM(AL290+IF(AM320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK290`: `=SUM(BJ290+IF(BK320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI290`: `=SUM(CH290+IF(CI320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM291`: `=SUM(AL291+IF(AM320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK291`: `=SUM(BJ291+IF(BK320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI291`: `=SUM(CH291+IF(CI320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM292`: `=SUM(AL292+IF(AM320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK292`: `=SUM(BJ292+IF(BK320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI292`: `=SUM(CH292+IF(CI320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM293`: `=SUM(AL293+IF(AM320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK293`: `=SUM(BJ293+IF(BK320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI293`: `=SUM(CH293+IF(CI320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM294`: `=SUM(AL294+IF(AM320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK294`: `=SUM(BJ294+IF(BK320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI294`: `=SUM(CH294+IF(CI320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM295`: `=SUM(AL295+IF(AM320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK295`: `=SUM(BJ295+IF(BK320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI295`: `=SUM(CH295+IF(CI320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM296`: `=SUM(AL296+IF(AM320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK296`: `=SUM(BJ296+IF(BK320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI296`: `=SUM(CH296+IF(CI320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM297`: `=SUM(AL297+IF(AM320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK297`: `=SUM(BJ297+IF(BK320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `CI297`: `=SUM(CH297+IF(CI320=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AD299`: `=SUM(Y299+IF(W299="FOR",AB280,IF(W299="DEX",AB281,IF(W299="CON",AB282,IF(W299="INT",AB283,IF(W299="SAB",AB284,IF(W264="PRE",AB285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AB299=TRUE,'Ficha Pessoal'!V4)+IF(AM315=TRUE,(IF(T263="Quarto Grau",2,IF(T263="Terceiro Grau",3,IF(T263="Segundo Grau",4,IF(T263="Primeiro Grau",5,IF(T263="Grau Especial",6)))))))+IF(AM322=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `BB299`: `=SUM(AW299+IF(AU299="FOR",AZ280,IF(AU299="DEX",AZ281,IF(AU299="CON",AZ282,IF(AU299="INT",AZ283,IF(AU299="SAB",AZ284,IF(AU264="PRE",AZ285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AZ299=TRUE,'Ficha Pessoal'!V4)+IF(BK315=TRUE,(IF(AR263="Quarto Grau",2,IF(AR263="Terceiro Grau",3,IF(AR263="Segundo Grau",4,IF(AR263="Primeiro Grau",5,IF(AR263="Grau Especial",6)))))))+IF(BK322=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `BZ299`: `=SUM(BU299+IF(BS299="FOR",BX280,IF(BS299="DEX",BX281,IF(BS299="CON",BX282,IF(BS299="INT",BX283,IF(BS299="SAB",BX284,IF(BS264="PRE",BX285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BX299=TRUE,'Ficha Pessoal'!V4)+IF(CI315=TRUE,(IF(BP263="Quarto Grau",2,IF(BP263="Terceiro Grau",3,IF(BP263="Segundo Grau",4,IF(BP263="Primeiro Grau",5,IF(BP263="Grau Especial",6)))))))+IF(CI322=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `AD300`: `=SUM(Y300+IF(W300="FOR",AB280,IF(W300="DEX",AB281,IF(W300="CON",AB282,IF(W300="INT",AB283,IF(W300="SAB",AB284,IF(W300="PRE",AB285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AB300=TRUE,'Ficha Pessoal'!V4)+IF(AM315=TRUE,(IF(T263="Quarto Grau",2,IF(T263="Terceiro Grau",3,IF(T263="Segundo Grau",4,IF(T263="Primeiro Grau",5,IF(T263="Grau Especial",6)))))))+IF(AM322=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `BB300`: `=SUM(AW300+IF(AU300="FOR",AZ280,IF(AU300="DEX",AZ281,IF(AU300="CON",AZ282,IF(AU300="INT",AZ283,IF(AU300="SAB",AZ284,IF(AU300="PRE",AZ285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AZ300=TRUE,'Ficha Pessoal'!V4)+IF(BK315=TRUE,(IF(AR263="Quarto Grau",2,IF(AR263="Terceiro Grau",3,IF(AR263="Segundo Grau",4,IF(AR263="Primeiro Grau",5,IF(AR263="Grau Especial",6)))))))+IF(BK322=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `BZ300`: `=SUM(BU300+IF(BS300="FOR",BX280,IF(BS300="DEX",BX281,IF(BS300="CON",BX282,IF(BS300="INT",BX283,IF(BS300="SAB",BX284,IF(BS300="PRE",BX285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BX300=TRUE,'Ficha Pessoal'!V4)+IF(CI315=TRUE,(IF(BP263="Quarto Grau",2,IF(BP263="Terceiro Grau",3,IF(BP263="Segundo Grau",4,IF(BP263="Primeiro Grau",5,IF(BP263="Grau Especial",6)))))))+IF(CI322=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `AD302`: `=SUM(Y302+IF(W302="FOR",AB280,IF(W302="DEX",AB281,IF(W302="CON",AB282,IF(W302="INT",AB283,IF(W302="SAB",AB284,IF(W302="PRE",AB285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC302=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB302=TRUE,'Ficha Pessoal'!V4))+IF(AM315=TRUE,(IF(T263="Quarto Grau",2,IF(T263="Terceiro Grau",3,IF(T263="Segundo Grau",4,IF(T263="Primeiro Grau",5,IF(T263="Grau Especial",6)))))))-IF(AM316=TRUE,5)+IF(AM324=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BB302`: `=SUM(AW302+IF(AU302="FOR",AZ280,IF(AU302="DEX",AZ281,IF(AU302="CON",AZ282,IF(AU302="INT",AZ283,IF(AU302="SAB",AZ284,IF(AU302="PRE",AZ285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA302=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ302=TRUE,'Ficha Pessoal'!V4))+IF(BK315=TRUE,(IF(AR263="Quarto Grau",2,IF(AR263="Terceiro Grau",3,IF(AR263="Segundo Grau",4,IF(AR263="Primeiro Grau",5,IF(AR263="Grau Especial",6)))))))-IF(BK316=TRUE,5)+IF(BK324=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BZ302`: `=SUM(BU302+IF(BS302="FOR",BX280,IF(BS302="DEX",BX281,IF(BS302="CON",BX282,IF(BS302="INT",BX283,IF(BS302="SAB",BX284,IF(BS302="PRE",BX285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY302=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX302=TRUE,'Ficha Pessoal'!V4))+IF(CI315=TRUE,(IF(BP263="Quarto Grau",2,IF(BP263="Terceiro Grau",3,IF(BP263="Segundo Grau",4,IF(BP263="Primeiro Grau",5,IF(BP263="Grau Especial",6)))))))-IF(CI316=TRUE,5)+IF(CI324=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `AD303`: `=SUM(Y303+IF(W303="FOR",AB280,IF(W303="DEX",AB281,IF(W303="CON",AB282,IF(W303="INT",AB283,IF(W303="SAB",AB284,IF(W303="PRE",AB285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC303=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB303=TRUE,'Ficha Pessoal'!V4))+IF(AM315=TRUE,(IF(T263="Quarto Grau",2,IF(T263="Terceiro Grau",3,IF(T263="Segundo Grau",4,IF(T263="Primeiro Grau",5,IF(T263="Grau Especial",6)))))))-IF(AM316=TRUE,5)+IF(AM324=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BB303`: `=SUM(AW303+IF(AU303="FOR",AZ280,IF(AU303="DEX",AZ281,IF(AU303="CON",AZ282,IF(AU303="INT",AZ283,IF(AU303="SAB",AZ284,IF(AU303="PRE",AZ285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA303=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ303=TRUE,'Ficha Pessoal'!V4))+IF(BK315=TRUE,(IF(AR263="Quarto Grau",2,IF(AR263="Terceiro Grau",3,IF(AR263="Segundo Grau",4,IF(AR263="Primeiro Grau",5,IF(AR263="Grau Especial",6)))))))-IF(BK316=TRUE,5)+IF(BK324=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BZ303`: `=SUM(BU303+IF(BS303="FOR",BX280,IF(BS303="DEX",BX281,IF(BS303="CON",BX282,IF(BS303="INT",BX283,IF(BS303="SAB",BX284,IF(BS303="PRE",BX285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY303=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX303=TRUE,'Ficha Pessoal'!V4))+IF(CI315=TRUE,(IF(BP263="Quarto Grau",2,IF(BP263="Terceiro Grau",3,IF(BP263="Segundo Grau",4,IF(BP263="Primeiro Grau",5,IF(BP263="Grau Especial",6)))))))-IF(CI316=TRUE,5)+IF(CI324=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `AD304`: `=SUM(Y304+IF(W304="FOR",AB280,IF(W304="DEX",AB281,IF(W304="CON",AB282,IF(W304="INT",AB283,IF(W304="SAB",AB284,IF(W304="PRE",AB285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC304=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB304=TRUE,'Ficha Pessoal'!V4))+IF(AM315=TRUE,(IF(T263="Quarto Grau",2,IF(T263="Terceiro Grau",3,IF(T263="Segundo Grau",4,IF(T263="Primeiro Grau",5,IF(T263="Grau Especial",6)))))))-IF(AM316=TRUE,5)+IF(AM324=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BB304`: `=SUM(AW304+IF(AU304="FOR",AZ280,IF(AU304="DEX",AZ281,IF(AU304="CON",AZ282,IF(AU304="INT",AZ283,IF(AU304="SAB",AZ284,IF(AU304="PRE",AZ285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA304=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ304=TRUE,'Ficha Pessoal'!V4))+IF(BK315=TRUE,(IF(AR263="Quarto Grau",2,IF(AR263="Terceiro Grau",3,IF(AR263="Segundo Grau",4,IF(AR263="Primeiro Grau",5,IF(AR263="Grau Especial",6)))))))-IF(BK316=TRUE,5)+IF(BK324=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BZ304`: `=SUM(BU304+IF(BS304="FOR",BX280,IF(BS304="DEX",BX281,IF(BS304="CON",BX282,IF(BS304="INT",BX283,IF(BS304="SAB",BX284,IF(BS304="PRE",BX285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY304=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX304=TRUE,'Ficha Pessoal'!V4))+IF(CI315=TRUE,(IF(BP263="Quarto Grau",2,IF(BP263="Terceiro Grau",3,IF(BP263="Segundo Grau",4,IF(BP263="Primeiro Grau",5,IF(BP263="Grau Especial",6)))))))-IF(CI316=TRUE,5)+IF(CI324=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `AD305`: `=SUM(Y305+IF(W305="FOR",AB280,IF(W305="DEX",AB281,IF(W305="CON",AB282,IF(W305="INT",AB283,IF(W305="SAB",AB284,IF(W304="PRE",AB285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC305=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB305=TRUE,'Ficha Pessoal'!V4))+IF(AM315=TRUE,(IF(T263="Quarto Grau",2,IF(T263="Terceiro Grau",3,IF(T263="Segundo Grau",4,IF(T263="Primeiro Grau",5,IF(T263="Grau Especial",6)))))))-IF(AM316=TRUE,5)+IF(AM324=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BB305`: `=SUM(AW305+IF(AU305="FOR",AZ280,IF(AU305="DEX",AZ281,IF(AU305="CON",AZ282,IF(AU305="INT",AZ283,IF(AU305="SAB",AZ284,IF(AU304="PRE",AZ285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA305=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ305=TRUE,'Ficha Pessoal'!V4))+IF(BK315=TRUE,(IF(AR263="Quarto Grau",2,IF(AR263="Terceiro Grau",3,IF(AR263="Segundo Grau",4,IF(AR263="Primeiro Grau",5,IF(AR263="Grau Especial",6)))))))-IF(BK316=TRUE,5)+IF(BK324=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BZ305`: `=SUM(BU305+IF(BS305="FOR",BX280,IF(BS305="DEX",BX281,IF(BS305="CON",BX282,IF(BS305="INT",BX283,IF(BS305="SAB",BX284,IF(BS304="PRE",BX285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY305=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX305=TRUE,'Ficha Pessoal'!V4))+IF(CI315=TRUE,(IF(BP263="Quarto Grau",2,IF(BP263="Terceiro Grau",3,IF(BP263="Segundo Grau",4,IF(BP263="Primeiro Grau",5,IF(BP263="Grau Especial",6)))))))-IF(CI316=TRUE,5)+IF(CI324=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `AD306`: `=SUM(Y306+IF(W306="FOR",AB280,IF(W306="DEX",AB281,IF(W306="CON",AB282,IF(W306="INT",AB283,IF(W306="SAB",AB284,IF(W306="PRE",AB285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC306=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB306=TRUE,'Ficha Pessoal'!V4))+IF(AM315=TRUE,(IF(T263="Quarto Grau",2,IF(T263="Terceiro Grau",3,IF(T263="Segundo Grau",4,IF(T263="Primeiro Grau",5,IF(T263="Grau Especial",6)))))))-IF(AM316=TRUE,5)+IF(AM324=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BB306`: `=SUM(AW306+IF(AU306="FOR",AZ280,IF(AU306="DEX",AZ281,IF(AU306="CON",AZ282,IF(AU306="INT",AZ283,IF(AU306="SAB",AZ284,IF(AU306="PRE",AZ285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA306=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ306=TRUE,'Ficha Pessoal'!V4))+IF(BK315=TRUE,(IF(AR263="Quarto Grau",2,IF(AR263="Terceiro Grau",3,IF(AR263="Segundo Grau",4,IF(AR263="Primeiro Grau",5,IF(AR263="Grau Especial",6)))))))-IF(BK316=TRUE,5)+IF(BK324=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BZ306`: `=SUM(BU306+IF(BS306="FOR",BX280,IF(BS306="DEX",BX281,IF(BS306="CON",BX282,IF(BS306="INT",BX283,IF(BS306="SAB",BX284,IF(BS306="PRE",BX285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY306=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX306=TRUE,'Ficha Pessoal'!V4))+IF(CI315=TRUE,(IF(BP263="Quarto Grau",2,IF(BP263="Terceiro Grau",3,IF(BP263="Segundo Grau",4,IF(BP263="Primeiro Grau",5,IF(BP263="Grau Especial",6)))))))-IF(CI316=TRUE,5)+IF(CI324=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `AD308`: `=SUM(Y308+IF(W308="FOR",AB280,IF(W308="DEX",AB281,IF(W308="CON",AB282,IF(W308="INT",AB283,IF(W308="SAB",AB284,IF(W308="PRE",AB285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC308=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB308=TRUE,'Ficha Pessoal'!V4))+IF(AM315=TRUE,(IF(T263="Quarto Grau",2,IF(T263="Terceiro Grau",3,IF(T263="Segundo Grau",4,IF(T263="Primeiro Grau",5,IF(T263="Grau Especial",6)))))))`
+- `BB308`: `=SUM(AW308+IF(AU308="FOR",AZ280,IF(AU308="DEX",AZ281,IF(AU308="CON",AZ282,IF(AU308="INT",AZ283,IF(AU308="SAB",AZ284,IF(AU308="PRE",AZ285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA308=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ308=TRUE,'Ficha Pessoal'!V4))+IF(BK315=TRUE,(IF(AR263="Quarto Grau",2,IF(AR263="Terceiro Grau",3,IF(AR263="Segundo Grau",4,IF(AR263="Primeiro Grau",5,IF(AR263="Grau Especial",6)))))))`
+- `BZ308`: `=SUM(BU308+IF(BS308="FOR",BX280,IF(BS308="DEX",BX281,IF(BS308="CON",BX282,IF(BS308="INT",BX283,IF(BS308="SAB",BX284,IF(BS308="PRE",BX285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY308=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX308=TRUE,'Ficha Pessoal'!V4))+IF(CI315=TRUE,(IF(BP263="Quarto Grau",2,IF(BP263="Terceiro Grau",3,IF(BP263="Segundo Grau",4,IF(BP263="Primeiro Grau",5,IF(BP263="Grau Especial",6)))))))`
+- `AD309`: `=SUM(Y309+IF(W309="FOR",AB280,IF(W309="DEX",AB281,IF(W309="CON",AB282,IF(W309="INT",AB283,IF(W309="SAB",AB284,IF(W309="PRE",AB285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC309=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB309=TRUE,'Ficha Pessoal'!V4))+IF(AM315=TRUE,(IF(T263="Quarto Grau",2,IF(T263="Terceiro Grau",3,IF(T263="Segundo Grau",4,IF(T263="Primeiro Grau",5,IF(T263="Grau Especial",6)))))))`
+- `BB309`: `=SUM(AW309+IF(AU309="FOR",AZ280,IF(AU309="DEX",AZ281,IF(AU309="CON",AZ282,IF(AU309="INT",AZ283,IF(AU309="SAB",AZ284,IF(AU309="PRE",AZ285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA309=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ309=TRUE,'Ficha Pessoal'!V4))+IF(BK315=TRUE,(IF(AR263="Quarto Grau",2,IF(AR263="Terceiro Grau",3,IF(AR263="Segundo Grau",4,IF(AR263="Primeiro Grau",5,IF(AR263="Grau Especial",6)))))))`
+- `BZ309`: `=SUM(BU309+IF(BS309="FOR",BX280,IF(BS309="DEX",BX281,IF(BS309="CON",BX282,IF(BS309="INT",BX283,IF(BS309="SAB",BX284,IF(BS309="PRE",BX285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY309=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX309=TRUE,'Ficha Pessoal'!V4))+IF(CI315=TRUE,(IF(BP263="Quarto Grau",2,IF(BP263="Terceiro Grau",3,IF(BP263="Segundo Grau",4,IF(BP263="Primeiro Grau",5,IF(BP263="Grau Especial",6)))))))`
+- `AD310`: `=SUM(Y310+IF(W310="FOR",AB280,IF(W310="DEX",AB281,IF(W310="CON",AB282,IF(W310="INT",AB283,IF(W310="SAB",AB284,IF(W310="PRE",AB285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC310=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB310=TRUE,'Ficha Pessoal'!V4))+IF(AM315=TRUE,(IF(T263="Qu3arto Grau",2,IF(T263="Terceiro Grau",3,IF(T263="Segundo Grau",4,IF(T263="Primeiro Grau",5,IF(T263="Grau Especial",6)))))))`
+- `BB310`: `=SUM(AW310+IF(AU310="FOR",AZ280,IF(AU310="DEX",AZ281,IF(AU310="CON",AZ282,IF(AU310="INT",AZ283,IF(AU310="SAB",AZ284,IF(AU310="PRE",AZ285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA310=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ310=TRUE,'Ficha Pessoal'!V4))+IF(BK315=TRUE,(IF(AR263="Qu3arto Grau",2,IF(AR263="Terceiro Grau",3,IF(AR263="Segundo Grau",4,IF(AR263="Primeiro Grau",5,IF(AR263="Grau Especial",6)))))))`
+- `BZ310`: `=SUM(BU310+IF(BS310="FOR",BX280,IF(BS310="DEX",BX281,IF(BS310="CON",BX282,IF(BS310="INT",BX283,IF(BS310="SAB",BX284,IF(BS310="PRE",BX285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY310=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX310=TRUE,'Ficha Pessoal'!V4))+IF(CI315=TRUE,(IF(BP263="Qu3arto Grau",2,IF(BP263="Terceiro Grau",3,IF(BP263="Segundo Grau",4,IF(BP263="Primeiro Grau",5,IF(BP263="Grau Especial",6)))))))`
+- `AD311`: `=SUM(Y311+IF(W311="FOR",AB280,IF(W311="DEX",AB281,IF(W311="CON",AB282,IF(W311="INT",AB283,IF(W311="SAB",AB284,IF(W311="PRE",AB285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC311=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB311=TRUE,'Ficha Pessoal'!V4))+IF(AM315=TRUE,(IF(T263="Quarto Grau",2,IF(T263="Terceiro Grau",3,IF(T263="Segundo Grau",4,IF(T263="Primeiro Grau",5,IF(T263="Grau Especial",6)))))))`
+- `BB311`: `=SUM(AW311+IF(AU311="FOR",AZ280,IF(AU311="DEX",AZ281,IF(AU311="CON",AZ282,IF(AU311="INT",AZ283,IF(AU311="SAB",AZ284,IF(AU311="PRE",AZ285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA311=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ311=TRUE,'Ficha Pessoal'!V4))+IF(BK315=TRUE,(IF(AR263="Quarto Grau",2,IF(AR263="Terceiro Grau",3,IF(AR263="Segundo Grau",4,IF(AR263="Primeiro Grau",5,IF(AR263="Grau Especial",6)))))))`
+- `BZ311`: `=SUM(BU311+IF(BS311="FOR",BX280,IF(BS311="DEX",BX281,IF(BS311="CON",BX282,IF(BS311="INT",BX283,IF(BS311="SAB",BX284,IF(BS311="PRE",BX285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY311=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX311=TRUE,'Ficha Pessoal'!V4))+IF(CI315=TRUE,(IF(BP263="Quarto Grau",2,IF(BP263="Terceiro Grau",3,IF(BP263="Segundo Grau",4,IF(BP263="Primeiro Grau",5,IF(BP263="Grau Especial",6)))))))`
+- `AD312`: `=SUM(Y312+IF(W312="FOR",AB280,IF(W312="DEX",AB281,IF(W312="CON",AB282,IF(W312="INT",AB283,IF(W312="SAB",AB284,IF(W312="PRE",AB285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC312=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB312=TRUE,'Ficha Pessoal'!V4))+IF(AM315=TRUE,(IF(T263="Quarto Grau",2,IF(T263="Terceiro Grau",3,IF(T263="Segundo Grau",4,IF(T263="Primeiro Grau",5,IF(T263="Grau Especial",6)))))))`
+- `BB312`: `=SUM(AW312+IF(AU312="FOR",AZ280,IF(AU312="DEX",AZ281,IF(AU312="CON",AZ282,IF(AU312="INT",AZ283,IF(AU312="SAB",AZ284,IF(AU312="PRE",AZ285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA312=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ312=TRUE,'Ficha Pessoal'!V4))+IF(BK315=TRUE,(IF(AR263="Quarto Grau",2,IF(AR263="Terceiro Grau",3,IF(AR263="Segundo Grau",4,IF(AR263="Primeiro Grau",5,IF(AR263="Grau Especial",6)))))))`
+- `BZ312`: `=SUM(BU312+IF(BS312="FOR",BX280,IF(BS312="DEX",BX281,IF(BS312="CON",BX282,IF(BS312="INT",BX283,IF(BS312="SAB",BX284,IF(BS312="PRE",BX285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY312=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX312=TRUE,'Ficha Pessoal'!V4))+IF(CI315=TRUE,(IF(BP263="Quarto Grau",2,IF(BP263="Terceiro Grau",3,IF(BP263="Segundo Grau",4,IF(BP263="Primeiro Grau",5,IF(BP263="Grau Especial",6)))))))`
+- `AD313`: `=SUM(Y313+IF(W313="FOR",AB280,IF(W313="DEX",AB281,IF(W313="CON",AB282,IF(W313="INT",AB283,IF(W313="SAB",AB284,IF(W313="PRE",AB285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC313=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB313=TRUE,'Ficha Pessoal'!V4))+IF(AM315=TRUE,(IF(T263="Quarto Grau",2,IF(T263="Terceiro Grau",3,IF(T263="Segundo Grau",4,IF(T263="Primeiro Grau",5,IF(T263="Grau Especial",6)))))))`
+- `BB313`: `=SUM(AW313+IF(AU313="FOR",AZ280,IF(AU313="DEX",AZ281,IF(AU313="CON",AZ282,IF(AU313="INT",AZ283,IF(AU313="SAB",AZ284,IF(AU313="PRE",AZ285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA313=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ313=TRUE,'Ficha Pessoal'!V4))+IF(BK315=TRUE,(IF(AR263="Quarto Grau",2,IF(AR263="Terceiro Grau",3,IF(AR263="Segundo Grau",4,IF(AR263="Primeiro Grau",5,IF(AR263="Grau Especial",6)))))))`
+- `BZ313`: `=SUM(BU313+IF(BS313="FOR",BX280,IF(BS313="DEX",BX281,IF(BS313="CON",BX282,IF(BS313="INT",BX283,IF(BS313="SAB",BX284,IF(BS313="PRE",BX285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY313=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX313=TRUE,'Ficha Pessoal'!V4))+IF(CI315=TRUE,(IF(BP263="Quarto Grau",2,IF(BP263="Terceiro Grau",3,IF(BP263="Segundo Grau",4,IF(BP263="Primeiro Grau",5,IF(BP263="Grau Especial",6)))))))`
+- `AD314`: `=SUM(Y314+IF(W314="FOR",AB280,IF(W314="DEX",AB281,IF(W314="CON",AB282,IF(W314="INT",AB283,IF(W314="SAB",AB284,IF(W314="PRE",AB285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC314=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB314=TRUE,'Ficha Pessoal'!V4))+IF(AM315=TRUE,(IF(T263="Quarto Grau",2,IF(T263="Terceiro Grau",3,IF(T263="Segundo Grau",4,IF(T263="Primeiro Grau",5,IF(T263="Grau Especial",6)))))))`
+- `BB314`: `=SUM(AW314+IF(AU314="FOR",AZ280,IF(AU314="DEX",AZ281,IF(AU314="CON",AZ282,IF(AU314="INT",AZ283,IF(AU314="SAB",AZ284,IF(AU314="PRE",AZ285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA314=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ314=TRUE,'Ficha Pessoal'!V4))+IF(BK315=TRUE,(IF(AR263="Quarto Grau",2,IF(AR263="Terceiro Grau",3,IF(AR263="Segundo Grau",4,IF(AR263="Primeiro Grau",5,IF(AR263="Grau Especial",6)))))))`
+- `BZ314`: `=SUM(BU314+IF(BS314="FOR",BX280,IF(BS314="DEX",BX281,IF(BS314="CON",BX282,IF(BS314="INT",BX283,IF(BS314="SAB",BX284,IF(BS314="PRE",BX285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY314=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX314=TRUE,'Ficha Pessoal'!V4))+IF(CI315=TRUE,(IF(BP263="Quarto Grau",2,IF(BP263="Terceiro Grau",3,IF(BP263="Segundo Grau",4,IF(BP263="Primeiro Grau",5,IF(BP263="Grau Especial",6)))))))`
+- `AD315`: `=SUM(Y315+IF(W315="FOR",AB280,IF(W315="DEX",AB281,IF(W315="CON",AB282,IF(W315="INT",AB283,IF(W315="SAB",AB284,IF(W315="PRE",AB285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC315=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB315=TRUE,'Ficha Pessoal'!V4))+IF(AM315=TRUE,(IF(T263="Quarto Grau",2,IF(T263="Terceiro Grau",3,IF(T263="Segundo Grau",4,IF(T263="Primeiro Grau",5,IF(T263="Grau Especial",6)))))))`
+- `BB315`: `=SUM(AW315+IF(AU315="FOR",AZ280,IF(AU315="DEX",AZ281,IF(AU315="CON",AZ282,IF(AU315="INT",AZ283,IF(AU315="SAB",AZ284,IF(AU315="PRE",AZ285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA315=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ315=TRUE,'Ficha Pessoal'!V4))+IF(BK315=TRUE,(IF(AR263="Quarto Grau",2,IF(AR263="Terceiro Grau",3,IF(AR263="Segundo Grau",4,IF(AR263="Primeiro Grau",5,IF(AR263="Grau Especial",6)))))))`
+- `BZ315`: `=SUM(BU315+IF(BS315="FOR",BX280,IF(BS315="DEX",BX281,IF(BS315="CON",BX282,IF(BS315="INT",BX283,IF(BS315="SAB",BX284,IF(BS315="PRE",BX285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY315=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX315=TRUE,'Ficha Pessoal'!V4))+IF(CI315=TRUE,(IF(BP263="Quarto Grau",2,IF(BP263="Terceiro Grau",3,IF(BP263="Segundo Grau",4,IF(BP263="Primeiro Grau",5,IF(BP263="Grau Especial",6)))))))`
+- `AD316`: `=SUM(Y316+IF(W316="FOR",AB280,IF(W316="DEX",AB281,IF(W316="CON",AB282,IF(W316="INT",AB283,IF(W316="SAB",AB284,IF(W316="PRE",AB285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC316=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB316=TRUE,'Ficha Pessoal'!V4))+IF(AM315=TRUE,(IF(T263="Quarto Grau",2,IF(T263="Terceiro Grau",3,IF(T263="Segundo Grau",4,IF(T263="Primeiro Grau",5,IF(T263="Grau Especial",6)))))))`
+- `BB316`: `=SUM(AW316+IF(AU316="FOR",AZ280,IF(AU316="DEX",AZ281,IF(AU316="CON",AZ282,IF(AU316="INT",AZ283,IF(AU316="SAB",AZ284,IF(AU316="PRE",AZ285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA316=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ316=TRUE,'Ficha Pessoal'!V4))+IF(BK315=TRUE,(IF(AR263="Quarto Grau",2,IF(AR263="Terceiro Grau",3,IF(AR263="Segundo Grau",4,IF(AR263="Primeiro Grau",5,IF(AR263="Grau Especial",6)))))))`
+- `BZ316`: `=SUM(BU316+IF(BS316="FOR",BX280,IF(BS316="DEX",BX281,IF(BS316="CON",BX282,IF(BS316="INT",BX283,IF(BS316="SAB",BX284,IF(BS316="PRE",BX285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY316=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX316=TRUE,'Ficha Pessoal'!V4))+IF(CI315=TRUE,(IF(BP263="Quarto Grau",2,IF(BP263="Terceiro Grau",3,IF(BP263="Segundo Grau",4,IF(BP263="Primeiro Grau",5,IF(BP263="Grau Especial",6)))))))`
+- `AD317`: `=SUM(Y317+IF(W317="FOR",AB280,IF(W317="DEX",AB281,IF(W317="CON",AB282,IF(W317="INT",AB283,IF(W317="SAB",AB284,IF(W317="PRE",AB285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC317=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB317=TRUE,'Ficha Pessoal'!V4))+IF(AM315=TRUE,(IF(T263="Quarto Grau",2,IF(T263="Terceiro Grau",3,IF(T263="Segundo Grau",4,IF(T263="Primeiro Grau",5,IF(T263="Grau Especial",6)))))))`
+- `BB317`: `=SUM(AW317+IF(AU317="FOR",AZ280,IF(AU317="DEX",AZ281,IF(AU317="CON",AZ282,IF(AU317="INT",AZ283,IF(AU317="SAB",AZ284,IF(AU317="PRE",AZ285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA317=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ317=TRUE,'Ficha Pessoal'!V4))+IF(BK315=TRUE,(IF(AR263="Quarto Grau",2,IF(AR263="Terceiro Grau",3,IF(AR263="Segundo Grau",4,IF(AR263="Primeiro Grau",5,IF(AR263="Grau Especial",6)))))))`
+- `BZ317`: `=SUM(BU317+IF(BS317="FOR",BX280,IF(BS317="DEX",BX281,IF(BS317="CON",BX282,IF(BS317="INT",BX283,IF(BS317="SAB",BX284,IF(BS317="PRE",BX285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY317=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX317=TRUE,'Ficha Pessoal'!V4))+IF(CI315=TRUE,(IF(BP263="Quarto Grau",2,IF(BP263="Terceiro Grau",3,IF(BP263="Segundo Grau",4,IF(BP263="Primeiro Grau",5,IF(BP263="Grau Especial",6)))))))`
+- `AD318`: `=SUM(Y318+IF(W318="FOR",AB280,IF(W318="DEX",AB281,IF(W318="CON",AB282,IF(W318="INT",AB283,IF(W318="SAB",AB284,IF(W318="PRE",AB285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC318=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB318=TRUE,'Ficha Pessoal'!V4))+IF(AM315=TRUE,(IF(T263="Quarto Grau",2,IF(T263="Terceiro Grau",3,IF(T263="Segundo Grau",4,IF(T263="Primeiro Grau",5,IF(T263="Grau Especial",6)))))))`
+- `BB318`: `=SUM(AW318+IF(AU318="FOR",AZ280,IF(AU318="DEX",AZ281,IF(AU318="CON",AZ282,IF(AU318="INT",AZ283,IF(AU318="SAB",AZ284,IF(AU318="PRE",AZ285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA318=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ318=TRUE,'Ficha Pessoal'!V4))+IF(BK315=TRUE,(IF(AR263="Quarto Grau",2,IF(AR263="Terceiro Grau",3,IF(AR263="Segundo Grau",4,IF(AR263="Primeiro Grau",5,IF(AR263="Grau Especial",6)))))))`
+- `BZ318`: `=SUM(BU318+IF(BS318="FOR",BX280,IF(BS318="DEX",BX281,IF(BS318="CON",BX282,IF(BS318="INT",BX283,IF(BS318="SAB",BX284,IF(BS318="PRE",BX285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY318=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX318=TRUE,'Ficha Pessoal'!V4))+IF(CI315=TRUE,(IF(BP263="Quarto Grau",2,IF(BP263="Terceiro Grau",3,IF(BP263="Segundo Grau",4,IF(BP263="Primeiro Grau",5,IF(BP263="Grau Especial",6)))))))`
+- `AD319`: `=SUM(Y319+IF(W319="FOR",AB280,IF(W319="DEX",AB281,IF(W319="CON",AB282,IF(W319="INT",AB283,IF(W319="SAB",AB284,IF(W319="PRE",AB285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC319=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB319=TRUE,'Ficha Pessoal'!V4))+IF(AM315=TRUE,(IF(T263="Quarto Grau",2,IF(T263="Terceiro Grau",3,IF(T263="Segundo Grau",4,IF(T263="Primeiro Grau",5,IF(T263="Grau Especial",6)))))))`
+- `AM319`: `=IF('Ficha Pessoal'!V3<=3,"1d6",IF('Ficha Pessoal'!V3<=7,"1d6+3",IF('Ficha Pessoal'!V3<=11,"1d8+3",IF('Ficha Pessoal'!V3<=15,"1d8+6",IF('Ficha Pessoal'!V3<=17,"1d10+6",IF('Ficha Pessoal'!V3>=18,"1d12+6",))))))`
+- `BB319`: `=SUM(AW319+IF(AU319="FOR",AZ280,IF(AU319="DEX",AZ281,IF(AU319="CON",AZ282,IF(AU319="INT",AZ283,IF(AU319="SAB",AZ284,IF(AU319="PRE",AZ285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA319=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ319=TRUE,'Ficha Pessoal'!V4))+IF(BK315=TRUE,(IF(AR263="Quarto Grau",2,IF(AR263="Terceiro Grau",3,IF(AR263="Segundo Grau",4,IF(AR263="Primeiro Grau",5,IF(AR263="Grau Especial",6)))))))`
+- `BK319`: `=IF('Ficha Pessoal'!V3<=3,"1d6",IF('Ficha Pessoal'!V3<=7,"1d6+3",IF('Ficha Pessoal'!V3<=11,"1d8+3",IF('Ficha Pessoal'!V3<=15,"1d8+6",IF('Ficha Pessoal'!V3<=17,"1d10+6",IF('Ficha Pessoal'!V3>=18,"1d12+6",))))))`
+- `BZ319`: `=SUM(BU319+IF(BS319="FOR",BX280,IF(BS319="DEX",BX281,IF(BS319="CON",BX282,IF(BS319="INT",BX283,IF(BS319="SAB",BX284,IF(BS319="PRE",BX285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY319=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX319=TRUE,'Ficha Pessoal'!V4))+IF(CI315=TRUE,(IF(BP263="Quarto Grau",2,IF(BP263="Terceiro Grau",3,IF(BP263="Segundo Grau",4,IF(BP263="Primeiro Grau",5,IF(BP263="Grau Especial",6)))))))`
+- `CI319`: `=IF('Ficha Pessoal'!V3<=3,"1d6",IF('Ficha Pessoal'!V3<=7,"1d6+3",IF('Ficha Pessoal'!V3<=11,"1d8+3",IF('Ficha Pessoal'!V3<=15,"1d8+6",IF('Ficha Pessoal'!V3<=17,"1d10+6",IF('Ficha Pessoal'!V3>=18,"1d12+6",))))))`
+- `AD320`: `=SUM(Y320+IF(W320="FOR",AB280,IF(W320="DEX",AB281,IF(W320="CON",AB282,IF(W320="INT",AB283,IF(W320="SAB",AB284,IF(W320="PRE",AB285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC320=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB320=TRUE,'Ficha Pessoal'!V4))+IF(AM315=TRUE,(IF(T263="Quarto Grau",2,IF(T263="Terceiro Grau",3,IF(T263="Segundo Grau",4,IF(T263="Primeiro Grau",5,IF(T263="Grau Especial",6)))))))`
+- `BB320`: `=SUM(AW320+IF(AU320="FOR",AZ280,IF(AU320="DEX",AZ281,IF(AU320="CON",AZ282,IF(AU320="INT",AZ283,IF(AU320="SAB",AZ284,IF(AU320="PRE",AZ285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA320=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ320=TRUE,'Ficha Pessoal'!V4))+IF(BK315=TRUE,(IF(AR263="Quarto Grau",2,IF(AR263="Terceiro Grau",3,IF(AR263="Segundo Grau",4,IF(AR263="Primeiro Grau",5,IF(AR263="Grau Especial",6)))))))`
+- `BZ320`: `=SUM(BU320+IF(BS320="FOR",BX280,IF(BS320="DEX",BX281,IF(BS320="CON",BX282,IF(BS320="INT",BX283,IF(BS320="SAB",BX284,IF(BS320="PRE",BX285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY320=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX320=TRUE,'Ficha Pessoal'!V4))+IF(CI315=TRUE,(IF(BP263="Quarto Grau",2,IF(BP263="Terceiro Grau",3,IF(BP263="Segundo Grau",4,IF(BP263="Primeiro Grau",5,IF(BP263="Grau Especial",6)))))))`
+- `AD321`: `=SUM(Y321+IF(W321="FOR",AB280,IF(W321="DEX",AB281,IF(W321="CON",AB282,IF(W321="INT",AB283,IF(W321="SAB",AB284,IF(W321="PRE",AB285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC321=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB321=TRUE,'Ficha Pessoal'!V4))+IF(AM315=TRUE,(IF(T263="Quarto Grau",2,IF(T263="Terceiro Grau",3,IF(T263="Segundo Grau",4,IF(T263="Primeiro Grau",5,IF(T263="Grau Especial",6)))))))`
+- `BB321`: `=SUM(AW321+IF(AU321="FOR",AZ280,IF(AU321="DEX",AZ281,IF(AU321="CON",AZ282,IF(AU321="INT",AZ283,IF(AU321="SAB",AZ284,IF(AU321="PRE",AZ285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA321=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ321=TRUE,'Ficha Pessoal'!V4))+IF(BK315=TRUE,(IF(AR263="Quarto Grau",2,IF(AR263="Terceiro Grau",3,IF(AR263="Segundo Grau",4,IF(AR263="Primeiro Grau",5,IF(AR263="Grau Especial",6)))))))`
+- `BZ321`: `=SUM(BU321+IF(BS321="FOR",BX280,IF(BS321="DEX",BX281,IF(BS321="CON",BX282,IF(BS321="INT",BX283,IF(BS321="SAB",BX284,IF(BS321="PRE",BX285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY321=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX321=TRUE,'Ficha Pessoal'!V4))+IF(CI315=TRUE,(IF(BP263="Quarto Grau",2,IF(BP263="Terceiro Grau",3,IF(BP263="Segundo Grau",4,IF(BP263="Primeiro Grau",5,IF(BP263="Grau Especial",6)))))))`
+- `AD322`: `=SUM(Y322+IF(W322="FOR",AB280,IF(W322="DEX",AB281,IF(W322="CON",AB282,IF(W322="INT",AB283,IF(W322="SAB",AB284,IF(W322="PRE",AB285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC322=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB322=TRUE,'Ficha Pessoal'!V4))+IF(AM315=TRUE,(IF(T263="Quarto Grau",2,IF(T263="Terceiro Grau",3,IF(T263="Segundo Grau",4,IF(T263="Primeiro Grau",5,IF(T263="Grau Especial",6)))))))`
+- `BB322`: `=SUM(AW322+IF(AU322="FOR",AZ280,IF(AU322="DEX",AZ281,IF(AU322="CON",AZ282,IF(AU322="INT",AZ283,IF(AU322="SAB",AZ284,IF(AU322="PRE",AZ285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA322=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ322=TRUE,'Ficha Pessoal'!V4))+IF(BK315=TRUE,(IF(AR263="Quarto Grau",2,IF(AR263="Terceiro Grau",3,IF(AR263="Segundo Grau",4,IF(AR263="Primeiro Grau",5,IF(AR263="Grau Especial",6)))))))`
+- `BZ322`: `=SUM(BU322+IF(BS322="FOR",BX280,IF(BS322="DEX",BX281,IF(BS322="CON",BX282,IF(BS322="INT",BX283,IF(BS322="SAB",BX284,IF(BS322="PRE",BX285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY322=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX322=TRUE,'Ficha Pessoal'!V4))+IF(CI315=TRUE,(IF(BP263="Quarto Grau",2,IF(BP263="Terceiro Grau",3,IF(BP263="Segundo Grau",4,IF(BP263="Primeiro Grau",5,IF(BP263="Grau Especial",6)))))))`
+- `AD323`: `=SUM(Y323+IF(W323="FOR",AB280,IF(W323="DEX",AB281,IF(W323="CON",AB282,IF(W323="INT",AB283,IF(W323="SAB",AB284,IF(W323="PRE",AB285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC323=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB323=TRUE,'Ficha Pessoal'!V4))+IF(AM315=TRUE,(IF(T263="Quarto Grau",2,IF(T263="Terceiro Grau",3,IF(T263="Segundo Grau",4,IF(T263="Primeiro Grau",5,IF(T263="Grau Especial",6)))))))`
+- `BB323`: `=SUM(AW323+IF(AU323="FOR",AZ280,IF(AU323="DEX",AZ281,IF(AU323="CON",AZ282,IF(AU323="INT",AZ283,IF(AU323="SAB",AZ284,IF(AU323="PRE",AZ285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA323=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ323=TRUE,'Ficha Pessoal'!V4))+IF(BK315=TRUE,(IF(AR263="Quarto Grau",2,IF(AR263="Terceiro Grau",3,IF(AR263="Segundo Grau",4,IF(AR263="Primeiro Grau",5,IF(AR263="Grau Especial",6)))))))`
+- `BZ323`: `=SUM(BU323+IF(BS323="FOR",BX280,IF(BS323="DEX",BX281,IF(BS323="CON",BX282,IF(BS323="INT",BX283,IF(BS323="SAB",BX284,IF(BS323="PRE",BX285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY323=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX323=TRUE,'Ficha Pessoal'!V4))+IF(CI315=TRUE,(IF(BP263="Quarto Grau",2,IF(BP263="Terceiro Grau",3,IF(BP263="Segundo Grau",4,IF(BP263="Primeiro Grau",5,IF(BP263="Grau Especial",6)))))))`
+- `AD324`: `=SUM(Y324+IF(W324="FOR",AB280,IF(W324="DEX",AB281,IF(W324="CON",AB282,IF(W324="INT",AB283,IF(W324="SAB",AB284,IF(W324="PRE",AB285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC324=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB324=TRUE,'Ficha Pessoal'!V4))+IF(AM315=TRUE,(IF(T263="Quarto Grau",2,IF(T263="Terceiro Grau",3,IF(T263="Segundo Grau",4,IF(T263="Primeiro Grau",5,IF(T263="Grau Especial",6)))))))`
+- `AL324`: `=IF(AM324=TRUE,(IF('Ficha Pessoal'!V3<=5,"1d4",IF('Ficha Pessoal'!V3<=11,"1d6+3",IF('Ficha Pessoal'!V3<=17,"1d8+5",IF('Ficha Pessoal'!V3>=18,"1d12+10"))))))`
+- `BB324`: `=SUM(AW324+IF(AU324="FOR",AZ280,IF(AU324="DEX",AZ281,IF(AU324="CON",AZ282,IF(AU324="INT",AZ283,IF(AU324="SAB",AZ284,IF(AU324="PRE",AZ285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA324=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ324=TRUE,'Ficha Pessoal'!V4))+IF(BK315=TRUE,(IF(AR263="Quarto Grau",2,IF(AR263="Terceiro Grau",3,IF(AR263="Segundo Grau",4,IF(AR263="Primeiro Grau",5,IF(AR263="Grau Especial",6)))))))`
+- `BJ324`: `=IF(BK324=TRUE,(IF('Ficha Pessoal'!V3<=5,"1d4",IF('Ficha Pessoal'!V3<=11,"1d6+3",IF('Ficha Pessoal'!V3<=17,"1d8+5",IF('Ficha Pessoal'!V3>=18,"1d12+10"))))))`
+- `BZ324`: `=SUM(BU324+IF(BS324="FOR",BX280,IF(BS324="DEX",BX281,IF(BS324="CON",BX282,IF(BS324="INT",BX283,IF(BS324="SAB",BX284,IF(BS324="PRE",BX285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY324=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX324=TRUE,'Ficha Pessoal'!V4))+IF(CI315=TRUE,(IF(BP263="Quarto Grau",2,IF(BP263="Terceiro Grau",3,IF(BP263="Segundo Grau",4,IF(BP263="Primeiro Grau",5,IF(BP263="Grau Especial",6)))))))`
+- `CH324`: `=IF(CI324=TRUE,(IF('Ficha Pessoal'!V3<=5,"1d4",IF('Ficha Pessoal'!V3<=11,"1d6+3",IF('Ficha Pessoal'!V3<=17,"1d8+5",IF('Ficha Pessoal'!V3>=18,"1d12+10"))))))`
+- `AD325`: `=SUM(Y325+IF(W325="FOR",AB280,IF(W325="DEX",AB281,IF(W325="CON",AB282,IF(W325="INT",AB283,IF(W325="SAB",AB284,IF(W325="PRE",AB285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC325=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB325=TRUE,'Ficha Pessoal'!V4))+IF(AM315=TRUE,(IF(T263="Quarto Grau",2,IF(T263="Terceiro Grau",3,IF(T263="Segundo Grau",4,IF(T263="Primeiro Grau",5,IF(T263="Grau Especial",6)))))))`
+- `BB325`: `=SUM(AW325+IF(AU325="FOR",AZ280,IF(AU325="DEX",AZ281,IF(AU325="CON",AZ282,IF(AU325="INT",AZ283,IF(AU325="SAB",AZ284,IF(AU325="PRE",AZ285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA325=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ325=TRUE,'Ficha Pessoal'!V4))+IF(BK315=TRUE,(IF(AR263="Quarto Grau",2,IF(AR263="Terceiro Grau",3,IF(AR263="Segundo Grau",4,IF(AR263="Primeiro Grau",5,IF(AR263="Grau Especial",6)))))))`
+- `BZ325`: `=SUM(BU325+IF(BS325="FOR",BX280,IF(BS325="DEX",BX281,IF(BS325="CON",BX282,IF(BS325="INT",BX283,IF(BS325="SAB",BX284,IF(BS325="PRE",BX285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY325=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX325=TRUE,'Ficha Pessoal'!V4))+IF(CI315=TRUE,(IF(BP263="Quarto Grau",2,IF(BP263="Terceiro Grau",3,IF(BP263="Segundo Grau",4,IF(BP263="Primeiro Grau",5,IF(BP263="Grau Especial",6)))))))`
+- `AD326`: `=SUM(Y326+IF(W326="FOR",AB280,IF(W326="DEX",AB281,IF(W326="CON",AB282,IF(W326="INT",AB283,IF(W326="SAB",AB284,IF(W326="PRE",AB285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC326=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB326=TRUE,'Ficha Pessoal'!V4))+IF(AM315=TRUE,(IF(T263="Quarto Grau",2,IF(T263="Terceiro Grau",3,IF(T263="Segundo Grau",4,IF(T263="Primeiro Grau",5,IF(T263="Grau Especial",6)))))))`
+- `BB326`: `=SUM(AW326+IF(AU326="FOR",AZ280,IF(AU326="DEX",AZ281,IF(AU326="CON",AZ282,IF(AU326="INT",AZ283,IF(AU326="SAB",AZ284,IF(AU326="PRE",AZ285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA326=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ326=TRUE,'Ficha Pessoal'!V4))+IF(BK315=TRUE,(IF(AR263="Quarto Grau",2,IF(AR263="Terceiro Grau",3,IF(AR263="Segundo Grau",4,IF(AR263="Primeiro Grau",5,IF(AR263="Grau Especial",6)))))))`
+- `BZ326`: `=SUM(BU326+IF(BS326="FOR",BX280,IF(BS326="DEX",BX281,IF(BS326="CON",BX282,IF(BS326="INT",BX283,IF(BS326="SAB",BX284,IF(BS326="PRE",BX285)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BY326=TRUE,'Ficha Pessoal'!V4*1.5,IF(BX326=TRUE,'Ficha Pessoal'!V4))+IF(CI315=TRUE,(IF(BP263="Quarto Grau",2,IF(BP263="Terceiro Grau",3,IF(BP263="Segundo Grau",4,IF(BP263="Primeiro Grau",5,IF(BP263="Grau Especial",6)))))))`
+- `T346`: `=SUM(AC346+AF346+IF(T344="Quarto Grau",H8+(X363/2),IF(T344="Terceiro Grau",H9+(X363/2),IF(T344="Segundo Grau",H10+X363,IF(T344="Primeiro Grau",H11+X363,IF(T344="Grau Especial",H12+X363))))))+IF(AM399=TRUE,(IF('Ficha Pessoal'!V4=2,10,IF('Ficha Pessoal'!V4=3,15,IF('Ficha Pessoal'!V4=4,20,IF('Ficha Pessoal'!V4=5,25,IF('Ficha Pessoal'!V4=6,30)))))))+IF(AM405=TRUE,(IF('Ficha Pessoal'!V3<=5,5,IF('Ficha Pessoal'!V3<=11,10,IF('Ficha Pessoal'!V3<=17,20,IF('Ficha Pessoal'!V3>=18,30))))))+IF(AM406=TRUE,F14)+IF(AM407=TRUE,'Ficha Pessoal'!V4*5)`
+- `W346`: `=SUM(T346+Z346+AI346-AL346)`
+- `AR346`: `=SUM(BA346+BD346+IF(AR344="Quarto Grau",H8+(AV363/2),IF(AR344="Terceiro Grau",H9+(AV363/2),IF(AR344="Segundo Grau",H10+AV363,IF(AR344="Primeiro Grau",H11+AV363,IF(AR344="Grau Especial",H12+AV363))))))+IF(BK399=TRUE,(IF('Ficha Pessoal'!V4=2,10,IF('Ficha Pessoal'!V4=3,15,IF('Ficha Pessoal'!V4=4,20,IF('Ficha Pessoal'!V4=5,25,IF('Ficha Pessoal'!V4=6,30)))))))+IF(BK405=TRUE,(IF('Ficha Pessoal'!V3<=5,5,IF('Ficha Pessoal'!V3<=11,10,IF('Ficha Pessoal'!V3<=17,20,IF('Ficha Pessoal'!V3>=18,30))))))+IF(BK406=TRUE,F14)+IF(BK407=TRUE,'Ficha Pessoal'!V4*5)`
+- `AU346`: `=SUM(AR346+AX346+BG346-BJ346)`
+- `T352`: `=SUM(W352-W355+IF(T344="Quarto Grau",P8+AB362,IF(T344="Terceiro Grau",P9+AB362,IF(T344="Segundo Grau",P10+AB362,IF(T344="Primeiro Grau",P11+AB362,IF(T344="Grau Especial",P12+AB362))))))-IF(AM397=TRUE,5)+IF(AM401=TRUE,(IF('Ficha Pessoal'!V3<=7,2,IF('Ficha Pessoal'!V3<=17,3,IF('Ficha Pessoal'!V3>=18,5)))))+IF(AM405=TRUE,(IF('Ficha Pessoal'!V3<=5,1,IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3<=17,3,IF('Ficha Pessoal'!V3>=18,5))))))+IF(AM407=TRUE,'Ficha Pessoal'!V4*2)`
+- `Y352`: `=SUM(10+AB352+AD396-AB355)`
+- `AD352`: `=SUM(AB362+AG352-AG355)`
+- `AI352`: `=SUM(9+AM352-AM355+IF(AM398=TRUE,(IF('Ficha Pessoal'!V3<=5,1.5,IF('Ficha Pessoal'!V3<=11,3,IF('Ficha Pessoal'!V3<=17,4.5,IF('Ficha Pessoal'!V3>=18,6)))))))+IF(AM402=TRUE,(IF('Ficha Pessoal'!V3<=3,1.5,IF('Ficha Pessoal'!V3<=7,3,IF('Ficha Pessoal'!V3<=11,4.5,IF('Ficha Pessoal'!V3<=15,6,IF('Ficha Pessoal'!V3<=17,7.5,IF('Ficha Pessoal'!V3>=18,9))))))))+IF(AM407=TRUE,4.5)`
+- `AR352`: `=SUM(AU352-AU355+IF(AR344="Quarto Grau",P8+AZ362,IF(AR344="Terceiro Grau",P9+AZ362,IF(AR344="Segundo Grau",P10+AZ362,IF(AR344="Primeiro Grau",P11+AZ362,IF(AR344="Grau Especial",P12+AZ362))))))-IF(BK397=TRUE,5)+IF(BK401=TRUE,(IF('Ficha Pessoal'!V3<=7,2,IF('Ficha Pessoal'!V3<=17,3,IF('Ficha Pessoal'!V3>=18,5)))))+IF(BK405=TRUE,(IF('Ficha Pessoal'!V3<=5,1,IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3<=17,3,IF('Ficha Pessoal'!V3>=18,5))))))+IF(BK407=TRUE,'Ficha Pessoal'!V4*2)`
+- `AW352`: `=SUM(10+AZ352+BB396-AZ355)`
+- `BB352`: `=SUM(AZ362+BE352-BE355)`
+- `BG352`: `=SUM(9+BK352-BK355+IF(BK398=TRUE,(IF('Ficha Pessoal'!AT3<=5,1.5,IF('Ficha Pessoal'!AT3<=11,3,IF('Ficha Pessoal'!AT3<=17,4.5,IF('Ficha Pessoal'!AT3>=18,6)))))))+IF(BK402=TRUE,(IF('Ficha Pessoal'!AT3<=3,1.5,IF('Ficha Pessoal'!AT3<=7,3,IF('Ficha Pessoal'!AT3<=11,4.5,IF('Ficha Pessoal'!AT3<=15,6,IF('Ficha Pessoal'!AT3<=17,7.5,IF('Ficha Pessoal'!AT3>=18,9))))))))+IF(BK407=TRUE,4.5)`
+- `AB361`: `=IF(X361>=10,ROUNDDOWN((X361-10)/2,0),ROUNDUP((X361-10)/2,0))`
+- `AM361`: `=SUM(10+AK361+IF(AH361="FOR",AB361,IF(AH361="DEX",AB362,IF(AH361="CON",AB363,IF(AH361="INT",AB364,IF(AH361="SAB",AB365,IF(W345=AH361,AB366)))))))+('Ficha Pessoal'!V3/2)+IF(AM404=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `AZ361`: `=IF(AV361>=10,ROUNDDOWN((AV361-10)/2,0),ROUNDUP((AV361-10)/2,0))`
+- `BK361`: `=SUM(10+BI361+IF(BF361="FOR",AZ361,IF(BF361="DEX",AZ362,IF(BF361="CON",AZ363,IF(BF361="INT",AZ364,IF(BF361="SAB",AZ365,IF(AU345=BF361,AZ366)))))))+('Ficha Pessoal'!V3/2)+IF(BK404=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `AB362`: `=IF(X362>=10,ROUNDDOWN((X362-10)/2,0),ROUNDUP((X362-10)/2,0))`
+- `AZ362`: `=IF(AV362>=10,ROUNDDOWN((AV362-10)/2,0),ROUNDUP((AV362-10)/2,0))`
+- `AB363`: `=IF(X363>=10,ROUNDDOWN((X363-10)/2,0),ROUNDUP((X363-10)/2,0))`
+- `AZ363`: `=IF(AV363>=10,ROUNDDOWN((AV363-10)/2,0),ROUNDUP((AV363-10)/2,0))`
+- `AB364`: `=IF(X364>=10,ROUNDDOWN((X364-10)/2,0),ROUNDUP((X364-10)/2,0))`
+- `AZ364`: `=IF(AV364>=10,ROUNDDOWN((AV364-10)/2,0),ROUNDUP((AV364-10)/2,0))`
+- `AB365`: `=IF(X365>=10,ROUNDDOWN((X365-10)/2,0),ROUNDUP((X365-10)/2,0))`
+- `AM365`: `=SUM(AL365+IF(AM401=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AZ365`: `=IF(AV365>=10,ROUNDDOWN((AV365-10)/2,0),ROUNDUP((AV365-10)/2,0))`
+- `BK365`: `=SUM(BJ365+IF(BK401=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AB366`: `=IF(X366>=10,ROUNDDOWN((X366-10)/2,0),ROUNDUP((X366-10)/2,0))`
+- `AM366`: `=SUM(AL366+IF(AM401=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AZ366`: `=IF(AV366>=10,ROUNDDOWN((AV366-10)/2,0),ROUNDUP((AV366-10)/2,0))`
+- `BK366`: `=SUM(BJ366+IF(BK401=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM367`: `=SUM(AL367+IF(AM401=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=3,5,)))))`
+- `BK367`: `=SUM(BJ367+IF(BK401=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=3,5,)))))`
+- `AM368`: `=SUM(AL368+IF(AM401=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK368`: `=SUM(BJ368+IF(BK401=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM369`: `=SUM(AL369+IF(AM401=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK369`: `=SUM(BJ369+IF(BK401=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM370`: `=SUM(AL370+IF(AM401=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK370`: `=SUM(BJ370+IF(BK401=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM371`: `=SUM(AL371+IF(AM401=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK371`: `=SUM(BJ371+IF(BK401=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM372`: `=SUM(AL372+IF(AM401=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK372`: `=SUM(BJ372+IF(BK401=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM373`: `=SUM(AL373+IF(AM401=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK373`: `=SUM(BJ373+IF(BK401=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM374`: `=SUM(AL374+IF(AM401=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK374`: `=SUM(BJ374+IF(BK401=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM375`: `=SUM(AL375+IF(AM401=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK375`: `=SUM(BJ375+IF(BK401=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM376`: `=SUM(AL376+IF(AM401=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK376`: `=SUM(BJ376+IF(BK401=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM377`: `=SUM(AL377+IF(AM401=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK377`: `=SUM(BJ377+IF(BK401=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AM378`: `=SUM(AL378+IF(AM401=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `BK378`: `=SUM(BJ378+IF(BK401=TRUE,(IF('Ficha Pessoal'!V3<=11,2,IF('Ficha Pessoal'!V3>=12,5,)))))`
+- `AD380`: `=SUM(Y380+IF(W380="FOR",AB361,IF(W380="DEX",AB362,IF(W380="CON",AB363,IF(W380="INT",AB364,IF(W380="SAB",AB365,IF(W345="PRE",AB366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AB380=TRUE,'Ficha Pessoal'!V4)+IF(AM396=TRUE,(IF(T344="Quarto Grau",2,IF(T344="Terceiro Grau",3,IF(T344="Segundo Grau",4,IF(T344="Primeiro Grau",5,IF(T344="Grau Especial",6)))))))+IF(AM403=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `BB380`: `=SUM(AW380+IF(AU380="FOR",AZ361,IF(AU380="DEX",AZ362,IF(AU380="CON",AZ363,IF(AU380="INT",AZ364,IF(AU380="SAB",AZ365,IF(AU345="PRE",AZ366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AZ380=TRUE,'Ficha Pessoal'!V4)+IF(BK396=TRUE,(IF(AR344="Quarto Grau",2,IF(AR344="Terceiro Grau",3,IF(AR344="Segundo Grau",4,IF(AR344="Primeiro Grau",5,IF(AR344="Grau Especial",6)))))))+IF(BK403=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `AD381`: `=SUM(Y381+IF(W381="FOR",AB361,IF(W381="DEX",AB362,IF(W381="CON",AB363,IF(W381="INT",AB364,IF(W381="SAB",AB365,IF(W381="PRE",AB366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AB381=TRUE,'Ficha Pessoal'!V4)+IF(AM396=TRUE,(IF(T344="Quarto Grau",2,IF(T344="Terceiro Grau",3,IF(T344="Segundo Grau",4,IF(T344="Primeiro Grau",5,IF(T344="Grau Especial",6)))))))+IF(AM403=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `BB381`: `=SUM(AW381+IF(AU381="FOR",AZ361,IF(AU381="DEX",AZ362,IF(AU381="CON",AZ363,IF(AU381="INT",AZ364,IF(AU381="SAB",AZ365,IF(AU381="PRE",AZ366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AZ381=TRUE,'Ficha Pessoal'!V4)+IF(BK396=TRUE,(IF(AR344="Quarto Grau",2,IF(AR344="Terceiro Grau",3,IF(AR344="Segundo Grau",4,IF(AR344="Primeiro Grau",5,IF(AR344="Grau Especial",6)))))))+IF(BK403=TRUE,(IF('Ficha Pessoal'!V3<=3,2,IF('Ficha Pessoal'!V3<=7,4,IF('Ficha Pessoal'!V3<=11,6,IF('Ficha Pessoal'!V3<=15,8,IF('Ficha Pessoal'!V3<=17,10,IF('Ficha Pessoal'!V3>=18,12))))))))`
+- `AD383`: `=SUM(Y383+IF(W383="FOR",AB361,IF(W383="DEX",AB362,IF(W383="CON",AB363,IF(W383="INT",AB364,IF(W383="SAB",AB365,IF(W383="PRE",AB366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC383=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB383=TRUE,'Ficha Pessoal'!V4))+IF(AM396=TRUE,(IF(T344="Quarto Grau",2,IF(T344="Terceiro Grau",3,IF(T344="Segundo Grau",4,IF(T344="Primeiro Grau",5,IF(T344="Grau Especial",6)))))))-IF(AM397=TRUE,5)+IF(AM405=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BB383`: `=SUM(AW383+IF(AU383="FOR",AZ361,IF(AU383="DEX",AZ362,IF(AU383="CON",AZ363,IF(AU383="INT",AZ364,IF(AU383="SAB",AZ365,IF(AU383="PRE",AZ366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA383=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ383=TRUE,'Ficha Pessoal'!V4))+IF(BK396=TRUE,(IF(AR344="Quarto Grau",2,IF(AR344="Terceiro Grau",3,IF(AR344="Segundo Grau",4,IF(AR344="Primeiro Grau",5,IF(AR344="Grau Especial",6)))))))-IF(BK397=TRUE,5)+IF(BK405=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `AD384`: `=SUM(Y384+IF(W384="FOR",AB361,IF(W384="DEX",AB362,IF(W384="CON",AB363,IF(W384="INT",AB364,IF(W384="SAB",AB365,IF(W384="PRE",AB366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC384=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB384=TRUE,'Ficha Pessoal'!V4))+IF(AM396=TRUE,(IF(T344="Quarto Grau",2,IF(T344="Terceiro Grau",3,IF(T344="Segundo Grau",4,IF(T344="Primeiro Grau",5,IF(T344="Grau Especial",6)))))))-IF(AM397=TRUE,5)+IF(AM405=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BB384`: `=SUM(AW384+IF(AU384="FOR",AZ361,IF(AU384="DEX",AZ362,IF(AU384="CON",AZ363,IF(AU384="INT",AZ364,IF(AU384="SAB",AZ365,IF(AU384="PRE",AZ366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA384=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ384=TRUE,'Ficha Pessoal'!V4))+IF(BK396=TRUE,(IF(AR344="Quarto Grau",2,IF(AR344="Terceiro Grau",3,IF(AR344="Segundo Grau",4,IF(AR344="Primeiro Grau",5,IF(AR344="Grau Especial",6)))))))-IF(BK397=TRUE,5)+IF(BK405=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `AD385`: `=SUM(Y385+IF(W385="FOR",AB361,IF(W385="DEX",AB362,IF(W385="CON",AB363,IF(W385="INT",AB364,IF(W385="SAB",AB365,IF(W385="PRE",AB366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC385=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB385=TRUE,'Ficha Pessoal'!V4))+IF(AM396=TRUE,(IF(T344="Quarto Grau",2,IF(T344="Terceiro Grau",3,IF(T344="Segundo Grau",4,IF(T344="Primeiro Grau",5,IF(T344="Grau Especial",6)))))))-IF(AM397=TRUE,5)+IF(AM405=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BB385`: `=SUM(AW385+IF(AU385="FOR",AZ361,IF(AU385="DEX",AZ362,IF(AU385="CON",AZ363,IF(AU385="INT",AZ364,IF(AU385="SAB",AZ365,IF(AU385="PRE",AZ366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA385=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ385=TRUE,'Ficha Pessoal'!V4))+IF(BK396=TRUE,(IF(AR344="Quarto Grau",2,IF(AR344="Terceiro Grau",3,IF(AR344="Segundo Grau",4,IF(AR344="Primeiro Grau",5,IF(AR344="Grau Especial",6)))))))-IF(BK397=TRUE,5)+IF(BK405=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `AD386`: `=SUM(Y386+IF(W386="FOR",AB361,IF(W386="DEX",AB362,IF(W386="CON",AB363,IF(W386="INT",AB364,IF(W386="SAB",AB365,IF(W385="PRE",AB366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC386=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB386=TRUE,'Ficha Pessoal'!V4))+IF(AM396=TRUE,(IF(T344="Quarto Grau",2,IF(T344="Terceiro Grau",3,IF(T344="Segundo Grau",4,IF(T344="Primeiro Grau",5,IF(T344="Grau Especial",6)))))))-IF(AM397=TRUE,5)+IF(AM405=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BB386`: `=SUM(AW386+IF(AU386="FOR",AZ361,IF(AU386="DEX",AZ362,IF(AU386="CON",AZ363,IF(AU386="INT",AZ364,IF(AU386="SAB",AZ365,IF(AU385="PRE",AZ366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA386=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ386=TRUE,'Ficha Pessoal'!V4))+IF(BK396=TRUE,(IF(AR344="Quarto Grau",2,IF(AR344="Terceiro Grau",3,IF(AR344="Segundo Grau",4,IF(AR344="Primeiro Grau",5,IF(AR344="Grau Especial",6)))))))-IF(BK397=TRUE,5)+IF(BK405=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `AD387`: `=SUM(Y387+IF(W387="FOR",AB361,IF(W387="DEX",AB362,IF(W387="CON",AB363,IF(W387="INT",AB364,IF(W387="SAB",AB365,IF(W387="PRE",AB366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC387=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB387=TRUE,'Ficha Pessoal'!V4))+IF(AM396=TRUE,(IF(T344="Quarto Grau",2,IF(T344="Terceiro Grau",3,IF(T344="Segundo Grau",4,IF(T344="Primeiro Grau",5,IF(T344="Grau Especial",6)))))))-IF(AM397=TRUE,5)+IF(AM405=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `BB387`: `=SUM(AW387+IF(AU387="FOR",AZ361,IF(AU387="DEX",AZ362,IF(AU387="CON",AZ363,IF(AU387="INT",AZ364,IF(AU387="SAB",AZ365,IF(AU387="PRE",AZ366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA387=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ387=TRUE,'Ficha Pessoal'!V4))+IF(BK396=TRUE,(IF(AR344="Quarto Grau",2,IF(AR344="Terceiro Grau",3,IF(AR344="Segundo Grau",4,IF(AR344="Primeiro Grau",5,IF(AR344="Grau Especial",6)))))))-IF(BK397=TRUE,5)+IF(BK405=TRUE,(IF('Ficha Pessoal'!V3>=6,2,IF('Ficha Pessoal'!V3>=12,3,IF('Ficha Pessoal'!V3>=18,5)))))`
+- `AD389`: `=SUM(Y389+IF(W389="FOR",AB361,IF(W389="DEX",AB362,IF(W389="CON",AB363,IF(W389="INT",AB364,IF(W389="SAB",AB365,IF(W389="PRE",AB366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC389=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB389=TRUE,'Ficha Pessoal'!V4))+IF(AM396=TRUE,(IF(T344="Quarto Grau",2,IF(T344="Terceiro Grau",3,IF(T344="Segundo Grau",4,IF(T344="Primeiro Grau",5,IF(T344="Grau Especial",6)))))))`
+- `BB389`: `=SUM(AW389+IF(AU389="FOR",AZ361,IF(AU389="DEX",AZ362,IF(AU389="CON",AZ363,IF(AU389="INT",AZ364,IF(AU389="SAB",AZ365,IF(AU389="PRE",AZ366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA389=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ389=TRUE,'Ficha Pessoal'!V4))+IF(BK396=TRUE,(IF(AR344="Quarto Grau",2,IF(AR344="Terceiro Grau",3,IF(AR344="Segundo Grau",4,IF(AR344="Primeiro Grau",5,IF(AR344="Grau Especial",6)))))))`
+- `AD390`: `=SUM(Y390+IF(W390="FOR",AB361,IF(W390="DEX",AB362,IF(W390="CON",AB363,IF(W390="INT",AB364,IF(W390="SAB",AB365,IF(W390="PRE",AB366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC390=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB390=TRUE,'Ficha Pessoal'!V4))+IF(AM396=TRUE,(IF(T344="Quarto Grau",2,IF(T344="Terceiro Grau",3,IF(T344="Segundo Grau",4,IF(T344="Primeiro Grau",5,IF(T344="Grau Especial",6)))))))`
+- `BB390`: `=SUM(AW390+IF(AU390="FOR",AZ361,IF(AU390="DEX",AZ362,IF(AU390="CON",AZ363,IF(AU390="INT",AZ364,IF(AU390="SAB",AZ365,IF(AU390="PRE",AZ366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA390=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ390=TRUE,'Ficha Pessoal'!V4))+IF(BK396=TRUE,(IF(AR344="Quarto Grau",2,IF(AR344="Terceiro Grau",3,IF(AR344="Segundo Grau",4,IF(AR344="Primeiro Grau",5,IF(AR344="Grau Especial",6)))))))`
+- `AD391`: `=SUM(Y391+IF(W391="FOR",AB361,IF(W391="DEX",AB362,IF(W391="CON",AB363,IF(W391="INT",AB364,IF(W391="SAB",AB365,IF(W391="PRE",AB366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC391=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB391=TRUE,'Ficha Pessoal'!V4))+IF(AM396=TRUE,(IF(T344="Quarto Grau",2,IF(T344="Terceiro Grau",3,IF(T344="Segundo Grau",4,IF(T344="Primeiro Grau",5,IF(T344="Grau Especial",6)))))))`
+- `BB391`: `=SUM(AW391+IF(AU391="FOR",AZ361,IF(AU391="DEX",AZ362,IF(AU391="CON",AZ363,IF(AU391="INT",AZ364,IF(AU391="SAB",AZ365,IF(AU391="PRE",AZ366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA391=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ391=TRUE,'Ficha Pessoal'!V4))+IF(BK396=TRUE,(IF(AR344="Quarto Grau",2,IF(AR344="Terceiro Grau",3,IF(AR344="Segundo Grau",4,IF(AR344="Primeiro Grau",5,IF(AR344="Grau Especial",6)))))))`
+- `AD392`: `=SUM(Y392+IF(W392="FOR",AB361,IF(W392="DEX",AB362,IF(W392="CON",AB363,IF(W392="INT",AB364,IF(W392="SAB",AB365,IF(W392="PRE",AB366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC392=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB392=TRUE,'Ficha Pessoal'!V4))+IF(AM396=TRUE,(IF(T344="Quarto Grau",2,IF(T344="Terceiro Grau",3,IF(T344="Segundo Grau",4,IF(T344="Primeiro Grau",5,IF(T344="Grau Especial",6)))))))`
+- `BB392`: `=SUM(AW392+IF(AU392="FOR",AZ361,IF(AU392="DEX",AZ362,IF(AU392="CON",AZ363,IF(AU392="INT",AZ364,IF(AU392="SAB",AZ365,IF(AU392="PRE",AZ366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA392=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ392=TRUE,'Ficha Pessoal'!V4))+IF(BK396=TRUE,(IF(AR344="Quarto Grau",2,IF(AR344="Terceiro Grau",3,IF(AR344="Segundo Grau",4,IF(AR344="Primeiro Grau",5,IF(AR344="Grau Especial",6)))))))`
+- `AD393`: `=SUM(Y393+IF(W393="FOR",AB361,IF(W393="DEX",AB362,IF(W393="CON",AB363,IF(W393="INT",AB364,IF(W393="SAB",AB365,IF(W393="PRE",AB366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC393=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB393=TRUE,'Ficha Pessoal'!V4))+IF(AM396=TRUE,(IF(T344="Quarto Grau",2,IF(T344="Terceiro Grau",3,IF(T344="Segundo Grau",4,IF(T344="Primeiro Grau",5,IF(T344="Grau Especial",6)))))))`
+- `BB393`: `=SUM(AW393+IF(AU393="FOR",AZ361,IF(AU393="DEX",AZ362,IF(AU393="CON",AZ363,IF(AU393="INT",AZ364,IF(AU393="SAB",AZ365,IF(AU393="PRE",AZ366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA393=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ393=TRUE,'Ficha Pessoal'!V4))+IF(BK396=TRUE,(IF(AR344="Quarto Grau",2,IF(AR344="Terceiro Grau",3,IF(AR344="Segundo Grau",4,IF(AR344="Primeiro Grau",5,IF(AR344="Grau Especial",6)))))))`
+- `AD394`: `=SUM(Y394+IF(W394="FOR",AB361,IF(W394="DEX",AB362,IF(W394="CON",AB363,IF(W394="INT",AB364,IF(W394="SAB",AB365,IF(W394="PRE",AB366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC394=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB394=TRUE,'Ficha Pessoal'!V4))+IF(AM396=TRUE,(IF(T344="Quarto Grau",2,IF(T344="Terceiro Grau",3,IF(T344="Segundo Grau",4,IF(T344="Primeiro Grau",5,IF(T344="Grau Especial",6)))))))`
+- `BB394`: `=SUM(AW394+IF(AU394="FOR",AZ361,IF(AU394="DEX",AZ362,IF(AU394="CON",AZ363,IF(AU394="INT",AZ364,IF(AU394="SAB",AZ365,IF(AU394="PRE",AZ366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA394=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ394=TRUE,'Ficha Pessoal'!V4))+IF(BK396=TRUE,(IF(AR344="Quarto Grau",2,IF(AR344="Terceiro Grau",3,IF(AR344="Segundo Grau",4,IF(AR344="Primeiro Grau",5,IF(AR344="Grau Especial",6)))))))`
+- `AD395`: `=SUM(Y395+IF(W395="FOR",AB361,IF(W395="DEX",AB362,IF(W395="CON",AB363,IF(W395="INT",AB364,IF(W395="SAB",AB365,IF(W395="PRE",AB366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC395=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB395=TRUE,'Ficha Pessoal'!V4))+IF(AM396=TRUE,(IF(T344="Quarto Grau",2,IF(T344="Terceiro Grau",3,IF(T344="Segundo Grau",4,IF(T344="Primeiro Grau",5,IF(T344="Grau Especial",6)))))))`
+- `BB395`: `=SUM(AW395+IF(AU395="FOR",AZ361,IF(AU395="DEX",AZ362,IF(AU395="CON",AZ363,IF(AU395="INT",AZ364,IF(AU395="SAB",AZ365,IF(AU395="PRE",AZ366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA395=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ395=TRUE,'Ficha Pessoal'!V4))+IF(BK396=TRUE,(IF(AR344="Quarto Grau",2,IF(AR344="Terceiro Grau",3,IF(AR344="Segundo Grau",4,IF(AR344="Primeiro Grau",5,IF(AR344="Grau Especial",6)))))))`
+- `AD396`: `=SUM(Y396+IF(W396="FOR",AB361,IF(W396="DEX",AB362,IF(W396="CON",AB363,IF(W396="INT",AB364,IF(W396="SAB",AB365,IF(W396="PRE",AB366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC396=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB396=TRUE,'Ficha Pessoal'!V4))+IF(AM396=TRUE,(IF(T344="Quarto Grau",2,IF(T344="Terceiro Grau",3,IF(T344="Segundo Grau",4,IF(T344="Primeiro Grau",5,IF(T344="Grau Especial",6)))))))`
+- `BB396`: `=SUM(AW396+IF(AU396="FOR",AZ361,IF(AU396="DEX",AZ362,IF(AU396="CON",AZ363,IF(AU396="INT",AZ364,IF(AU396="SAB",AZ365,IF(AU396="PRE",AZ366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA396=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ396=TRUE,'Ficha Pessoal'!V4))+IF(BK396=TRUE,(IF(AR344="Quarto Grau",2,IF(AR344="Terceiro Grau",3,IF(AR344="Segundo Grau",4,IF(AR344="Primeiro Grau",5,IF(AR344="Grau Especial",6)))))))`
+- `AD397`: `=SUM(Y397+IF(W397="FOR",AB361,IF(W397="DEX",AB362,IF(W397="CON",AB363,IF(W397="INT",AB364,IF(W397="SAB",AB365,IF(W397="PRE",AB366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC397=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB397=TRUE,'Ficha Pessoal'!V4))+IF(AM396=TRUE,(IF(T344="Quarto Grau",2,IF(T344="Terceiro Grau",3,IF(T344="Segundo Grau",4,IF(T344="Primeiro Grau",5,IF(T344="Grau Especial",6)))))))`
+- `BB397`: `=SUM(AW397+IF(AU397="FOR",AZ361,IF(AU397="DEX",AZ362,IF(AU397="CON",AZ363,IF(AU397="INT",AZ364,IF(AU397="SAB",AZ365,IF(AU397="PRE",AZ366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA397=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ397=TRUE,'Ficha Pessoal'!V4))+IF(BK396=TRUE,(IF(AR344="Quarto Grau",2,IF(AR344="Terceiro Grau",3,IF(AR344="Segundo Grau",4,IF(AR344="Primeiro Grau",5,IF(AR344="Grau Especial",6)))))))`
+- `AD398`: `=SUM(Y398+IF(W398="FOR",AB361,IF(W398="DEX",AB362,IF(W398="CON",AB363,IF(W398="INT",AB364,IF(W398="SAB",AB365,IF(W398="PRE",AB366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC398=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB398=TRUE,'Ficha Pessoal'!V4))+IF(AM396=TRUE,(IF(T344="Quarto Grau",2,IF(T344="Terceiro Grau",3,IF(T344="Segundo Grau",4,IF(T344="Primeiro Grau",5,IF(T344="Grau Especial",6)))))))`
+- `BB398`: `=SUM(AW398+IF(AU398="FOR",AZ361,IF(AU398="DEX",AZ362,IF(AU398="CON",AZ363,IF(AU398="INT",AZ364,IF(AU398="SAB",AZ365,IF(AU398="PRE",AZ366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA398=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ398=TRUE,'Ficha Pessoal'!V4))+IF(BK396=TRUE,(IF(AR344="Quarto Grau",2,IF(AR344="Terceiro Grau",3,IF(AR344="Segundo Grau",4,IF(AR344="Primeiro Grau",5,IF(AR344="Grau Especial",6)))))))`
+- `AD399`: `=SUM(Y399+IF(W399="FOR",AB361,IF(W399="DEX",AB362,IF(W399="CON",AB363,IF(W399="INT",AB364,IF(W399="SAB",AB365,IF(W399="PRE",AB366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC399=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB399=TRUE,'Ficha Pessoal'!V4))+IF(AM396=TRUE,(IF(T344="Quarto Grau",2,IF(T344="Terceiro Grau",3,IF(T344="Segundo Grau",4,IF(T344="Primeiro Grau",5,IF(T344="Grau Especial",6)))))))`
+- `BB399`: `=SUM(AW399+IF(AU399="FOR",AZ361,IF(AU399="DEX",AZ362,IF(AU399="CON",AZ363,IF(AU399="INT",AZ364,IF(AU399="SAB",AZ365,IF(AU399="PRE",AZ366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA399=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ399=TRUE,'Ficha Pessoal'!V4))+IF(BK396=TRUE,(IF(AR344="Quarto Grau",2,IF(AR344="Terceiro Grau",3,IF(AR344="Segundo Grau",4,IF(AR344="Primeiro Grau",5,IF(AR344="Grau Especial",6)))))))`
+- `AD400`: `=SUM(Y400+IF(W400="FOR",AB361,IF(W400="DEX",AB362,IF(W400="CON",AB363,IF(W400="INT",AB364,IF(W400="SAB",AB365,IF(W400="PRE",AB366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC400=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB400=TRUE,'Ficha Pessoal'!V4))+IF(AM396=TRUE,(IF(T344="Quarto Grau",2,IF(T344="Terceiro Grau",3,IF(T344="Segundo Grau",4,IF(T344="Primeiro Grau",5,IF(T344="Grau Especial",6)))))))`
+- `AM400`: `=IF('Ficha Pessoal'!V3<=3,"1d6",IF('Ficha Pessoal'!V3<=7,"1d6+3",IF('Ficha Pessoal'!V3<=11,"1d8+3",IF('Ficha Pessoal'!V3<=15,"1d8+6",IF('Ficha Pessoal'!V3<=17,"1d10+6",IF('Ficha Pessoal'!V3>=18,"1d12+6",))))))`
+- `BB400`: `=SUM(AW400+IF(AU400="FOR",AZ361,IF(AU400="DEX",AZ362,IF(AU400="CON",AZ363,IF(AU400="INT",AZ364,IF(AU400="SAB",AZ365,IF(AU400="PRE",AZ366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA400=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ400=TRUE,'Ficha Pessoal'!V4))+IF(BK396=TRUE,(IF(AR344="Quarto Grau",2,IF(AR344="Terceiro Grau",3,IF(AR344="Segundo Grau",4,IF(AR344="Primeiro Grau",5,IF(AR344="Grau Especial",6)))))))`
+- `BK400`: `=IF('Ficha Pessoal'!V3<=3,"1d6",IF('Ficha Pessoal'!V3<=7,"1d6+3",IF('Ficha Pessoal'!V3<=11,"1d8+3",IF('Ficha Pessoal'!V3<=15,"1d8+6",IF('Ficha Pessoal'!V3<=17,"1d10+6",IF('Ficha Pessoal'!V3>=18,"1d12+6",))))))`
+- `AD401`: `=SUM(Y401+IF(W401="FOR",AB361,IF(W401="DEX",AB362,IF(W401="CON",AB363,IF(W401="INT",AB364,IF(W401="SAB",AB365,IF(W401="PRE",AB366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC401=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB401=TRUE,'Ficha Pessoal'!V4))+IF(AM396=TRUE,(IF(T344="Quarto Grau",2,IF(T344="Terceiro Grau",3,IF(T344="Segundo Grau",4,IF(T344="Primeiro Grau",5,IF(T344="Grau Especial",6)))))))`
+- `BB401`: `=SUM(AW401+IF(AU401="FOR",AZ361,IF(AU401="DEX",AZ362,IF(AU401="CON",AZ363,IF(AU401="INT",AZ364,IF(AU401="SAB",AZ365,IF(AU401="PRE",AZ366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA401=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ401=TRUE,'Ficha Pessoal'!V4))+IF(BK396=TRUE,(IF(AR344="Quarto Grau",2,IF(AR344="Terceiro Grau",3,IF(AR344="Segundo Grau",4,IF(AR344="Primeiro Grau",5,IF(AR344="Grau Especial",6)))))))`
+- `AD402`: `=SUM(Y402+IF(W402="FOR",AB361,IF(W402="DEX",AB362,IF(W402="CON",AB363,IF(W402="INT",AB364,IF(W402="SAB",AB365,IF(W402="PRE",AB366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC402=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB402=TRUE,'Ficha Pessoal'!V4))+IF(AM396=TRUE,(IF(T344="Quarto Grau",2,IF(T344="Terceiro Grau",3,IF(T344="Segundo Grau",4,IF(T344="Primeiro Grau",5,IF(T344="Grau Especial",6)))))))`
+- `BB402`: `=SUM(AW402+IF(AU402="FOR",AZ361,IF(AU402="DEX",AZ362,IF(AU402="CON",AZ363,IF(AU402="INT",AZ364,IF(AU402="SAB",AZ365,IF(AU402="PRE",AZ366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA402=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ402=TRUE,'Ficha Pessoal'!V4))+IF(BK396=TRUE,(IF(AR344="Quarto Grau",2,IF(AR344="Terceiro Grau",3,IF(AR344="Segundo Grau",4,IF(AR344="Primeiro Grau",5,IF(AR344="Grau Especial",6)))))))`
+- `AD403`: `=SUM(Y403+IF(W403="FOR",AB361,IF(W403="DEX",AB362,IF(W403="CON",AB363,IF(W403="INT",AB364,IF(W403="SAB",AB365,IF(W403="PRE",AB366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC403=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB403=TRUE,'Ficha Pessoal'!V4))+IF(AM396=TRUE,(IF(T344="Quarto Grau",2,IF(T344="Terceiro Grau",3,IF(T344="Segundo Grau",4,IF(T344="Primeiro Grau",5,IF(T344="Grau Especial",6)))))))`
+- `BB403`: `=SUM(AW403+IF(AU403="FOR",AZ361,IF(AU403="DEX",AZ362,IF(AU403="CON",AZ363,IF(AU403="INT",AZ364,IF(AU403="SAB",AZ365,IF(AU403="PRE",AZ366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA403=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ403=TRUE,'Ficha Pessoal'!V4))+IF(BK396=TRUE,(IF(AR344="Quarto Grau",2,IF(AR344="Terceiro Grau",3,IF(AR344="Segundo Grau",4,IF(AR344="Primeiro Grau",5,IF(AR344="Grau Especial",6)))))))`
+- `AD404`: `=SUM(Y404+IF(W404="FOR",AB361,IF(W404="DEX",AB362,IF(W404="CON",AB363,IF(W404="INT",AB364,IF(W404="SAB",AB365,IF(W404="PRE",AB366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC404=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB404=TRUE,'Ficha Pessoal'!V4))+IF(AM396=TRUE,(IF(T344="Quarto Grau",2,IF(T344="Terceiro Grau",3,IF(T344="Segundo Grau",4,IF(T344="Primeiro Grau",5,IF(T344="Grau Especial",6)))))))`
+- `BB404`: `=SUM(AW404+IF(AU404="FOR",AZ361,IF(AU404="DEX",AZ362,IF(AU404="CON",AZ363,IF(AU404="INT",AZ364,IF(AU404="SAB",AZ365,IF(AU404="PRE",AZ366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA404=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ404=TRUE,'Ficha Pessoal'!V4))+IF(BK396=TRUE,(IF(AR344="Quarto Grau",2,IF(AR344="Terceiro Grau",3,IF(AR344="Segundo Grau",4,IF(AR344="Primeiro Grau",5,IF(AR344="Grau Especial",6)))))))`
+- `AD405`: `=SUM(Y405+IF(W405="FOR",AB361,IF(W405="DEX",AB362,IF(W405="CON",AB363,IF(W405="INT",AB364,IF(W405="SAB",AB365,IF(W405="PRE",AB366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC405=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB405=TRUE,'Ficha Pessoal'!V4))+IF(AM396=TRUE,(IF(T344="Quarto Grau",2,IF(T344="Terceiro Grau",3,IF(T344="Segundo Grau",4,IF(T344="Primeiro Grau",5,IF(T344="Grau Especial",6)))))))`
+- `AL405`: `=IF(AM405=TRUE,(IF('Ficha Pessoal'!V3<=5,"1d4",IF('Ficha Pessoal'!V3<=11,"1d6+3",IF('Ficha Pessoal'!V3<=17,"1d8+5",IF('Ficha Pessoal'!V3>=18,"1d12+10"))))))`
+- `BB405`: `=SUM(AW405+IF(AU405="FOR",AZ361,IF(AU405="DEX",AZ362,IF(AU405="CON",AZ363,IF(AU405="INT",AZ364,IF(AU405="SAB",AZ365,IF(AU405="PRE",AZ366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA405=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ405=TRUE,'Ficha Pessoal'!V4))+IF(BK396=TRUE,(IF(AR344="Quarto Grau",2,IF(AR344="Terceiro Grau",3,IF(AR344="Segundo Grau",4,IF(AR344="Primeiro Grau",5,IF(AR344="Grau Especial",6)))))))`
+- `BJ405`: `=IF(BK405=TRUE,(IF('Ficha Pessoal'!V3<=5,"1d4",IF('Ficha Pessoal'!V3<=11,"1d6+3",IF('Ficha Pessoal'!V3<=17,"1d8+5",IF('Ficha Pessoal'!V3>=18,"1d12+10"))))))`
+- `AD406`: `=SUM(Y406+IF(W406="FOR",AB361,IF(W406="DEX",AB362,IF(W406="CON",AB363,IF(W406="INT",AB364,IF(W406="SAB",AB365,IF(W406="PRE",AB366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC406=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB406=TRUE,'Ficha Pessoal'!V4))+IF(AM396=TRUE,(IF(T344="Quarto Grau",2,IF(T344="Terceiro Grau",3,IF(T344="Segundo Grau",4,IF(T344="Primeiro Grau",5,IF(T344="Grau Especial",6)))))))`
+- `BB406`: `=SUM(AW406+IF(AU406="FOR",AZ361,IF(AU406="DEX",AZ362,IF(AU406="CON",AZ363,IF(AU406="INT",AZ364,IF(AU406="SAB",AZ365,IF(AU406="PRE",AZ366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA406=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ406=TRUE,'Ficha Pessoal'!V4))+IF(BK396=TRUE,(IF(AR344="Quarto Grau",2,IF(AR344="Terceiro Grau",3,IF(AR344="Segundo Grau",4,IF(AR344="Primeiro Grau",5,IF(AR344="Grau Especial",6)))))))`
+- `AD407`: `=SUM(Y407+IF(W407="FOR",AB361,IF(W407="DEX",AB362,IF(W407="CON",AB363,IF(W407="INT",AB364,IF(W407="SAB",AB365,IF(W407="PRE",AB366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(AC407=TRUE,'Ficha Pessoal'!V4*1.5,IF(AB407=TRUE,'Ficha Pessoal'!V4))+IF(AM396=TRUE,(IF(T344="Quarto Grau",2,IF(T344="Terceiro Grau",3,IF(T344="Segundo Grau",4,IF(T344="Primeiro Grau",5,IF(T344="Grau Especial",6)))))))`
+- `BB407`: `=SUM(AW407+IF(AU407="FOR",AZ361,IF(AU407="DEX",AZ362,IF(AU407="CON",AZ363,IF(AU407="INT",AZ364,IF(AU407="SAB",AZ365,IF(AU407="PRE",AZ366)))))))+ROUNDDOWN('Ficha Pessoal'!V3/2,0)+IF(BA407=TRUE,'Ficha Pessoal'!V4*1.5,IF(AZ407=TRUE,'Ficha Pessoal'!V4))+IF(BK396=TRUE,(IF(AR344="Quarto Grau",2,IF(AR344="Terceiro Grau",3,IF(AR344="Segundo Grau",4,IF(AR344="Primeiro Grau",5,IF(AR344="Grau Especial",6)))))))`
+
+## Carteira
+
+Dimensão declarada: `None` linhas × `None` colunas`.
+
+### Células preenchidas
+
+- `B2`: CONTROLE DE MISSÕES
+- `AI2`: CONTROLE DE TRANSIÇÕES
+- `B4`: Nome
+- `L4`: Mestre
+- `P4`: XP
+- `R4`: $
+- `T4`: Inter.
+- `AI4`: Itens
+- `AS4`: Fonte
+- `AW4`: Tipo
+- `BA4`: Percas
+- `BD4`: Adições
+- `AB8`: Missoes ($)
+- `AB12`: Retirado ($)
+- `AB15`: c
+- `AB16`: Adicionado ($)
+- `AB19`: c
+- `AB20`: XP
+- `AB23`: c
+- `AB24`: Interludios
+
+### Fórmulas
+
+- `AB9`: `=SUM(R5:R52)`
+- `AB13`: `=SUM(BA5:BA52)`
+- `AB17`: `=SUM(BD5:BD52)`
+- `AB21`: `=SUM(P5:P52)`
+- `AB25`: `=(SUM(T5:T52))-(SUM(BG5:BG52))`
+
+## Aptidões
+
+Dimensão declarada: `None` linhas × `None` colunas`.
+
+### Células preenchidas
+
+- `B2`: Aura
+- `L2`: Controle e Leitura
+- `V2`: Domínio
+- `AF2`: Maldição - Anatomia
+- `B4`: Afinidade Ampliada
+- `J4`: False
+- `L4`: Canalizar em Golpe
+- `T4`: False
+- `V4`: Revestimento de Domínio
+- `AD4`: False
+- `AF4`: Absorção Elemental
+- `AN4`: False
+- `B5`: Aura Anuladora
+- `J5`: False
+- `L5`: Canalização Avançada
+- `T5`: False
+- `V5`: Anular Técnica
+- `AD5`: False
+- `AF5`: Armas Naturais
+- `AN5`: False
+- `B6`: Aura Chamativa
+- `J6`: False
+- `L6`: Canalização Máxima
+- `T6`: False
+- `V6`: Expansão de Domínio Incompleta
+- `AD6`: False
+- `AF6`: Armas Naturais Aprimoradas
+- `AN6`: False
+- `B7`: Aura Controlada
+- `J7`: False
+- `L7`: Cobrir-se
+- `T7`: False
+- `V7`: Expansão de Domínio Completa
+- `AD7`: False
+- `AF7`: Composição Elemental
+- `AN7`: False
+- `B8`: Aura de Contenção
+- `J8`: False
+- `L8`: Cobertura Avançada
+- `T8`: False
+- `V8`: Acerto Garantido
+- `AD8`: False
+- `AF8`: Crescimento Corporal
+- `AN8`: False
+- `B9`: Aura do Bastião
+- `J9`: False
+- `L9`: Estímulo Muscular
+- `T9`: False
+- `V9`: Expansão de Domínio Sem Barreiras
+- `AD9`: False
+- `AF9`: Desenvolvimento Físico
+- `AN9`: False
+- `B10`: Aura do Comandante
+- `J10`: False
+- `L10`: Estímulo Muscular Avanaçado
+- `T10`: False
+- `AF10`: Olhos Adicionais
+- `AN10`: False
+- `B11`: Aura do Comandante Evoluida
+- `J11`: False
+- `L11`: Expandir Aura
+- `T11`: False
+- `V11`: Barreiras
+- `AF11`: Revestimento
+- `AN11`: False
+- `B12`: Aura Drenadora
+- `J12`: False
+- `L12`: Leitura de Aura
+- `T12`: False
+- `AF12`: Revestimento Evoluido
+- `AN12`: False
+- `B13`: Aura Elemental
+- `J13`: False
+- `L13`: Leitura Rápida de Energia
+- `T13`: False
+- `V13`: Técnicas de Barreiras
+- `AD13`: False
+- `AF13`: Superioridade Física
+- `AN13`: False
+- `B14`: Aura Reforçada
+- `J14`: False
+- `L14`: Projetar Energia
+- `T14`: False
+- `V14`: Paredes Resistentes
+- `AD14`: False
+- `B15`: Aura Impenetrável
+- `J15`: False
+- `L15`: Projeção Avançada
+- `T15`: False
+- `V15`: Barreira Rápida
+- `AD15`: False
+- `AF15`: Maldição - Controle e Leitura
+- `B16`: Casulo de Energia
+- `J16`: False
+- `L16`: Projeção Máxima
+- `T16`: False
+- `V16`: Cesta Oca de Vime
+- `AD16`: False
+- `B17`: Aura Elemental Reforçada
+- `J17`: False
+- `L17`: Projeção Dividida
+- `T17`: False
+- `V17`: Cortina
+- `AD17`: False
+- `AF17`: Absorção Amaldiçoada
+- `AN17`: False
+- `B18`: Absorção Elemental
+- `J18`: False
+- `L18`: Punho Divergente
+- `T18`: False
+- `AF18`: Estoque Ampliado
+- `AN18`: False
+- `B19`: Aura Embaçada
+- `J19`: False
+- `L19`: Emoção da Petála Decadente
+- `T19`: False
+- `V19`: Especiais
+- `AF19`: Extração de Potencial
+- `AN19`: False
+- `B20`: Aura Inofensiva
+- `J20`: False
+- `L20`: Rastreio Avançado
+- `T20`: False
+- `AF20`: Proteção Constante
+- `AN20`: False
+- `B21`: Aura Excessiva
+- `J21`: False
+- `V21`: Raio Negro
+- `AD21`: False
+- `B22`: Concentrar Aura
+- `J22`: False
+- `L22`: Energia Reversa
+- `V22`: Abençoado pelas Faíscas Negras
+- `AD22`: False
+- `AF22`: Maldição - Especiais
+- `B23`: Enganação Projetada
+- `J23`: False
+- `V23`: Domínio Simples
+- `AD23`: False
+- `B24`: Golpe com Aura
+- `J24`: False
+- `L24`: Energia Reversa
+- `T24`: False
+- `V24`: Reversão de Técnica
+- `AD24`: False
+- `AF24`: Regeneração Corporal
+- `AN24`: False
+- `B25`: Transferência de Aura
+- `J25`: False
+- `L25`: Cura Amplificada
+- `T25`: False
+- `V25`: Técnica Máxima
+- `AD25`: False
+- `AF25`: Regeneração Ampliada
+- `AN25`: False
+- `B26`: Aura Lacerante
+- `J26`: False
+- `L26`: Fluxo Constante
+- `T26`: False
+- `AF26`: Regeneração Máxima
+- `AN26`: False
+- `B27`: Aura Macabra
+- `J27`: False
+- `L27`: Regeneração Aprimorada
+- `T27`: False
+- `AF27`: Regeneração de Membros
+- `AN27`: False
+- `B28`: Aura Maciça
+- `J28`: False
+- `L28`: Liberação de Energia Reversa
+- `T28`: False
+- `AF28`: Fluxo Imparável
+- `AN28`: False
+- `B29`: Aura Movediça
+- `J29`: False
+- `L29`: Canalizar em Energia Reversa
+- `T29`: False
+- `AF29`: Área de Domínio
+- `AN29`: False
+- `B30`: Aura Redirecionada
+- `J30`: False
+- `L30`: Cura em Grupo
+- `T30`: False
+
+## Suporte
+
+Dimensão declarada: `None` linhas × `None` colunas`.
+
+### Células preenchidas
+
+- `B2`: Nome:
+- `P2`: Classe:
+- `AB2`: Nome:
+- `AP2`: Classe:
+- `BB2`: Nome:
+- `BP2`: Classe:
+- `B5`: Vida:
+- `AB5`: Vida:
+- `BB5`: Vida:
+- `E7`: Atual
+- `H7`: Temporária
+- `K7`: Curada
+- `N7`: Perdida
+- `Q7`: Inicial
+- `AE7`: Atual
+- `AH7`: Temporária
+- `AK7`: Curada
+- `AN7`: Perdida
+- `AQ7`: Inicial
+- `BE7`: Atual
+- `BH7`: Temporária
+- `BK7`: Curada
+- `BN7`: Perdida
+- `BQ7`: Inicial
+- `B9`: Bônus
+- `AB9`: Bônus
+- `BB9`: Bônus
+- `B11`: Acerto:
+- `G11`: Defesa:
+- `L11`: Iniciativa:
+- `Q11`: Atenção:
+- `V11`: Movimento:
+- `AB11`: Acerto:
+- `AG11`: Defesa:
+- `AL11`: Iniciativa:
+- `AQ11`: Atenção:
+- `AV11`: Movimento:
+- `BB11`: Acerto:
+- `BG11`: Defesa:
+- `BL11`: Iniciativa:
+- `BQ11`: Atenção:
+- `BV11`: Movimento:
+- `B13`: Reflexo:
+- `G13`: Fortitude:
+- `L13`: Vontade:
+- `Q13`: Astúcia:
+- `V13`: Integridade:
+- `AB13`: Reflexo:
+- `AG13`: Fortitude:
+- `AL13`: Vontade:
+- `AQ13`: Astúcia:
+- `AV13`: Integridade:
+- `BB13`: Reflexo:
+- `BG13`: Fortitude:
+- `BL13`: Vontade:
+- `BQ13`: Astúcia:
+- `BV13`: Integridade:
+- `B15`: Perícias
+- `AB15`: Perícias
+- `BB15`: Perícias
+- `B17`: Atletismo:
+- `G17`: Acrobacia:
+- `L17`: Furtividade:
+- `Q17`: Prestidigitação:
+- `V17`: Manobra:
+- `AB17`: Atletismo:
+- `AG17`: Acrobacia:
+- `AL17`: Furtividade:
+- `AQ17`: Prestidigitação:
+- `AV17`: Manobra:
+- `BB17`: Atletismo:
+- `BG17`: Acrobacia:
+- `BL17`: Furtividade:
+- `BQ17`: Prestidigitação:
+- `BV17`: Manobra:
+- `B19`: Direção:
+- `G19`: Intuição:
+- `L19`: Medicina:
+- `Q19`: Percepção:
+- `V19`: Ocultismo:
+- `AB19`: Direção:
+- `AG19`: Intuição:
+- `AL19`: Medicina:
+- `AQ19`: Percepção:
+- `AV19`: Ocultismo:
+- `BB19`: Direção:
+- `BG19`: Intuição:
+- `BL19`: Medicina:
+- `BQ19`: Percepção:
+- `BV19`: Ocultismo:
+- `B21`: Sobrevivência:
+- `G21`: Investigação:
+- `L21`: História:
+- `Q21`: Feitiçaria:
+- `V21`: Teologia:
+- `AB21`: Sobrevivência:
+- `AG21`: Investigação:
+- `AL21`: História:
+- `AQ21`: Feitiçaria:
+- `AV21`: Teologia:
+- `BB21`: Sobrevivência:
+- `BG21`: Investigação:
+- `BL21`: História:
+- `BQ21`: Feitiçaria:
+- `BV21`: Teologia:
+- `B23`: Tecnologia:
+- `G23`: Persuasão:
+- `L23`: Enganação:
+- `Q23`: Intimidação:
+- `V23`: Performance:
+- `AB23`: Tecnologia:
+- `AG23`: Persuasão:
+- `AL23`: Enganação:
+- `AQ23`: Intimidação:
+- `AV23`: Performance:
+- `BB23`: Tecnologia:
+- `BG23`: Persuasão:
+- `BL23`: Enganação:
+- `BQ23`: Intimidação:
+- `BV23`: Performance:
+- `B26`: Reduções de Dano
+- `AB26`: Reduções de Dano
+- `BB26`: Reduções de Dano
+- `B28`: Tipo de dano
+- `H28`: Quantidade
+- `O28`: Tipo de dano
+- `U28`: Quantidade
+- `AB28`: Tipo de dano
+- `AH28`: Quantidade
+- `AO28`: Tipo de dano
+- `AU28`: Quantidade
+- `BB28`: Tipo de dano
+- `BH28`: Quantidade
+- `BO28`: Tipo de dano
+- `BU28`: Quantidade
+- `B29`: Cortante
+- `O29`: Sonico
+- `AB29`: Cortante
+- `AO29`: Sonico
+- `BB29`: Cortante
+- `BO29`: Sonico
+- `B30`: Perfurante
+- `O30`: Necrótico
+- `AB30`: Perfurante
+- `AO30`: Necrótico
+- `BB30`: Perfurante
+- `BO30`: Necrótico
+- `B31`: Impacto
+- `O31`: Psíquico
+- `AB31`: Impacto
+- `AO31`: Psíquico
+- `BB31`: Impacto
+- `BO31`: Psíquico
+- `B32`: Ácido
+- `O32`: Queimante
+- `AB32`: Ácido
+- `AO32`: Queimante
+- `BB32`: Ácido
+- `BO32`: Queimante
+- `B33`: Chocante
+- `O33`: Radiante
+- `AB33`: Chocante
+- `AO33`: Radiante
+- `BB33`: Chocante
+- `BO33`: Radiante
+- `B34`: Congelante
+- `O34`: Venenoso
+- `AB34`: Congelante
+- `AO34`: Venenoso
+- `BB34`: Congelante
+- `BO34`: Venenoso
+- `B35`: Energético
+- `O35`: Dano na alma
+- `AB35`: Energético
+- `AO35`: Dano na alma
+- `BB35`: Energético
+- `BO35`: Dano na alma
+- `B38`: Nome:
+- `P38`: Classe:
+- `AB38`: Nome:
+- `AP38`: Classe:
+- `BB38`: Nome:
+- `BP38`: Classe:
+- `B41`: Vida:
+- `AB41`: Vida:
+- `BB41`: Vida:
+- `E43`: Atual
+- `H43`: Temporária
+- `K43`: Curada
+- `N43`: Perdida
+- `Q43`: Inicial
+- `AE43`: Atual
+- `AH43`: Temporária
+- `AK43`: Curada
+- `AN43`: Perdida
+- `AQ43`: Inicial
+- `BE43`: Atual
+- `BH43`: Temporária
+- `BK43`: Curada
+- `BN43`: Perdida
+- `BQ43`: Inicial
+- `B45`: Bônus
+- `AB45`: Bônus
+- `BB45`: Bônus
+- `B47`: Acerto:
+- `G47`: Defesa:
+- `L47`: Iniciativa:
+- `Q47`: Atenção:
+- `V47`: Movimento:
+- `AB47`: Acerto:
+- `AG47`: Defesa:
+- `AL47`: Iniciativa:
+- `AQ47`: Atenção:
+- `AV47`: Movimento:
+- `BB47`: Acerto:
+- `BG47`: Defesa:
+- `BL47`: Iniciativa:
+- `BQ47`: Atenção:
+- `BV47`: Movimento:
+- `B49`: Reflexo:
+- `G49`: Fortitude:
+- `L49`: Vontade:
+- `Q49`: Astúcia:
+- `V49`: Integridade:
+- `AB49`: Reflexo:
+- `AG49`: Fortitude:
+- `AL49`: Vontade:
+- `AQ49`: Astúcia:
+- `AV49`: Integridade:
+- `BB49`: Reflexo:
+- `BG49`: Fortitude:
+- `BL49`: Vontade:
+- `BQ49`: Astúcia:
+- `BV49`: Integridade:
+- `B51`: Perícias
+- `AB51`: Perícias
+- `BB51`: Perícias
+- `B53`: Atletismo:
+- `G53`: Acrobacia:
+- `L53`: Furtividade:
+- `Q53`: Prestidigitação:
+- `V53`: Manobra:
+- `AB53`: Atletismo:
+- `AG53`: Acrobacia:
+- `AL53`: Furtividade:
+- `AQ53`: Prestidigitação:
+- `AV53`: Manobra:
+- `BB53`: Atletismo:
+- `BG53`: Acrobacia:
+- `BL53`: Furtividade:
+- `BQ53`: Prestidigitação:
+- `BV53`: Manobra:
+- `B55`: Direção:
+- `G55`: Intuição:
+- `L55`: Medicina:
+- `Q55`: Percepção:
+- `V55`: Ocultismo:
+- `AB55`: Direção:
+- `AG55`: Intuição:
+- `AL55`: Medicina:
+- `AQ55`: Percepção:
+- `AV55`: Ocultismo:
+- `BB55`: Direção:
+- `BG55`: Intuição:
+- `BL55`: Medicina:
+- `BQ55`: Percepção:
+- `BV55`: Ocultismo:
+- `B57`: Sobrevivência:
+- `G57`: Investigação:
+- `L57`: História:
+- `Q57`: Feitiçaria:
+- `V57`: Teologia:
+- `AB57`: Sobrevivência:
+- `AG57`: Investigação:
+- `AL57`: História:
+- `AQ57`: Feitiçaria:
+- `AV57`: Teologia:
+- `BB57`: Sobrevivência:
+- `BG57`: Investigação:
+- `BL57`: História:
+- `BQ57`: Feitiçaria:
+- `BV57`: Teologia:
+- `B59`: Tecnologia:
+- `G59`: Persuasão:
+- `L59`: Enganação:
+- `Q59`: Intimidação:
+- `V59`: Performance:
+- `AB59`: Tecnologia:
+- `AG59`: Persuasão:
+- `AL59`: Enganação:
+- `AQ59`: Intimidação:
+- `AV59`: Performance:
+- `BB59`: Tecnologia:
+- `BG59`: Persuasão:
+- `BL59`: Enganação:
+- `BQ59`: Intimidação:
+- `BV59`: Performance:
+- `B62`: Reduções de Dano
+- `AB62`: Reduções de Dano
+- `BB62`: Reduções de Dano
+- `B64`: Tipo de dano
+- `H64`: Quantidade
+- `O64`: Tipo de dano
+- `U64`: Quantidade
+- `AB64`: Tipo de dano
+- `AH64`: Quantidade
+- `AO64`: Tipo de dano
+- `AU64`: Quantidade
+- `BB64`: Tipo de dano
+- `BH64`: Quantidade
+- `BO64`: Tipo de dano
+- `BU64`: Quantidade
+- `B65`: Cortante
+- `O65`: Sonico
+- `AB65`: Cortante
+- `AO65`: Sonico
+- `BB65`: Cortante
+- `BO65`: Sonico
+- `B66`: Perfurante
+- `O66`: Necrótico
+- `AB66`: Perfurante
+- `AO66`: Necrótico
+- `BB66`: Perfurante
+- `BO66`: Necrótico
+- `B67`: Impacto
+- `O67`: Psíquico
+- `AB67`: Impacto
+- `AO67`: Psíquico
+- `BB67`: Impacto
+- `BO67`: Psíquico
+- `B68`: Ácido
+- `O68`: Queimante
+- `AB68`: Ácido
+- `AO68`: Queimante
+- `BB68`: Ácido
+- `BO68`: Queimante
+- `B69`: Chocante
+- `O69`: Radiante
+- `AB69`: Chocante
+- `AO69`: Radiante
+- `BB69`: Chocante
+- `BO69`: Radiante
+- `B70`: Congelante
+- `O70`: Venenoso
+- `AB70`: Congelante
+- `AO70`: Venenoso
+- `BB70`: Congelante
+- `BO70`: Venenoso
+- `B71`: Energético
+- `O71`: Dano na alma
+- `AB71`: Energético
+- `AO71`: Dano na alma
+- `BB71`: Energético
+- `BO71`: Dano na alma
+
+### Fórmulas
+
+- `E5`: `=SUM(Q5+K5-N5)`
+- `AE5`: `=SUM(AQ5+AK5-AN5)`
+- `BE5`: `=SUM(BQ5+BK5-BN5)`
+- `E41`: `=SUM(Q41+K41-N41)`
+- `AE41`: `=SUM(AQ41+AK41-AN41)`
+- `BE41`: `=SUM(BQ41+BK41-BN41)`

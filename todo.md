@@ -139,3 +139,13 @@
 - [x] Cobrir regras, persistência, compatibilidade legada e interface responsiva do novo fluxo de recompensas.
 - [x] Adicionar teste protegido de persistência do livro-razão de missões por `characters.save` e `characters.get`.
 - [x] Confirmar em teste a recarga de base, extras e total de uma recompensa registrada.
+- [x] Documentar a comparação entre a planilha de referência e os módulos atuais da ficha.
+- [x] Criar catálogo e seleção persistente de Aptidões, com pré-requisitos, custo e efeitos declarados.
+- [x] Criar trilhas de Treinamentos por Interlúdios, etapas, focos e registro de progresso.
+- [x] Exibir referência do conjunto inicial de equipamentos disponível por Grau, sem entrega automática de itens.
+- [x] Criar fichas resumidas de Aliados, com vínculo, recursos, defesa, ações e remoção individual.
+- [x] Modelar Ferramentas Amaldiçoadas e Encantamentos com grau, custo, requisitos, efeitos e aprovação de mestre.
+- [x] Criar um painel estruturado para Domínio e Expansão de Domínio, com custo, barreira, efeito, contrajogo e aprovação.
+- [x] Cobrir as novas capacidades com regras, persistência protegida, dados legados e interface responsiva.
+- [x] Validar no contrato protegido as aptidões contra catálogo, nível, custo e pré-requisitos.
+- [x] Completar a gestão de ações dos aliados com criação, edição, remoção individual e cobertura de persistência.

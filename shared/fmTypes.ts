@@ -227,6 +227,77 @@ export type FMMissionRewardRecord = {
   total: FMMissionReward;
 };
 
+export type FMAptitudeGroup = "aura" | "control-reading" | "domain" | "curse-anatomy" | "special";
+export type FMTrainingTrackKey = "agility" | "barriers" | "comprehension" | "energy-control" | "domains" | "reverse-energy" | "combat" | "weapon-mastery" | "skill" | "saving-throw" | "physical-potential";
+
+export type FMAptitude = {
+  id: string;
+  catalogId: string;
+  name: string;
+  group: FMAptitudeGroup;
+  requiredLevel: number;
+  cost: number;
+  prerequisite: string;
+  effect: string;
+  approved: boolean;
+};
+
+export type FMTrainingProgress = {
+  trackId: FMTrainingTrackKey;
+  stage: 0 | 1 | 2 | 3 | 4;
+  notes: string;
+};
+
+export type FMAlly = {
+  id: string;
+  name: string;
+  role: string;
+  bond: string;
+  healthCurrent: number;
+  healthMaximum: number;
+  defense: number;
+  actions: Array<{ id: string; name: string; effect: string }>;
+  notes: string;
+};
+
+export type FMCursedToolGrade = "fourth" | "third" | "second" | "first" | "special";
+export type FMCursedToolCategory = "weapon" | "uniform" | "shield" | "implement" | "other";
+
+export type FMCursedEnchantment = {
+  id: string;
+  name: string;
+  effect: string;
+  approved: boolean;
+};
+
+export type FMCursedTool = {
+  id: string;
+  name: string;
+  category: FMCursedToolCategory;
+  grade: FMCursedToolGrade;
+  costTier: 1 | 2 | 3 | 4;
+  spaces: number;
+  requirements: string;
+  effect: string;
+  approved: boolean;
+  enchantments: FMCursedEnchantment[];
+  notes: string;
+};
+
+export type FMDomainExpansion = {
+  name: string;
+  type: "simple" | "incomplete" | "complete" | "barrierless";
+  requiredLevel: number;
+  energyCost: number;
+  barrierHealth: number;
+  barrierResilience: number;
+  guaranteedHit: boolean;
+  maximumTechnique: string;
+  effect: string;
+  counterplay: string;
+  approved: boolean;
+};
+
 export type FMCombatant = {
   id: string;
   name: string;
@@ -314,6 +385,11 @@ export type FMCharacterSheet = {
   combatants: FMCombatant[];
   diary: FMDiaryEntry[];
   missionRewards: FMMissionRewardRecord[];
+  aptitudes: FMAptitude[];
+  training: FMTrainingProgress[];
+  allies: FMAlly[];
+  cursedTools: FMCursedTool[];
+  domainExpansion: FMDomainExpansion | null;
 };
 
 export const createEmptyFMSheet = (): FMCharacterSheet => ({
@@ -378,4 +454,9 @@ export const createEmptyFMSheet = (): FMCharacterSheet => ({
   combatants: [],
   diary: [],
   missionRewards: [],
+  aptitudes: [],
+  training: [],
+  allies: [],
+  cursedTools: [],
+  domainExpansion: null,
 });
