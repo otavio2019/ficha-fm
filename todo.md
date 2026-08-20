@@ -53,5 +53,5 @@
 - [x] Implementar recompensas de missão por grau, dificuldade e moeda, com registro no Diário quando aplicadas.
 - [x] Cobrir a progressão e as recompensas Infinite Worlds com testes de limites, transições de grau e valores de tabela.
 - [x] Validar visualmente os painéis Infinite Worlds em desktop e celular e registrar as evidências.
-- [ ] Salvar checkpoint e enviar a atualização ao repositório privado Infinite Worlds.
+- [x] Salvar checkpoint e enviar a atualização ao repositório privado Infinite Worlds.
 - [x] Registrar checklist visual verificável do painel Infinite Worlds em 1280×720 e 375×812, cobrindo estrutura, contraste, overflow, sobreposição e controles.
