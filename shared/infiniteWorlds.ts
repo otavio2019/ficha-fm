@@ -61,6 +61,8 @@ export function getMissionExperienceReward(grade: InfiniteWorldGradeId, difficul
   return INFINITE_WORLDS_GRADES.find(item => item.id === grade)?.missionXp[difficulty] ?? 0;
 }
 
-export function getMissionMoneyReward(grade: InfiniteWorldGradeId, difficulty: InfiniteWorldMoneyDifficulty) {
-  return INFINITE_WORLDS_GRADES.find(item => item.id === grade)?.missionMoney[difficulty] ?? 0;
+export function getMissionMoneyReward(grade: InfiniteWorldGradeId, difficulty: InfiniteWorldMoneyDifficulty, dedicationRewarding = false) {
+  const grades: InfiniteWorldGradeId[] = ["fourth", "third", "second", "first", "special"];
+  const rewardGrade = dedicationRewarding ? grades[Math.min(grades.length - 1, Math.max(0, grades.indexOf(grade)) + 1)] ?? grade : grade;
+  return INFINITE_WORLDS_GRADES.find(item => item.id === rewardGrade)?.missionMoney[difficulty] ?? 0;
 }

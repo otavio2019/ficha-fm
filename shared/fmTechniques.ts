@@ -25,7 +25,7 @@ export function getTechniqueCopy(kind: FMTechniqueKind) {
         basicFunction: "Fundamento do estilo",
         basicFunctionHint: "Descreva o fundamento do estilo, a abordagem de combate e o que permite fazer.",
         benefits: "Recursos intrínsecos",
-        limitations: "Limitações do estilo",
+        limitations: "Limitações e contrajogo do estilo",
         attributes: "Atributos do estilo",
       }
     : {
@@ -33,7 +33,7 @@ export function getTechniqueCopy(kind: FMTechniqueKind) {
         basicFunction: "Funcionamento básico",
         basicFunctionHint: "Descreva o conceito, a dinâmica, os efeitos mecânicos e os limites que guiam os feitiços.",
         benefits: "Benefícios intrínsecos",
-        limitations: "Limitações ou malefícios",
+        limitations: "Limitações, malefícios e contrajogo",
         attributes: "Atributos da técnica",
       };
 }
@@ -49,8 +49,11 @@ export function validateTechnique(technique: Partial<FMTechnique> | undefined, s
 
   const name = typeof technique.name === "string" ? technique.name.trim() : "";
   const basicFunction = typeof technique.basicFunction === "string" ? technique.basicFunction.trim() : "";
+  const counterplay = typeof technique.counterplay === "string" ? technique.counterplay.trim() : "";
   if (name && name.length > FM_TECHNIQUE_LIMITS.name) issues.push({ field: "name", message: `O nome deve ter no máximo ${FM_TECHNIQUE_LIMITS.name} caracteres.` });
   if (basicFunction && basicFunction.length > FM_TECHNIQUE_LIMITS.longText) issues.push({ field: "basicFunction", message: "O funcionamento básico excede o limite seguro de caracteres." });
+  if (technique.counterplay !== undefined && !counterplay && !(typeof technique.limitations === "string" && technique.limitations.trim())) issues.push({ field: "counterplay", message: "A técnica precisa declarar uma resistência, reação ou outro contrajogo no campo de limitações." });
+  if (counterplay.length > FM_TECHNIQUE_LIMITS.longText) issues.push({ field: "counterplay", message: "O contrajogo excede o limite seguro de caracteres." });
 
   const attributes = technique.attributeKeys;
   if (!Array.isArray(attributes) || attributes.length < 1 || attributes.length > fmAttributeKeys.length || attributes.some(attribute => typeof attribute !== "string" || !attributeKeySet.has(attribute))) {

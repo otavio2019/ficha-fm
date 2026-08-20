@@ -63,3 +63,15 @@
 - [x] Produzir evidência verificável da Forja de Técnicas autenticada em 1280×720 e 375×812, incluindo ausência de overflow e sobreposição.
 - [x] Medir e registrar `scrollWidth`, largura de documento e elementos fixos da Forja de Técnicas no estado de pré-visualização local.
 - [x] Documentar a justificativa técnica do uso da pré-visualização local para a inspeção da Forja, sem dados ou sessão de usuário.
+- [x] Modelar o módulo de Regras da Casa Infinite Worlds com valores seguros para fichas existentes.
+- [x] Implementar geração de atributos 6×4d6 descartando o menor, com repetição abaixo de 72 pontos.
+- [x] Aplicar controles de exaustão, descanso em tempo real e dano massivo, com registro no Diário.
+- [x] Ajustar recompensas para Dedicação Recompensadora, usando a moeda do grau de missão imediatamente superior.
+- [x] Registrar votos de nascimento apenas na criação e exigir aprovação antes da campanha.
+- [x] Declarar e validar contrajogo para efeitos de técnica/feitiço, além de notas de fabricação, ofício, itens e Free Build.
+- [x] Cobrir as regras da casa em testes de cálculo, validação, autorização, persistência e dados legados.
+- [x] Validar a interface de regras da casa em 1280×720 e 375×812 e registrar evidências.
+- [x] Restringir voto de nascimento à criação ou primeira aprovação no contrato protegido e cobrir o bloqueio em teste.
+- [x] Validar Free Build contra origem Restringido e exigir contrajogo também na técnica quando declarado.
+- [x] Cobrir persistência, autorização de terceiros e hidratação legada do bloco `houseRules`.
+- [x] Adicionar teste explícito do merge de `houseRules` ao carregar ficha legada no editor.

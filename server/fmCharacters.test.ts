@@ -81,6 +81,16 @@ describe("biblioteca de fichas", () => {
     expect(saveFMCharacter).toHaveBeenCalledWith(expect.objectContaining({ sheet: storedSheet }));
   });
 
+  it("persiste e recupera o bloco completo de Regras da Casa", async () => {
+    const houseRules = { rest: { exhaustion: 2, missionCount: 3, lastMissionAt: 1000, lastShortRestAt: null, lastLongRestAt: 2000, longRestMissionCount: 3 }, dedicationRewarding: true, downtime: { interludes: 1, craftingFocus: "Ferraria", professionChecksRequired: true, itemReviewRequired: true, freeBuildOptions: [{ id: "free-1", name: "Barreira", sourceSpecialization: "controller", prerequisites: "Nível 5", interludeCost: 1 }] } };
+    vi.mocked(getFMCharacter).mockResolvedValueOnce(undefined).mockResolvedValueOnce({ id: "ficha-casa", ownerId: 1, name: "Maki", portraitUrl: null, sheet: { houseRules }, createdAt: new Date(), updatedAt: new Date() });
+    vi.mocked(saveFMCharacter).mockResolvedValue({ id: "ficha-casa", ownerId: 1, name: "Maki", portraitUrl: null, sheet: { houseRules }, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+
+    await caller.characters.save({ id: "ficha-casa", name: "Maki", sheet: { houseRules } });
+    await expect(caller.characters.get({ id: "ficha-casa" })).resolves.toMatchObject({ sheet: { houseRules } });
+  });
+
   it("edita uma ficha que já pertence ao usuário autenticado", async () => {
     vi.mocked(getFMCharacter).mockResolvedValue({ id: "ficha-editar", ownerId: 1, name: "Yuji", portraitUrl: null, sheet: {}, createdAt: new Date(), updatedAt: new Date() });
     vi.mocked(saveFMCharacter).mockResolvedValue({ id: "ficha-editar", ownerId: 1, name: "Yuji revisado", portraitUrl: null, sheet: { skills: [] }, createdAt: new Date(), updatedAt: new Date() });
@@ -100,6 +110,29 @@ describe("biblioteca de fichas", () => {
     await expect(caller.characters.save({ id: "ficha-feitico-invalido", name: "Yuji", sheet: { progression: { level: 1 }, spells: [{ level: 2 }] } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
   });
 
+  it("exige contrajogo explícito em feitiços criados sob as Regras da Casa", async () => {
+    const caller = appRouter.createCaller(createContext(1));
+    await expect(caller.characters.save({ id: "ficha-sem-contrajogo", name: "Yuji", sheet: { progression: { level: 1 }, spells: [{ level: 1, counterplay: "" }] } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+  });
+
+  it("recusa dados inválidos no bloco de Regras da Casa", async () => {
+    const caller = appRouter.createCaller(createContext(1));
+    await expect(caller.characters.save({ id: "ficha-casa-invalida", name: "Yuji", sheet: { houseRules: { attributeGeneration: { values: [3, 3, 3, 3, 3, 3], total: 18 }, rest: { exhaustion: -1, missionCount: -1 } } } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+  });
+
+  it("recusa Free Build com origem Restringido", async () => {
+    const caller = appRouter.createCaller(createContext(1));
+    await expect(caller.characters.save({ id: "ficha-free-build-invalida", name: "Yuji", sheet: { houseRules: { downtime: { freeBuildOptions: [{ name: "Golpe", sourceSpecialization: "restricted", prerequisites: "Nível 5", interludeCost: 1 }] } } } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+  });
+
+  it("bloqueia a alteração de um voto de nascimento já aprovado", async () => {
+    const original = { type: "congenital-restriction", description: "Sem energia amaldiçoada.", approved: true, locked: true };
+    vi.mocked(getFMCharacter).mockResolvedValue({ id: "ficha-voto", ownerId: 1, name: "Toji", portraitUrl: null, sheet: { houseRules: { birthVow: original } }, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+    await expect(caller.characters.save({ id: "ficha-voto", name: "Toji", sheet: { houseRules: { birthVow: { ...original, description: "Alteração posterior." } } } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+    expect(saveFMCharacter).not.toHaveBeenCalled();
+  });
+
   it("recusa Estilo Marcial em ficha que não é restringida", async () => {
     const caller = appRouter.createCaller(createContext(1));
     await expect(caller.characters.save({ id: "ficha-tecnica-invalida", name: "Yuji", sheet: { progression: { specialization: "fighter" }, technique: { kind: "martial", name: "Caminho do Predador", basicFunction: "Combate por exaustão do alvo.", attributeKeys: ["strength"], intrinsicBenefits: "", limitations: "", requiredItems: "", reviewNotes: "" } } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
@@ -111,6 +144,13 @@ describe("biblioteca de fichas", () => {
     const technique = { kind: "cursed", name: "Dez Sombras", basicFunction: "Invoca shikigamis.", attributeKeys: ["wisdom"], intrinsicBenefits: "", limitations: "", requiredItems: "", reviewNotes: "" };
 
     await expect(caller.characters.save({ id: "ficha-tecnica-alheia", name: "Megumi", sheet: { progression: { specialization: "fighter" }, technique } })).rejects.toMatchObject({ code: "FORBIDDEN" });
+    expect(saveFMCharacter).not.toHaveBeenCalled();
+  });
+
+  it("bloqueia a alteração das Regras da Casa em ficha que pertence a outro usuário", async () => {
+    vi.mocked(getFMCharacter).mockResolvedValue({ id: "ficha-casa-alheia", ownerId: 2, name: "Megumi", portraitUrl: null, sheet: {}, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+    await expect(caller.characters.save({ id: "ficha-casa-alheia", name: "Megumi", sheet: { houseRules: { dedicationRewarding: true } } })).rejects.toMatchObject({ code: "FORBIDDEN" });
     expect(saveFMCharacter).not.toHaveBeenCalled();
   });
 

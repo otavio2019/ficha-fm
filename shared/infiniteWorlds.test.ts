@@ -15,5 +15,7 @@ describe("progressão Infinite Worlds", () => {
     expect(getMissionExperienceReward("second", "hard-plus")).toBe(27);
     expect(getMissionMoneyReward("first", "normal")).toBe(40000);
     expect(getMissionMoneyReward("special", "hard")).toBe(120000);
+    expect(getMissionMoneyReward("fourth", "normal", true)).toBe(10000);
+    expect(getMissionMoneyReward("special", "hard", true)).toBe(120000);
   });
 });

@@ -1,0 +1,84 @@
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Dice5, Plus, ShieldAlert, Trash2 } from "lucide-react";
+import { useState } from "react";
+import { FM_ATTRIBUTE_LABELS, FM_SPECIALIZATION_LABELS, getDerivedValues } from "@shared/fmRules";
+import { FM_HOUSE_RULES_CITATION, getHouseMinimumHealth, getHouseRestAvailability, getMassiveDamageOutcome, rollHouseAttributeGeneration } from "@shared/fmHouseRules";
+import { fmAttributeKeys, type FMCharacterSheet, type FMSpecializationKey } from "@shared/fmTypes";
+
+type Props = {
+  sheet: FMCharacterSheet;
+  derived: ReturnType<typeof getDerivedValues>;
+  updateSheet: (updater: (current: FMCharacterSheet) => FMCharacterSheet) => void;
+  addDiary: (title: string, detail: string, category?: FMCharacterSheet["diary"][number]["category"]) => void;
+};
+
+function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
+  return <label className="grid gap-1.5 text-sm font-medium text-stone-300"><span>{label}</span>{children}{hint ? <span className="text-xs font-normal leading-5 text-stone-500">{hint}</span> : null}</label>;
+}
+
+function Panel({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return <section className={`rounded-2xl border border-violet-300/10 bg-[#120c1d]/80 p-4 shadow-[0_18px_55px_rgba(0,0,0,0.25)] sm:p-5 ${className}`}>{children}</section>;
+}
+
+const selectClass = "h-10 rounded-md border border-violet-300/20 bg-[#0c0713] px-3 text-sm text-stone-100 outline-none focus:ring-2 focus:ring-amber-300/70 disabled:opacity-50";
+
+export function HouseRulesPanel({ sheet, derived, updateSheet, addDiary }: Props) {
+  const [damage, setDamage] = useState("");
+  const [freeBuildName, setFreeBuildName] = useState("");
+  const [freeBuildPrerequisites, setFreeBuildPrerequisites] = useState("");
+  const [freeBuildSource, setFreeBuildSource] = useState<FMSpecializationKey>("fighter");
+  const house = sheet.houseRules;
+  const rest = getHouseRestAvailability(house.rest);
+  const formatMinutes = (ms: number) => `${Math.ceil(ms / 60_000)} min`;
+  const changeHouse = (updater: (current: FMCharacterSheet["houseRules"]) => FMCharacterSheet["houseRules"]) => updateSheet(current => ({ ...current, houseRules: updater(current.houseRules) }));
+
+  const generateAttributes = () => {
+    const generation = rollHouseAttributeGeneration();
+    updateSheet(current => ({ ...current, houseRules: { ...current.houseRules, attributeGeneration: generation }, attributes: { ...current.attributes, base: Object.fromEntries(fmAttributeKeys.map((key, index) => [key, generation.values[index] ?? 10])) as FMCharacterSheet["attributes"]["base"] } }));
+    addDiary("Atributos gerados", `6#4d6dl1: ${generation.values.join(" · ")} (${generation.total} pontos, ${generation.attempts} tentativa(s)).`);
+  };
+
+  const applyDamage = () => {
+    const value = Math.max(0, Number(damage) || 0);
+    if (!value) return;
+    const outcome = getMassiveDamageOutcome(sheet.resources.health.current, derived.healthMaximum, value);
+    updateSheet(current => ({ ...current, resources: { ...current.resources, health: { ...current.resources.health, current: Math.max(-derived.healthMaximum, outcome.nextHealth) } } }));
+    addDiary(outcome.instantDeath ? "Dano massivo — morte instantânea" : "Dano massivo avaliado", `${value} de dano de uma única fonte: PV ${sheet.resources.health.current} → ${outcome.nextHealth}. Limite de morte instantânea: -${derived.healthMaximum}.`, "combat");
+    setDamage("");
+  };
+
+  const finishMission = () => {
+    const at = Date.now();
+    changeHouse(current => ({ ...current, rest: { ...current.rest, exhaustion: current.rest.exhaustion + 1, missionCount: current.rest.missionCount + 1, lastMissionAt: at, longRestMissionCount: null } }));
+    addDiary("Missão concluída", "+1 ponto de Exaustão conforme as Regras da Casa.");
+  };
+
+  const recordRest = (kind: "short" | "long") => {
+    const at = Date.now();
+    changeHouse(current => ({ ...current, rest: kind === "long" ? { ...current.rest, lastLongRestAt: at, longRestMissionCount: current.rest.missionCount } : { ...current.rest, lastShortRestAt: at } }));
+    addDiary(kind === "long" ? "Descanso longo registrado" : "Descanso curto registrado", `${kind === "long" ? "4 horas" : "2 horas"} em tempo real após a missão. A recuperação segue as regras específicas da mesa.`);
+  };
+
+  const addFreeBuild = () => {
+    if (!freeBuildName.trim() || !freeBuildPrerequisites.trim() || house.downtime.interludes < 1) return;
+    const name = freeBuildName.trim();
+    changeHouse(current => ({ ...current, downtime: { ...current.downtime, interludes: current.downtime.interludes - 1, freeBuildOptions: [...current.downtime.freeBuildOptions, { id: crypto.randomUUID(), name, sourceSpecialization: freeBuildSource, prerequisites: freeBuildPrerequisites.trim(), interludeCost: 1 }] } }));
+    addDiary("Free Build registrado", `${name} · ${FM_SPECIALIZATION_LABELS[freeBuildSource]} · 1 Interlúdio.`);
+    setFreeBuildName("");
+    setFreeBuildPrerequisites("");
+  };
+
+  return <>
+    <div className="mb-6 border-b border-violet-300/10 pb-5"><p className="font-display text-xs uppercase tracking-[.22em] text-amber-300/70">Infinite Worlds</p><h2 className="mt-1 font-display text-2xl text-stone-100">Regras da Casa</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-stone-400">Controles de regras de mesa que exigem registro na ficha. {FM_HOUSE_RULES_CITATION}.</p></div>
+    <div className="grid gap-4 xl:grid-cols-2">
+      <Panel className="border-amber-300/20 bg-amber-300/[.035]"><p className="font-display text-xs uppercase tracking-[.18em] text-amber-300/70">III. Atributos</p><h3 className="mt-1 font-display text-xl text-stone-100">6#4d6dl1 · mínimo 72</h3><p className="mt-2 text-sm leading-6 text-stone-400">Cada atributo recebe 4d6, descarta o menor e a distribuição é repetida até atingir 72 pontos.</p><div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between"><div className="rounded-xl border border-violet-300/10 bg-black/20 px-3 py-2"><p className="text-xs uppercase tracking-[.14em] text-stone-500">Resultado</p><p className="font-display text-xl text-amber-200">{house.attributeGeneration ? `${house.attributeGeneration.total} pontos` : "Não gerado"}</p><p className="text-xs text-stone-500">{house.attributeGeneration?.values.join(" · ") ?? "Aplica-se aos atributos base."}</p></div><Button type="button" onClick={generateAttributes} className="bg-amber-300 text-[#190d07] hover:bg-amber-200"><Dice5 className="mr-2 h-4 w-4" />Gerar atributos</Button></div></Panel>
+      <Panel><p className="font-display text-xs uppercase tracking-[.18em] text-amber-300/70">IV. Votos de nascimento</p><h3 className="mt-1 font-display text-xl text-stone-100">Restrição aprovada</h3><div className="mt-4 grid gap-3"><Field label="Voto"><select disabled={house.birthVow.locked} className={selectClass} value={house.birthVow.type} onChange={event => changeHouse(current => ({ ...current, birthVow: { ...current.birthVow, type: event.target.value as typeof current.birthVow.type } }))}><option value="none">Nenhum</option><option value="congenital-restriction">Restrição Congênita</option><option value="celestial-restriction">Restrição Celestial</option></select></Field><Field label="Descrição"><Textarea disabled={house.birthVow.locked} value={house.birthVow.description} onChange={event => changeHouse(current => ({ ...current, birthVow: { ...current.birthVow, description: event.target.value } }))} /></Field><label className="flex items-center gap-3 text-sm text-stone-300"><input type="checkbox" className="accent-amber-300" disabled={house.birthVow.locked} checked={house.birthVow.approved} onChange={event => changeHouse(current => ({ ...current, birthVow: { ...current.birthVow, approved: event.target.checked } }))} />Avaliado antes da campanha</label><Button type="button" disabled={house.birthVow.locked || house.birthVow.type === "none" || !house.birthVow.approved} onClick={() => { changeHouse(current => ({ ...current, birthVow: { ...current.birthVow, locked: true } })); addDiary("Voto de nascimento fixado", "Voto aprovado e bloqueado antes da campanha."); }} className="bg-violet-600 text-violet-50 hover:bg-violet-500 disabled:opacity-50">{house.birthVow.locked ? "Voto fixado" : "Fixar voto aprovado"}</Button></div></Panel>
+      <Panel><p className="font-display text-xs uppercase tracking-[.18em] text-amber-300/70">I e III. Contrajogo e ação</p><h3 className="mt-1 font-display text-xl text-stone-100">Atributo declarado</h3><p className="mt-2 text-sm leading-6 text-stone-400">O atributo escolhido não muda durante a ação. Efeitos devem registrar uma reação, resistência ou outro contrajogo no feitiço.</p><div className="mt-4 grid gap-3 sm:grid-cols-[.7fr_1.3fr]"><Field label="Atributo"><select disabled={house.actionDeclaration.locked} className={selectClass} value={house.actionDeclaration.attribute ?? ""} onChange={event => changeHouse(current => ({ ...current, actionDeclaration: { ...current.actionDeclaration, attribute: event.target.value ? event.target.value as typeof current.actionDeclaration.attribute : null } }))}><option value="">Selecione</option>{fmAttributeKeys.map(key => <option key={key} value={key}>{FM_ATTRIBUTE_LABELS[key]}</option>)}</select></Field><Field label="Ação"><Input disabled={house.actionDeclaration.locked} value={house.actionDeclaration.detail} onChange={event => changeHouse(current => ({ ...current, actionDeclaration: { ...current.actionDeclaration, detail: event.target.value } }))} placeholder="Ex.: Ataque amaldiçoado" /></Field></div><div className="mt-3">{house.actionDeclaration.locked ? <Button type="button" variant="outline" onClick={() => changeHouse(current => ({ ...current, actionDeclaration: { attribute: null, detail: "", locked: false } }))}>Encerrar ação</Button> : <Button type="button" disabled={!house.actionDeclaration.attribute || !house.actionDeclaration.detail.trim()} onClick={() => { changeHouse(current => ({ ...current, actionDeclaration: { ...current.actionDeclaration, locked: true } })); addDiary("Ação declarada", `${house.actionDeclaration.detail} · ${FM_ATTRIBUTE_LABELS[house.actionDeclaration.attribute!]}.`); }} className="bg-violet-600 text-violet-50 hover:bg-violet-500 disabled:opacity-50">Fixar atributo</Button>}</div></Panel>
+      <Panel><p className="font-display text-xs uppercase tracking-[.18em] text-amber-300/70">II, VI e IX. Vida, tempo e dano</p><h3 className="mt-1 font-display text-xl text-stone-100">Vida mínima, descanso e dano massivo</h3><div className="mt-4 grid gap-3 sm:grid-cols-3"><div className="rounded-xl border border-violet-300/10 bg-black/20 p-3"><p className="text-xs text-stone-500">Vida mínima</p><p className="font-display text-2xl text-amber-200">{getHouseMinimumHealth(derived.healthMaximum, sheet.resources.health.bonusMaximum)}</p><p className="text-xs text-stone-500">Base dos aumentos de PV</p></div><div className="rounded-xl border border-violet-300/10 bg-black/20 p-3"><p className="text-xs text-stone-500">Exaustão</p><p className="font-display text-2xl text-amber-200">{house.rest.exhaustion}</p></div><div className="rounded-xl border border-violet-300/10 bg-black/20 p-3"><p className="text-xs text-stone-500">Missões</p><p className="font-display text-2xl text-amber-200">{house.rest.missionCount}</p></div></div><div className="mt-3 flex flex-wrap gap-2"><Button type="button" onClick={finishMission} className="bg-amber-300 text-[#190d07] hover:bg-amber-200">Concluir missão</Button><Button type="button" disabled={!rest.shortRestReady} onClick={() => recordRest("short")} variant="outline">{rest.shortRestReady ? "Descanso curto" : house.rest.missionCount ? `Curto em ${formatMinutes(rest.shortRestRemaining)}` : "Conclua uma missão"}</Button><Button type="button" disabled={!rest.longRestReady} onClick={() => recordRest("long")} variant="outline">{rest.longRestReady ? "Descanso longo" : house.rest.missionCount ? `Longo em ${formatMinutes(rest.longRestRemaining)}` : "Conclua uma missão"}</Button></div><div className="mt-4 grid gap-2 sm:grid-cols-[1fr_auto]"><Field label="Dano de fonte única" hint={`Morte instantânea em -${derived.healthMaximum} PV ou menos.`}><Input type="number" min={0} value={damage} onChange={event => setDamage(event.target.value)} /></Field><Button type="button" onClick={applyDamage} className="self-end bg-red-500/90 text-white hover:bg-red-400"><ShieldAlert className="mr-2 h-4 w-4" />Aplicar dano</Button></div></Panel>
+    </div>
+    <div className="mt-4 grid gap-4 xl:grid-cols-2"><Panel><p className="font-display text-xs uppercase tracking-[.18em] text-amber-300/70">VII, X e XI. Interlúdios</p><h3 className="mt-1 font-display text-xl text-stone-100">Fabricação, Ofícios e itens</h3><div className="mt-4 grid gap-3"><Field label="Interlúdios disponíveis"><Input type="number" min={0} value={house.downtime.interludes} onChange={event => changeHouse(current => ({ ...current, downtime: { ...current.downtime, interludes: Math.max(0, Number(event.target.value) || 0) } }))} /></Field><Field label="Foco exclusivo de fabricação" hint="Fabricação só ocorre em Interlúdios; Mestre da Criação mantém apenas um foco."><Input value={house.downtime.craftingFocus} onChange={event => changeHouse(current => ({ ...current, downtime: { ...current.downtime, craftingFocus: event.target.value } }))} placeholder="Ex.: Ferraria" /></Field><p className="rounded-xl border border-violet-300/10 bg-black/20 p-3 text-sm leading-6 text-stone-400">Testes de Ofício são obrigatórios; o sucesso de treinamento não se aplica. Itens obtidos em mesa exigem avaliação e explicação de origem, embora possam ser usados acima do grau.</p></div></Panel>
+      <Panel><p className="font-display text-xs uppercase tracking-[.18em] text-amber-300/70">XII e VIII. Free Build e Dedicação</p><h3 className="mt-1 font-display text-xl text-stone-100">Aquisições e recompensa</h3><div className="mt-4 grid gap-3 sm:grid-cols-2"><Field label="Habilidade"><Input value={freeBuildName} onChange={event => setFreeBuildName(event.target.value)} /></Field><Field label="Especialização de origem"><select className={selectClass} value={freeBuildSource} onChange={event => setFreeBuildSource(event.target.value as FMSpecializationKey)}>{(Object.keys(FM_SPECIALIZATION_LABELS) as FMSpecializationKey[]).filter(key => key !== "restricted").map(key => <option key={key} value={key}>{FM_SPECIALIZATION_LABELS[key]}</option>)}</select></Field><Field label="Pré-requisitos"><Input value={freeBuildPrerequisites} onChange={event => setFreeBuildPrerequisites(event.target.value)} /></Field><Button type="button" disabled={!freeBuildName.trim() || !freeBuildPrerequisites.trim() || house.downtime.interludes < 1} onClick={addFreeBuild} className="self-end bg-violet-600 text-violet-50 hover:bg-violet-500 disabled:opacity-50"><Plus className="mr-2 h-4 w-4" />1 Interlúdio</Button></div><div className="mt-3 space-y-2">{house.downtime.freeBuildOptions.map(option => <div key={option.id} className="flex items-center justify-between gap-3 rounded-xl border border-violet-300/10 bg-black/20 p-3"><span className="text-sm text-stone-300"><strong>{option.name}</strong> · {FM_SPECIALIZATION_LABELS[option.sourceSpecialization]}<small className="block text-stone-500">{option.prerequisites}</small></span><Button type="button" size="icon" variant="outline" onClick={() => changeHouse(current => ({ ...current, downtime: { ...current.downtime, interludes: current.downtime.interludes + 1, freeBuildOptions: current.downtime.freeBuildOptions.filter(item => item.id !== option.id) } }))}><Trash2 className="h-4 w-4" /></Button></div>)}</div><label className="mt-4 flex items-center gap-3 rounded-xl border border-amber-300/20 bg-amber-300/5 p-3 text-sm text-amber-100"><input type="checkbox" className="accent-amber-300" checked={house.dedicationRewarding} onChange={event => changeHouse(current => ({ ...current, dedicationRewarding: event.target.checked }))} />Dedicação Recompensadora: moeda pelo grau de missão imediatamente superior.</label></Panel></div>
+  </>;
+}

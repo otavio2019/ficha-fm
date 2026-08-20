@@ -44,11 +44,30 @@ export type FMTechnique = {
   kind: FMTechniqueKind;
   name: string;
   basicFunction: string;
+  counterplay?: string;
   attributeKeys: FMAttributeKey[];
   intrinsicBenefits: string;
   limitations: string;
   requiredItems: string;
   reviewNotes: string;
+};
+
+export type FMBirthVowType = "none" | "congenital-restriction" | "celestial-restriction";
+
+export type FMHouseAttributeGeneration = {
+  values: number[];
+  total: number;
+  attempts: number;
+  generatedAt: number;
+};
+
+export type FMHouseRules = {
+  attributeGeneration: FMHouseAttributeGeneration | null;
+  birthVow: { type: FMBirthVowType; description: string; approved: boolean; locked: boolean };
+  actionDeclaration: { attribute: FMAttributeKey | null; detail: string; locked: boolean };
+  rest: { exhaustion: number; missionCount: number; lastMissionAt: number | null; lastShortRestAt: number | null; lastLongRestAt: number | null; longRestMissionCount: number | null };
+  downtime: { interludes: number; craftingFocus: string; professionChecksRequired: boolean; itemReviewRequired: boolean; freeBuildOptions: Array<{ id: string; name: string; sourceSpecialization: FMSpecializationKey; prerequisites: string; interludeCost: 1 }> };
+  dedicationRewarding: boolean;
 };
 
 export type FMSpell = {
@@ -62,6 +81,7 @@ export type FMSpell = {
   durationType: FMDurationType;
   durationDetail: string;
   effect: string;
+  counterplay: string;
   requirement: string;
   damage: string;
   damageType: string;
@@ -171,6 +191,7 @@ export type FMCharacterSheet = {
   guild: {
     currency: number;
   };
+  houseRules: FMHouseRules;
   origin: {
     name: string;
     attributeBonuses: Partial<FMAttributes>;
@@ -222,11 +243,20 @@ export const createEmptyFMSheet = (): FMCharacterSheet => ({
     nonSorcerer: false,
   },
   guild: { currency: 0 },
+  houseRules: {
+    attributeGeneration: null,
+    birthVow: { type: "none", description: "", approved: false, locked: false },
+    actionDeclaration: { attribute: null, detail: "", locked: false },
+    rest: { exhaustion: 0, missionCount: 0, lastMissionAt: null, lastShortRestAt: null, lastLongRestAt: null, longRestMissionCount: null },
+    downtime: { interludes: 0, craftingFocus: "", professionChecksRequired: true, itemReviewRequired: true, freeBuildOptions: [] },
+    dedicationRewarding: false,
+  },
   origin: { name: "", attributeBonuses: {}, description: "" },
   technique: {
     kind: "cursed",
     name: "",
     basicFunction: "",
+    counterplay: "",
     attributeKeys: ["intelligence"],
     intrinsicBenefits: "",
     limitations: "",

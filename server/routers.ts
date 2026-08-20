@@ -6,6 +6,7 @@ import { getHighestSpellLevel } from "../shared/fmRules";
 import { FM_DECLARED_MODIFIER_RULES, isDeclaredModifierInRange, type FMDeclaredModifierRule } from "../shared/fmModifiers";
 import { getInfiniteWorldLevel } from "../shared/infiniteWorlds";
 import { validateTechnique } from "../shared/fmTechniques";
+import { validateHouseRules } from "../shared/fmHouseRules";
 import { createFMCharacterShare, deleteFMCharacter, getFMCharacter, getFMCharacterShare, getSharedFMCharacter, listFMCharacters, listFMCharacterShares, saveFMCharacter } from "./db";
 import { emitCharacterUpdated } from "./live";
 import { getSessionCookieOptions } from "./_core/cookies";
@@ -63,6 +64,10 @@ const characterInput = z.object({
   const progression = input.sheet.progression as Record<string, unknown> | undefined;
   const level = typeof progression?.level === "number" ? progression.level : 1;
   const specialization = typeof progression?.specialization === "string" ? progression.specialization : "fighter";
+  const houseRules = input.sheet.houseRules;
+  validateHouseRules(houseRules).forEach(message => {
+    context.addIssue({ code: "custom", path: ["sheet", "houseRules"], message });
+  });
   const technique = input.sheet.technique as Record<string, unknown> | undefined;
   validateTechnique(technique, specialization).forEach(issue => {
     context.addIssue({ code: "custom", path: ["sheet", "technique", issue.field], message: issue.message });
@@ -83,6 +88,9 @@ const characterInput = z.object({
       const spellLevel = value.level;
       if (typeof spellLevel !== "number" || spellLevel < 0 || spellLevel > highestSpellLevel) {
         context.addIssue({ code: "custom", path: ["sheet", "spells", index, "level"], message: `O nível do feitiço excede o máximo liberado (${highestSpellLevel}).` });
+      }
+      if (value.counterplay !== undefined && (typeof value.counterplay !== "string" || !value.counterplay.trim())) {
+        context.addIssue({ code: "custom", path: ["sheet", "spells", index, "counterplay"], message: "Todo feitiço novo precisa declarar uma resistência, reação ou outro contrajogo." });
       }
       validateDeclaredModifier(value.costAdjustment, ["sheet", "spells", index, "costAdjustment"], "spellCost", context);
       validateDeclaredModifier(value.combatModifier, ["sheet", "spells", index, "combatModifier"], "spellCombat", context);
@@ -117,6 +125,17 @@ export const appRouter = router({
       const existing = await getFMCharacter(input.id);
       if (existing && existing.ownerId !== ctx.user.id) {
         throw new TRPCError({ code: "FORBIDDEN", message: "Você não pode editar esta ficha." });
+      }
+      const nextVow = (input.sheet.houseRules as Record<string, unknown> | undefined)?.birthVow as Record<string, unknown> | undefined;
+      const existingVow = (existing?.sheet.houseRules as Record<string, unknown> | undefined)?.birthVow as Record<string, unknown> | undefined;
+      if (existingVow?.locked) {
+        const lockedFields = ["type", "description", "approved", "locked"];
+        if (lockedFields.some(field => existingVow[field] !== nextVow?.[field])) {
+          throw new TRPCError({ code: "BAD_REQUEST", message: "Votos de nascimento aprovados são imutáveis após o início da campanha." });
+        }
+      }
+      if (nextVow?.locked && !existingVow?.locked && (nextVow.type === "none" || nextVow.approved !== true || typeof nextVow.description !== "string" || !nextVow.description.trim())) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "Um voto só pode ser fixado após descrição e aprovação antes da campanha." });
       }
       const saved = await saveFMCharacter({ ...input, ownerId: ctx.user.id, portraitUrl: input.portraitUrl ?? null });
       if (!saved) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Não foi possível salvar a ficha." });

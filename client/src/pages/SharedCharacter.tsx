@@ -17,6 +17,7 @@ function hydrateSharedSheet(raw: Record<string, unknown> | null | undefined): FM
     identity: { ...empty.identity, ...(source.identity ?? {}) },
     personal: { ...empty.personal, ...(source.personal ?? {}) },
     progression: { ...empty.progression, ...(source.progression ?? {}) },
+    houseRules: { ...empty.houseRules, ...(source.houseRules ?? {}), birthVow: { ...empty.houseRules.birthVow, ...(source.houseRules?.birthVow ?? {}) }, actionDeclaration: { ...empty.houseRules.actionDeclaration, ...(source.houseRules?.actionDeclaration ?? {}) }, rest: { ...empty.houseRules.rest, ...(source.houseRules?.rest ?? {}) }, downtime: { ...empty.houseRules.downtime, ...(source.houseRules?.downtime ?? {}), freeBuildOptions: Array.isArray(source.houseRules?.downtime?.freeBuildOptions) ? source.houseRules.downtime.freeBuildOptions : [] } },
     origin: { ...empty.origin, ...(source.origin ?? {}) },
     technique: { ...empty.technique, ...(source.technique ?? {}) },
     attributes: { base: { ...empty.attributes.base, ...(source.attributes?.base ?? {}) }, permanentBonuses: { ...empty.attributes.permanentBonuses, ...(source.attributes?.permanentBonuses ?? {}) } },

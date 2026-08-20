@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { trpc } from "@/lib/trpc";
 import { getLiveSocketAuth } from "@/lib/liveAuth";
+import { HouseRulesPanel } from "@/components/HouseRulesPanel";
 import { FM_RULE_CITATIONS } from "@shared/fmCitations";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { BookOpen, ChevronLeft, CirclePlus, Copy, Dice5, Download, Flame, Library, Loader2, LogOut, Menu, MoonStar, Plus, Printer, ScrollText, Share2, Shield, Swords, Trash2, WandSparkles } from "lucide-react";
@@ -14,8 +15,9 @@ import { FM_ATTRIBUTE_LABELS, FM_SAVING_THROW_LABELS, FM_SPECIALIZATION_LABELS, 
 import { createEmptyFMSheet, fmAttributeKeys, fmSavingThrowKeys, type FMAttack, type FMCharacterSheet, type FMSpell, type FMSpellLevel, type FMSpecializationKey, type FMTechnique } from "@shared/fmTypes";
 import { getExperienceForLevel, getInfiniteWorldProgress, getMissionExperienceReward, getMissionMoneyReward, type InfiniteWorldMissionDifficulty, type InfiniteWorldMoneyDifficulty } from "@shared/infiniteWorlds";
 import { FM_TECHNIQUE_CREATION_CITATION, getPrimaryTechniqueAttribute, getTechniqueCopy, getTechniqueKindForSpecialization, isTechniqueReady, validateTechnique } from "@shared/fmTechniques";
+import { FM_HOUSE_RULES_CITATION, getHouseRestAvailability, getMassiveDamageOutcome, rollHouseAttributeGeneration } from "@shared/fmHouseRules";
 
-type TabId = "overview" | "attributes" | "skills" | "spells" | "combat" | "equipment" | "diary";
+type TabId = "overview" | "attributes" | "skills" | "spells" | "combat" | "equipment" | "house" | "diary";
 
 const tabs: Array<{ id: TabId; label: string; icon: typeof BookOpen }> = [
   { id: "overview", label: "Visão geral", icon: BookOpen },
@@ -24,13 +26,14 @@ const tabs: Array<{ id: TabId; label: string; icon: typeof BookOpen }> = [
   { id: "spells", label: "Magias/Maldições", icon: WandSparkles },
   { id: "combat", label: "Combate", icon: Swords },
   { id: "equipment", label: "Equipamento", icon: Shield },
+  { id: "house", label: "Regras da Casa", icon: ScrollText },
   { id: "diary", label: "Diário", icon: BookOpen },
 ];
 
 const id = () => crypto.randomUUID();
 const asNumber = (value: string) => Number.isFinite(Number(value)) ? Number(value) : 0;
 
-function hydrateSheet(raw: Record<string, unknown> | null | undefined): FMCharacterSheet {
+export function hydrateSheet(raw: Record<string, unknown> | null | undefined): FMCharacterSheet {
   const empty = createEmptyFMSheet();
   const source = raw as Partial<FMCharacterSheet> | undefined;
   if (!source) return empty;
@@ -40,6 +43,14 @@ function hydrateSheet(raw: Record<string, unknown> | null | undefined): FMCharac
     identity: { ...empty.identity, ...(source.identity ?? {}) },
     personal: { ...empty.personal, ...(source.personal ?? {}) },
     progression: { ...empty.progression, ...(source.progression ?? {}), experience: typeof source.progression?.experience === "number" ? source.progression.experience : getExperienceForLevel(typeof source.progression?.level === "number" ? source.progression.level : 1) },
+    houseRules: {
+      ...empty.houseRules,
+      ...(source.houseRules ?? {}),
+      birthVow: { ...empty.houseRules.birthVow, ...(source.houseRules?.birthVow ?? {}) },
+      actionDeclaration: { ...empty.houseRules.actionDeclaration, ...(source.houseRules?.actionDeclaration ?? {}) },
+      rest: { ...empty.houseRules.rest, ...(source.houseRules?.rest ?? {}) },
+      downtime: { ...empty.houseRules.downtime, ...(source.houseRules?.downtime ?? {}), freeBuildOptions: Array.isArray(source.houseRules?.downtime?.freeBuildOptions) ? source.houseRules.downtime.freeBuildOptions : [] },
+    },
     origin: { ...empty.origin, ...(source.origin ?? {}) },
     technique: { ...empty.technique, ...(source.technique ?? {}) },
     attributes: {
@@ -108,7 +119,7 @@ export default function Home() {
   const [sheet, setSheet] = useState<FMCharacterSheet | null>(null);
   const [tab, setTab] = useState<TabId>(() => {
     const requested = new URLSearchParams(window.location.search).get("tab") as TabId | null;
-    return ["overview", "attributes", "skills", "spells", "combat", "equipment", "diary"].includes(requested ?? "") ? requested! : "overview";
+    return ["overview", "attributes", "skills", "spells", "combat", "equipment", "house", "diary"].includes(requested ?? "") ? requested! : "overview";
   });
   const [creating, setCreating] = useState(false);
   const [newCharacterName, setNewCharacterName] = useState("");
@@ -429,6 +440,7 @@ function renderTab({ tab, sheet, derived, updateSheet, addDiary, newNote, setNew
   if (tab === "spells") return <SpellsTab sheet={sheet} derived={derived} updateSheet={updateSheet} addDiary={addDiary} />;
   if (tab === "combat") return <CombatTab sheet={sheet} derived={derived} updateSheet={updateSheet} addDiary={addDiary} />;
   if (tab === "equipment") return <EquipmentTab sheet={sheet} updateSheet={updateSheet} />;
+  if (tab === "house") return <HouseRulesPanel sheet={sheet} derived={derived} updateSheet={updateSheet} addDiary={addDiary} />;
   return <DiaryTab sheet={sheet} derived={derived} updateSheet={updateSheet} newNote={newNote} setNewNote={setNewNote} addDiary={addDiary} />;
 }
 
@@ -462,15 +474,15 @@ function GuildProgressPanel({ sheet, updateSheet, addDiary }: { sheet: FMCharact
   });
   const applyMissionReward = () => {
     const xp = getMissionExperienceReward(progress.grade.id, xpDifficulty);
-    const money = getMissionMoneyReward(progress.grade.id, moneyDifficulty);
+    const money = getMissionMoneyReward(progress.grade.id, moneyDifficulty, sheet.houseRules.dedicationRewarding);
     updateSheet(current => {
       const next = getInfiniteWorldProgress((current.progression.experience ?? 0) + xp);
       return { ...current, progression: { ...current.progression, experience: next.experience, level: next.level, specializationLevels: next.level }, identity: { ...current.identity, grade: next.grade.label }, guild: { ...(current.guild ?? { currency: 0 }), currency: (current.guild?.currency ?? 0) + money } };
     });
-    addDiary(`Missão concluída — ${progress.grade.label}`, `+${xp} XP (${xpDifficulty}) e ${formatCurrency(money)} (${moneyDifficulty}).`, "note");
+    addDiary(`Missão concluída — ${progress.grade.label}`, `+${xp} XP (${xpDifficulty}) e ${formatCurrency(money)} (${moneyDifficulty}${sheet.houseRules.dedicationRewarding ? "; Dedicação Recompensadora" : ""}).`, "note");
     toast.success(`Recompensa registrada: +${xp} XP e ${formatCurrency(money)}.`);
   };
-  return <Panel className="mt-4 border-amber-300/20 bg-amber-300/[.035]"><div className="flex flex-col gap-3 border-b border-amber-300/10 pb-4 sm:flex-row sm:items-end sm:justify-between"><div><p className="font-display text-xs uppercase tracking-[.2em] text-amber-300/70">Guilda Infinite Worlds</p><h3 className="mt-1 font-display text-2xl text-stone-100">Progressão de Grau e Nível</h3><p className="mt-2 max-w-2xl text-sm leading-6 text-stone-400">XP define o nível e o grau automaticamente conforme a tabela da guilda. Recompensas de missão são aplicadas e registradas no Diário.</p></div><span className="w-fit rounded-full border border-amber-300/25 bg-amber-300/10 px-3 py-1 text-sm font-medium text-amber-100">{progress.grade.label}</span></div><div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-5"><FormulaCard label="XP atual" value={progress.experience} formula="Acumulado na guilda" source="Tabela Infinite Worlds" /><FormulaCard label="Nível" value={progress.level} formula={`Faixa ${progress.grade.minLevel}–${progress.grade.maxLevel}`} source="Tabela Infinite Worlds" /><FormulaCard label="Próximo nível" value={progress.nextLevelExperience ?? "Máximo"} formula={progress.experienceToNextLevel === null ? "Nível 30 consolidado" : `Faltam ${progress.experienceToNextLevel} XP`} source="Tabela Infinite Worlds" /><FormulaCard label="Moeda" value={formatCurrency(sheet.guild?.currency ?? 0)} formula="Recompensas de missão acumuladas" source="Tabela Infinite Worlds" /><FormulaCard label="Faixa de XP" value={`${progress.grade.minExperience}–${progress.grade.maxExperience}`} formula="Faixa oficial do grau" source="Tabela Infinite Worlds" /></div><div className="mt-4 grid gap-4 xl:grid-cols-[.9fr_1.1fr]"><Panel className="border-violet-300/10 bg-black/20"><Field label="XP acumulado" hint="Alterar XP atualiza nível e grau automaticamente."><Input type="number" min={0} max={6499} value={progress.experience} onChange={event => applyExperience(event.target.value)} /></Field></Panel><Panel className="border-violet-300/10 bg-black/20"><div className="grid gap-3 md:grid-cols-3"><Field label="Missão: XP"><select className="h-10 rounded-md border border-input bg-background px-3 text-sm text-foreground" value={xpDifficulty} onChange={event => setXpDifficulty(event.target.value as InfiniteWorldMissionDifficulty)}><option value="easy">Fácil</option><option value="medium">Médio</option><option value="hard">Difícil</option><option value="hard-plus">Difícil+</option></select></Field><Field label="Missão: moeda"><select className="h-10 rounded-md border border-input bg-background px-3 text-sm text-foreground" value={moneyDifficulty} onChange={event => setMoneyDifficulty(event.target.value as InfiniteWorldMoneyDifficulty)}><option value="easy">Fácil</option><option value="normal">Normal</option><option value="hard">Difícil</option></select></Field><div className="flex items-end"><Button type="button" onClick={applyMissionReward} className="w-full bg-amber-300 text-[#190d07] hover:bg-amber-200">Aplicar recompensa</Button></div></div><p className="mt-3 text-xs leading-5 text-stone-500">Recompensa atual: +{getMissionExperienceReward(progress.grade.id, xpDifficulty)} XP e {formatCurrency(getMissionMoneyReward(progress.grade.id, moneyDifficulty))}.</p></Panel></div></Panel>;
+  return <Panel className="mt-4 border-amber-300/20 bg-amber-300/[.035]"><div className="flex flex-col gap-3 border-b border-amber-300/10 pb-4 sm:flex-row sm:items-end sm:justify-between"><div><p className="font-display text-xs uppercase tracking-[.2em] text-amber-300/70">Guilda Infinite Worlds</p><h3 className="mt-1 font-display text-2xl text-stone-100">Progressão de Grau e Nível</h3><p className="mt-2 max-w-2xl text-sm leading-6 text-stone-400">XP define o nível e o grau automaticamente conforme a tabela da guilda. Recompensas de missão são aplicadas e registradas no Diário.</p></div><span className="w-fit rounded-full border border-amber-300/25 bg-amber-300/10 px-3 py-1 text-sm font-medium text-amber-100">{progress.grade.label}</span></div><div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-5"><FormulaCard label="XP atual" value={progress.experience} formula="Acumulado na guilda" source="Tabela Infinite Worlds" /><FormulaCard label="Nível" value={progress.level} formula={`Faixa ${progress.grade.minLevel}–${progress.grade.maxLevel}`} source="Tabela Infinite Worlds" /><FormulaCard label="Próximo nível" value={progress.nextLevelExperience ?? "Máximo"} formula={progress.experienceToNextLevel === null ? "Nível 30 consolidado" : `Faltam ${progress.experienceToNextLevel} XP`} source="Tabela Infinite Worlds" /><FormulaCard label="Moeda" value={formatCurrency(sheet.guild?.currency ?? 0)} formula="Recompensas de missão acumuladas" source="Tabela Infinite Worlds" /><FormulaCard label="Faixa de XP" value={`${progress.grade.minExperience}–${progress.grade.maxExperience}`} formula="Faixa oficial do grau" source="Tabela Infinite Worlds" /></div><div className="mt-4 grid gap-4 xl:grid-cols-[.9fr_1.1fr]"><Panel className="border-violet-300/10 bg-black/20"><Field label="XP acumulado" hint="Alterar XP atualiza nível e grau automaticamente."><Input type="number" min={0} max={6499} value={progress.experience} onChange={event => applyExperience(event.target.value)} /></Field></Panel><Panel className="border-violet-300/10 bg-black/20"><div className="grid gap-3 md:grid-cols-3"><Field label="Missão: XP"><select className="h-10 rounded-md border border-input bg-background px-3 text-sm text-foreground" value={xpDifficulty} onChange={event => setXpDifficulty(event.target.value as InfiniteWorldMissionDifficulty)}><option value="easy">Fácil</option><option value="medium">Médio</option><option value="hard">Difícil</option><option value="hard-plus">Difícil+</option></select></Field><Field label="Missão: moeda"><select className="h-10 rounded-md border border-input bg-background px-3 text-sm text-foreground" value={moneyDifficulty} onChange={event => setMoneyDifficulty(event.target.value as InfiniteWorldMoneyDifficulty)}><option value="easy">Fácil</option><option value="normal">Normal</option><option value="hard">Difícil</option></select></Field><div className="flex items-end"><Button type="button" onClick={applyMissionReward} className="w-full bg-amber-300 text-[#190d07] hover:bg-amber-200">Aplicar recompensa</Button></div></div><p className="mt-3 text-xs leading-5 text-stone-500">Recompensa atual: +{getMissionExperienceReward(progress.grade.id, xpDifficulty)} XP e {formatCurrency(getMissionMoneyReward(progress.grade.id, moneyDifficulty, sheet.houseRules.dedicationRewarding))}{sheet.houseRules.dedicationRewarding ? " · moeda do grau superior" : ""}.</p></Panel></div></Panel>;
 }
 
 function ResourceCard({ label, shortLabel, value, maximum, onChange, onAdjust }: { label: string; shortLabel: string; value: number; maximum: number; onChange: (value: string) => void; onAdjust: (delta: number) => void }) {
@@ -496,7 +508,7 @@ function SkillsTab({ sheet, derived, updateSheet }: { sheet: FMCharacterSheet; d
 }
 
 function SpellsTab({ sheet, derived, updateSheet, addDiary }: { sheet: FMCharacterSheet; derived: ReturnType<typeof getDerivedValues>; updateSheet: (updater: (current: FMCharacterSheet) => FMCharacterSheet) => void; addDiary: (title: string, detail: string, category?: FMCharacterSheet["diary"][number]["category"]) => void }) {
-  const addSpell = () => updateSheet(current => ({ ...current, spells: [...current.spells, { id: id(), name: "Novo feitiço", type: "damage", level: 1, casting: "common", reach: "12 metros", targetOrArea: "Uma criatura", durationType: "immediate", durationDetail: "", effect: "", requirement: "", damage: "", damageType: "", resolution: "attack", savingThrow: "", costAdjustment: 0, combatModifierTarget: "none", combatModifier: 0, notes: "", active: false }] }));
+  const addSpell = () => updateSheet(current => ({ ...current, spells: [...current.spells, { id: id(), name: "Novo feitiço", type: "damage", level: 1, casting: "common", reach: "12 metros", targetOrArea: "Uma criatura", durationType: "immediate", durationDetail: "", effect: "", counterplay: "", requirement: "", damage: "", damageType: "", resolution: "attack", savingThrow: "", costAdjustment: 0, combatModifierTarget: "none", combatModifier: 0, notes: "", active: false }] }));
   const highestLevel = getHighestSpellLevel(sheet.progression.level);
   const castSpell = (spell: FMSpell) => {
     if (spell.level > highestLevel) {
@@ -532,7 +544,7 @@ function SpellsTab({ sheet, derived, updateSheet, addDiary }: { sheet: FMCharact
   };
   return <><SectionTitle eyebrow="Perfil amaldiçoado" title="Magias/Maldições" description="Em F&M, o termo oficial interno é Feitiço. Custos, requisitos e efeitos especiais ficam explícitos para validação do Narrador. Livro-base, pp. 198–203." action={<Button size="sm" onClick={addSpell} className="bg-amber-300 text-[#190d07] hover:bg-amber-200"><Plus className="mr-2 h-4 w-4" />Adicionar feitiço</Button>} />
     <Panel className="mb-4 border-amber-300/15 bg-amber-300/[.035]"><p className="text-sm text-amber-100">Nível máximo disponível: <strong>{highestLevel}</strong>. Custo padrão: nível 0 = 0 PE; níveis 1–5 = 2, 5, 8, 12 e 20 PE. Um feitiço acima do acesso atual permanece identificado para revisão.</p></Panel>
-    <div className="space-y-4">{sheet.spells.length === 0 ? <Panel className="border-dashed text-center text-sm text-stone-500">A técnica não possui feitiços registrados. Personagens com técnica normalmente começam com dois.</Panel> : sheet.spells.map(spell => <div key={spell.id} className="space-y-2"><SpellEditor spell={spell} highestLevel={highestLevel} onCast={() => castSpell(spell)} onSustain={() => sustainSpell(spell)} update={updater => updateSheet(current => ({ ...current, spells: current.spells.map(item => item.id === spell.id ? updater(item) : item) }))} remove={() => updateSheet(current => ({ ...current, spells: current.spells.filter(item => item.id !== spell.id) }))} /><SpellCombatModifier spell={spell} update={updater => updateSheet(current => ({ ...current, spells: current.spells.map(item => item.id === spell.id ? updater(item) : item) }))} /></div>)}</div>
+    <div className="space-y-4">{sheet.spells.length === 0 ? <Panel className="border-dashed text-center text-sm text-stone-500">A técnica não possui feitiços registrados. Personagens com técnica normalmente começam com dois.</Panel> : sheet.spells.map(spell => <div key={spell.id} className="space-y-2"><SpellEditor spell={spell} highestLevel={highestLevel} onCast={() => castSpell(spell)} onSustain={() => sustainSpell(spell)} update={updater => updateSheet(current => ({ ...current, spells: current.spells.map(item => item.id === spell.id ? updater(item) : item) }))} remove={() => updateSheet(current => ({ ...current, spells: current.spells.filter(item => item.id !== spell.id) }))} /><SpellCombatModifier spell={spell} update={updater => updateSheet(current => ({ ...current, spells: current.spells.map(item => item.id === spell.id ? updater(item) : item) }))} /><CounterplayEditor spell={spell} update={updater => updateSheet(current => ({ ...current, spells: current.spells.map(item => item.id === spell.id ? updater(item) : item) }))} /></div>)}</div>
     <div className="mt-4 grid gap-4 md:grid-cols-3"><FormulaCard label="CD da técnica" value={derived.techniqueDc} formula="Usada por feitiços com teste de resistência" source="Livro-base, pp. 198–203" /><FormulaCard label="Atributo da técnica" value={FM_ATTRIBUTE_LABELS[sheet.progression.techniqueAttribute]} formula="Definido no funcionamento básico" source="Livro-base, p. 198" /><FormulaCard label="Energia atual" value={`${sheet.resources.energy.current}/${derived.energyMaximum}`} formula="O uso de feitiço consome PE conforme o custo" source="Livro-base, pp. 200–203" /></div></>;
 }
 
@@ -544,6 +556,10 @@ function SpellEditor({ spell, highestLevel, onCast, onSustain, update, remove }:
 
 function SpellCombatModifier({ spell, update }: { spell: FMSpell; update: (updater: (current: FMSpell) => FMSpell) => void }) {
   return <div className="grid gap-3 rounded-xl border border-violet-300/10 bg-violet-500/[.04] p-3 md:grid-cols-[1fr_160px_auto]"><Field label="Efeito mecânico na cena"><select className="h-10 rounded-md border border-input bg-background px-3 text-sm text-foreground" value={spell.combatModifierTarget ?? "none"} onChange={event => update(current => ({ ...current, combatModifierTarget: event.target.value as FMSpell["combatModifierTarget"] }))}><option value="none">Sem modificador numérico</option><option value="attack">Bônus de ataque</option><option value="defense">Bônus de defesa</option><option value="initiative">Bônus de iniciativa</option></select></Field><Field label="Valor"><Input type="number" value={spell.combatModifier ?? 0} onChange={event => update(current => ({ ...current, combatModifier: asNumber(event.target.value) }))} /></Field><p className="self-end pb-2 text-xs leading-5 text-stone-500">Aplicado somente enquanto o feitiço estiver ativo; descreva o efeito oficial acima.</p></div>;
+}
+
+function CounterplayEditor({ spell, update }: { spell: FMSpell; update: (updater: (current: FMSpell) => FMSpell) => void }) {
+  return <div className={`rounded-xl border p-3 ${spell.counterplay?.trim() ? "border-emerald-300/20 bg-emerald-500/[.035]" : "border-amber-300/25 bg-amber-300/[.035]"}`}><Field label="Contrajogo, reação ou resistência" hint="Regra da Casa I: nenhum efeito pode eliminar completamente a possibilidade de resposta do alvo."><Textarea value={spell.counterplay ?? ""} onChange={event => update(current => ({ ...current, counterplay: event.target.value }))} placeholder="Ex.: teste de Reflexos, barreira, reação, distância mínima ou condição para interromper o efeito." /></Field></div>;
 }
 
 function CombatTab({ sheet, derived, updateSheet, addDiary }: { sheet: FMCharacterSheet; derived: ReturnType<typeof getDerivedValues>; updateSheet: (updater: (current: FMCharacterSheet) => FMCharacterSheet) => void; addDiary: (title: string, detail: string, category?: FMCharacterSheet["diary"][number]["category"]) => void }) {

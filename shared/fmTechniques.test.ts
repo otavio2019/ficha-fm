@@ -12,6 +12,7 @@ describe("criação de técnicas F&M", () => {
     const sheet = createEmptyFMSheet();
     sheet.technique.name = "Fios da Aurora";
     sheet.technique.basicFunction = "Manipula fios de energia para conectar e mover objetos.";
+    sheet.technique.limitations = "Exige linha de visão e pode ser interrompida por barreiras físicas.";
     sheet.technique.attributeKeys = ["dexterity", "intelligence"];
     expect(validateTechnique(sheet.technique, "fighter")).toEqual([]);
     expect(getPrimaryTechniqueAttribute(sheet.technique, "strength")).toBe("dexterity");
