@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createEmptyFMSheet } from "./fmTypes";
-import { getAttackBonus, getAttributeModifier, getDerivedValues, getOfficialTrainingBonus, getResourceLabel, getSavingThrowBonus, getSkillBonus, getSpellCost, getSustainCost, rollD20 } from "./fmRules";
+import { getAttackBonus, getAttributeModifier, getDerivedValues, getOfficialTrainingBonus, getResourceLabel, getSavingThrowBonus, getSkillBonus, getSpellCost, getSustainCost, getTechniquePowerProgression, rollD20 } from "./fmRules";
 
 describe("regras de F&M", () => {
   it("calcula modificadores de atributo conforme a tabela oficial", () => {
@@ -88,6 +88,11 @@ describe("regras de F&M", () => {
     expect(getSpellCost(1, -8)).toBe(1);
     expect(getSustainCost(2)).toBe(1);
     expect(getSustainCost(3)).toBe(2);
+  });
+
+  it("libera poderes por nível para Especialista em Técnica e por níveis pares para Lutador", () => {
+    expect(getTechniquePowerProgression("technique-specialist", 4)).toMatchObject({ unlockLevels: [1, 2, 3, 4], availableSlots: 4, nextUnlockLevel: 5, cadenceLabel: "1 novo poder por nível" });
+    expect(getTechniquePowerProgression("fighter", 5)).toMatchObject({ unlockLevels: [2, 4], availableSlots: 2, nextUnlockLevel: 6, cadenceLabel: "1 novo poder em níveis pares" });
   });
 
   it("resolve vantagem e desvantagem com os resultados corretos", () => {

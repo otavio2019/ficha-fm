@@ -115,3 +115,9 @@
 - [x] Cobrir regras, persistência e responsividade da nova organização de Campanha e recompensas de Interlúdio.
 - [x] Testar persistência após missão para XP, grau, exaustão, missões e Interlúdios.
 - [x] Validar visualmente Progressão e Grau em desktop e celular na nova categoria Campanha.
+- [x] Modelar desbloqueios de técnicas e poderes por nível para cada especialização, com compatibilidade para fichas existentes.
+- [x] Permitir selecionar e organizar poderes liberados pela técnica escolhida, bloqueando níveis ainda indisponíveis.
+- [x] Aplicar a cadência solicitada: Técnica Especialista recebe novo poder a cada nível e Lutador em níveis pares.
+- [x] Reorganizar o alinhamento de Técnicas e Poderes e aprimorar a impressão em PDF no formato de ficha homebrew estruturada.
+- [x] Cobrir regras, persistência, impressão e responsividade da progressão de poderes por nível.
+- [x] Adicionar teste automatizado da composição impressa de Poderes e Feitiços, verificando o bloco de progressão e a ocultação de controles.

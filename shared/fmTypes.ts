@@ -54,6 +54,17 @@ export type FMTechnique = {
   limitations: string;
   requiredItems: string;
   reviewNotes: string;
+  powers: FMTechniquePower[];
+};
+
+export type FMTechniquePower = {
+  id: string;
+  name: string;
+  requiredCharacterLevel: number;
+  spellLevel: FMSpellLevel;
+  type: FMSpellType;
+  summary: string;
+  requirement: string;
 };
 
 export type FMBirthVowType = "none" | "congenital-restriction" | "celestial-restriction";
@@ -96,6 +107,7 @@ export type FMSpell = {
   combatModifier: number;
   notes: string;
   active: boolean;
+  sourcePowerId?: string;
 };
 
 export type FMInvocationAction = {
@@ -304,6 +316,7 @@ export const createEmptyFMSheet = (): FMCharacterSheet => ({
     limitations: "",
     requiredItems: "",
     reviewNotes: "",
+    powers: [],
   },
   techniqueLibraryId: null,
   attributes: {

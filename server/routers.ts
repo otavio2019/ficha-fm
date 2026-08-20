@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { nanoid } from "nanoid";
 import { z } from "zod";
 import { COOKIE_NAME } from "../shared/const";
-import { getHighestSpellLevel } from "../shared/fmRules";
+import { getHighestSpellLevel, getTechniquePowerProgression } from "../shared/fmRules";
 import { FM_DECLARED_MODIFIER_RULES, isDeclaredModifierInRange, type FMDeclaredModifierRule } from "../shared/fmModifiers";
 import { getInfiniteWorldLevel } from "../shared/infiniteWorlds";
 import { validateTechnique } from "../shared/fmTechniques";
@@ -88,6 +88,13 @@ const characterInput = z.object({
   const spells = input.sheet.spells;
   if (Array.isArray(spells)) {
     const highestSpellLevel = getHighestSpellLevel(level);
+    const techniquePowers = Array.isArray(technique?.powers) ? technique.powers as Array<Record<string, unknown>> : [];
+    const powersById = new Map(techniquePowers.filter(power => typeof power.id === "string").map(power => [power.id as string, power]));
+    const specializationLevel = typeof progression?.specializationLevels === "number" ? progression.specializationLevels : level;
+    const powerProgression = getTechniquePowerProgression(specialization as Parameters<typeof getTechniquePowerProgression>[0], specializationLevel);
+    const selectedPowerIds = spells.map(spell => (spell as Record<string, unknown>).sourcePowerId).filter((powerId): powerId is string => typeof powerId === "string");
+    if (new Set(selectedPowerIds).size !== selectedPowerIds.length) context.addIssue({ code: "custom", path: ["sheet", "spells"], message: "Um poder da técnica só pode ser selecionado uma vez." });
+    if (selectedPowerIds.length > powerProgression.availableSlots) context.addIssue({ code: "custom", path: ["sheet", "spells"], message: `A especialização possui apenas ${powerProgression.availableSlots} vaga(s) de poder liberada(s) neste nível.` });
     spells.forEach((spell, index) => {
       const value = spell as Record<string, unknown>;
       const spellLevel = value.level;
@@ -101,6 +108,16 @@ const characterInput = z.object({
       validateDeclaredModifier(value.combatModifier, ["sheet", "spells", index, "combatModifier"], "spellCombat", context);
       if ((value.costAdjustment !== 0 || value.combatModifier !== 0) && (![value.effect, value.notes].some(entry => typeof entry === "string" && entry.trim()))) {
         context.addIssue({ code: "custom", path: ["sheet", "spells", index, "effect"], message: "Todo modificador de feitiço precisa registrar seu efeito ou observação de origem." });
+      }
+      if (typeof value.sourcePowerId === "string") {
+        const sourcePower = powersById.get(value.sourcePowerId);
+        if (!sourcePower) context.addIssue({ code: "custom", path: ["sheet", "spells", index, "sourcePowerId"], message: "O poder selecionado não pertence à técnica atual." });
+        else {
+          const requiredLevel = sourcePower.requiredCharacterLevel;
+          const sourceSpellLevel = sourcePower.spellLevel;
+          if (typeof requiredLevel !== "number" || requiredLevel > specializationLevel) context.addIssue({ code: "custom", path: ["sheet", "spells", index, "sourcePowerId"], message: "Este poder ainda não foi liberado pelo nível de especialização." });
+          if (typeof sourceSpellLevel !== "number" || sourceSpellLevel > highestSpellLevel) context.addIssue({ code: "custom", path: ["sheet", "spells", index, "sourcePowerId"], message: "O nível de poder selecionado ainda não está liberado." });
+        }
       }
     });
   }

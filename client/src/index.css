@@ -11,9 +11,19 @@
   .font-display { font-family: var(--font-display); }
   input, textarea, select { color-scheme: dark; }
   @media print {
+    @page { size: A4 portrait; margin: 12mm; }
     .no-print { display: none !important; }
     body { background: white !important; color: #181018 !important; }
     main, section { background: white !important; color: #181018 !important; box-shadow: none !important; }
+    main * { color: #181018 !important; }
+    .print-sheet-header { position: static !important; background: white !important; border-color: #9a7b30 !important; }
+    .print-sheet-header * { color: #181018 !important; }
+    aside { display: none !important; }
+    input, textarea, select { border-color: #b8aeb9 !important; background: transparent !important; color: #181018 !important; box-shadow: none !important; }
+    .print-power-sheet { break-before: auto; border: 1px solid #9a7b30 !important; background: white !important; color: #181018 !important; }
+    .print-power-sheet * { color: #181018 !important; }
+    .print-power-sheet > div:last-child { display: block !important; }
+    .print-power-card { break-inside: avoid; margin: 0 0 8px !important; border: 1px solid #c4b9c4 !important; background: white !important; }
   }
 }
 @import "tw-animate-css";

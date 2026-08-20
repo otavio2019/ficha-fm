@@ -70,6 +70,13 @@ export function validateTechnique(technique: Partial<FMTechnique> | undefined, s
     }
   });
 
+  const powers = technique.powers;
+  if (powers !== undefined) {
+    if (!Array.isArray(powers)) issues.push({ field: "reviewNotes", message: "O catálogo de poderes da técnica é inválido." });
+    else if (powers.some(power => !power.id || !power.name.trim() || !Number.isInteger(power.requiredCharacterLevel) || power.requiredCharacterLevel < 1 || power.requiredCharacterLevel > 20 || !Number.isInteger(power.spellLevel) || power.spellLevel < 0 || power.spellLevel > 5 || typeof power.summary !== "string" || power.summary.length > FM_TECHNIQUE_LIMITS.longText || typeof power.requirement !== "string" || power.requirement.length > FM_TECHNIQUE_LIMITS.longText)) issues.push({ field: "reviewNotes", message: "Cada poder precisa de nome, nível de personagem, nível de poder e descrição válidos." });
+    else if (new Set(powers.map(power => power.id)).size !== powers.length) issues.push({ field: "reviewNotes", message: "Não repita identificadores no catálogo de poderes." });
+  }
+
   return issues;
 }
 

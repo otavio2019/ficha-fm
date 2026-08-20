@@ -54,6 +54,18 @@ export const FM_SPECIALIZATION_PROFILES: Record<FMSpecializationKey, Specializat
 
 export const FM_SPELL_COSTS: Record<FMSpellLevel, number> = { 0: 0, 1: 2, 2: 5, 3: 8, 4: 12, 5: 20 };
 
+export type FMPowerProgression = { unlockLevels: number[]; availableSlots: number; nextUnlockLevel: number | null; cadenceLabel: string };
+
+export function getTechniquePowerProgression(specialization: FMSpecializationKey, level: number): FMPowerProgression {
+  const safeLevel = Math.max(0, Math.min(20, Math.floor(level)));
+  const unlockLevels = specialization === "technique-specialist"
+    ? Array.from({ length: safeLevel }, (_, index) => index + 1)
+    : Array.from({ length: Math.floor(safeLevel / 2) }, (_, index) => (index + 1) * 2);
+  const cadenceLabel = specialization === "technique-specialist" ? "1 novo poder por nível" : specialization === "fighter" ? "1 novo poder em níveis pares" : "1 novo poder a cada 2 níveis";
+  const nextUnlockLevel = specialization === "technique-specialist" ? (safeLevel < 20 ? safeLevel + 1 : null) : (safeLevel < 20 ? (safeLevel % 2 === 0 ? safeLevel + 2 : safeLevel + 1) : null);
+  return { unlockLevels, availableSlots: unlockLevels.length, nextUnlockLevel, cadenceLabel };
+}
+
 export function clamp(value: number, minimum: number, maximum: number) {
   return Math.min(maximum, Math.max(minimum, value));
 }

@@ -151,6 +151,35 @@ describe("biblioteca de fichas", () => {
     await expect(caller.characters.save({ id: "ficha-invocacao-invalida", name: "Yuji", sheet: { invocations: [{ name: "Shikigami", grade: "fourth", actions: [{ name: "Investida" }] }] } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
   });
 
+  it("bloqueia selecionar poder de técnica antes do nível liberado", async () => {
+    const sheet = createEmptyFMSheet();
+    sheet.progression.experience = 20;
+    sheet.progression.level = 2;
+    sheet.progression.specialization = "fighter";
+    sheet.progression.specializationLevels = 2;
+    sheet.technique.powers = [{ id: "poder-4", name: "Impacto Supremo", requiredCharacterLevel: 4, spellLevel: 1, type: "damage", summary: "Impacto concentrado.", requirement: "" }];
+    sheet.spells = [{ id: "spell-1", sourcePowerId: "poder-4", name: "Impacto Supremo", type: "damage", level: 1, casting: "common", reach: "12 metros", targetOrArea: "Uma criatura", durationType: "immediate", durationDetail: "", effect: "Impacto concentrado.", counterplay: "Defesa", requirement: "", damage: "", damageType: "", resolution: "attack", savingThrow: "", costAdjustment: 0, combatModifierTarget: "none", combatModifier: 0, notes: "", active: false }];
+    const caller = appRouter.createCaller(createContext(1));
+
+    await expect(caller.characters.save({ id: "ficha-poder-bloqueado", name: "Yuji", sheet })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+  });
+
+  it("persiste e recupera um poder liberado selecionado da técnica", async () => {
+    const sheet = createEmptyFMSheet();
+    sheet.progression.experience = 20;
+    sheet.progression.level = 2;
+    sheet.progression.specialization = "technique-specialist";
+    sheet.progression.specializationLevels = 2;
+    sheet.technique.powers = [{ id: "poder-1", name: "Laço", requiredCharacterLevel: 1, spellLevel: 1, type: "damage", summary: "Fios prendem o alvo.", requirement: "Linha de visão." }];
+    sheet.spells = [{ id: "spell-1", sourcePowerId: "poder-1", name: "Laço", type: "damage", level: 1, casting: "common", reach: "12 metros", targetOrArea: "Uma criatura", durationType: "immediate", durationDetail: "", effect: "Fios prendem o alvo.", counterplay: "Defesa", requirement: "Linha de visão.", damage: "", damageType: "", resolution: "attack", savingThrow: "", costAdjustment: 0, combatModifierTarget: "none", combatModifier: 0, notes: "", active: false }];
+    vi.mocked(getFMCharacter).mockResolvedValueOnce(undefined).mockResolvedValueOnce({ id: "ficha-poder-liberado", ownerId: 1, name: "Yuta", portraitUrl: null, sheet, createdAt: new Date(), updatedAt: new Date() });
+    vi.mocked(saveFMCharacter).mockResolvedValue({ id: "ficha-poder-liberado", ownerId: 1, name: "Yuta", portraitUrl: null, sheet, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+
+    await caller.characters.save({ id: "ficha-poder-liberado", name: "Yuta", sheet });
+    await expect(caller.characters.get({ id: "ficha-poder-liberado" })).resolves.toMatchObject({ sheet: { technique: { powers: [{ id: "poder-1" }] }, spells: [{ sourcePowerId: "poder-1", name: "Laço" }] } });
+  });
+
   it("aplica restrições estruturadas de origem", async () => {
     const caller = appRouter.createCaller(createContext(1));
     await expect(caller.characters.save({ id: "ficha-restringido-invalida", name: "Maki", sheet: { progression: { specialization: "fighter" }, origin: { catalogId: "restricted", attributeBonuses: {} } } })).rejects.toMatchObject({ code: "BAD_REQUEST" });

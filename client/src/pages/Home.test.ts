@@ -26,7 +26,8 @@ describe("hidratação de fichas legadas", () => {
       identity: { name: "Maki", player: "Jogadora", grade: "2º Grau" },
       attributes: { base: { strength: 14 }, permanentBonuses: { strength: 1 } },
       techniqueLibraryId: "tecnica-001",
-      technique: { name: "Matriz de Aço", basicFunction: "Cria armas amaldiçoadas.", attributeKeys: ["strength"], limitations: "Exige metal disponível." },
+      technique: { name: "Matriz de Aço", basicFunction: "Cria armas amaldiçoadas.", attributeKeys: ["strength"], limitations: "Exige metal disponível.", powers: [{ id: "poder-aco", name: "Lâmina Moldada", requiredCharacterLevel: 2, spellLevel: 1, type: "damage", summary: "Molda uma lâmina de aço.", requirement: "Exige metal disponível." }] },
+      spells: [{ id: "spell-aco", sourcePowerId: "poder-aco", name: "Lâmina Moldada", type: "damage", level: 1, casting: "common", reach: "Toque", targetOrArea: "Uma criatura", durationType: "immediate", durationDetail: "", effect: "Molda uma lâmina de aço.", counterplay: "Defesa", requirement: "Exige metal disponível.", damage: "", damageType: "", resolution: "attack", savingThrow: "", costAdjustment: 0, combatModifierTarget: "none", combatModifier: 0, notes: "", active: false }],
       equipment: [{ id: "item-1", name: "Lança", quantity: 1 }],
       images: [{ id: "img-1", key: "fichas/maki.png", url: "/manus-storage/fichas/maki.png", name: "maki.png", caption: "Retrato", createdAt: 100 }],
       diary: [{ id: "nota-1", at: 100, category: "note", title: "Entrada", detail: "Registro preservado." }],
@@ -36,6 +37,8 @@ describe("hidratação de fichas legadas", () => {
     expect(sheet.attributes.permanentBonuses.strength).toBe(1);
     expect(sheet.techniqueLibraryId).toBe("tecnica-001");
     expect(sheet.technique).toMatchObject({ name: "Matriz de Aço", attributeKeys: ["strength"] });
+    expect(sheet.technique.powers).toMatchObject([{ id: "poder-aco", requiredCharacterLevel: 2 }]);
+    expect(sheet.spells).toMatchObject([{ sourcePowerId: "poder-aco", name: "Lâmina Moldada" }]);
     expect(sheet.equipment).toHaveLength(1);
     expect(sheet.images).toMatchObject([{ name: "maki.png", caption: "Retrato" }]);
     expect(sheet.diary).toHaveLength(1);
