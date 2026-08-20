@@ -46,3 +46,12 @@
 - [x] Declarar e validar em um schema compartilhado os tipos de modificador aceitos por perícias, ataques, recursos e feitiços.
 - [x] Centralizar referências oficiais dos cálculos em metadados compartilhados e exibi-las nos pontos de cálculo da interface.
 - [x] Garantir que o modo de pré-visualização não persista nem abra canais privados, permitindo inspeções sem acesso a dados de usuário.
+- [x] Criar e sincronizar o repositório privado Infinite Worlds com a versão atual da aplicação.
+- [x] Rebatizar textos, título e identidade da ficha para Infinite Worlds, mantendo referências ao sistema F&M apenas onde forem regras.
+- [x] Modelar XP, nível, grau e limites oficiais da tabela da guilda com valores seguros para fichas legadas.
+- [x] Exibir a progressão de graus e níveis, XP atual, próximo nível e XP restante em uma área clara da ficha.
+- [x] Implementar recompensas de missão por grau, dificuldade e moeda, com registro no Diário quando aplicadas.
+- [x] Cobrir a progressão e as recompensas Infinite Worlds com testes de limites, transições de grau e valores de tabela.
+- [x] Validar visualmente os painéis Infinite Worlds em desktop e celular e registrar as evidências.
+- [ ] Salvar checkpoint e enviar a atualização ao repositório privado Infinite Worlds.
+- [x] Registrar checklist visual verificável do painel Infinite Worlds em 1280×720 e 375×812, cobrindo estrutura, contraste, overflow, sobreposição e controles.

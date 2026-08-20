@@ -12,6 +12,7 @@ import { io } from "socket.io-client";
 import { toast } from "sonner";
 import { FM_ATTRIBUTE_LABELS, FM_SAVING_THROW_LABELS, FM_SPECIALIZATION_LABELS, getAttackBonus, getDerivedValues, getHighestSpellLevel, getResourceLabel, getSkillBonus, getSpellCost, getSustainCost, rollD20 } from "@shared/fmRules";
 import { createEmptyFMSheet, fmAttributeKeys, fmSavingThrowKeys, type FMAttack, type FMCharacterSheet, type FMSpell, type FMSpellLevel, type FMSpecializationKey } from "@shared/fmTypes";
+import { getExperienceForLevel, getInfiniteWorldProgress, getMissionExperienceReward, getMissionMoneyReward, type InfiniteWorldMissionDifficulty, type InfiniteWorldMoneyDifficulty } from "@shared/infiniteWorlds";
 
 type TabId = "overview" | "attributes" | "skills" | "spells" | "combat" | "equipment" | "diary";
 
@@ -37,7 +38,7 @@ function hydrateSheet(raw: Record<string, unknown> | null | undefined): FMCharac
     ...source,
     identity: { ...empty.identity, ...(source.identity ?? {}) },
     personal: { ...empty.personal, ...(source.personal ?? {}) },
-    progression: { ...empty.progression, ...(source.progression ?? {}) },
+    progression: { ...empty.progression, ...(source.progression ?? {}), experience: typeof source.progression?.experience === "number" ? source.progression.experience : getExperienceForLevel(typeof source.progression?.level === "number" ? source.progression.level : 1) },
     origin: { ...empty.origin, ...(source.origin ?? {}) },
     technique: { ...empty.technique, ...(source.technique ?? {}) },
     attributes: {
@@ -122,7 +123,7 @@ export default function Home() {
 
   useEffect(() => {
     if (previewMode) {
-      setSheet(createNewSheet("Pré-visualização F&M"));
+      setSheet(createNewSheet("Pré-visualização Infinite Worlds"));
       return;
     }
     if (activeQuery.data && activeQuery.data.id === activeCharacterId) {
@@ -158,7 +159,7 @@ export default function Home() {
   }));
 
   const createCharacter = async () => {
-    const name = newCharacterName.trim() || "Novo feiticeiro";
+    const name = newCharacterName.trim() || "Novo integrante";
     const newSheet = createNewSheet(name);
     const characterId = id();
     try {
@@ -228,15 +229,15 @@ export default function Home() {
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = url;
-    anchor.download = `${sheet.identity.name.trim().replaceAll(/[^a-z0-9]+/gi, "-").toLocaleLowerCase() || "ficha-fm"}.json`;
+    anchor.download = `${sheet.identity.name.trim().replaceAll(/[^a-z0-9]+/gi, "-").toLocaleLowerCase() || "infinite-worlds"}.json`;
     anchor.click();
     URL.revokeObjectURL(url);
     addDiary("Ficha exportada", "Uma cópia editável em JSON foi baixada.", "note");
   };
 
-  if (loading) return <div className="grid min-h-screen place-items-center bg-[#09060f] text-violet-100"><Loader2 className="h-7 w-7 animate-spin text-amber-300" /></div>;
+  if (loading && !previewMode) return <div className="grid min-h-screen place-items-center bg-[#09060f] text-violet-100"><Loader2 className="h-7 w-7 animate-spin text-amber-300" /></div>;
 
-  if (!isAuthenticated) return <PublicWelcome onLogin={startLogin} />;
+  if (!isAuthenticated && !previewMode) return <PublicWelcome onLogin={startLogin} />;
 
   if (charactersQuery.isError || sharesQuery.isError) {
     return <LibraryLoadError onRetry={() => { void charactersQuery.refetch(); void sharesQuery.refetch(); }} onLogout={logout} />;
@@ -248,7 +249,7 @@ export default function Home() {
 
   if (!activeCharacterId || !sheet || !derived) {
     return <CharacterLibrary
-      userName={user?.name ?? "Feiticeiro"}
+      userName={user?.name ?? "Integrante"}
       characters={charactersQuery.data ?? []}
       sharedCount={sharesQuery.data?.length ?? 0}
       loading={charactersQuery.isLoading}
@@ -269,7 +270,7 @@ export default function Home() {
       <div className="mx-auto flex max-w-[1540px] items-center gap-3 px-4 py-3 sm:px-6">
         <button type="button" onClick={() => { setActiveCharacterId(null); setSheet(null); }} className="inline-flex h-10 items-center gap-2 rounded-xl border border-violet-300/15 px-3 text-sm text-stone-300 transition hover:border-amber-300/40 hover:text-amber-100 focus:outline-none focus:ring-2 focus:ring-amber-300/70"><ChevronLeft className="h-4 w-4" /> <span className="hidden sm:inline">Biblioteca</span></button>
         <div className="min-w-0 flex-1">
-          <p className="font-display text-[10px] uppercase tracking-[0.22em] text-amber-300/65">Feiticeiros & Maldições</p>
+          <p className="font-display text-[10px] uppercase tracking-[0.22em] text-amber-300/65">Infinite Worlds · Guilda F&M</p>
           <p className="truncate font-display text-lg text-stone-100">{sheet.identity.name || "Personagem sem nome"}</p>
         </div>
         <span className="hidden text-xs text-stone-500 lg:inline">{saveMutation.isPending ? "Salvando…" : "Salvamento automático"}</span>
@@ -286,7 +287,7 @@ export default function Home() {
           const active = tab === item.id;
           return <button key={item.id} type="button" onClick={() => setTab(item.id)} className={`flex min-h-11 items-center gap-3 rounded-xl px-3 text-left text-sm transition focus:outline-none focus:ring-2 focus:ring-amber-300/70 ${active ? "bg-gradient-to-r from-violet-700/50 to-violet-700/10 text-amber-100 shadow-[inset_3px_0_0_#f4c85f]" : "text-stone-400 hover:bg-violet-300/5 hover:text-stone-100"}`}><Icon className="h-4 w-4" />{item.label}</button>;
         })}</nav>
-        <div className="mt-5 border-t border-violet-300/10 pt-4 text-xs leading-5 text-stone-500"><p className="font-display uppercase tracking-[0.18em] text-amber-300/60">Regras em uso</p><p className="mt-2">F&M v2.5.2. Cálculos automáticos mostram somente a regra-base e os bônus explicitamente registrados.</p></div>
+        <div className="mt-5 border-t border-violet-300/10 pt-4 text-xs leading-5 text-stone-500"><p className="font-display uppercase tracking-[0.18em] text-amber-300/60">Guilda Infinite Worlds</p><p className="mt-2">F&M v2.5.2 com progressão de níveis, graus, XP e recompensas oficiais da guilda.</p></div>
       </aside>
       <section className="min-w-0">{renderTab({ tab, sheet, derived, updateSheet, addDiary, setNewNote, newNote })}</section>
     </div>
@@ -295,7 +296,7 @@ export default function Home() {
 
 function PublicWelcome({ onLogin }: { onLogin: () => void }) {
   return <main className="relative isolate min-h-screen overflow-hidden bg-[#09060f] px-5 text-stone-100"><div className="absolute inset-0 -z-10 opacity-60 [background:radial-gradient(circle_at_78%_14%,rgba(111,49,170,.30),transparent_26%),radial-gradient(circle_at_15%_92%,rgba(181,128,36,.17),transparent_25%)]" />
-    <div className="mx-auto flex min-h-screen max-w-6xl items-center py-14"><div className="grid w-full gap-10 lg:grid-cols-[1.1fr_.9fr] lg:items-center"><div><div className="mb-7 inline-flex items-center gap-2 rounded-full border border-amber-300/20 bg-amber-300/5 px-3 py-1.5 font-display text-xs uppercase tracking-[0.2em] text-amber-200"><MoonStar className="h-3.5 w-3.5" />Arquivo Jujutsu</div><h1 className="max-w-3xl font-display text-5xl leading-[.94] text-stone-100 sm:text-7xl">Sua técnica.<br /><span className="text-amber-300">Seu legado.</span></h1><p className="mt-7 max-w-xl text-base leading-7 text-stone-400 sm:text-lg">Uma ficha digital feita para Feiticeiros & Maldições: regras visíveis, recursos sob controle e registros de cada cena de combate.</p><div className="mt-8 flex flex-wrap gap-3"><Button onClick={onLogin} className="bg-amber-300 text-[#170d06] hover:bg-amber-200"><Flame className="mr-2 h-4 w-4" />Entrar para acessar as fichas</Button></div><p className="mt-4 text-xs text-stone-600">As fichas são vinculadas à conta; links compartilhados são somente leitura.</p></div><Panel className="relative overflow-hidden border-amber-300/15 bg-[#130a1e] p-6 sm:p-8"><div className="absolute -right-12 -top-12 h-44 w-44 rounded-full border border-amber-300/10" /><p className="font-display text-xs uppercase tracking-[0.24em] text-amber-300/70">Grimório de sessão</p><div className="mt-6 space-y-4">{[["Atributos e recursos", "PV, energia amaldiçoada, defesa, iniciativa e integridade."], ["Magias/Maldições", "Feitiços: nível, custo, duração, alcance e efeito documentados."], ["Combate e diário", "Rolagens d20, ataques e eventos preservados na ficha."]].map(([title, text]) => <div key={title} className="rounded-xl border border-violet-300/10 bg-black/20 p-4"><p className="font-medium text-stone-200">{title}</p><p className="mt-1 text-sm leading-6 text-stone-500">{text}</p></div>)}</div></Panel></div></div></main>;
+    <div className="mx-auto flex min-h-screen max-w-6xl items-center py-14"><div className="grid w-full gap-10 lg:grid-cols-[1.1fr_.9fr] lg:items-center"><div><div className="mb-7 inline-flex items-center gap-2 rounded-full border border-amber-300/20 bg-amber-300/5 px-3 py-1.5 font-display text-xs uppercase tracking-[0.2em] text-amber-200"><MoonStar className="h-3.5 w-3.5" />Infinite Worlds · Guilda F&M</div><h1 className="max-w-3xl font-display text-5xl leading-[.94] text-stone-100 sm:text-7xl">Sua técnica.<br /><span className="text-amber-300">Seu mundo infinito.</span></h1><p className="mt-7 max-w-xl text-base leading-7 text-stone-400 sm:text-lg">A ficha digital da guilda Infinite Worlds: regras F&M, progressão por XP e Grau, recompensas de missão e registros de cada cena.</p><div className="mt-8 flex flex-wrap gap-3"><Button onClick={onLogin} className="bg-amber-300 text-[#170d06] hover:bg-amber-200"><Flame className="mr-2 h-4 w-4" />Entrar para acessar as fichas</Button></div><p className="mt-4 text-xs text-stone-600">As fichas são vinculadas à conta; links compartilhados são somente leitura.</p></div><Panel className="relative overflow-hidden border-amber-300/15 bg-[#130a1e] p-6 sm:p-8"><div className="absolute -right-12 -top-12 h-44 w-44 rounded-full border border-amber-300/10" /><p className="font-display text-xs uppercase tracking-[0.24em] text-amber-300/70">Central da guilda</p><div className="mt-6 space-y-4">{[["XP e Graus", "Progrida do 4º Grau ao Grau Especial por meio de XP de missões."], ["Magias/Maldições", "Feitiços: nível, custo, duração, alcance e efeito documentados."], ["Combate e recompensas", "Rolagens d20, missões e recompensas preservadas no Diário."]].map(([title, text]) => <div key={title} className="rounded-xl border border-violet-300/10 bg-black/20 p-4"><p className="font-medium text-stone-200">{title}</p><p className="mt-1 text-sm leading-6 text-stone-500">{text}</p></div>)}</div></Panel></div></div></main>;
 }
 
 function LibraryLoadError({ onRetry, onLogout }: { onRetry: () => void; onLogout: () => void }) {
@@ -309,14 +310,14 @@ function CharacterLoadError({ onBack, onRetry }: { onBack: () => void; onRetry: 
 function CharacterLibrary({ userName, characters, sharedCount, loading, creating, newName, onNewName, onCreate, onOpen, onDuplicate, onDelete, onToggleCreate, onLogout }: {
   userName: string; characters: Array<{ id: string; name: string; portraitUrl: string | null; updatedAt: Date }>; sharedCount: number; loading: boolean; creating: boolean; newName: string; onNewName: (value: string) => void; onCreate: () => void; onOpen: (id: string) => void; onDuplicate: (id: string) => void; onDelete: (id: string, name: string) => void; onToggleCreate: () => void; onLogout: () => void;
 }) {
-  return <main className="min-h-screen bg-[#09060f] px-4 py-6 text-stone-100 sm:px-6 sm:py-10"><div className="mx-auto max-w-6xl"><header className="mb-10 flex flex-col justify-between gap-5 border-b border-violet-300/10 pb-7 sm:flex-row sm:items-end"><div><p className="font-display text-xs uppercase tracking-[0.25em] text-amber-300/70">Arquivo Jujutsu</p><h1 className="mt-2 font-display text-4xl text-stone-100">Biblioteca de personagens</h1><p className="mt-3 max-w-2xl text-sm leading-6 text-stone-400">Bem-vindo, {userName}. Cada ficha é salva na sua conta e pode gerar um link público somente leitura.</p></div><div className="flex gap-2"><ActionButton title="Sair da conta" onClick={onLogout}><LogOut className="h-4 w-4" /><span className="ml-2">Sair</span></ActionButton><Button onClick={onToggleCreate} className="bg-amber-300 text-[#190d07] hover:bg-amber-200"><CirclePlus className="mr-2 h-4 w-4" />Nova ficha</Button></div></header>
+  return <main className="min-h-screen bg-[#09060f] px-4 py-6 text-stone-100 sm:px-6 sm:py-10"><div className="mx-auto max-w-6xl"><header className="mb-10 flex flex-col justify-between gap-5 border-b border-violet-300/10 pb-7 sm:flex-row sm:items-end"><div><p className="font-display text-xs uppercase tracking-[0.25em] text-amber-300/70">Infinite Worlds · Guilda F&M</p><h1 className="mt-2 font-display text-4xl text-stone-100">Biblioteca da guilda</h1><p className="mt-3 max-w-2xl text-sm leading-6 text-stone-400">Bem-vindo, {userName}. Cada ficha é salva na sua conta e pode gerar um link público somente leitura.</p></div><div className="flex gap-2"><ActionButton title="Sair da conta" onClick={onLogout}><LogOut className="h-4 w-4" /><span className="ml-2">Sair</span></ActionButton><Button onClick={onToggleCreate} className="bg-amber-300 text-[#190d07] hover:bg-amber-200"><CirclePlus className="mr-2 h-4 w-4" />Nova ficha</Button></div></header>
     <div className="mb-6 grid gap-3 sm:grid-cols-3"><Panel><p className="text-xs uppercase tracking-[0.16em] text-stone-500">Fichas salvas</p><p className="mt-1 font-display text-3xl text-amber-200">{characters.length}</p></Panel><Panel><p className="text-xs uppercase tracking-[0.16em] text-stone-500">Links públicos</p><p className="mt-1 font-display text-3xl text-amber-200">{sharedCount}</p></Panel><Panel><p className="text-xs uppercase tracking-[0.16em] text-stone-500">Modo de sincronização</p><p className="mt-2 text-sm text-violet-200">Conta autenticada</p></Panel></div>
     {creating ? <Panel className="mb-6 border-amber-300/20"><div className="flex flex-col gap-3 sm:flex-row sm:items-end"><Field label="Nome do personagem"><Input autoFocus value={newName} onChange={event => onNewName(event.target.value)} placeholder="Ex.: Aoi Todo" /></Field><Button onClick={onCreate} className="bg-amber-300 text-[#190d07] hover:bg-amber-200">Criar ficha</Button><ActionButton title="Cancelar criação" onClick={onToggleCreate}>Cancelar</ActionButton></div></Panel> : null}
     {loading ? <div className="grid place-items-center py-20"><Loader2 className="h-7 w-7 animate-spin text-amber-300" /></div> : characters.length === 0 ? <Panel className="grid min-h-72 place-items-center border-dashed text-center"><div><Library className="mx-auto h-9 w-9 text-violet-300/70" /><h2 className="mt-4 font-display text-2xl">Nenhuma ficha arquivada</h2><p className="mt-2 max-w-md text-sm leading-6 text-stone-500">Crie a primeira ficha para registrar os dados de um feiticeiro, uma maldição ou um restringido.</p><Button onClick={onToggleCreate} className="mt-5 bg-amber-300 text-[#190d07] hover:bg-amber-200"><Plus className="mr-2 h-4 w-4" />Criar a primeira ficha</Button></div></Panel> : <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">{characters.map(character => <Panel key={character.id} className="group flex min-h-52 flex-col justify-between overflow-hidden border-violet-300/10 transition hover:border-amber-300/30"><div><div className="flex items-start justify-between gap-4"><div className="grid h-11 w-11 place-items-center rounded-xl bg-violet-600/20 font-display text-xl text-amber-200">{character.name.slice(0, 1).toUpperCase()}</div><span className="rounded-full border border-violet-300/10 px-2 py-1 text-[10px] uppercase tracking-[0.15em] text-stone-500">Sincronizada</span></div><h2 className="mt-6 font-display text-2xl text-stone-100">{character.name}</h2><p className="mt-2 text-xs text-stone-500">Atualizada em {new Date(character.updatedAt).toLocaleDateString("pt-BR")}</p></div><div className="mt-7 flex flex-wrap gap-2"><Button size="sm" onClick={() => onOpen(character.id)} className="bg-violet-600/70 text-violet-50 hover:bg-violet-500">Abrir</Button><ActionButton title="Duplicar ficha" onClick={() => onDuplicate(character.id)}><Copy className="h-4 w-4" /></ActionButton><ActionButton title="Excluir ficha" onClick={() => onDelete(character.id, character.name)} className="hover:border-red-400/60 hover:text-red-200"><Trash2 className="h-4 w-4" /></ActionButton></div></Panel>)}</div>}</div></main>;
 }
 
 function renderTab({ tab, sheet, derived, updateSheet, addDiary, newNote, setNewNote }: { tab: TabId; sheet: FMCharacterSheet; derived: ReturnType<typeof getDerivedValues>; updateSheet: (updater: (current: FMCharacterSheet) => FMCharacterSheet) => void; addDiary: (title: string, detail: string, category?: FMCharacterSheet["diary"][number]["category"]) => void; newNote: string; setNewNote: (value: string) => void; }) {
-  if (tab === "overview") return <OverviewTab sheet={sheet} derived={derived} updateSheet={updateSheet} />;
+  if (tab === "overview") return <OverviewTab sheet={sheet} derived={derived} updateSheet={updateSheet} addDiary={addDiary} />;
   if (tab === "attributes") return <AttributesTab sheet={sheet} derived={derived} updateSheet={updateSheet} />;
   if (tab === "skills") return <SkillsTab sheet={sheet} derived={derived} updateSheet={updateSheet} />;
   if (tab === "spells") return <SpellsTab sheet={sheet} derived={derived} updateSheet={updateSheet} addDiary={addDiary} />;
@@ -325,7 +326,7 @@ function renderTab({ tab, sheet, derived, updateSheet, addDiary, newNote, setNew
   return <DiaryTab sheet={sheet} derived={derived} updateSheet={updateSheet} newNote={newNote} setNewNote={setNewNote} addDiary={addDiary} />;
 }
 
-function OverviewTab({ sheet, derived, updateSheet }: { sheet: FMCharacterSheet; derived: ReturnType<typeof getDerivedValues>; updateSheet: (updater: (current: FMCharacterSheet) => FMCharacterSheet) => void }) {
+function OverviewTab({ sheet, derived, updateSheet, addDiary }: { sheet: FMCharacterSheet; derived: ReturnType<typeof getDerivedValues>; updateSheet: (updater: (current: FMCharacterSheet) => FMCharacterSheet) => void; addDiary: (title: string, detail: string, category?: FMCharacterSheet["diary"][number]["category"]) => void }) {
   const resourceLabel = getResourceLabel(sheet.progression.specialization, sheet.progression.nonSorcerer);
   const changeResource = (resource: "health" | "energy", delta: number) => updateSheet(current => {
     const values = getDerivedValues(current);
@@ -336,11 +337,34 @@ function OverviewTab({ sheet, derived, updateSheet }: { sheet: FMCharacterSheet;
     return { ...current, resources: { ...current.resources, [resource]: { ...current.resources[resource], current: nextValue } }, diary: [{ id: id(), at: Date.now(), category: "resource", title: `${label} ajustado`, detail: `${currentValue} → ${nextValue} (${delta > 0 ? "+" : ""}${delta})` }, ...current.diary] };
   });
   const setCurrentResource = (resource: "health" | "energy", value: string) => updateSheet(current => ({ ...current, resources: { ...current.resources, [resource]: { ...current.resources[resource], current: Math.max(0, asNumber(value)) } } }));
-  return <><SectionTitle eyebrow="Núcleo do personagem" title="Visão geral" description="Acompanhe a identidade, os recursos atuais e as fórmulas que sustentam a cena." />
+  return <><SectionTitle eyebrow="Núcleo do personagem" title="Visão geral" description="Acompanhe a identidade, a progressão Infinite Worlds, os recursos atuais e as fórmulas que sustentam a cena." />
     <div className="grid gap-4 xl:grid-cols-[1.15fr_.85fr]"><Panel><div className="grid gap-4 sm:grid-cols-2"><Field label="Nome"><Input value={sheet.identity.name} onChange={event => updateSheet(current => ({ ...current, identity: { ...current.identity, name: event.target.value } }))} /></Field><Field label="Jogador"><Input value={sheet.identity.player} onChange={event => updateSheet(current => ({ ...current, identity: { ...current.identity, player: event.target.value } }))} /></Field><Field label="Grau"><Input value={sheet.identity.grade} onChange={event => updateSheet(current => ({ ...current, identity: { ...current.identity, grade: event.target.value } }))} placeholder="Ex.: Grau 2" /></Field><Field label="Origem"><Input value={sheet.origin.name} onChange={event => updateSheet(current => ({ ...current, origin: { ...current.origin, name: event.target.value } }))} placeholder="Ex.: Inato" /></Field><Field label="Técnica amaldiçoada" hint="Atributo-chave escolhido na aba Atributos."><Input value={sheet.technique.name} onChange={event => updateSheet(current => ({ ...current, technique: { ...current.technique, name: event.target.value } }))} placeholder="Nome da técnica" /></Field><Field label="Funcionamento básico" hint="O núcleo narrativo e os limites da técnica."><Textarea value={sheet.technique.basicFunction} onChange={event => updateSheet(current => ({ ...current, technique: { ...current.technique, basicFunction: event.target.value } }))} placeholder="Descreva o conceito e as restrições da técnica." /></Field></div></Panel>
       <div className="grid gap-4"><ResourceCard label="Pontos de Vida" shortLabel="PV" value={sheet.resources.health.current} maximum={derived.healthMaximum} onChange={value => setCurrentResource("health", value)} onAdjust={delta => changeResource("health", delta)} /><ResourceCard label={resourceLabel} shortLabel={resourceLabel === "Estamina" ? "ES" : "PE"} value={sheet.resources.energy.current} maximum={derived.energyMaximum} onChange={value => setCurrentResource("energy", value)} onAdjust={delta => changeResource("energy", delta)} /></div></div>
+    <GuildProgressPanel sheet={sheet} updateSheet={updateSheet} addDiary={addDiary} />
     <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-4"><FormulaCard label="Defesa" value={derived.defense} formula="10 + Destreza + metade do nível + bônus" source="Livro-base, pp. 19 e 281" /><FormulaCard label="Iniciativa" value={`${derived.initiative >= 0 ? "+" : ""}${derived.initiative}`} formula="Destreza + bônus" source="Livro-base, pp. 19 e 291" /><FormulaCard label="Atenção" value={derived.attention} formula="10 + Percepção + bônus" source="Livro-base, p. 19" /><FormulaCard label="CD da técnica" value={derived.techniqueDc} formula="10 + metade do nível + atributo + treinamento" source="Livro-base, p. 198" /></div>
     <div className="mt-4 grid gap-4 xl:grid-cols-2"><Panel><SectionTitle eyebrow="Aspectos pessoais" title="Quem atravessa a maldição" description="Campos narrativos da criação de personagem." /><div className="grid gap-4 sm:grid-cols-2"><Field label="Traços de personalidade"><Textarea value={sheet.personal.traits} onChange={event => updateSheet(current => ({ ...current, personal: { ...current.personal, traits: event.target.value } }))} /></Field><Field label="Ideais"><Textarea value={sheet.personal.ideals} onChange={event => updateSheet(current => ({ ...current, personal: { ...current.personal, ideals: event.target.value } }))} /></Field><Field label="Ligações"><Textarea value={sheet.personal.bonds} onChange={event => updateSheet(current => ({ ...current, personal: { ...current.personal, bonds: event.target.value } }))} /></Field><Field label="Complicações"><Textarea value={sheet.personal.complications} onChange={event => updateSheet(current => ({ ...current, personal: { ...current.personal, complications: event.target.value } }))} /></Field></div></Panel><Panel><SectionTitle eyebrow="Domínio inato" title="O espaço que define a alma" description="Este campo registra a representação metafísica do personagem." /><Textarea className="min-h-56" value={sheet.personal.innateDomain} onChange={event => updateSheet(current => ({ ...current, personal: { ...current.personal, innateDomain: event.target.value } }))} placeholder="Descreva o domínio inato…" /></Panel></div></>;
+}
+
+function GuildProgressPanel({ sheet, updateSheet, addDiary }: { sheet: FMCharacterSheet; updateSheet: (updater: (current: FMCharacterSheet) => FMCharacterSheet) => void; addDiary: (title: string, detail: string, category?: FMCharacterSheet["diary"][number]["category"]) => void }) {
+  const [xpDifficulty, setXpDifficulty] = useState<InfiniteWorldMissionDifficulty>("medium");
+  const [moneyDifficulty, setMoneyDifficulty] = useState<InfiniteWorldMoneyDifficulty>("normal");
+  const progress = getInfiniteWorldProgress(sheet.progression.experience ?? 0);
+  const formatCurrency = (value: number) => new Intl.NumberFormat("pt-BR", { style: "currency", currency: "JPY", maximumFractionDigits: 0 }).format(value);
+  const applyExperience = (value: string) => updateSheet(current => {
+    const next = getInfiniteWorldProgress(asNumber(value));
+    return { ...current, progression: { ...current.progression, experience: next.experience, level: next.level, specializationLevels: next.level }, identity: { ...current.identity, grade: next.grade.label } };
+  });
+  const applyMissionReward = () => {
+    const xp = getMissionExperienceReward(progress.grade.id, xpDifficulty);
+    const money = getMissionMoneyReward(progress.grade.id, moneyDifficulty);
+    updateSheet(current => {
+      const next = getInfiniteWorldProgress((current.progression.experience ?? 0) + xp);
+      return { ...current, progression: { ...current.progression, experience: next.experience, level: next.level, specializationLevels: next.level }, identity: { ...current.identity, grade: next.grade.label }, guild: { ...(current.guild ?? { currency: 0 }), currency: (current.guild?.currency ?? 0) + money } };
+    });
+    addDiary(`Missão concluída — ${progress.grade.label}`, `+${xp} XP (${xpDifficulty}) e ${formatCurrency(money)} (${moneyDifficulty}).`, "note");
+    toast.success(`Recompensa registrada: +${xp} XP e ${formatCurrency(money)}.`);
+  };
+  return <Panel className="mt-4 border-amber-300/20 bg-amber-300/[.035]"><div className="flex flex-col gap-3 border-b border-amber-300/10 pb-4 sm:flex-row sm:items-end sm:justify-between"><div><p className="font-display text-xs uppercase tracking-[.2em] text-amber-300/70">Guilda Infinite Worlds</p><h3 className="mt-1 font-display text-2xl text-stone-100">Progressão de Grau e Nível</h3><p className="mt-2 max-w-2xl text-sm leading-6 text-stone-400">XP define o nível e o grau automaticamente conforme a tabela da guilda. Recompensas de missão são aplicadas e registradas no Diário.</p></div><span className="w-fit rounded-full border border-amber-300/25 bg-amber-300/10 px-3 py-1 text-sm font-medium text-amber-100">{progress.grade.label}</span></div><div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-5"><FormulaCard label="XP atual" value={progress.experience} formula="Acumulado na guilda" source="Tabela Infinite Worlds" /><FormulaCard label="Nível" value={progress.level} formula={`Faixa ${progress.grade.minLevel}–${progress.grade.maxLevel}`} source="Tabela Infinite Worlds" /><FormulaCard label="Próximo nível" value={progress.nextLevelExperience ?? "Máximo"} formula={progress.experienceToNextLevel === null ? "Nível 30 consolidado" : `Faltam ${progress.experienceToNextLevel} XP`} source="Tabela Infinite Worlds" /><FormulaCard label="Moeda" value={formatCurrency(sheet.guild?.currency ?? 0)} formula="Recompensas de missão acumuladas" source="Tabela Infinite Worlds" /><FormulaCard label="Faixa de XP" value={`${progress.grade.minExperience}–${progress.grade.maxExperience}`} formula="Faixa oficial do grau" source="Tabela Infinite Worlds" /></div><div className="mt-4 grid gap-4 xl:grid-cols-[.9fr_1.1fr]"><Panel className="border-violet-300/10 bg-black/20"><Field label="XP acumulado" hint="Alterar XP atualiza nível e grau automaticamente."><Input type="number" min={0} max={6499} value={progress.experience} onChange={event => applyExperience(event.target.value)} /></Field></Panel><Panel className="border-violet-300/10 bg-black/20"><div className="grid gap-3 md:grid-cols-3"><Field label="Missão: XP"><select className="h-10 rounded-md border border-input bg-background px-3 text-sm text-foreground" value={xpDifficulty} onChange={event => setXpDifficulty(event.target.value as InfiniteWorldMissionDifficulty)}><option value="easy">Fácil</option><option value="medium">Médio</option><option value="hard">Difícil</option><option value="hard-plus">Difícil+</option></select></Field><Field label="Missão: moeda"><select className="h-10 rounded-md border border-input bg-background px-3 text-sm text-foreground" value={moneyDifficulty} onChange={event => setMoneyDifficulty(event.target.value as InfiniteWorldMoneyDifficulty)}><option value="easy">Fácil</option><option value="normal">Normal</option><option value="hard">Difícil</option></select></Field><div className="flex items-end"><Button type="button" onClick={applyMissionReward} className="w-full bg-amber-300 text-[#190d07] hover:bg-amber-200">Aplicar recompensa</Button></div></div><p className="mt-3 text-xs leading-5 text-stone-500">Recompensa atual: +{getMissionExperienceReward(progress.grade.id, xpDifficulty)} XP e {formatCurrency(getMissionMoneyReward(progress.grade.id, moneyDifficulty))}.</p></Panel></div></Panel>;
 }
 
 function ResourceCard({ label, shortLabel, value, maximum, onChange, onAdjust }: { label: string; shortLabel: string; value: number; maximum: number; onChange: (value: string) => void; onAdjust: (delta: number) => void }) {

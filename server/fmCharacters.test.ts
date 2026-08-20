@@ -80,6 +80,11 @@ describe("biblioteca de fichas", () => {
     await expect(caller.characters.save({ id: "ficha-feitico-invalido", name: "Yuji", sheet: { progression: { level: 1 }, spells: [{ level: 2 }] } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
   });
 
+  it("recusa XP de guilda incompatível com o nível informado", async () => {
+    const caller = appRouter.createCaller(createContext(1));
+    await expect(caller.characters.save({ id: "ficha-xp-invalido", name: "Yuji", sheet: { progression: { level: 5, experience: 75 }, skills: [], spells: [] } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+  });
+
   it("recusa modificadores extras fora do intervalo declarado", async () => {
     const caller = appRouter.createCaller(createContext(1));
     await expect(caller.characters.save({ id: "ficha-bonus-invalido", name: "Yuji", sheet: { skills: [{ name: "Furtividade", attribute: "dexterity", proficiency: "trained", otherBonus: 99 }] } })).rejects.toMatchObject({ code: "BAD_REQUEST" });

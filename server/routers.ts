@@ -4,6 +4,7 @@ import { z } from "zod";
 import { COOKIE_NAME } from "../shared/const";
 import { getHighestSpellLevel } from "../shared/fmRules";
 import { FM_DECLARED_MODIFIER_RULES, isDeclaredModifierInRange, type FMDeclaredModifierRule } from "../shared/fmModifiers";
+import { getInfiniteWorldLevel } from "../shared/infiniteWorlds";
 import { createFMCharacterShare, deleteFMCharacter, getFMCharacter, getFMCharacterShare, getSharedFMCharacter, listFMCharacters, listFMCharacterShares, saveFMCharacter } from "./db";
 import { emitCharacterUpdated } from "./live";
 import { getSessionCookieOptions } from "./_core/cookies";
@@ -60,6 +61,14 @@ const characterInput = z.object({
   });
   const progression = input.sheet.progression as Record<string, unknown> | undefined;
   const level = typeof progression?.level === "number" ? progression.level : 1;
+  const experience = progression?.experience;
+  if (experience !== undefined) {
+    if (typeof experience !== "number" || !Number.isInteger(experience) || experience < 0 || experience > 6499) {
+      context.addIssue({ code: "custom", path: ["sheet", "progression", "experience"], message: "O XP da guilda deve ser um inteiro entre 0 e 6499." });
+    } else if (level !== getInfiniteWorldLevel(experience)) {
+      context.addIssue({ code: "custom", path: ["sheet", "progression", "level"], message: "O nível deve corresponder ao XP acumulado na tabela Infinite Worlds." });
+    }
+  }
   const spells = input.sheet.spells;
   if (Array.isArray(spells)) {
     const highestSpellLevel = getHighestSpellLevel(level);

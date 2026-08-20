@@ -145,6 +145,7 @@ export type FMCharacterSheet = {
   };
   progression: {
     level: number;
+    experience: number;
     specialization: FMSpecializationKey;
     specializationLevels: number;
     healthMode: "average" | "rolled";
@@ -154,6 +155,9 @@ export type FMCharacterSheet = {
     savingThrowTraining: Record<FMSavingThrowKey, boolean>;
     optionalLevelZero: boolean;
     nonSorcerer: boolean;
+  };
+  guild: {
+    currency: number;
   };
   origin: {
     name: string;
@@ -198,6 +202,7 @@ export const createEmptyFMSheet = (): FMCharacterSheet => ({
   personal: { traits: "", ideals: "", bonds: "", complications: "", innateDomain: "" },
   progression: {
     level: 1,
+    experience: 0,
     specialization: "fighter",
     specializationLevels: 1,
     healthMode: "average",
@@ -208,6 +213,7 @@ export const createEmptyFMSheet = (): FMCharacterSheet => ({
     optionalLevelZero: false,
     nonSorcerer: false,
   },
+  guild: { currency: 0 },
   origin: { name: "", attributeBonuses: {}, description: "" },
   technique: { name: "", basicFunction: "", notes: "" },
   attributes: {
