@@ -1,4 +1,21 @@
 @import "tailwindcss";
+
+@theme inline {
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Cinzel", Georgia, serif;
+}
+
+@layer base {
+  * { @apply border-border; }
+  body { @apply bg-[#09060f] font-sans text-stone-100 antialiased; }
+  .font-display { font-family: var(--font-display); }
+  input, textarea, select { color-scheme: dark; }
+  @media print {
+    .no-print { display: none !important; }
+    body { background: white !important; color: #181018 !important; }
+    main, section { background: white !important; color: #181018 !important; box-shadow: none !important; }
+  }
+}
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));

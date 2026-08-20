@@ -1,0 +1,40 @@
+# Projeto TODO — Ficha Feiticeiros & Maldições
+
+- [x] Extrair e registrar os atributos, recursos, perícias, rolagens, combate e magias oficiais dos PDFs de F&M.
+- [x] Definir tipos compartilhados e funções puras para cálculos de regras, com valores seguros para dados legados.
+- [x] Criar o esquema de persistência para fichas, links públicos e registros de sessão vinculados ao usuário.
+- [x] Criar procedimentos protegidos para criar, listar, abrir, duplicar, atualizar e excluir fichas.
+- [x] Criar a biblioteca autenticada de personagens com estados vazio, carregamento, erro e ações acessíveis.
+- [x] Criar uma ficha principal navegável com as abas Visão Geral, Atributos, Perícias, Magias/Maldições, Combate, Equipamento e Diário.
+- [x] Implementar os atributos de F&M, recursos de Vida e Mana e todos os valores derivados regulamentares.
+- [ ] Exibir a fonte de cada cálculo automático e permitir apenas modificadores extras explicitamente previstos nas regras.
+- [x] Implementar cadastro, edição, remoção individual e validação de perícias.
+- [x] Implementar Magias e Maldições com custo de mana, alcance, duração, efeito, nível de poder e regras oficiais aplicáveis.
+- [x] Implementar painel de combate com ataques, defesas, iniciativa e integração com magias ativas.
+- [x] Implementar rolagens com o pool de dados oficial de F&M e registrar origem, resultado e efeitos no Diário.
+- [x] Implementar controles rápidos de Vida e Mana com limites calculados e registro automático no Diário.
+- [x] Implementar inventário com criação, edição e exclusão individual de itens.
+- [x] Implementar exportação da ficha em JSON e estilo de impressão otimizado para PDF.
+- [x] Implementar links públicos somente leitura, com visualização simplificada e atualização em tempo real.
+- [x] Implementar sincronização em tempo real por WebSocket para fichas autenticadas e visualizações públicas autorizadas.
+- [x] Aplicar identidade visual de fantasia sombria em preto, roxo e dourado, com contraste acessível.
+- [x] Validar funções de regra com Vitest, incluindo caso-base, bônus, penalidades, limites e remoções reversíveis.
+- [ ] Validar criação, edição, duplicação, exclusão, persistência e compartilhamento sem alterar fichas reais de usuários.
+- [ ] Validar a interface em 1280×720 e 375×812, sem overflow horizontal e sem controles fixos sobrepondo campos.
+- [x] Registrar evidências de testes, checagens de regras e inspeção visual em validation-notes.md.
+- [x] Executar tipagem, testes e compilação de produção antes da entrega.
+- [ ] Salvar checkpoint e sincronizar a versão validada com o repositório GitHub autorizado.
+- [x] Adicionar o procedimento protegido `characters.get` para abrir uma ficha própria por ID e bloquear o acesso a fichas de terceiros.
+- [x] Cobrir em teste o fluxo protegido de abrir uma ficha própria e negar acesso a uma ficha de outro usuário.
+- [x] Implementar estados de erro com nova tentativa para biblioteca, links públicos e abertura da ficha.
+- [x] Ajustar o rótulo da aba para Magias/Maldições, registrando que os feitiços são a terminologia oficial interna de F&M.
+- [ ] Validar biblioteca e ficha autenticadas em 1280×720 e 375×812, incluindo contraste, navegação por abas e ausência de overflow.
+- [x] Implementar Resistências/TRs no motor e na interface, com testes de fórmula.
+- [x] Validar nome, atributo e proficiência das perícias na interface e no contrato de persistência.
+- [x] Implementar custo de sustentação por rodada e demais regras documentadas aplicáveis aos feitiços ativos.
+- [x] Expor e utilizar integralmente ação, efeito e observações das defesas, vinculando efeitos de feitiços ativos à cena.
+- [x] Proteger o gateway WebSocket com autorização para a observação de fichas privadas e validar o bloqueio em teste.
+- [x] Aplicar e validar a regra de acesso a feitiços por nível, impedindo salvar ou usar níveis não liberados.
+- [x] Unificar os valores exibidos e rolados de ataques, incluindo treinamento e modificadores de feitiços ativos.
+- [x] Adicionar fallback de bearer token ao handshake do WebSocket privado e testar o acesso autenticado à própria ficha.
+- [x] Exibir no combate os modificadores ativos aplicados por feitiços para manter a cena auditável.

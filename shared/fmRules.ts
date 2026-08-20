@@ -1,0 +1,209 @@
+import { fmSavingThrowKeys, type FMAttributeKey, type FMAttributes, type FMAttackMode, type FMCharacterSheet, type FMProficiency, type FMSavingThrowKey, type FMSpecializationKey, type FMSpellLevel } from "./fmTypes";
+
+export const FM_ATTRIBUTE_LABELS: Record<FMAttributeKey, string> = {
+  strength: "Força",
+  dexterity: "Destreza",
+  constitution: "Constituição",
+  intelligence: "Inteligência",
+  wisdom: "Sabedoria",
+  presence: "Presença",
+};
+
+export const FM_SPECIALIZATION_LABELS: Record<FMSpecializationKey, string> = {
+  fighter: "Lutador",
+  "combat-specialist": "Especialista em Combate",
+  "technique-specialist": "Especialista em Técnica",
+  controller: "Controlador",
+  support: "Suporte",
+  restricted: "Restringido",
+};
+
+export const FM_SAVING_THROW_LABELS: Record<FMSavingThrowKey, string> = {
+  astucia: "Astúcia",
+  fortitude: "Fortitude",
+  integridade: "Integridade",
+  reflexos: "Reflexos",
+  vontade: "Vontade",
+};
+
+export const FM_SAVING_THROW_ATTRIBUTES: Record<FMSavingThrowKey, FMAttributeKey> = {
+  astucia: "intelligence",
+  fortitude: "constitution",
+  integridade: "constitution",
+  reflexos: "dexterity",
+  vontade: "wisdom",
+};
+
+type SpecializationProfile = {
+  firstLevelHealth: number;
+  averageHealthGain: number;
+  hitDie: 8 | 10 | 12;
+  energyPerLevel: number;
+  addsTechniqueModifier: boolean;
+  usesStamina: boolean;
+};
+
+export const FM_SPECIALIZATION_PROFILES: Record<FMSpecializationKey, SpecializationProfile> = {
+  fighter: { firstLevelHealth: 12, averageHealthGain: 6, hitDie: 10, energyPerLevel: 4, addsTechniqueModifier: false, usesStamina: false },
+  "combat-specialist": { firstLevelHealth: 12, averageHealthGain: 6, hitDie: 10, energyPerLevel: 4, addsTechniqueModifier: false, usesStamina: false },
+  "technique-specialist": { firstLevelHealth: 10, averageHealthGain: 5, hitDie: 8, energyPerLevel: 6, addsTechniqueModifier: true, usesStamina: false },
+  controller: { firstLevelHealth: 10, averageHealthGain: 5, hitDie: 8, energyPerLevel: 5, addsTechniqueModifier: true, usesStamina: false },
+  support: { firstLevelHealth: 10, averageHealthGain: 5, hitDie: 8, energyPerLevel: 5, addsTechniqueModifier: true, usesStamina: false },
+  restricted: { firstLevelHealth: 16, averageHealthGain: 7, hitDie: 12, energyPerLevel: 4, addsTechniqueModifier: false, usesStamina: true },
+};
+
+export const FM_SPELL_COSTS: Record<FMSpellLevel, number> = { 0: 0, 1: 2, 2: 5, 3: 8, 4: 12, 5: 20 };
+
+export function clamp(value: number, minimum: number, maximum: number) {
+  return Math.min(maximum, Math.max(minimum, value));
+}
+
+export function getAttributeModifier(value: number) {
+  return Math.floor((clamp(value, 0, 30) - 10) / 2);
+}
+
+export function getHalfLevel(level: number) {
+  return Math.floor(Math.max(level, 0) / 2);
+}
+
+export function getOfficialTrainingBonus(level: number, optionalLevelZero = false) {
+  if (optionalLevelZero && level === 0) return 1;
+  return 2 + Math.floor((Math.max(level, 1) - 1) / 4);
+}
+
+export function getProficiencyContribution(trainingBonus: number, proficiency: FMProficiency) {
+  if (proficiency === "untrained") return 0;
+  if (proficiency === "trained") return trainingBonus;
+  return trainingBonus + Math.floor(trainingBonus / 2);
+}
+
+export function getTotalAttributes(sheet: FMCharacterSheet): FMAttributes {
+  return {
+    strength: sheet.attributes.base.strength + sheet.attributes.permanentBonuses.strength + (sheet.origin.attributeBonuses.strength ?? 0),
+    dexterity: sheet.attributes.base.dexterity + sheet.attributes.permanentBonuses.dexterity + (sheet.origin.attributeBonuses.dexterity ?? 0),
+    constitution: sheet.attributes.base.constitution + sheet.attributes.permanentBonuses.constitution + (sheet.origin.attributeBonuses.constitution ?? 0),
+    intelligence: sheet.attributes.base.intelligence + sheet.attributes.permanentBonuses.intelligence + (sheet.origin.attributeBonuses.intelligence ?? 0),
+    wisdom: sheet.attributes.base.wisdom + sheet.attributes.permanentBonuses.wisdom + (sheet.origin.attributeBonuses.wisdom ?? 0),
+    presence: sheet.attributes.base.presence + sheet.attributes.permanentBonuses.presence + (sheet.origin.attributeBonuses.presence ?? 0),
+  };
+}
+
+export function getHealthMaximum(sheet: FMCharacterSheet) {
+  const { level, specialization, healthMode, rolledHealthGains, optionalLevelZero } = sheet.progression;
+  const constitutionModifier = getAttributeModifier(getTotalAttributes(sheet).constitution);
+  if (optionalLevelZero && level === 0) return Math.max(1, 6 + constitutionModifier + sheet.resources.health.bonusMaximum);
+  const profile = FM_SPECIALIZATION_PROFILES[specialization];
+  const safeLevel = Math.max(level, 1);
+  const subsequentGain = healthMode === "rolled"
+    ? rolledHealthGains.slice(0, Math.max(safeLevel - 1, 0)).reduce((sum, gain) => sum + Math.max(gain, 1) + constitutionModifier, 0)
+    : Math.max(safeLevel - 1, 0) * (profile.averageHealthGain + constitutionModifier);
+  return Math.max(1, profile.firstLevelHealth + constitutionModifier + subsequentGain + sheet.resources.health.bonusMaximum);
+}
+
+export function getEnergyMaximum(sheet: FMCharacterSheet) {
+  const { level, specialization, techniqueAttribute, optionalLevelZero, nonSorcerer } = sheet.progression;
+  if (optionalLevelZero && level === 0) return 0;
+  if (nonSorcerer) return Math.max(0, 10 + sheet.resources.energy.bonusMaximum);
+  const profile = FM_SPECIALIZATION_PROFILES[specialization];
+  const safeLevel = Math.max(level, 1);
+  const techniqueModifier = profile.addsTechniqueModifier ? getAttributeModifier(getTotalAttributes(sheet)[techniqueAttribute]) : 0;
+  return Math.max(0, profile.energyPerLevel * safeLevel + techniqueModifier + sheet.resources.energy.bonusMaximum);
+}
+
+export function getResourceLabel(specialization: FMSpecializationKey, nonSorcerer = false) {
+  return nonSorcerer || FM_SPECIALIZATION_PROFILES[specialization].usesStamina ? "Estamina" : "Energia Amaldiçoada";
+}
+
+export function getSkillBonus(level: number, attributes: FMAttributes, attribute: FMAttributeKey, proficiency: FMProficiency, otherBonus = 0, trainingBonus = getOfficialTrainingBonus(level)) {
+  return getAttributeModifier(attributes[attribute]) + getHalfLevel(level) + getProficiencyContribution(trainingBonus, proficiency) + otherBonus;
+}
+
+export function getSavingThrowBonus(level: number, attributes: FMAttributes, savingThrow: FMSavingThrowKey, trained: boolean, trainingBonus = getOfficialTrainingBonus(level)) {
+  return getAttributeModifier(attributes[FM_SAVING_THROW_ATTRIBUTES[savingThrow]]) + getHalfLevel(level) + (trained ? trainingBonus : 0);
+}
+
+export function getAttackAttribute(mode: FMAttackMode, finesse: boolean, override?: FMAttributeKey): FMAttributeKey {
+  if (override) return override;
+  if (mode === "melee") return finesse ? "dexterity" : "strength";
+  if (mode === "ranged") return "dexterity";
+  return "intelligence";
+}
+
+export function getAttackBonus(input: {
+  level: number;
+  attributes: FMAttributes;
+  mode: FMAttackMode;
+  finesse?: boolean;
+  trained?: boolean;
+  techniqueAttribute?: FMAttributeKey;
+  override?: FMAttributeKey;
+  otherBonus?: number;
+  penalties?: number;
+  trainingBonus?: number;
+}) {
+  const attribute = input.mode === "cursed"
+    ? input.techniqueAttribute ?? input.override ?? "intelligence"
+    : getAttackAttribute(input.mode, Boolean(input.finesse), input.override);
+  const training = input.mode === "cursed" || input.trained ? input.trainingBonus ?? getOfficialTrainingBonus(input.level) : 0;
+  return getAttributeModifier(input.attributes[attribute]) + getHalfLevel(input.level) + training + (input.otherBonus ?? 0) - (input.penalties ?? 0);
+}
+
+export function getTechniqueDc(level: number, attributes: FMAttributes, techniqueAttribute: FMAttributeKey, otherBonus = 0, trainingBonus = getOfficialTrainingBonus(level)) {
+  return 10 + getHalfLevel(level) + getAttributeModifier(attributes[techniqueAttribute]) + trainingBonus + otherBonus;
+}
+
+export function getDerivedValues(sheet: FMCharacterSheet) {
+  const attributes = getTotalAttributes(sheet);
+  const level = sheet.progression.level;
+  const perception = sheet.skills.find(skill => skill.name.trim().toLocaleLowerCase("pt-BR") === "percepção");
+  const trainingBonus = getOfficialTrainingBonus(level, sheet.progression.optionalLevelZero);
+  const perceptionBonus = perception ? getSkillBonus(level, attributes, perception.attribute, perception.proficiency, perception.otherBonus, trainingBonus) : 0;
+  const healthMaximum = getHealthMaximum(sheet);
+  const energyMaximum = getEnergyMaximum(sheet);
+  const savingThrows = Object.fromEntries(fmSavingThrowKeys.map(key => [key, getSavingThrowBonus(level, attributes, key, sheet.progression.savingThrowTraining[key], trainingBonus)])) as Record<FMSavingThrowKey, number>;
+  const activeCombatModifiers = sheet.spells.reduce((totals, spell) => {
+    if (!spell.active || !spell.combatModifierTarget || spell.combatModifierTarget === "none") return totals;
+    totals[spell.combatModifierTarget] += Number.isFinite(spell.combatModifier) ? spell.combatModifier : 0;
+    return totals;
+  }, { attack: 0, defense: 0, initiative: 0 });
+  return {
+    attributes,
+    trainingBonus,
+    healthMaximum,
+    energyMaximum,
+    attention: 10 + perceptionBonus + sheet.bonuses.attention,
+    defense: 10 + getAttributeModifier(attributes.dexterity) + getHalfLevel(level) + sheet.bonuses.defense + activeCombatModifiers.defense,
+    initiative: getAttributeModifier(attributes.dexterity) + sheet.bonuses.initiative + activeCombatModifiers.initiative,
+    movement: 9 + sheet.bonuses.movement,
+    integrity: healthMaximum,
+    techniqueDc: getTechniqueDc(level, attributes, sheet.progression.techniqueAttribute, sheet.bonuses.techniqueDc, trainingBonus),
+    savingThrows,
+    activeCombatModifiers,
+  };
+}
+
+export function getSpellCost(level: FMSpellLevel, adjustment = 0) {
+  const baseCost = FM_SPELL_COSTS[level];
+  return level === 0 ? 0 : Math.max(1, baseCost + adjustment);
+}
+
+export function getSustainCost(level: FMSpellLevel) {
+  return level <= 2 ? 1 : 2;
+}
+
+export function getHighestSpellLevel(level: number) {
+  if (level >= 17) return 5 as const;
+  if (level >= 13) return 4 as const;
+  if (level >= 9) return 3 as const;
+  if (level >= 5) return 2 as const;
+  return 1 as const;
+}
+
+export type RollResult = { dice: number[]; kept: number; total: number; advantage: "normal" | "advantage" | "disadvantage" };
+
+export function rollD20(modifier = 0, advantage: RollResult["advantage"] = "normal", random: () => number = Math.random): RollResult {
+  const roll = () => Math.floor(clamp(random(), 0, 0.999999) * 20) + 1;
+  const dice = advantage === "normal" ? [roll()] : [roll(), roll()];
+  const kept = advantage === "advantage" ? Math.max(...dice) : advantage === "disadvantage" ? Math.min(...dice) : dice[0] ?? 1;
+  return { dice, kept, total: kept + modifier, advantage };
+}
