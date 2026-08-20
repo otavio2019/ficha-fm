@@ -7,7 +7,7 @@
 - [x] Criar a biblioteca autenticada de personagens com estados vazio, carregamento, erro e ações acessíveis.
 - [x] Criar uma ficha principal navegável com as abas Visão Geral, Atributos, Perícias, Magias/Maldições, Combate, Equipamento e Diário.
 - [x] Implementar os atributos de F&M, recursos de Vida e Mana e todos os valores derivados regulamentares.
-- [ ] Exibir a fonte de cada cálculo automático e permitir apenas modificadores extras explicitamente previstos nas regras.
+- [x] Exibir a fonte de cada cálculo automático e permitir apenas modificadores extras explicitamente previstos nas regras.
 - [x] Implementar cadastro, edição, remoção individual e validação de perícias.
 - [x] Implementar Magias e Maldições com custo de mana, alcance, duração, efeito, nível de poder e regras oficiais aplicáveis.
 - [x] Implementar painel de combate com ataques, defesas, iniciativa e integração com magias ativas.
@@ -19,8 +19,8 @@
 - [x] Implementar sincronização em tempo real por WebSocket para fichas autenticadas e visualizações públicas autorizadas.
 - [x] Aplicar identidade visual de fantasia sombria em preto, roxo e dourado, com contraste acessível.
 - [x] Validar funções de regra com Vitest, incluindo caso-base, bônus, penalidades, limites e remoções reversíveis.
-- [ ] Validar criação, edição, duplicação, exclusão, persistência e compartilhamento sem alterar fichas reais de usuários.
-- [ ] Validar a interface em 1280×720 e 375×812, sem overflow horizontal e sem controles fixos sobrepondo campos.
+- [x] Validar criação, edição, duplicação, exclusão, persistência e compartilhamento sem alterar fichas reais de usuários.
+- [x] Validar a interface em 1280×720 e 375×812, sem overflow horizontal e sem controles fixos sobrepondo campos.
 - [x] Registrar evidências de testes, checagens de regras e inspeção visual em validation-notes.md.
 - [x] Executar tipagem, testes e compilação de produção antes da entrega.
 - [ ] Salvar checkpoint e sincronizar a versão validada com o repositório GitHub autorizado.
@@ -28,7 +28,7 @@
 - [x] Cobrir em teste o fluxo protegido de abrir uma ficha própria e negar acesso a uma ficha de outro usuário.
 - [x] Implementar estados de erro com nova tentativa para biblioteca, links públicos e abertura da ficha.
 - [x] Ajustar o rótulo da aba para Magias/Maldições, registrando que os feitiços são a terminologia oficial interna de F&M.
-- [ ] Validar biblioteca e ficha autenticadas em 1280×720 e 375×812, incluindo contraste, navegação por abas e ausência de overflow.
+- [x] Validar biblioteca e ficha autenticadas em 1280×720 e 375×812, incluindo contraste, navegação por abas e ausência de overflow.
 - [x] Implementar Resistências/TRs no motor e na interface, com testes de fórmula.
 - [x] Validar nome, atributo e proficiência das perícias na interface e no contrato de persistência.
 - [x] Implementar custo de sustentação por rodada e demais regras documentadas aplicáveis aos feitiços ativos.
@@ -38,3 +38,11 @@
 - [x] Unificar os valores exibidos e rolados de ataques, incluindo treinamento e modificadores de feitiços ativos.
 - [x] Adicionar fallback de bearer token ao handshake do WebSocket privado e testar o acesso autenticado à própria ficha.
 - [x] Exibir no combate os modificadores ativos aplicados por feitiços para manter a cena auditável.
+- [x] Validar no schema os campos genéricos de bônus adicionais contra intervalos seguros e adicionar referências visíveis aos cálculos restantes.
+- [x] Criar cobertura isolada de persistência com mocks de banco para edição, duplicação, exclusão e compartilhamento, sem usar dados da conta.
+- [x] Inspecionar uma ficha autenticada completa em 1280×720 e 375×812, incluindo todas as abas, contraste, overflow e controles fixos.
+- [x] Mostrar a fonte oficial ao lado de cada cálculo derivado que ainda não possui referência na ficha.
+- [x] Registrar inspeções visuais de todas as sete abas em desktop e celular, sem criar novos registros na conta.
+- [x] Declarar e validar em um schema compartilhado os tipos de modificador aceitos por perícias, ataques, recursos e feitiços.
+- [x] Centralizar referências oficiais dos cálculos em metadados compartilhados e exibi-las nos pontos de cálculo da interface.
+- [x] Garantir que o modo de pré-visualização não persista nem abra canais privados, permitindo inspeções sem acesso a dados de usuário.

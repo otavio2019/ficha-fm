@@ -12,7 +12,7 @@ vi.mock("./db", () => ({
   saveFMCharacter: vi.fn(),
 }));
 
-import { deleteFMCharacter, getFMCharacter, saveFMCharacter } from "./db";
+import { createFMCharacterShare, deleteFMCharacter, getFMCharacter, getFMCharacterShare, getSharedFMCharacter, saveFMCharacter } from "./db";
 import { appRouter } from "./routers";
 
 function createContext(userId = 1): TrpcContext {
@@ -61,6 +61,15 @@ describe("biblioteca de fichas", () => {
     expect(saveFMCharacter).toHaveBeenCalledWith(expect.objectContaining({ id: "ficha-nova", ownerId: 1, name: "Yuji" }));
   });
 
+  it("edita uma ficha que já pertence ao usuário autenticado", async () => {
+    vi.mocked(getFMCharacter).mockResolvedValue({ id: "ficha-editar", ownerId: 1, name: "Yuji", portraitUrl: null, sheet: {}, createdAt: new Date(), updatedAt: new Date() });
+    vi.mocked(saveFMCharacter).mockResolvedValue({ id: "ficha-editar", ownerId: 1, name: "Yuji revisado", portraitUrl: null, sheet: { skills: [] }, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+
+    await expect(caller.characters.save({ id: "ficha-editar", name: "Yuji revisado", sheet: { skills: [] } })).resolves.toMatchObject({ name: "Yuji revisado" });
+    expect(saveFMCharacter).toHaveBeenCalledWith(expect.objectContaining({ id: "ficha-editar", ownerId: 1, name: "Yuji revisado" }));
+  });
+
   it("recusa perícias sem nome ou com campos fora do catálogo", async () => {
     const caller = appRouter.createCaller(createContext(1));
     await expect(caller.characters.save({ id: "ficha-invalida", name: "Yuji", sheet: { skills: [{ name: "", attribute: "sorte", proficiency: "especial" }] } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
@@ -69,6 +78,16 @@ describe("biblioteca de fichas", () => {
   it("recusa feitiços acima do nível liberado para o personagem", async () => {
     const caller = appRouter.createCaller(createContext(1));
     await expect(caller.characters.save({ id: "ficha-feitico-invalido", name: "Yuji", sheet: { progression: { level: 1 }, spells: [{ level: 2 }] } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+  });
+
+  it("recusa modificadores extras fora do intervalo declarado", async () => {
+    const caller = appRouter.createCaller(createContext(1));
+    await expect(caller.characters.save({ id: "ficha-bonus-invalido", name: "Yuji", sheet: { skills: [{ name: "Furtividade", attribute: "dexterity", proficiency: "trained", otherBonus: 99 }] } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+  });
+
+  it("exige origem registrada para um modificador extra permitido", async () => {
+    const caller = appRouter.createCaller(createContext(1));
+    await expect(caller.characters.save({ id: "ficha-bonus-sem-origem", name: "Yuji", sheet: { skills: [{ name: "Furtividade", attribute: "dexterity", proficiency: "trained", otherBonus: 2, notes: "" }] } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
   });
 
   it("duplica apenas uma ficha que pertence ao usuário", async () => {
@@ -80,6 +99,17 @@ describe("biblioteca de fichas", () => {
     expect(copy.ownerId).toBe(1);
     expect(copy.name).toBe("Maki — cópia");
     expect(saveFMCharacter).toHaveBeenCalledWith(expect.objectContaining({ ownerId: 1, name: "Maki — cópia" }));
+  });
+
+  it("cria e lê um compartilhamento público apenas para a ficha do proprietário", async () => {
+    vi.mocked(getFMCharacter).mockResolvedValue({ id: "ficha-compartilhar", ownerId: 1, name: "Panda", portraitUrl: null, sheet: {}, createdAt: new Date(), updatedAt: new Date() });
+    vi.mocked(getFMCharacterShare).mockResolvedValue(undefined);
+    vi.mocked(createFMCharacterShare).mockResolvedValue({ id: 1, characterId: "ficha-compartilhar", ownerId: 1, token: "token-publico-de-teste", createdAt: new Date() });
+    vi.mocked(getSharedFMCharacter).mockResolvedValue({ id: "ficha-compartilhar", ownerId: 1, name: "Panda", portraitUrl: null, sheet: {}, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+
+    await expect(caller.characters.share({ characterId: "ficha-compartilhar" })).resolves.toEqual({ token: "token-publico-de-teste" });
+    await expect(caller.shared.get({ token: "token-publico-de-teste" })).resolves.toMatchObject({ id: "ficha-compartilhar", name: "Panda" });
   });
 
   it("remove uma ficha pertencente ao usuário e seus links associados", async () => {

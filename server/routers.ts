@@ -3,6 +3,7 @@ import { nanoid } from "nanoid";
 import { z } from "zod";
 import { COOKIE_NAME } from "../shared/const";
 import { getHighestSpellLevel } from "../shared/fmRules";
+import { FM_DECLARED_MODIFIER_RULES, isDeclaredModifierInRange, type FMDeclaredModifierRule } from "../shared/fmModifiers";
 import { createFMCharacterShare, deleteFMCharacter, getFMCharacter, getFMCharacterShare, getSharedFMCharacter, listFMCharacters, listFMCharacterShares, saveFMCharacter } from "./db";
 import { emitCharacterUpdated } from "./live";
 import { getSessionCookieOptions } from "./_core/cookies";
@@ -11,6 +12,12 @@ import { protectedProcedure, publicProcedure, router } from "./_core/trpc";
 
 const validSkillAttributes = new Set(["strength", "dexterity", "constitution", "intelligence", "wisdom", "presence"]);
 const validSkillProficiencies = new Set(["untrained", "trained", "master"]);
+function validateDeclaredModifier(value: unknown, path: (string | number)[], rule: FMDeclaredModifierRule, context: z.RefinementCtx) {
+  if (!isDeclaredModifierInRange(value, rule)) {
+    const specification = FM_DECLARED_MODIFIER_RULES[rule];
+    context.addIssue({ code: "custom", path, message: `${specification.label} deve ficar entre ${specification.minimum} e +${specification.maximum}.` });
+  }
+}
 
 const characterInput = z.object({
   id: z.string().min(6).max(64),
@@ -31,17 +38,41 @@ const characterInput = z.object({
       if (typeof value.proficiency !== "string" || !validSkillProficiencies.has(value.proficiency)) {
         context.addIssue({ code: "custom", path: ["sheet", "skills", index, "proficiency"], message: "Proficiência de perícia inválida." });
       }
+      validateDeclaredModifier(value.otherBonus, ["sheet", "skills", index, "otherBonus"], "skill", context);
+      if (value.otherBonus !== 0 && (typeof value.notes !== "string" || !value.notes.trim())) {
+        context.addIssue({ code: "custom", path: ["sheet", "skills", index, "notes"], message: "Todo bônus extra de perícia precisa registrar sua origem nas observações." });
+      }
     });
   }
+  const bonuses = input.sheet.bonuses as Record<string, unknown> | undefined;
+  if (bonuses) Object.entries(bonuses).forEach(([key, value]) => validateDeclaredModifier(value, ["sheet", "bonuses", key], "sheet", context));
+  const resources = input.sheet.resources as Record<string, Record<string, unknown>> | undefined;
+  if (resources?.health) validateDeclaredModifier(resources.health.bonusMaximum, ["sheet", "resources", "health", "bonusMaximum"], "sheet", context);
+  if (resources?.energy) validateDeclaredModifier(resources.energy.bonusMaximum, ["sheet", "resources", "energy", "bonusMaximum"], "sheet", context);
+  const attacks = input.sheet.attacks;
+  if (Array.isArray(attacks)) attacks.forEach((attack, index) => {
+    const value = attack as Record<string, unknown>;
+    validateDeclaredModifier(value.otherBonus, ["sheet", "attacks", index, "otherBonus"], "attack", context);
+    validateDeclaredModifier(value.penalties, ["sheet", "attacks", index, "penalties"], "attack", context);
+    if ((value.otherBonus !== 0 || value.penalties !== 0) && (typeof value.notes !== "string" || !value.notes.trim())) {
+      context.addIssue({ code: "custom", path: ["sheet", "attacks", index, "notes"], message: "Todo modificador de ataque precisa registrar sua origem nas observações." });
+    }
+  });
   const progression = input.sheet.progression as Record<string, unknown> | undefined;
   const level = typeof progression?.level === "number" ? progression.level : 1;
   const spells = input.sheet.spells;
   if (Array.isArray(spells)) {
     const highestSpellLevel = getHighestSpellLevel(level);
     spells.forEach((spell, index) => {
-      const spellLevel = (spell as Record<string, unknown>).level;
+      const value = spell as Record<string, unknown>;
+      const spellLevel = value.level;
       if (typeof spellLevel !== "number" || spellLevel < 0 || spellLevel > highestSpellLevel) {
         context.addIssue({ code: "custom", path: ["sheet", "spells", index, "level"], message: `O nível do feitiço excede o máximo liberado (${highestSpellLevel}).` });
+      }
+      validateDeclaredModifier(value.costAdjustment, ["sheet", "spells", index, "costAdjustment"], "spellCost", context);
+      validateDeclaredModifier(value.combatModifier, ["sheet", "spells", index, "combatModifier"], "spellCombat", context);
+      if ((value.costAdjustment !== 0 || value.combatModifier !== 0) && (![value.effect, value.notes].some(entry => typeof entry === "string" && entry.trim()))) {
+        context.addIssue({ code: "custom", path: ["sheet", "spells", index, "effect"], message: "Todo modificador de feitiço precisa registrar seu efeito ou observação de origem." });
       }
     });
   }
