@@ -149,3 +149,8 @@
 - [x] Cobrir as novas capacidades com regras, persistência protegida, dados legados e interface responsiva.
 - [x] Validar no contrato protegido as aptidões contra catálogo, nível, custo e pré-requisitos.
 - [x] Completar a gestão de ações dos aliados com criação, edição, remoção individual e cobertura de persistência.
+- [ ] Mapear campos obrigatórios e erros de salvamento do criador atual de Técnica Amaldiçoada e Estilo Marcial.
+- [ ] Criar modelos guiados que preencham automaticamente campos iniciais de Técnica Amaldiçoada e Estilo Marcial.
+- [ ] Automatizar a geração de poderes/feitiços com custo, resolução, contrajogo e limites coerentes ao tipo escolhido.
+- [ ] Exibir um resumo de validação em tempo real e impedir salvamento de criações incompletas.
+- [ ] Cobrir criação, persistência, compatibilidade legada e responsividade do novo assistente.
