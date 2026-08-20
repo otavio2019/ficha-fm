@@ -79,6 +79,18 @@ describe("biblioteca de fichas", () => {
     expect(storagePut).toHaveBeenCalledWith(expect.stringContaining("fm-characters/1/ficha-imagem/"), expect.any(Buffer), "image/png");
   });
 
+  it("persiste o retrato principal sem adicioná-lo à galeria", async () => {
+    const portraitUrl = "/manus-storage/fm-characters/1/ficha-retrato/retrato.png";
+    const sheet = { identity: { name: "Maki", portraitUrl }, images: [{ id: "ref-1", key: "fichas/referencia.png", url: "/manus-storage/fichas/referencia.png", name: "referencia.png", caption: "Arma", createdAt: 100 }] };
+    vi.mocked(getFMCharacter).mockResolvedValueOnce(undefined).mockResolvedValueOnce({ id: "ficha-retrato", ownerId: 1, name: "Maki", portraitUrl, sheet, createdAt: new Date(), updatedAt: new Date() });
+    vi.mocked(saveFMCharacter).mockResolvedValue({ id: "ficha-retrato", ownerId: 1, name: "Maki", portraitUrl, sheet, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+
+    await caller.characters.save({ id: "ficha-retrato", name: "Maki", portraitUrl, sheet });
+    await expect(caller.characters.get({ id: "ficha-retrato" })).resolves.toMatchObject({ portraitUrl, sheet: { identity: { portraitUrl }, images: [{ name: "referencia.png" }] } });
+    expect(saveFMCharacter).toHaveBeenCalledWith(expect.objectContaining({ portraitUrl }));
+  });
+
   it("bloqueia o envio de imagem para ficha de outro usuário", async () => {
     vi.mocked(getFMCharacter).mockResolvedValue({ id: "ficha-imagem-alheia", ownerId: 2, name: "Nobara", portraitUrl: null, sheet: {}, createdAt: new Date(), updatedAt: new Date() });
     const caller = appRouter.createCaller(createContext(1));

@@ -21,6 +21,7 @@ const validSkillAttributes = new Set(["strength", "dexterity", "constitution", "
 const validSkillProficiencies = new Set(["untrained", "trained", "master"]);
 const validOriginIds = new Set([...FM_ORIGIN_CATALOG.map(origin => origin.id), "custom"]);
 const validClanIds = new Set([...FM_CLAN_CATALOG.map(clan => clan.id), "custom"]);
+const storedImageUrl = z.union([z.string().url(), z.string().regex(/^\/manus-storage\//)]);
 function validateDeclaredModifier(value: unknown, path: (string | number)[], rule: FMDeclaredModifierRule, context: z.RefinementCtx) {
   if (!isDeclaredModifierInRange(value, rule)) {
     const specification = FM_DECLARED_MODIFIER_RULES[rule];
@@ -31,7 +32,7 @@ function validateDeclaredModifier(value: unknown, path: (string | number)[], rul
 const characterInput = z.object({
   id: z.string().min(6).max(64),
   name: z.string().trim().min(1).max(160),
-  portraitUrl: z.string().url().nullable().optional(),
+  portraitUrl: storedImageUrl.nullable().optional(),
   sheet: z.record(z.string(), z.unknown()),
 }).superRefine((input, context) => {
   const skills = input.sheet.skills;

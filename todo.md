@@ -130,3 +130,6 @@
 - [x] Cobrir regras, persistência, autorização e responsividade das novas bibliotecas e da multiclasse.
 - [x] Revisar a auditoria F&M para confirmar lacunas explicitamente rastreáveis no documento entregue.
 - [x] Testar persistência e recarga protegidas de especialização primária, trilhas de Multiclasse e `catalogId` de perícias e equipamentos.
+- [x] Criar um painel próprio para escolher, trocar e remover o retrato principal do personagem, separado da galeria.
+- [x] Ajustar a galeria para permanecer destinada apenas a referências visuais, sem controlar o retrato principal.
+- [x] Cobrir persistência, interface responsiva e compatibilidade legada do retrato independente.
