@@ -2,7 +2,8 @@ import { TRPCError } from "@trpc/server";
 import { nanoid } from "nanoid";
 import { z } from "zod";
 import { COOKIE_NAME } from "../shared/const";
-import { getHighestSpellLevel, getTechniquePowerProgression } from "../shared/fmRules";
+import { FM_MULTICLASS_REQUIREMENTS, FM_SPECIALIZATION_PROFILES, getHighestSpellLevel, getTechniquePowerProgression } from "../shared/fmRules";
+import { getEquipmentCatalogEntry, getSkillCatalogEntry } from "../shared/fmCatalogs";
 import { FM_DECLARED_MODIFIER_RULES, isDeclaredModifierInRange, type FMDeclaredModifierRule } from "../shared/fmModifiers";
 import { getInfiniteWorldLevel } from "../shared/infiniteWorlds";
 import { validateTechnique } from "../shared/fmTechniques";
@@ -50,6 +51,11 @@ const characterInput = z.object({
       if (value.otherBonus !== 0 && (typeof value.notes !== "string" || !value.notes.trim())) {
         context.addIssue({ code: "custom", path: ["sheet", "skills", index, "notes"], message: "Todo bônus extra de perícia precisa registrar sua origem nas observações." });
       }
+      if (typeof value.catalogId === "string") {
+        const catalog = getSkillCatalogEntry(value.catalogId);
+        if (!catalog || catalog.name !== value.name || catalog.attribute !== value.attribute) context.addIssue({ code: "custom", path: ["sheet", "skills", index, "catalogId"], message: "A perícia selecionada não corresponde ao banco oficial." });
+        if (catalog?.requiresTraining && value.proficiency === "untrained") context.addIssue({ code: "custom", path: ["sheet", "skills", index, "proficiency"], message: `${catalog.name} exige treinamento.` });
+      }
     });
   }
   const bonuses = input.sheet.bonuses as Record<string, unknown> | undefined;
@@ -66,9 +72,41 @@ const characterInput = z.object({
       context.addIssue({ code: "custom", path: ["sheet", "attacks", index, "notes"], message: "Todo modificador de ataque precisa registrar sua origem nas observações." });
     }
   });
+  const equipment = input.sheet.equipment;
+  if (Array.isArray(equipment)) equipment.forEach((item, index) => {
+    const value = item as Record<string, unknown>;
+    if (typeof value.catalogId === "string") {
+      const catalog = getEquipmentCatalogEntry(value.catalogId);
+      if (!catalog || catalog.name !== value.name || catalog.category !== value.category) context.addIssue({ code: "custom", path: ["sheet", "equipment", index, "catalogId"], message: "O equipamento selecionado não corresponde ao banco oficial." });
+    }
+    if (typeof value.spaces === "number" && (value.spaces < 0 || value.spaces > 4)) context.addIssue({ code: "custom", path: ["sheet", "equipment", index, "spaces"], message: "Espaços de equipamento devem ficar entre 0 e 4." });
+  });
   const progression = input.sheet.progression as Record<string, unknown> | undefined;
   const level = typeof progression?.level === "number" ? progression.level : 1;
   const specialization = typeof progression?.specialization === "string" ? progression.specialization : "fighter";
+  const primarySpecialization = typeof progression?.primarySpecialization === "string" ? progression.primarySpecialization : specialization;
+  const tracks = Array.isArray(progression?.specializationTracks) ? progression.specializationTracks as Array<Record<string, unknown>> : [];
+  if (!FM_SPECIALIZATION_PROFILES[primarySpecialization as keyof typeof FM_SPECIALIZATION_PROFILES]) context.addIssue({ code: "custom", path: ["sheet", "progression", "primarySpecialization"], message: "Especialização primária inválida." });
+  if (tracks.length) {
+    const names = tracks.map(track => track.specialization).filter((value): value is string => typeof value === "string");
+    const total = tracks.reduce((sum, track, index) => {
+      if (!FM_SPECIALIZATION_PROFILES[track.specialization as keyof typeof FM_SPECIALIZATION_PROFILES]) context.addIssue({ code: "custom", path: ["sheet", "progression", "specializationTracks", index, "specialization"], message: "Especialização de multiclasse inválida." });
+      if (!Number.isInteger(track.level) || Number(track.level) < 1) context.addIssue({ code: "custom", path: ["sheet", "progression", "specializationTracks", index, "level"], message: "Todo núcleo deve possuir ao menos um nível." });
+      return sum + (Number.isInteger(track.level) ? Number(track.level) : 0);
+    }, 0);
+    if (total !== level) context.addIssue({ code: "custom", path: ["sheet", "progression", "specializationTracks"], message: "A soma dos níveis de especialização deve ser igual ao nível geral." });
+    if (new Set(names).size !== names.length) context.addIssue({ code: "custom", path: ["sheet", "progression", "specializationTracks"], message: "Cada especialização deve aparecer apenas uma vez na Multiclasse." });
+    if (!names.includes(primarySpecialization)) context.addIssue({ code: "custom", path: ["sheet", "progression", "specializationTracks"], message: "A especialização primária deve constar na divisão de níveis." });
+    if (names.includes("restricted") && names.length > 1) context.addIssue({ code: "custom", path: ["sheet", "progression", "specializationTracks"], message: "Restringido não pode realizar nem receber Multiclasse." });
+    const attributes = input.sheet.attributes as Record<string, Record<string, unknown>> | undefined;
+    const base = attributes?.base ?? {};
+    const bonuses = attributes?.permanentBonuses ?? {};
+    tracks.filter(track => track.specialization !== primarySpecialization).forEach((track, index) => {
+      const requirement = FM_MULTICLASS_REQUIREMENTS[track.specialization as keyof typeof FM_MULTICLASS_REQUIREMENTS];
+      if (!requirement || track.specialization === "restricted") return;
+      if (!requirement.attributes.some(attribute => Number(base[attribute] ?? 0) + Number(bonuses[attribute] ?? 0) >= requirement.minimum)) context.addIssue({ code: "custom", path: ["sheet", "progression", "specializationTracks", index], message: `A Multiclasse em ${track.specialization} requer ${requirement.label}.` });
+    });
+  }
   const houseRules = input.sheet.houseRules;
   validateHouseRules(houseRules).forEach(message => {
     context.addIssue({ code: "custom", path: ["sheet", "houseRules"], message });
@@ -240,6 +278,13 @@ export const appRouter = router({
       }
       const nextVow = (input.sheet.houseRules as Record<string, unknown> | undefined)?.birthVow as Record<string, unknown> | undefined;
       const existingVow = (existing?.sheet.houseRules as Record<string, unknown> | undefined)?.birthVow as Record<string, unknown> | undefined;
+      const existingProgression = existing?.sheet.progression as Record<string, unknown> | undefined;
+      const nextProgression = input.sheet.progression as Record<string, unknown> | undefined;
+      const establishedPrimary = typeof existingProgression?.primarySpecialization === "string" ? existingProgression.primarySpecialization : existingProgression?.specialization;
+      const requestedPrimary = typeof nextProgression?.primarySpecialization === "string" ? nextProgression.primarySpecialization : nextProgression?.specialization;
+      if (typeof establishedPrimary === "string" && typeof requestedPrimary === "string" && establishedPrimary !== requestedPrimary) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "A primeira especialização escolhida é permanente e não pode ser alterada." });
+      }
       if (existingVow?.locked) {
         const lockedFields = ["type", "description", "approved", "locked"];
         if (lockedFields.some(field => existingVow[field] !== nextVow?.[field])) {

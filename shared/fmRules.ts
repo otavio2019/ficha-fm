@@ -1,4 +1,4 @@
-import { fmSavingThrowKeys, type FMAttributeKey, type FMAttributes, type FMAttackMode, type FMCharacterSheet, type FMProficiency, type FMSavingThrowKey, type FMSpecializationKey, type FMSpellLevel } from "./fmTypes";
+import { fmSavingThrowKeys, type FMAttributeKey, type FMAttributes, type FMAttackMode, type FMCharacterSheet, type FMEquipmentItem, type FMProficiency, type FMSavingThrowKey, type FMSpecializationKey, type FMSpecializationTrack, type FMSpellLevel } from "./fmTypes";
 
 export const FM_ATTRIBUTE_LABELS: Record<FMAttributeKey, string> = {
   strength: "Força",
@@ -51,6 +51,43 @@ export const FM_SPECIALIZATION_PROFILES: Record<FMSpecializationKey, Specializat
   support: { firstLevelHealth: 10, averageHealthGain: 5, hitDie: 8, energyPerLevel: 5, addsTechniqueModifier: true, usesStamina: false },
   restricted: { firstLevelHealth: 16, averageHealthGain: 7, hitDie: 12, energyPerLevel: 4, addsTechniqueModifier: false, usesStamina: true },
 };
+
+export const FM_MULTICLASS_REQUIREMENTS: Record<FMSpecializationKey, { attributes: FMAttributeKey[]; minimum: number; label: string }> = {
+  fighter: { attributes: ["strength", "dexterity"], minimum: 16, label: "Força ou Destreza 16" },
+  "combat-specialist": { attributes: ["strength", "dexterity"], minimum: 16, label: "Força ou Destreza 16" },
+  "technique-specialist": { attributes: ["intelligence", "wisdom"], minimum: 16, label: "Inteligência ou Sabedoria 16" },
+  controller: { attributes: ["presence", "wisdom"], minimum: 16, label: "Presença ou Sabedoria 16" },
+  support: { attributes: ["presence", "wisdom"], minimum: 16, label: "Presença ou Sabedoria 16" },
+  restricted: { attributes: [], minimum: Number.POSITIVE_INFINITY, label: "Não permite multiclasse" },
+};
+
+export function getSpecializationTracks(sheet: FMCharacterSheet): FMSpecializationTrack[] {
+  const tracks = sheet.progression.specializationTracks.filter(track => track && FM_SPECIALIZATION_PROFILES[track.specialization] && Number.isInteger(track.level) && track.level > 0);
+  if (tracks.length) return tracks;
+  return [{ specialization: sheet.progression.specialization, level: Math.max(1, sheet.progression.specializationLevels || sheet.progression.level) }];
+}
+
+export function canAddMulticlass(attributes: FMAttributes, primary: FMSpecializationKey | null, candidate: FMSpecializationKey) {
+  if (!primary || candidate === primary) return { allowed: true, reason: "" };
+  if (primary === "restricted" || candidate === "restricted") return { allowed: false, reason: "Restringido não pode realizar nem receber Multiclasse." };
+  const requirement = FM_MULTICLASS_REQUIREMENTS[candidate];
+  const allowed = requirement.attributes.some(attribute => attributes[attribute] >= requirement.minimum);
+  return { allowed, reason: allowed ? "" : `Requer ${requirement.label}.` };
+}
+
+export function getEquipmentSpaces(item: FMEquipmentItem) {
+  return Number.isFinite(item.spaces) ? Math.max(0, item.spaces as number) : Math.max(0, item.weight || 0);
+}
+
+export function getCarryCapacity(strengthModifier: number) {
+  return Math.max(1, 8 + strengthModifier * 2);
+}
+
+export function getInventoryLoad(sheet: FMCharacterSheet) {
+  const spaces = sheet.equipment.reduce((total, item) => total + getEquipmentSpaces(item) * Math.max(1, Number.isFinite(item.quantity) ? item.quantity as number : 1), 0);
+  const capacity = getCarryCapacity(getAttributeModifier(getTotalAttributes(sheet).strength));
+  return { spaces, capacity, maximum: capacity * 2, overloaded: spaces > capacity, impossible: spaces > capacity * 2 };
+}
 
 export const FM_SPELL_COSTS: Record<FMSpellLevel, number> = { 0: 0, 1: 2, 2: 5, 3: 8, 4: 12, 5: 20 };
 

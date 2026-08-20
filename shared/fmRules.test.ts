@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createEmptyFMSheet } from "./fmTypes";
-import { getAttackBonus, getAttributeModifier, getDerivedValues, getOfficialTrainingBonus, getResourceLabel, getSavingThrowBonus, getSkillBonus, getSpellCost, getSustainCost, getTechniquePowerProgression, rollD20 } from "./fmRules";
+import { canAddMulticlass, getAttackBonus, getAttributeModifier, getDerivedValues, getInventoryLoad, getOfficialTrainingBonus, getResourceLabel, getSavingThrowBonus, getSkillBonus, getSpecializationTracks, getSpellCost, getSustainCost, getTechniquePowerProgression, rollD20 } from "./fmRules";
 
 describe("regras de F&M", () => {
   it("calcula modificadores de atributo conforme a tabela oficial", () => {
@@ -93,6 +93,21 @@ describe("regras de F&M", () => {
   it("libera poderes por nível para Especialista em Técnica e por níveis pares para Lutador", () => {
     expect(getTechniquePowerProgression("technique-specialist", 4)).toMatchObject({ unlockLevels: [1, 2, 3, 4], availableSlots: 4, nextUnlockLevel: 5, cadenceLabel: "1 novo poder por nível" });
     expect(getTechniquePowerProgression("fighter", 5)).toMatchObject({ unlockLevels: [2, 4], availableSlots: 2, nextUnlockLevel: 6, cadenceLabel: "1 novo poder em níveis pares" });
+  });
+
+  it("valida Multiclasse por atributo e bloqueia combinações com Restringido", () => {
+    const attributes = { strength: 16, dexterity: 10, constitution: 10, intelligence: 10, wisdom: 10, presence: 10 };
+    expect(canAddMulticlass(attributes, "fighter", "combat-specialist")).toMatchObject({ allowed: true });
+    expect(canAddMulticlass(attributes, "fighter", "technique-specialist")).toMatchObject({ allowed: false, reason: "Requer Inteligência ou Sabedoria 16." });
+    expect(canAddMulticlass(attributes, "restricted", "fighter")).toMatchObject({ allowed: false });
+  });
+
+  it("preserva a distribuição de níveis de especialização e mede a carga por espaços", () => {
+    const sheet = createEmptyFMSheet();
+    sheet.progression.specializationTracks = [{ specialization: "fighter", level: 2 }, { specialization: "combat-specialist", level: 1 }];
+    sheet.equipment = [{ id: "arco", name: "Arco Curto", category: "weapon", damage: "1d6", damageType: "Perfurante", range: "24/48 m", defenseBonus: 0, weight: 2, spaces: 2, quantity: 2, equipped: false, notes: "" }];
+    expect(getSpecializationTracks(sheet)).toEqual([{ specialization: "fighter", level: 2 }, { specialization: "combat-specialist", level: 1 }]);
+    expect(getInventoryLoad(sheet)).toMatchObject({ spaces: 4, capacity: 8, maximum: 16, overloaded: false });
   });
 
   it("resolve vantagem e desvantagem com os resultados corretos", () => {

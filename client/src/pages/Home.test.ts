@@ -21,6 +21,13 @@ describe("hidratação de fichas legadas", () => {
     expect(sheet.origin).toMatchObject({ catalogId: "inherited", clanId: "zenin", clan: "Clã Zenin" });
   });
 
+  it("preserva escolha primária vazia em ficha nova e cria uma trilha compatível para ficha legada", () => {
+    const newSheet = hydrateSheet({ progression: { specialization: "fighter", primarySpecialization: null, primarySpecializationLocked: false, specializationTracks: [] } });
+    const legacySheet = hydrateSheet({ progression: { level: 3, specialization: "technique-specialist", specializationLevels: 3 } });
+    expect(newSheet.progression).toMatchObject({ primarySpecialization: null, primarySpecializationLocked: false, specializationTracks: [] });
+    expect(legacySheet.progression).toMatchObject({ primarySpecialization: "technique-specialist", primarySpecializationLocked: true, specializationTracks: [{ specialization: "technique-specialist", level: 3 }] });
+  });
+
   it("preserva identidade, características, técnica, equipamento e diário após recarregar a ficha reorganizada", () => {
     const sheet = hydrateSheet({
       identity: { name: "Maki", player: "Jogadora", grade: "2º Grau" },

@@ -107,6 +107,26 @@ describe("biblioteca de fichas", () => {
     expect(saveFMCharacter).toHaveBeenCalledWith(expect.objectContaining({ sheet: storedSheet }));
   });
 
+  it("persiste e recupera Multiclasse e entradas oficiais dos bancos", async () => {
+    const sheet = createEmptyFMSheet();
+    sheet.progression.experience = 20;
+    sheet.progression.level = 2;
+    sheet.progression.specialization = "fighter";
+    sheet.progression.specializationLevels = 1;
+    sheet.progression.primarySpecialization = "fighter";
+    sheet.progression.primarySpecializationLocked = true;
+    sheet.progression.specializationTracks = [{ specialization: "fighter", level: 1 }, { specialization: "combat-specialist", level: 1 }];
+    sheet.attributes.base.strength = 16;
+    sheet.skills = [{ id: "percepcao", catalogId: "perception", name: "Percepção", attribute: "wisdom", proficiency: "trained", otherBonus: 0, notes: "" }];
+    sheet.equipment = [{ id: "adaga", catalogId: "dagger", name: "Adaga", category: "weapon", damage: "1d6", damageType: "Perfurante", range: "6/18 m", defenseBonus: 0, weight: 1, spaces: 1, cost: 1, properties: "Fineza", quantity: 1, equipped: true, notes: "" }];
+    vi.mocked(getFMCharacter).mockResolvedValueOnce(undefined).mockResolvedValueOnce({ id: "ficha-catalogos", ownerId: 1, name: "Maki", portraitUrl: null, sheet, createdAt: new Date(), updatedAt: new Date() });
+    vi.mocked(saveFMCharacter).mockResolvedValue({ id: "ficha-catalogos", ownerId: 1, name: "Maki", portraitUrl: null, sheet, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+
+    await caller.characters.save({ id: "ficha-catalogos", name: "Maki", sheet });
+    await expect(caller.characters.get({ id: "ficha-catalogos" })).resolves.toMatchObject({ sheet: { progression: { primarySpecialization: "fighter", primarySpecializationLocked: true, specializationTracks: [{ specialization: "fighter", level: 1 }, { specialization: "combat-specialist", level: 1 }] }, skills: [{ catalogId: "perception", name: "Percepção" }], equipment: [{ catalogId: "dagger", name: "Adaga", spaces: 1 }] } });
+  });
+
   it("persiste e recupera o bloco completo de Regras da Casa", async () => {
     const houseRules = { rest: { exhaustion: 2, missionCount: 3, lastMissionAt: 1000, lastShortRestAt: null, lastLongRestAt: 2000, longRestMissionCount: 3 }, dedicationRewarding: true, downtime: { interludes: 1, craftingFocus: "Ferraria", professionChecksRequired: true, itemReviewRequired: true, freeBuildOptions: [{ id: "free-1", name: "Barreira", sourceSpecialization: "controller", prerequisites: "Nível 5", interludeCost: 1 }] } };
     vi.mocked(getFMCharacter).mockResolvedValueOnce(undefined).mockResolvedValueOnce({ id: "ficha-casa", ownerId: 1, name: "Maki", portraitUrl: null, sheet: { houseRules }, createdAt: new Date(), updatedAt: new Date() });
@@ -207,6 +227,20 @@ describe("biblioteca de fichas", () => {
   it("recusa perícias sem nome ou com campos fora do catálogo", async () => {
     const caller = appRouter.createCaller(createContext(1));
     await expect(caller.characters.save({ id: "ficha-invalida", name: "Yuji", sheet: { skills: [{ name: "", attribute: "sorte", proficiency: "especial" }] } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+  });
+
+  it("preserva a primeira especialização contra troca posterior", async () => {
+    vi.mocked(getFMCharacter).mockResolvedValue({ id: "ficha-primaria", ownerId: 1, name: "Yuji", portraitUrl: null, sheet: { progression: { specialization: "fighter", primarySpecialization: "fighter" } }, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+    await expect(caller.characters.save({ id: "ficha-primaria", name: "Yuji", sheet: { progression: { specialization: "technique-specialist", primarySpecialization: "technique-specialist" } } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+    expect(saveFMCharacter).not.toHaveBeenCalled();
+  });
+
+  it("recusa Multiclasse sem atributo exigido e catálogos adulterados", async () => {
+    const caller = appRouter.createCaller(createContext(1));
+    await expect(caller.characters.save({ id: "ficha-multi-invalida", name: "Yuji", sheet: { attributes: { base: { strength: 10, dexterity: 10, constitution: 10, intelligence: 10, wisdom: 10, presence: 10 }, permanentBonuses: {} }, progression: { level: 2, specialization: "fighter", primarySpecialization: "fighter", specializationTracks: [{ specialization: "fighter", level: 1 }, { specialization: "technique-specialist", level: 1 }] } } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+    await expect(caller.characters.save({ id: "ficha-catalogo-adulterado", name: "Yuji", sheet: { skills: [{ catalogId: "perception", name: "Percepção", attribute: "intelligence", proficiency: "trained", otherBonus: 0, notes: "" }] } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+    await expect(caller.characters.save({ id: "ficha-item-adulterado", name: "Yuji", sheet: { equipment: [{ catalogId: "dagger", name: "Katana", category: "weapon", spaces: 1 }] } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
   });
 
   it("recusa feitiços acima do nível liberado para o personagem", async () => {

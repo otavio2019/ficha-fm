@@ -121,3 +121,12 @@
 - [x] Reorganizar o alinhamento de Técnicas e Poderes e aprimorar a impressão em PDF no formato de ficha homebrew estruturada.
 - [x] Cobrir regras, persistência, impressão e responsividade da progressão de poderes por nível.
 - [x] Adicionar teste automatizado da composição impressa de Poderes e Feitiços, verificando o bloco de progressão e a ocultação de controles.
+- [x] Auditar o livro F&M e entregar uma lista rastreável dos recursos ainda ausentes na ficha.
+- [x] Criar um banco estruturado de perícias e permitir selecioná-las na ficha sem perder perícias legadas.
+- [x] Criar um banco estruturado de equipamentos e permitir selecioná-los na ficha sem perder itens legados.
+- [x] Separar Especialização e Multiclasse em uma seção própria, bloqueando a primeira especialização escolhida.
+- [x] Mover os campos de especialização para a nova seção e manter Atributos restrito a atributos, defesas e resistências.
+- [x] Integrar a Progressão da Guilda aos Registros de Missão e remover sua duplicação da Visão Geral.
+- [x] Cobrir regras, persistência, autorização e responsividade das novas bibliotecas e da multiclasse.
+- [x] Revisar a auditoria F&M para confirmar lacunas explicitamente rastreáveis no documento entregue.
+- [x] Testar persistência e recarga protegidas de especialização primária, trilhas de Multiclasse e `catalogId` de perícias e equipamentos.

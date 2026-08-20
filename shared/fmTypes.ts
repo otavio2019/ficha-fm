@@ -20,12 +20,14 @@ export type FMSpecializationKey =
   | "restricted";
 
 export type FMProficiency = "untrained" | "trained" | "master";
+export type FMSkillTrainingAttribute = "intelligence" | "wisdom";
 
 export const fmSavingThrowKeys = ["astucia", "fortitude", "integridade", "reflexos", "vontade"] as const;
 export type FMSavingThrowKey = (typeof fmSavingThrowKeys)[number];
 
 export type FMSkill = {
   id: string;
+  catalogId?: string;
   name: string;
   attribute: FMAttributeKey;
   proficiency: FMProficiency;
@@ -144,6 +146,7 @@ export type FMImageAttachment = {
 
 export type FMEquipmentItem = {
   id: string;
+  catalogId?: string;
   name: string;
   category: "weapon" | "shield" | "uniform" | "tool" | "special" | "other";
   damage: string;
@@ -151,8 +154,17 @@ export type FMEquipmentItem = {
   range: string;
   defenseBonus: number;
   weight: number;
+  quantity?: number;
+  spaces?: number;
+  cost?: number;
+  properties?: string;
   equipped: boolean;
   notes: string;
+};
+
+export type FMSpecializationTrack = {
+  specialization: FMSpecializationKey;
+  level: number;
 };
 
 export type FMAttack = {
@@ -228,6 +240,11 @@ export type FMCharacterSheet = {
     experience: number;
     specialization: FMSpecializationKey;
     specializationLevels: number;
+    primarySpecialization: FMSpecializationKey | null;
+    primarySpecializationLocked: boolean;
+    specializationTracks: FMSpecializationTrack[];
+    skillTrainingAttribute: FMSkillTrainingAttribute | null;
+    skillTrainingAttributeLocked: boolean;
     healthMode: "average" | "rolled";
     rolledHealthGains: number[];
     techniqueAttribute: FMAttributeKey;
@@ -288,6 +305,11 @@ export const createEmptyFMSheet = (): FMCharacterSheet => ({
     experience: 0,
     specialization: "fighter",
     specializationLevels: 1,
+    primarySpecialization: null,
+    primarySpecializationLocked: false,
+    specializationTracks: [],
+    skillTrainingAttribute: null,
+    skillTrainingAttributeLocked: false,
     healthMode: "average",
     rolledHealthGains: [],
     techniqueAttribute: "intelligence",
