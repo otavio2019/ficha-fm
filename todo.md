@@ -23,7 +23,7 @@
 - [x] Validar a interface em 1280×720 e 375×812, sem overflow horizontal e sem controles fixos sobrepondo campos.
 - [x] Registrar evidências de testes, checagens de regras e inspeção visual em validation-notes.md.
 - [x] Executar tipagem, testes e compilação de produção antes da entrega.
-- [ ] Salvar checkpoint e sincronizar a versão validada com o repositório GitHub autorizado.
+- [x] Salvar checkpoint e sincronizar a versão validada com o repositório GitHub autorizado.
 - [x] Adicionar o procedimento protegido `characters.get` para abrir uma ficha própria por ID e bloquear o acesso a fichas de terceiros.
 - [x] Cobrir em teste o fluxo protegido de abrir uma ficha própria e negar acesso a uma ficha de outro usuário.
 - [x] Implementar estados de erro com nova tentativa para biblioteca, links públicos e abertura da ficha.
