@@ -55,3 +55,11 @@
 - [x] Validar visualmente os painéis Infinite Worlds em desktop e celular e registrar as evidências.
 - [x] Salvar checkpoint e enviar a atualização ao repositório privado Infinite Worlds.
 - [x] Registrar checklist visual verificável do painel Infinite Worlds em 1280×720 e 375×812, cobrindo estrutura, contraste, overflow, sobreposição e controles.
+- [x] Adicionar na biblioteca uma área de criação, edição e remoção de técnicas vinculadas às fichas, validada conforme o livro F&M.
+- [x] Cobrir técnicas com testes de regras, autorização, persistência e compatibilidade com fichas existentes.
+- [x] Validar visualmente a área de técnicas na biblioteca em 1280×720 e 375×812 e registrar evidências.
+- [x] Adicionar testes específicos para persistir e recuperar todos os campos da técnica vinculada à ficha.
+- [x] Adicionar teste específico para bloquear a alteração de técnica em ficha pertencente a outro usuário.
+- [x] Produzir evidência verificável da Forja de Técnicas autenticada em 1280×720 e 375×812, incluindo ausência de overflow e sobreposição.
+- [x] Medir e registrar `scrollWidth`, largura de documento e elementos fixos da Forja de Técnicas no estado de pré-visualização local.
+- [x] Documentar a justificativa técnica do uso da pré-visualização local para a inspeção da Forja, sem dados ou sessão de usuário.

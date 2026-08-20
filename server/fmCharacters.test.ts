@@ -61,6 +61,26 @@ describe("biblioteca de fichas", () => {
     expect(saveFMCharacter).toHaveBeenCalledWith(expect.objectContaining({ id: "ficha-nova", ownerId: 1, name: "Yuji" }));
   });
 
+  it("aceita ficha legada sem o bloco de técnica", async () => {
+    vi.mocked(getFMCharacter).mockResolvedValue(undefined);
+    vi.mocked(saveFMCharacter).mockResolvedValue({ id: "ficha-legada", ownerId: 1, name: "Yuta", portraitUrl: null, sheet: { identity: { name: "Yuta" } }, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+
+    await expect(caller.characters.save({ id: "ficha-legada", name: "Yuta", sheet: { identity: { name: "Yuta" } } })).resolves.toMatchObject({ name: "Yuta" });
+  });
+
+  it("persiste e recupera todos os campos da técnica vinculada à ficha", async () => {
+    const technique = { kind: "cursed" as const, name: "Fios da Aurora", basicFunction: "Manipula fios de energia para conectar alvos e objetos.", attributeKeys: ["dexterity", "intelligence"], intrinsicBenefits: "Uma ferramenta simples essencial.", limitations: "Exige linha de visão.", requiredItems: "Carretel amaldiçoado.", reviewNotes: "Aguardando aprovação do mestre." };
+    const storedSheet = { progression: { specialization: "fighter" }, technique };
+    vi.mocked(getFMCharacter).mockResolvedValueOnce(undefined).mockResolvedValueOnce({ id: "ficha-tecnica", ownerId: 1, name: "Maki", portraitUrl: null, sheet: storedSheet, createdAt: new Date(), updatedAt: new Date() });
+    vi.mocked(saveFMCharacter).mockResolvedValue({ id: "ficha-tecnica", ownerId: 1, name: "Maki", portraitUrl: null, sheet: storedSheet, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+
+    await caller.characters.save({ id: "ficha-tecnica", name: "Maki", sheet: storedSheet });
+    await expect(caller.characters.get({ id: "ficha-tecnica" })).resolves.toMatchObject({ sheet: { technique } });
+    expect(saveFMCharacter).toHaveBeenCalledWith(expect.objectContaining({ sheet: storedSheet }));
+  });
+
   it("edita uma ficha que já pertence ao usuário autenticado", async () => {
     vi.mocked(getFMCharacter).mockResolvedValue({ id: "ficha-editar", ownerId: 1, name: "Yuji", portraitUrl: null, sheet: {}, createdAt: new Date(), updatedAt: new Date() });
     vi.mocked(saveFMCharacter).mockResolvedValue({ id: "ficha-editar", ownerId: 1, name: "Yuji revisado", portraitUrl: null, sheet: { skills: [] }, createdAt: new Date(), updatedAt: new Date() });
@@ -78,6 +98,20 @@ describe("biblioteca de fichas", () => {
   it("recusa feitiços acima do nível liberado para o personagem", async () => {
     const caller = appRouter.createCaller(createContext(1));
     await expect(caller.characters.save({ id: "ficha-feitico-invalido", name: "Yuji", sheet: { progression: { level: 1 }, spells: [{ level: 2 }] } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+  });
+
+  it("recusa Estilo Marcial em ficha que não é restringida", async () => {
+    const caller = appRouter.createCaller(createContext(1));
+    await expect(caller.characters.save({ id: "ficha-tecnica-invalida", name: "Yuji", sheet: { progression: { specialization: "fighter" }, technique: { kind: "martial", name: "Caminho do Predador", basicFunction: "Combate por exaustão do alvo.", attributeKeys: ["strength"], intrinsicBenefits: "", limitations: "", requiredItems: "", reviewNotes: "" } } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+  });
+
+  it("bloqueia a alteração de técnica em ficha que pertence a outro usuário", async () => {
+    vi.mocked(getFMCharacter).mockResolvedValue({ id: "ficha-tecnica-alheia", ownerId: 2, name: "Megumi", portraitUrl: null, sheet: {}, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+    const technique = { kind: "cursed", name: "Dez Sombras", basicFunction: "Invoca shikigamis.", attributeKeys: ["wisdom"], intrinsicBenefits: "", limitations: "", requiredItems: "", reviewNotes: "" };
+
+    await expect(caller.characters.save({ id: "ficha-tecnica-alheia", name: "Megumi", sheet: { progression: { specialization: "fighter" }, technique } })).rejects.toMatchObject({ code: "FORBIDDEN" });
+    expect(saveFMCharacter).not.toHaveBeenCalled();
   });
 
   it("recusa XP de guilda incompatível com o nível informado", async () => {

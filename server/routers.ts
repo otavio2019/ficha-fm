@@ -5,6 +5,7 @@ import { COOKIE_NAME } from "../shared/const";
 import { getHighestSpellLevel } from "../shared/fmRules";
 import { FM_DECLARED_MODIFIER_RULES, isDeclaredModifierInRange, type FMDeclaredModifierRule } from "../shared/fmModifiers";
 import { getInfiniteWorldLevel } from "../shared/infiniteWorlds";
+import { validateTechnique } from "../shared/fmTechniques";
 import { createFMCharacterShare, deleteFMCharacter, getFMCharacter, getFMCharacterShare, getSharedFMCharacter, listFMCharacters, listFMCharacterShares, saveFMCharacter } from "./db";
 import { emitCharacterUpdated } from "./live";
 import { getSessionCookieOptions } from "./_core/cookies";
@@ -61,6 +62,11 @@ const characterInput = z.object({
   });
   const progression = input.sheet.progression as Record<string, unknown> | undefined;
   const level = typeof progression?.level === "number" ? progression.level : 1;
+  const specialization = typeof progression?.specialization === "string" ? progression.specialization : "fighter";
+  const technique = input.sheet.technique as Record<string, unknown> | undefined;
+  validateTechnique(technique, specialization).forEach(issue => {
+    context.addIssue({ code: "custom", path: ["sheet", "technique", issue.field], message: issue.message });
+  });
   const experience = progression?.experience;
   if (experience !== undefined) {
     if (typeof experience !== "number" || !Number.isInteger(experience) || experience < 0 || experience > 6499) {

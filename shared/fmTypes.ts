@@ -38,6 +38,18 @@ export type FMSpellType = "level-zero" | "damage" | "auxiliary" | "healing" | "s
 export type FMDurationType = "immediate" | "lasting" | "sustained" | "concentrated" | "variable";
 export type FMActionType = "common" | "bonus" | "reaction" | "movement" | "free" | "complete";
 export type FMAttackMode = "melee" | "ranged" | "cursed";
+export type FMTechniqueKind = "cursed" | "martial";
+
+export type FMTechnique = {
+  kind: FMTechniqueKind;
+  name: string;
+  basicFunction: string;
+  attributeKeys: FMAttributeKey[];
+  intrinsicBenefits: string;
+  limitations: string;
+  requiredItems: string;
+  reviewNotes: string;
+};
 
 export type FMSpell = {
   id: string;
@@ -164,11 +176,7 @@ export type FMCharacterSheet = {
     attributeBonuses: Partial<FMAttributes>;
     description: string;
   };
-  technique: {
-    name: string;
-    basicFunction: string;
-    notes: string;
-  };
+  technique: FMTechnique;
   attributes: {
     base: FMAttributes;
     permanentBonuses: FMAttributes;
@@ -215,7 +223,16 @@ export const createEmptyFMSheet = (): FMCharacterSheet => ({
   },
   guild: { currency: 0 },
   origin: { name: "", attributeBonuses: {}, description: "" },
-  technique: { name: "", basicFunction: "", notes: "" },
+  technique: {
+    kind: "cursed",
+    name: "",
+    basicFunction: "",
+    attributeKeys: ["intelligence"],
+    intrinsicBenefits: "",
+    limitations: "",
+    requiredItems: "",
+    reviewNotes: "",
+  },
   attributes: {
     base: { strength: 10, dexterity: 10, constitution: 10, intelligence: 10, wisdom: 10, presence: 10 },
     permanentBonuses: { strength: 0, dexterity: 0, constitution: 0, intelligence: 0, wisdom: 0, presence: 0 },

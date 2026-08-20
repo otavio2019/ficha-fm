@@ -11,8 +11,9 @@ import { useEffect, useMemo, useState } from "react";
 import { io } from "socket.io-client";
 import { toast } from "sonner";
 import { FM_ATTRIBUTE_LABELS, FM_SAVING_THROW_LABELS, FM_SPECIALIZATION_LABELS, getAttackBonus, getDerivedValues, getHighestSpellLevel, getResourceLabel, getSkillBonus, getSpellCost, getSustainCost, rollD20 } from "@shared/fmRules";
-import { createEmptyFMSheet, fmAttributeKeys, fmSavingThrowKeys, type FMAttack, type FMCharacterSheet, type FMSpell, type FMSpellLevel, type FMSpecializationKey } from "@shared/fmTypes";
+import { createEmptyFMSheet, fmAttributeKeys, fmSavingThrowKeys, type FMAttack, type FMCharacterSheet, type FMSpell, type FMSpellLevel, type FMSpecializationKey, type FMTechnique } from "@shared/fmTypes";
 import { getExperienceForLevel, getInfiniteWorldProgress, getMissionExperienceReward, getMissionMoneyReward, type InfiniteWorldMissionDifficulty, type InfiniteWorldMoneyDifficulty } from "@shared/infiniteWorlds";
+import { FM_TECHNIQUE_CREATION_CITATION, getPrimaryTechniqueAttribute, getTechniqueCopy, getTechniqueKindForSpecialization, isTechniqueReady, validateTechnique } from "@shared/fmTechniques";
 
 type TabId = "overview" | "attributes" | "skills" | "spells" | "combat" | "equipment" | "diary";
 
@@ -100,8 +101,10 @@ function ActionButton({ children, onClick, title, className = "" }: { children: 
 export default function Home() {
   const { user, loading, isAuthenticated, logout } = useAuth();
   const utils = trpc.useUtils();
-  const previewMode = new URLSearchParams(window.location.search).get("preview") === "full";
-  const [activeCharacterId, setActiveCharacterId] = useState<string | null>(() => new URLSearchParams(window.location.search).get("preview") === "full" ? "preview-local" : new URLSearchParams(window.location.search).get("ficha"));
+  const previewVariant = new URLSearchParams(window.location.search).get("preview");
+  const previewMode = previewVariant === "full" || previewVariant === "library";
+  const previewLibraryMode = previewVariant === "library";
+  const [activeCharacterId, setActiveCharacterId] = useState<string | null>(() => previewVariant === "full" ? "preview-local" : new URLSearchParams(window.location.search).get("ficha"));
   const [sheet, setSheet] = useState<FMCharacterSheet | null>(null);
   const [tab, setTab] = useState<TabId>(() => {
     const requested = new URLSearchParams(window.location.search).get("tab") as TabId | null;
@@ -110,9 +113,16 @@ export default function Home() {
   const [creating, setCreating] = useState(false);
   const [newCharacterName, setNewCharacterName] = useState("");
   const [newNote, setNewNote] = useState("");
+  const [techniqueCharacterId, setTechniqueCharacterId] = useState<string | null>(() => previewVariant === "library" ? "preview-technique" : null);
+  const [previewTechniqueSheet, setPreviewTechniqueSheet] = useState<FMCharacterSheet>(() => {
+    const previewSheet = createNewSheet("Pré-visualização da Forja");
+    previewSheet.technique = { ...previewSheet.technique, name: "Fios da Aurora", basicFunction: "Manipula fios de energia para conectar alvos e objetos, criando aplicações práticas por meio de feitiços.", attributeKeys: ["dexterity", "intelligence"], intrinsicBenefits: "Recebe um carretel simples como ferramenta essencial.", limitations: "Exige linha de visão e não atravessa barreiras sólidas.", requiredItems: "Carretel amaldiçoado e luvas condutoras.", reviewNotes: "Exemplo local para revisão visual; não é salvo." };
+    return previewSheet;
+  });
 
   const charactersQuery = trpc.characters.list.useQuery(undefined, { enabled: isAuthenticated });
   const activeQuery = trpc.characters.get.useQuery({ id: activeCharacterId ?? "sem-ficha" }, { enabled: isAuthenticated && Boolean(activeCharacterId) && !previewMode });
+  const techniqueTargetQuery = trpc.characters.get.useQuery({ id: techniqueCharacterId ?? "sem-tecnica" }, { enabled: isAuthenticated && Boolean(techniqueCharacterId) && !previewMode });
   const sharesQuery = trpc.shares.list.useQuery(undefined, { enabled: isAuthenticated });
   const saveMutation = trpc.characters.save.useMutation({ onSuccess: () => utils.characters.list.invalidate(), onError: () => toast.error("A ficha contém dados inválidos e não foi salva.") });
   const removeMutation = trpc.characters.remove.useMutation({ onSuccess: () => utils.characters.list.invalidate() });
@@ -122,14 +132,14 @@ export default function Home() {
   const refetchCharacterLibrary = charactersQuery.refetch;
 
   useEffect(() => {
-    if (previewMode) {
+    if (previewMode && !previewLibraryMode) {
       setSheet(createNewSheet("Pré-visualização Infinite Worlds"));
       return;
     }
     if (activeQuery.data && activeQuery.data.id === activeCharacterId) {
       setSheet(hydrateSheet(activeQuery.data.sheet));
     }
-  }, [activeCharacterId, activeQuery.data, previewMode]);
+  }, [activeCharacterId, activeQuery.data, previewLibraryMode, previewMode]);
 
   useEffect(() => {
     if (!activeCharacterId || previewMode) return;
@@ -223,6 +233,32 @@ export default function Home() {
     }
   };
 
+  const saveLibraryTechnique = async (character: { id: string; name: string; portraitUrl: string | null; sheet: FMCharacterSheet }, technique: FMTechnique, diaryTitle: string) => {
+    const kind = getTechniqueKindForSpecialization(character.sheet.progression.specialization);
+    const normalizedTechnique = { ...technique, kind };
+    const primaryAttribute = getPrimaryTechniqueAttribute(normalizedTechnique, character.sheet.progression.techniqueAttribute);
+    const detail = normalizedTechnique.name.trim() ? `${normalizedTechnique.name.trim()} foi vinculada à ficha pela Forja de Técnicas.` : "A técnica ou o estilo foi removido da ficha pela Forja de Técnicas.";
+    const nextSheet: FMCharacterSheet = {
+      ...character.sheet,
+      technique: normalizedTechnique,
+      progression: { ...character.sheet.progression, techniqueAttribute: primaryAttribute },
+      diary: [{ id: id(), at: Date.now(), category: "note", title: diaryTitle, detail }, ...character.sheet.diary],
+    };
+    if (previewLibraryMode) {
+      setPreviewTechniqueSheet(nextSheet);
+      toast.success("Pré-visualização atualizada localmente; nenhum dado foi salvo.");
+      return;
+    }
+    try {
+      await saveMutation.mutateAsync({ id: character.id, name: nextSheet.identity.name.trim() || character.name, portraitUrl: character.portraitUrl, sheet: nextSheet as unknown as Record<string, unknown> });
+      await utils.characters.get.invalidate({ id: character.id });
+      await utils.characters.list.invalidate();
+      toast.success(normalizedTechnique.name.trim() ? "Técnica registrada na ficha selecionada." : "Técnica removida da ficha selecionada.");
+    } catch {
+      toast.error("Não foi possível registrar a técnica. Revise os campos e tente novamente.");
+    }
+  };
+
   const exportSheet = () => {
     if (!sheet) return;
     const blob = new Blob([JSON.stringify(sheet, null, 2)], { type: "application/json" });
@@ -248,11 +284,16 @@ export default function Home() {
   }
 
   if (!activeCharacterId || !sheet || !derived) {
+    const previewCharacter = { id: "preview-technique", name: previewTechniqueSheet.identity.name, portraitUrl: null, updatedAt: new Date(0) };
+    const libraryCharacters = previewLibraryMode ? [previewCharacter] : charactersQuery.data ?? [];
+    const selectedTechniqueTarget = previewLibraryMode
+      ? techniqueCharacterId === previewCharacter.id ? { ...previewCharacter, sheet: previewTechniqueSheet } : null
+      : techniqueTargetQuery.data ? { ...techniqueTargetQuery.data, sheet: hydrateSheet(techniqueTargetQuery.data.sheet) } : null;
     return <CharacterLibrary
-      userName={user?.name ?? "Integrante"}
-      characters={charactersQuery.data ?? []}
-      sharedCount={sharesQuery.data?.length ?? 0}
-      loading={charactersQuery.isLoading}
+      userName={previewLibraryMode ? "Pré-visualização local" : user?.name ?? "Integrante"}
+      characters={libraryCharacters}
+      sharedCount={previewLibraryMode ? 0 : sharesQuery.data?.length ?? 0}
+      loading={previewLibraryMode ? false : charactersQuery.isLoading}
       creating={creating}
       newName={newCharacterName}
       onNewName={setNewCharacterName}
@@ -260,6 +301,11 @@ export default function Home() {
       onOpen={openCharacter}
       onDuplicate={characterId => void duplicateCharacter(characterId)}
       onDelete={(characterId, name) => void deleteCharacter(characterId, name)}
+      techniqueCharacterId={techniqueCharacterId}
+      techniqueTarget={selectedTechniqueTarget}
+      techniqueLoading={previewLibraryMode ? false : techniqueTargetQuery.isFetching}
+      onTechniqueCharacterChange={setTechniqueCharacterId}
+      onSaveTechnique={(character, technique, diaryTitle) => saveLibraryTechnique(character, technique, diaryTitle)}
       onToggleCreate={() => setCreating(value => !value)}
       onLogout={logout}
     />;
@@ -307,13 +353,73 @@ function CharacterLoadError({ onBack, onRetry }: { onBack: () => void; onRetry: 
   return <main className="grid min-h-screen place-items-center bg-[#09060f] px-5 text-stone-100"><Panel className="max-w-lg text-center"><BookOpen className="mx-auto h-10 w-10 text-amber-300" /><h1 className="mt-5 font-display text-3xl">A ficha não pôde ser aberta</h1><p className="mt-3 text-sm leading-6 text-stone-400">Acesse sua biblioteca ou tente carregar novamente. Não houve alteração em seus dados.</p><div className="mt-6 flex justify-center gap-3"><Button onClick={onRetry} className="bg-amber-300 text-[#190d07] hover:bg-amber-200">Tentar novamente</Button><ActionButton title="Voltar à biblioteca" onClick={onBack}>Voltar</ActionButton></div></Panel></main>;
 }
 
-function CharacterLibrary({ userName, characters, sharedCount, loading, creating, newName, onNewName, onCreate, onOpen, onDuplicate, onDelete, onToggleCreate, onLogout }: {
-  userName: string; characters: Array<{ id: string; name: string; portraitUrl: string | null; updatedAt: Date }>; sharedCount: number; loading: boolean; creating: boolean; newName: string; onNewName: (value: string) => void; onCreate: () => void; onOpen: (id: string) => void; onDuplicate: (id: string) => void; onDelete: (id: string, name: string) => void; onToggleCreate: () => void; onLogout: () => void;
+function CharacterLibrary({ userName, characters, sharedCount, loading, creating, newName, onNewName, onCreate, onOpen, onDuplicate, onDelete, techniqueCharacterId, techniqueTarget, techniqueLoading, onTechniqueCharacterChange, onSaveTechnique, onToggleCreate, onLogout }: {
+  userName: string; characters: Array<{ id: string; name: string; portraitUrl: string | null; updatedAt: Date }>; sharedCount: number; loading: boolean; creating: boolean; newName: string; onNewName: (value: string) => void; onCreate: () => void; onOpen: (id: string) => void; onDuplicate: (id: string) => void; onDelete: (id: string, name: string) => void; techniqueCharacterId: string | null; techniqueTarget: { id: string; name: string; portraitUrl: string | null; sheet: FMCharacterSheet } | null; techniqueLoading: boolean; onTechniqueCharacterChange: (id: string) => void; onSaveTechnique: (character: { id: string; name: string; portraitUrl: string | null; sheet: FMCharacterSheet }, technique: FMTechnique, diaryTitle: string) => Promise<void>; onToggleCreate: () => void; onLogout: () => void;
 }) {
   return <main className="min-h-screen bg-[#09060f] px-4 py-6 text-stone-100 sm:px-6 sm:py-10"><div className="mx-auto max-w-6xl"><header className="mb-10 flex flex-col justify-between gap-5 border-b border-violet-300/10 pb-7 sm:flex-row sm:items-end"><div><p className="font-display text-xs uppercase tracking-[0.25em] text-amber-300/70">Infinite Worlds · Guilda F&M</p><h1 className="mt-2 font-display text-4xl text-stone-100">Biblioteca da guilda</h1><p className="mt-3 max-w-2xl text-sm leading-6 text-stone-400">Bem-vindo, {userName}. Cada ficha é salva na sua conta e pode gerar um link público somente leitura.</p></div><div className="flex gap-2"><ActionButton title="Sair da conta" onClick={onLogout}><LogOut className="h-4 w-4" /><span className="ml-2">Sair</span></ActionButton><Button onClick={onToggleCreate} className="bg-amber-300 text-[#190d07] hover:bg-amber-200"><CirclePlus className="mr-2 h-4 w-4" />Nova ficha</Button></div></header>
     <div className="mb-6 grid gap-3 sm:grid-cols-3"><Panel><p className="text-xs uppercase tracking-[0.16em] text-stone-500">Fichas salvas</p><p className="mt-1 font-display text-3xl text-amber-200">{characters.length}</p></Panel><Panel><p className="text-xs uppercase tracking-[0.16em] text-stone-500">Links públicos</p><p className="mt-1 font-display text-3xl text-amber-200">{sharedCount}</p></Panel><Panel><p className="text-xs uppercase tracking-[0.16em] text-stone-500">Modo de sincronização</p><p className="mt-2 text-sm text-violet-200">Conta autenticada</p></Panel></div>
+    <TechniqueForge characters={characters} selectedCharacterId={techniqueCharacterId} target={techniqueTarget} loading={techniqueLoading} onSelectCharacter={onTechniqueCharacterChange} onSave={onSaveTechnique} />
     {creating ? <Panel className="mb-6 border-amber-300/20"><div className="flex flex-col gap-3 sm:flex-row sm:items-end"><Field label="Nome do personagem"><Input autoFocus value={newName} onChange={event => onNewName(event.target.value)} placeholder="Ex.: Aoi Todo" /></Field><Button onClick={onCreate} className="bg-amber-300 text-[#190d07] hover:bg-amber-200">Criar ficha</Button><ActionButton title="Cancelar criação" onClick={onToggleCreate}>Cancelar</ActionButton></div></Panel> : null}
     {loading ? <div className="grid place-items-center py-20"><Loader2 className="h-7 w-7 animate-spin text-amber-300" /></div> : characters.length === 0 ? <Panel className="grid min-h-72 place-items-center border-dashed text-center"><div><Library className="mx-auto h-9 w-9 text-violet-300/70" /><h2 className="mt-4 font-display text-2xl">Nenhuma ficha arquivada</h2><p className="mt-2 max-w-md text-sm leading-6 text-stone-500">Crie a primeira ficha para registrar os dados de um feiticeiro, uma maldição ou um restringido.</p><Button onClick={onToggleCreate} className="mt-5 bg-amber-300 text-[#190d07] hover:bg-amber-200"><Plus className="mr-2 h-4 w-4" />Criar a primeira ficha</Button></div></Panel> : <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">{characters.map(character => <Panel key={character.id} className="group flex min-h-52 flex-col justify-between overflow-hidden border-violet-300/10 transition hover:border-amber-300/30"><div><div className="flex items-start justify-between gap-4"><div className="grid h-11 w-11 place-items-center rounded-xl bg-violet-600/20 font-display text-xl text-amber-200">{character.name.slice(0, 1).toUpperCase()}</div><span className="rounded-full border border-violet-300/10 px-2 py-1 text-[10px] uppercase tracking-[0.15em] text-stone-500">Sincronizada</span></div><h2 className="mt-6 font-display text-2xl text-stone-100">{character.name}</h2><p className="mt-2 text-xs text-stone-500">Atualizada em {new Date(character.updatedAt).toLocaleDateString("pt-BR")}</p></div><div className="mt-7 flex flex-wrap gap-2"><Button size="sm" onClick={() => onOpen(character.id)} className="bg-violet-600/70 text-violet-50 hover:bg-violet-500">Abrir</Button><ActionButton title="Duplicar ficha" onClick={() => onDuplicate(character.id)}><Copy className="h-4 w-4" /></ActionButton><ActionButton title="Excluir ficha" onClick={() => onDelete(character.id, character.name)} className="hover:border-red-400/60 hover:text-red-200"><Trash2 className="h-4 w-4" /></ActionButton></div></Panel>)}</div>}</div></main>;
+	}
+
+function TechniqueForge({ characters, selectedCharacterId, target, loading, onSelectCharacter, onSave }: {
+  characters: Array<{ id: string; name: string; portraitUrl: string | null; updatedAt: Date }>;
+  selectedCharacterId: string | null;
+  target: { id: string; name: string; portraitUrl: string | null; sheet: FMCharacterSheet } | null;
+  loading: boolean;
+  onSelectCharacter: (id: string) => void;
+  onSave: (character: { id: string; name: string; portraitUrl: string | null; sheet: FMCharacterSheet }, technique: FMTechnique, diaryTitle: string) => Promise<void>;
+}) {
+  const [draft, setDraft] = useState<FMTechnique | null>(null);
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (!target) {
+      setDraft(null);
+      return;
+    }
+    const kind = getTechniqueKindForSpecialization(target.sheet.progression.specialization);
+    setDraft({ ...target.sheet.technique, kind, attributeKeys: target.sheet.technique.attributeKeys.length ? target.sheet.technique.attributeKeys : [target.sheet.progression.techniqueAttribute] });
+  }, [target?.id]);
+
+  const kind = target ? getTechniqueKindForSpecialization(target.sheet.progression.specialization) : "cursed";
+  const copy = getTechniqueCopy(kind);
+  const errors = target && draft ? validateTechnique(draft, target.sheet.progression.specialization) : [];
+  const ready = draft ? isTechniqueReady(draft) : false;
+  const update = (updater: (current: FMTechnique) => FMTechnique) => setDraft(current => current ? updater(current) : current);
+  const toggleAttribute = (attribute: FMCharacterSheet["progression"]["techniqueAttribute"]) => update(current => {
+    const selected = current.attributeKeys.includes(attribute);
+    if (selected && current.attributeKeys.length === 1) {
+      toast.error("A técnica precisa manter pelo menos um atributo.");
+      return current;
+    }
+    return { ...current, attributeKeys: selected ? current.attributeKeys.filter(item => item !== attribute) : [...current.attributeKeys, attribute] };
+  });
+  const clearDraft = () => {
+    if (!target || !window.confirm(`Remover ${copy.singular.toLocaleLowerCase()} de ${target.name}? Os feitiços não serão apagados.`)) return;
+    const base = createEmptyFMSheet().technique;
+    setDraft({ ...base, kind, attributeKeys: [target.sheet.progression.techniqueAttribute] });
+  };
+  const save = async () => {
+    if (!target || !draft) return;
+    if (errors.length) {
+      toast.error(errors[0]?.message ?? "Revise a técnica antes de salvar.");
+      return;
+    }
+    if (draft.name.trim() || draft.basicFunction.trim()) {
+      if (!ready) {
+        toast.error(`Informe nome, ${copy.basicFunction.toLocaleLowerCase()} e ao menos um atributo.`);
+        return;
+      }
+    }
+    setSaving(true);
+    await onSave(target, { ...draft, kind }, draft.name.trim() ? `${copy.singular} registrada` : `${copy.singular} removida`);
+    setSaving(false);
+  };
+
+  return <Panel className="relative mb-6 overflow-hidden border-amber-300/20 bg-[radial-gradient(circle_at_92%_7%,rgba(173,111,223,.15),transparent_34%),#120c1d]"><div className="absolute -right-10 -top-12 h-32 w-32 rounded-full border border-amber-300/10" /><div className="relative flex flex-col gap-4 border-b border-amber-300/10 pb-5 lg:flex-row lg:items-end lg:justify-between"><div><div className="flex items-center gap-2 font-display text-xs uppercase tracking-[.2em] text-amber-300/75"><WandSparkles className="h-4 w-4" />Forja de Técnicas</div><h2 className="mt-2 font-display text-2xl text-stone-100">Crie o núcleo do personagem</h2><p className="mt-2 max-w-2xl text-sm leading-6 text-stone-400">Selecione uma ficha para registrar a técnica amaldiçoada ou, para restringidos, o Estilo Marcial. Feitiços são extensões práticas e permanecem na aba Magias/Maldições.</p></div><Field label="Personagem da biblioteca"><select className="h-10 min-w-56 rounded-md border border-violet-300/20 bg-[#0c0713] px-3 text-sm text-stone-100 outline-none focus:ring-2 focus:ring-amber-300/70" value={selectedCharacterId ?? "unselected"} onChange={event => { if (event.target.value !== "unselected") onSelectCharacter(event.target.value); }}><option value="unselected">Selecione uma ficha</option>{characters.map(character => <option key={character.id} value={character.id}>{character.name}</option>)}</select></Field></div>
+    {!selectedCharacterId ? <div className="relative grid min-h-32 place-items-center text-center"><div><WandSparkles className="mx-auto h-7 w-7 text-violet-300/70" /><p className="mt-3 text-sm text-stone-400">Escolha um personagem acima ou use o ícone de técnica no cartão dele.</p></div></div> : loading || !target ? <div className="relative grid min-h-40 place-items-center"><Loader2 className="h-6 w-6 animate-spin text-amber-300" /></div> : !draft ? null : <div className="relative mt-5"><div className="mb-4 flex flex-wrap items-center justify-between gap-3"><div><p className="font-display text-lg text-amber-100">{target.name} · {copy.singular}</p><p className="mt-1 text-xs leading-5 text-stone-500">{FM_TECHNIQUE_CREATION_CITATION}. Os benefícios narrativos não alteram cálculos automaticamente: registre efeitos de combate e feitiços nos campos próprios.</p></div><span className="rounded-full border border-violet-300/15 bg-black/20 px-3 py-1 text-xs text-violet-200">Atributo primário: {FM_ATTRIBUTE_LABELS[draft.attributeKeys[0] ?? target.sheet.progression.techniqueAttribute]}</span></div><div className="grid gap-4 xl:grid-cols-[1fr_1.3fr]"><div className="grid content-start gap-4"><Field label={`Nome da ${copy.singular.toLocaleLowerCase()}`} hint="O nome identifica o núcleo que orienta os feitiços."><Input maxLength={120} value={draft.name} onChange={event => update(current => ({ ...current, name: event.target.value }))} placeholder={kind === "martial" ? "Ex.: Caminho do Predador" : "Ex.: Boneco de Palha"} /></Field><Field label={copy.attributes} hint="Escolha os atributos coerentes com o conceito. O primeiro será usado como atributo principal da ficha."><div className="grid grid-cols-2 gap-2 sm:grid-cols-3">{fmAttributeKeys.map(attribute => <label key={attribute} className={`flex cursor-pointer items-center gap-2 rounded-xl border p-3 text-sm transition ${draft.attributeKeys.includes(attribute) ? "border-amber-300/45 bg-amber-300/10 text-amber-100" : "border-violet-300/10 bg-black/20 text-stone-400 hover:border-violet-300/35"}`}><input type="checkbox" className="accent-amber-300" checked={draft.attributeKeys.includes(attribute)} onChange={() => toggleAttribute(attribute)} /><span>{FM_ATTRIBUTE_LABELS[attribute]}</span></label>)}</div></Field><Field label="Itens ou ferramentas essenciais" hint="Registre apenas recursos indispensáveis ao funcionamento narrativo."><Textarea value={draft.requiredItems} onChange={event => update(current => ({ ...current, requiredItems: event.target.value }))} placeholder="Ex.: martelo, boneco de palha e pregos." /></Field></div><div className="grid content-start gap-4"><Field label={copy.basicFunction} hint={copy.basicFunctionHint}><Textarea className="min-h-32" maxLength={4000} value={draft.basicFunction} onChange={event => update(current => ({ ...current, basicFunction: event.target.value }))} placeholder="Defina o conceito, o que permite fazer e quais efeitos mecânicos precisam constar nos feitiços." /></Field><div className="grid gap-4 sm:grid-cols-2"><Field label={copy.benefits} hint="Benefícios pequenos, coerentes e intrínsecos; descreva a origem para aprovação do mestre."><Textarea value={draft.intrinsicBenefits} onChange={event => update(current => ({ ...current, intrinsicBenefits: event.target.value }))} placeholder="Ex.: equipamento simples essencial." /></Field><Field label={copy.limitations} hint="Limitações podem orientar o equilíbrio e a ficção da técnica."><Textarea value={draft.limitations} onChange={event => update(current => ({ ...current, limitations: event.target.value }))} placeholder="Ex.: exige um foco; não causa outro tipo de dano." /></Field></div><Field label="Observações e aprovação do mestre" hint="A ferramenta registra a proposta, mas efeitos criativos e exceções exigem validação da mesa."><Textarea value={draft.reviewNotes} onChange={event => update(current => ({ ...current, reviewNotes: event.target.value }))} placeholder="Restrições acordadas, referências e observações da campanha." /></Field></div></div><div className="mt-5 flex flex-col gap-3 border-t border-violet-300/10 pt-4 sm:flex-row sm:items-center sm:justify-between"><p className={`text-xs ${ready && errors.length === 0 ? "text-emerald-300" : "text-stone-500"}`}>{ready && errors.length === 0 ? `${copy.singular} pronta para ser registrada.` : `Para registrar uma nova entrada, informe nome, ${copy.basicFunction.toLocaleLowerCase()} e atributo.`}</p><div className="flex flex-wrap gap-2"><ActionButton title={`Limpar ${copy.singular.toLocaleLowerCase()}`} onClick={clearDraft} className="hover:border-red-400/60 hover:text-red-200"><Trash2 className="h-4 w-4" /><span className="ml-2">Remover</span></ActionButton><Button type="button" disabled={saving} onClick={() => void save()} className="bg-amber-300 text-[#190d07] hover:bg-amber-200 disabled:opacity-60"><WandSparkles className="mr-2 h-4 w-4" />{saving ? "Registrando…" : "Registrar técnica"}</Button></div></div></div>}</Panel>;
 }
 
 function renderTab({ tab, sheet, derived, updateSheet, addDiary, newNote, setNewNote }: { tab: TabId; sheet: FMCharacterSheet; derived: ReturnType<typeof getDerivedValues>; updateSheet: (updater: (current: FMCharacterSheet) => FMCharacterSheet) => void; addDiary: (title: string, detail: string, category?: FMCharacterSheet["diary"][number]["category"]) => void; newNote: string; setNewNote: (value: string) => void; }) {
