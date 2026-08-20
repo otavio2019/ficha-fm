@@ -18,6 +18,16 @@ describe("criação de técnicas F&M", () => {
     expect(getPrimaryTechniqueAttribute(sheet.technique, "strength")).toBe("dexterity");
   });
 
+  it("permite salvar rascunho legado sem contrajogo, mas o exige ao publicar na biblioteca", () => {
+    const sheet = createEmptyFMSheet();
+    sheet.technique.name = "Técnica em revisão";
+    sheet.technique.basicFunction = "Ainda está sendo descrita pela mesa.";
+    sheet.technique.limitations = "";
+    sheet.technique.counterplay = "";
+    expect(validateTechnique(sheet.technique, "fighter")).toEqual([]);
+    expect(validateTechnique(sheet.technique, "fighter", { requireCounterplay: true }).map(issue => issue.field)).toContain("counterplay");
+  });
+
   it("impede tipo incompatível, atributo repetido e criação incompleta", () => {
     const sheet = createEmptyFMSheet();
     sheet.technique.kind = "martial";

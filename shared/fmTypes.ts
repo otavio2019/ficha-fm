@@ -121,6 +121,15 @@ export type FMInvocation = {
   active: boolean;
 };
 
+export type FMImageAttachment = {
+  id: string;
+  key: string;
+  url: string;
+  name: string;
+  caption: string;
+  createdAt: number;
+};
+
 export type FMEquipmentItem = {
   id: string;
   name: string;
@@ -249,6 +258,7 @@ export type FMCharacterSheet = {
   skills: FMSkill[];
   spells: FMSpell[];
   invocations: FMInvocation[];
+  images: FMImageAttachment[];
   equipment: FMEquipmentItem[];
   attacks: FMAttack[];
   defenses: FMDefenseEntry[];
@@ -305,6 +315,7 @@ export const createEmptyFMSheet = (): FMCharacterSheet => ({
   skills: [],
   spells: [],
   invocations: [],
+  images: [],
   equipment: [],
   attacks: [],
   defenses: [],

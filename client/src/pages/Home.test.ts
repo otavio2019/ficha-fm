@@ -13,6 +13,7 @@ describe("hidratação de fichas legadas", () => {
     });
     expect(sheet.origin).toMatchObject({ catalogId: "custom", clanId: "custom", clan: "" });
     expect(sheet.invocations).toEqual([]);
+    expect(sheet.images).toEqual([]);
   });
 
   it("reconhece um nome de clã legado sem perder a linhagem textual", () => {
@@ -27,6 +28,7 @@ describe("hidratação de fichas legadas", () => {
       techniqueLibraryId: "tecnica-001",
       technique: { name: "Matriz de Aço", basicFunction: "Cria armas amaldiçoadas.", attributeKeys: ["strength"], limitations: "Exige metal disponível." },
       equipment: [{ id: "item-1", name: "Lança", quantity: 1 }],
+      images: [{ id: "img-1", key: "fichas/maki.png", url: "/manus-storage/fichas/maki.png", name: "maki.png", caption: "Retrato", createdAt: 100 }],
       diary: [{ id: "nota-1", at: 100, category: "note", title: "Entrada", detail: "Registro preservado." }],
     });
     expect(sheet.identity).toMatchObject({ name: "Maki", player: "Jogadora", grade: "2º Grau" });
@@ -35,6 +37,7 @@ describe("hidratação de fichas legadas", () => {
     expect(sheet.techniqueLibraryId).toBe("tecnica-001");
     expect(sheet.technique).toMatchObject({ name: "Matriz de Aço", attributeKeys: ["strength"] });
     expect(sheet.equipment).toHaveLength(1);
+    expect(sheet.images).toMatchObject([{ name: "maki.png", caption: "Retrato" }]);
     expect(sheet.diary).toHaveLength(1);
   });
 });

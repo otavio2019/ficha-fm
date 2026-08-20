@@ -15,9 +15,11 @@ vi.mock("./db", () => ({
   saveFMCharacter: vi.fn(),
   saveFMTechnique: vi.fn(),
 }));
+vi.mock("./storage", () => ({ storagePut: vi.fn() }));
 
 import { createFMCharacterShare, deleteFMCharacter, deleteFMTechnique, getFMCharacter, getFMCharacterShare, getFMTechnique, getSharedFMCharacter, listFMTechniques, saveFMCharacter, saveFMTechnique } from "./db";
 import { appRouter } from "./routers";
+import { storagePut } from "./storage";
 
 function createContext(userId = 1): TrpcContext {
   return {
@@ -65,6 +67,24 @@ describe("biblioteca de fichas", () => {
     expect(saveFMCharacter).toHaveBeenCalledWith(expect.objectContaining({ id: "ficha-nova", ownerId: 1, name: "Yuji" }));
   });
 
+  it("envia uma imagem apenas para a ficha do proprietário", async () => {
+    vi.mocked(getFMCharacter).mockResolvedValue({ id: "ficha-imagem", ownerId: 1, name: "Yuji", portraitUrl: null, sheet: {}, createdAt: new Date(), updatedAt: new Date() });
+    vi.mocked(storagePut).mockResolvedValue({ key: "fm-characters/1/ficha-imagem/retrato_hash.png", url: "/manus-storage/fm-characters/1/ficha-imagem/retrato_hash.png" });
+    const caller = appRouter.createCaller(createContext(1));
+
+    const uploaded = await caller.characters.uploadImage({ characterId: "ficha-imagem", fileName: "retrato.png", contentType: "image/png", base64: Buffer.from("imagem de teste").toString("base64"), caption: "Retrato" });
+    expect(uploaded).toMatchObject({ name: "retrato.png", caption: "Retrato", url: "/manus-storage/fm-characters/1/ficha-imagem/retrato_hash.png" });
+    expect(storagePut).toHaveBeenCalledWith(expect.stringContaining("fm-characters/1/ficha-imagem/"), expect.any(Buffer), "image/png");
+  });
+
+  it("bloqueia o envio de imagem para ficha de outro usuário", async () => {
+    vi.mocked(getFMCharacter).mockResolvedValue({ id: "ficha-imagem-alheia", ownerId: 2, name: "Nobara", portraitUrl: null, sheet: {}, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+
+    await expect(caller.characters.uploadImage({ characterId: "ficha-imagem-alheia", fileName: "retrato.png", contentType: "image/png", base64: Buffer.from("imagem").toString("base64"), caption: "" })).rejects.toMatchObject({ code: "FORBIDDEN" });
+    expect(storagePut).not.toHaveBeenCalled();
+  });
+
   it("aceita ficha legada sem o bloco de técnica", async () => {
     vi.mocked(getFMCharacter).mockResolvedValue(undefined);
     vi.mocked(saveFMCharacter).mockResolvedValue({ id: "ficha-legada", ownerId: 1, name: "Yuta", portraitUrl: null, sheet: { identity: { name: "Yuta" } }, createdAt: new Date(), updatedAt: new Date() });
@@ -98,13 +118,14 @@ describe("biblioteca de fichas", () => {
   it("persiste e recupera origem selecionada e invocações da ficha", async () => {
     const invocations = [{ id: "inv-1", name: "Cão Divino", concept: "Rastreador amaldiçoado de sombra.", grade: "fourth", attributes: { strength: 10, dexterity: 12, constitution: 9, intelligence: 8, wisdom: 11, presence: 7 }, movement: 12, trainedAttack: "melee", trainedSavingThrow: "reflexos", trainedSkills: ["Percepção", "Furtividade"], actions: [{ id: "acao-1", name: "Morder", kind: "complex", effect: "Ataque amaldiçoado", counterplay: "Defesa" }], notes: "Invocação em campo na missão.", active: true }];
     const origin = { catalogId: "inherited", clanId: "zenin", name: "Herdado", clan: "Clã Zenin", attributeBonuses: { dexterity: 2, wisdom: 1 }, description: "Origem herdada." };
-    const sheet = { origin, invocations };
+    const images = [{ id: "img-1", key: "fm-characters/1/ficha-invocacao/retrato.png", url: "/manus-storage/fm-characters/1/ficha-invocacao/retrato.png", name: "retrato.png", caption: "Referência", createdAt: 100 }];
+    const sheet = { origin, invocations, images };
     vi.mocked(getFMCharacter).mockResolvedValueOnce(undefined).mockResolvedValueOnce({ id: "ficha-invocacao", ownerId: 1, name: "Megumi", portraitUrl: null, sheet, createdAt: new Date(), updatedAt: new Date() });
     vi.mocked(saveFMCharacter).mockResolvedValue({ id: "ficha-invocacao", ownerId: 1, name: "Megumi", portraitUrl: null, sheet, createdAt: new Date(), updatedAt: new Date() });
     const caller = appRouter.createCaller(createContext(1));
 
     await caller.characters.save({ id: "ficha-invocacao", name: "Megumi", sheet });
-    await expect(caller.characters.get({ id: "ficha-invocacao" })).resolves.toMatchObject({ sheet: { origin, invocations } });
+    await expect(caller.characters.get({ id: "ficha-invocacao" })).resolves.toMatchObject({ sheet: { origin, invocations, images } });
   });
 
   it("recusa origem ou ação de Invocação inválidas", async () => {

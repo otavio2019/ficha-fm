@@ -102,3 +102,10 @@
 - [x] Cobrir restrições de origem, persistência completa e autorização de terceiros para Origens e Invocações.
 - [x] Criar catálogo estruturado de Clãs/Linhagens, associado à Origem Herdado e compatível com o texto livre legado.
 - [x] Cobrir todos os campos de persistência de Invocação e as restrições de Herdado e bônus de Origem no contrato protegido.
+- [x] Permitir anexar imagens à ficha de personagem com armazenamento seguro e compatibilidade legada.
+- [x] Implementar visualização, remoção individual e validação de autoria para imagens anexadas.
+- [x] Cobrir persistência, autorização e interface responsiva do fluxo de imagens em desktop e celular.
+- [x] Corrigir o autosalvamento bloqueado por técnicas legadas sem contrajogo e exibir orientação de preenchimento no editor.
+- [x] Exibir no editor de técnica uma orientação clara sobre contrajogo para rascunhos e publicações na biblioteca.
+- [x] Validar visualmente a galeria preenchida, suas legendas, ação de retrato e remoção em desktop e celular.
+- [x] Cobrir em teste a hidratação dos controles de galeria após recarregar uma ficha com imagens.

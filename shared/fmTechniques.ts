@@ -38,7 +38,7 @@ export function getTechniqueCopy(kind: FMTechniqueKind) {
       };
 }
 
-export function validateTechnique(technique: Partial<FMTechnique> | undefined, specialization: FMSpecializationKey | string | undefined): FMTechniqueValidationIssue[] {
+export function validateTechnique(technique: Partial<FMTechnique> | undefined, specialization: FMSpecializationKey | string | undefined, options: { requireCounterplay?: boolean } = {}): FMTechniqueValidationIssue[] {
   const issues: FMTechniqueValidationIssue[] = [];
   if (!technique) return issues;
 
@@ -52,7 +52,7 @@ export function validateTechnique(technique: Partial<FMTechnique> | undefined, s
   const counterplay = typeof technique.counterplay === "string" ? technique.counterplay.trim() : "";
   if (name && name.length > FM_TECHNIQUE_LIMITS.name) issues.push({ field: "name", message: `O nome deve ter no máximo ${FM_TECHNIQUE_LIMITS.name} caracteres.` });
   if (basicFunction && basicFunction.length > FM_TECHNIQUE_LIMITS.longText) issues.push({ field: "basicFunction", message: "O funcionamento básico excede o limite seguro de caracteres." });
-  if (technique.counterplay !== undefined && !counterplay && !(typeof technique.limitations === "string" && technique.limitations.trim())) issues.push({ field: "counterplay", message: "A técnica precisa declarar uma resistência, reação ou outro contrajogo no campo de limitações." });
+  if (options.requireCounterplay && !counterplay && !(typeof technique.limitations === "string" && technique.limitations.trim())) issues.push({ field: "counterplay", message: "A técnica precisa declarar uma resistência, reação ou outro contrajogo no campo de limitações." });
   if (counterplay.length > FM_TECHNIQUE_LIMITS.longText) issues.push({ field: "counterplay", message: "O contrajogo excede o limite seguro de caracteres." });
 
   const attributes = technique.attributeKeys;

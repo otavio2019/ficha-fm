@@ -9,6 +9,7 @@ import { validateTechnique } from "../shared/fmTechniques";
 import { validateHouseRules } from "../shared/fmHouseRules";
 import { FM_CLAN_CATALOG, FM_ORIGIN_CATALOG, getClanCatalogEntry, getOriginAttributeAllocation, getOriginCatalogEntry } from "../shared/fmOrigins";
 import { FM_INVOCATION_GRADE_RULES } from "../shared/fmInvocations";
+import { storagePut } from "./storage";
 import { createFMCharacterShare, deleteFMCharacter, deleteFMTechnique, getFMCharacter, getFMCharacterShare, getFMTechnique, getSharedFMCharacter, listFMCharacters, listFMCharacterShares, listFMTechniques, saveFMCharacter, saveFMTechnique } from "./db";
 import { emitCharacterUpdated } from "./live";
 import { getSessionCookieOptions } from "./_core/cookies";
@@ -141,13 +142,20 @@ const characterInput = z.object({
 });
 
 const characterIdInput = z.object({ id: z.string().min(6).max(64) });
+const characterImageUploadInput = z.object({
+  characterId: z.string().min(6).max(64),
+  fileName: z.string().trim().min(1).max(160),
+  contentType: z.enum(["image/jpeg", "image/png", "image/webp"]),
+  base64: z.string().min(1).max(7_000_000),
+  caption: z.string().max(300).default(""),
+});
 const techniqueLibraryInput = z.object({
   id: z.string().min(6).max(64),
   name: z.string().trim().min(1).max(160),
   technique: z.record(z.string(), z.unknown()),
 }).superRefine((input, context) => {
   const specialization = input.technique.kind === "martial" ? "restricted" : "fighter";
-  validateTechnique({ ...input.technique, name: input.name }, specialization).forEach(issue => {
+  validateTechnique({ ...input.technique, name: input.name }, specialization, { requireCounterplay: true }).forEach(issue => {
     context.addIssue({ code: "custom", path: ["technique", issue.field], message: issue.message });
   });
 });
@@ -190,6 +198,16 @@ export const appRouter = router({
         throw new TRPCError({ code: "FORBIDDEN", message: "Você não pode abrir esta ficha." });
       }
       return character;
+    }),
+    uploadImage: protectedProcedure.input(characterImageUploadInput).mutation(async ({ ctx, input }) => {
+      const character = await getFMCharacter(input.characterId);
+      if (!character || character.ownerId !== ctx.user.id) throw new TRPCError({ code: "FORBIDDEN", message: "Você não pode anexar imagens a esta ficha." });
+      if (!/^[A-Za-z0-9+/]+={0,2}$/.test(input.base64)) throw new TRPCError({ code: "BAD_REQUEST", message: "O conteúdo da imagem é inválido." });
+      const data = Buffer.from(input.base64, "base64");
+      if (!data.length || data.length > 5 * 1024 * 1024) throw new TRPCError({ code: "BAD_REQUEST", message: "A imagem deve ter até 5 MB." });
+      const extension = input.contentType === "image/jpeg" ? "jpg" : input.contentType.split("/")[1];
+      const stored = await storagePut(`fm-characters/${ctx.user.id}/${input.characterId}/${nanoid(12)}.${extension}`, data, input.contentType);
+      return { id: nanoid(14), key: stored.key, url: stored.url, name: input.fileName, caption: input.caption.trim(), createdAt: Date.now() };
     }),
     save: protectedProcedure.input(characterInput).mutation(async ({ ctx, input }) => {
       const existing = await getFMCharacter(input.id);
