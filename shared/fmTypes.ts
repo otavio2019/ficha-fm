@@ -39,6 +39,10 @@ export type FMDurationType = "immediate" | "lasting" | "sustained" | "concentrat
 export type FMActionType = "common" | "bonus" | "reaction" | "movement" | "free" | "complete";
 export type FMAttackMode = "melee" | "ranged" | "cursed";
 export type FMTechniqueKind = "cursed" | "martial";
+export type FMOriginKey = "innate" | "inherited" | "derived" | "restricted" | "cursed-womb" | "technique-less" | "mutant-cursed-corpse" | "custom";
+export type FMClanKey = "gojo" | "inumaki" | "kamo" | "zenin" | "custom";
+export type FMInvocationGrade = "fourth" | "third" | "second" | "first" | "special";
+export type FMInvocationActionKind = "simple" | "complex" | "trait";
 
 export type FMTechnique = {
   kind: FMTechniqueKind;
@@ -90,6 +94,29 @@ export type FMSpell = {
   costAdjustment: number;
   combatModifierTarget: "none" | "attack" | "defense" | "initiative";
   combatModifier: number;
+  notes: string;
+  active: boolean;
+};
+
+export type FMInvocationAction = {
+  id: string;
+  name: string;
+  kind: FMInvocationActionKind;
+  effect: string;
+  counterplay: string;
+};
+
+export type FMInvocation = {
+  id: string;
+  name: string;
+  concept: string;
+  grade: FMInvocationGrade;
+  attributes: FMAttributes;
+  movement: number;
+  trainedAttack: "melee" | "ranged";
+  trainedSavingThrow: Exclude<FMSavingThrowKey, "integridade">;
+  trainedSkills: string[];
+  actions: FMInvocationAction[];
   notes: string;
   active: boolean;
 };
@@ -193,7 +220,10 @@ export type FMCharacterSheet = {
   };
   houseRules: FMHouseRules;
   origin: {
+    catalogId: FMOriginKey;
+    clanId: FMClanKey;
     name: string;
+    clan: string;
     attributeBonuses: Partial<FMAttributes>;
     description: string;
   };
@@ -218,6 +248,7 @@ export type FMCharacterSheet = {
   };
   skills: FMSkill[];
   spells: FMSpell[];
+  invocations: FMInvocation[];
   equipment: FMEquipmentItem[];
   attacks: FMAttack[];
   defenses: FMDefenseEntry[];
@@ -252,7 +283,7 @@ export const createEmptyFMSheet = (): FMCharacterSheet => ({
     downtime: { interludes: 0, craftingFocus: "", professionChecksRequired: true, itemReviewRequired: true, freeBuildOptions: [] },
     dedicationRewarding: false,
   },
-  origin: { name: "", attributeBonuses: {}, description: "" },
+  origin: { catalogId: "custom", clanId: "custom", name: "", clan: "", attributeBonuses: {}, description: "" },
   technique: {
     kind: "cursed",
     name: "",
@@ -273,6 +304,7 @@ export const createEmptyFMSheet = (): FMCharacterSheet => ({
   resources: { health: { current: 0, bonusMaximum: 0 }, energy: { current: 0, bonusMaximum: 0 } },
   skills: [],
   spells: [],
+  invocations: [],
   equipment: [],
   attacks: [],
   defenses: [],

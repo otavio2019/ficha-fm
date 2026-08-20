@@ -93,3 +93,12 @@
 - [x] Reorganizar de forma específica os layouts internos de Atributos, Perícias, Poderes, Combate, Equipamento, Casa e Diário.
 - [x] Validar uma ficha persistida ao navegar entre seções e recarregar, com evidência de dados preservados.
 - [x] Validar navegação e recarga em cenário local persistente, sem acessar fichas reais de usuários.
+- [x] Criar catálogo selecionável de Origens com descrição, benefícios e compatibilidade com dados legados.
+- [x] Adicionar seção própria de Invocações com cadastro, edição, remoção e efeitos declarados.
+- [x] Cobrir regras, persistência, autorização e compatibilidade legada de Origens e Invocações.
+- [x] Validar Origem e Invocações em 1280×720 e 375×812, registrando evidências.
+- [x] Modelar benefícios, restrições e observações mecânicas de cada Origem e Clã de forma estruturada.
+- [x] Testar hidratação legada sem `origin.catalogId`, `origin.clan` e `invocations`.
+- [x] Cobrir restrições de origem, persistência completa e autorização de terceiros para Origens e Invocações.
+- [x] Criar catálogo estruturado de Clãs/Linhagens, associado à Origem Herdado e compatível com o texto livre legado.
+- [x] Cobrir todos os campos de persistência de Invocação e as restrições de Herdado e bônus de Origem no contrato protegido.

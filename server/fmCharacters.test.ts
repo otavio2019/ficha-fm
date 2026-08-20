@@ -95,6 +95,39 @@ describe("biblioteca de fichas", () => {
     await expect(caller.characters.get({ id: "ficha-casa" })).resolves.toMatchObject({ sheet: { houseRules } });
   });
 
+  it("persiste e recupera origem selecionada e invocações da ficha", async () => {
+    const invocations = [{ id: "inv-1", name: "Cão Divino", concept: "Rastreador amaldiçoado de sombra.", grade: "fourth", attributes: { strength: 10, dexterity: 12, constitution: 9, intelligence: 8, wisdom: 11, presence: 7 }, movement: 12, trainedAttack: "melee", trainedSavingThrow: "reflexos", trainedSkills: ["Percepção", "Furtividade"], actions: [{ id: "acao-1", name: "Morder", kind: "complex", effect: "Ataque amaldiçoado", counterplay: "Defesa" }], notes: "Invocação em campo na missão.", active: true }];
+    const origin = { catalogId: "inherited", clanId: "zenin", name: "Herdado", clan: "Clã Zenin", attributeBonuses: { dexterity: 2, wisdom: 1 }, description: "Origem herdada." };
+    const sheet = { origin, invocations };
+    vi.mocked(getFMCharacter).mockResolvedValueOnce(undefined).mockResolvedValueOnce({ id: "ficha-invocacao", ownerId: 1, name: "Megumi", portraitUrl: null, sheet, createdAt: new Date(), updatedAt: new Date() });
+    vi.mocked(saveFMCharacter).mockResolvedValue({ id: "ficha-invocacao", ownerId: 1, name: "Megumi", portraitUrl: null, sheet, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+
+    await caller.characters.save({ id: "ficha-invocacao", name: "Megumi", sheet });
+    await expect(caller.characters.get({ id: "ficha-invocacao" })).resolves.toMatchObject({ sheet: { origin, invocations } });
+  });
+
+  it("recusa origem ou ação de Invocação inválidas", async () => {
+    const caller = appRouter.createCaller(createContext(1));
+    await expect(caller.characters.save({ id: "ficha-origem-invalida", name: "Yuji", sheet: { origin: { catalogId: "origem-inexistente" } } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+    await expect(caller.characters.save({ id: "ficha-invocacao-invalida", name: "Yuji", sheet: { invocations: [{ name: "Shikigami", grade: "fourth", actions: [{ name: "Investida" }] }] } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+  });
+
+  it("aplica restrições estruturadas de origem", async () => {
+    const caller = appRouter.createCaller(createContext(1));
+    await expect(caller.characters.save({ id: "ficha-restringido-invalida", name: "Maki", sheet: { progression: { specialization: "fighter" }, origin: { catalogId: "restricted", attributeBonuses: {} } } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+    await expect(caller.characters.save({ id: "ficha-sem-tecnica-invalida", name: "Kusakabe", sheet: { progression: { specialization: "technique-specialist" }, origin: { catalogId: "technique-less", attributeBonuses: {} }, spells: [{ level: 1 }] } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+    await expect(caller.characters.save({ id: "ficha-herdado-sem-cla", name: "Megumi", sheet: { origin: { catalogId: "inherited", clanId: "custom", clan: "", attributeBonuses: {} } } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+    await expect(caller.characters.save({ id: "ficha-gojo-bonus-invalido", name: "Satoru", sheet: { origin: { catalogId: "inherited", clanId: "gojo", clan: "Clã Gojo", attributeBonuses: { strength: 1, intelligence: 2 } } } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+  });
+
+  it("bloqueia edição de Origem e Invocações em ficha de outro usuário", async () => {
+    vi.mocked(getFMCharacter).mockResolvedValue({ id: "ficha-invocacao-alheia", ownerId: 2, name: "Megumi", portraitUrl: null, sheet: {}, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+    await expect(caller.characters.save({ id: "ficha-invocacao-alheia", name: "Megumi", sheet: { origin: { catalogId: "inherited", clan: "Zenin" }, invocations: [{ name: "Cão Divino", grade: "fourth", actions: [] }] } })).rejects.toMatchObject({ code: "FORBIDDEN" });
+    expect(saveFMCharacter).not.toHaveBeenCalled();
+  });
+
   it("edita uma ficha que já pertence ao usuário autenticado", async () => {
     vi.mocked(getFMCharacter).mockResolvedValue({ id: "ficha-editar", ownerId: 1, name: "Yuji", portraitUrl: null, sheet: {}, createdAt: new Date(), updatedAt: new Date() });
     vi.mocked(saveFMCharacter).mockResolvedValue({ id: "ficha-editar", ownerId: 1, name: "Yuji revisado", portraitUrl: null, sheet: { skills: [] }, createdAt: new Date(), updatedAt: new Date() });

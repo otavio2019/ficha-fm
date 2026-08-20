@@ -11,6 +11,13 @@ describe("hidratação de fichas legadas", () => {
       rest: { exhaustion: 0, missionCount: 0 },
       dedicationRewarding: false,
     });
+    expect(sheet.origin).toMatchObject({ catalogId: "custom", clanId: "custom", clan: "" });
+    expect(sheet.invocations).toEqual([]);
+  });
+
+  it("reconhece um nome de clã legado sem perder a linhagem textual", () => {
+    const sheet = hydrateSheet({ origin: { catalogId: "inherited", clan: "Clã Zenin" } });
+    expect(sheet.origin).toMatchObject({ catalogId: "inherited", clanId: "zenin", clan: "Clã Zenin" });
   });
 
   it("preserva identidade, características, técnica, equipamento e diário após recarregar a ficha reorganizada", () => {

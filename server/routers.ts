@@ -7,6 +7,8 @@ import { FM_DECLARED_MODIFIER_RULES, isDeclaredModifierInRange, type FMDeclaredM
 import { getInfiniteWorldLevel } from "../shared/infiniteWorlds";
 import { validateTechnique } from "../shared/fmTechniques";
 import { validateHouseRules } from "../shared/fmHouseRules";
+import { FM_CLAN_CATALOG, FM_ORIGIN_CATALOG, getClanCatalogEntry, getOriginAttributeAllocation, getOriginCatalogEntry } from "../shared/fmOrigins";
+import { FM_INVOCATION_GRADE_RULES } from "../shared/fmInvocations";
 import { createFMCharacterShare, deleteFMCharacter, deleteFMTechnique, getFMCharacter, getFMCharacterShare, getFMTechnique, getSharedFMCharacter, listFMCharacters, listFMCharacterShares, listFMTechniques, saveFMCharacter, saveFMTechnique } from "./db";
 import { emitCharacterUpdated } from "./live";
 import { getSessionCookieOptions } from "./_core/cookies";
@@ -15,6 +17,8 @@ import { protectedProcedure, publicProcedure, router } from "./_core/trpc";
 
 const validSkillAttributes = new Set(["strength", "dexterity", "constitution", "intelligence", "wisdom", "presence"]);
 const validSkillProficiencies = new Set(["untrained", "trained", "master"]);
+const validOriginIds = new Set([...FM_ORIGIN_CATALOG.map(origin => origin.id), "custom"]);
+const validClanIds = new Set([...FM_CLAN_CATALOG.map(clan => clan.id), "custom"]);
 function validateDeclaredModifier(value: unknown, path: (string | number)[], rule: FMDeclaredModifierRule, context: z.RefinementCtx) {
   if (!isDeclaredModifierInRange(value, rule)) {
     const specification = FM_DECLARED_MODIFIER_RULES[rule];
@@ -99,6 +103,41 @@ const characterInput = z.object({
       }
     });
   }
+  const origin = input.sheet.origin as Record<string, unknown> | undefined;
+  if (origin?.catalogId !== undefined && (typeof origin.catalogId !== "string" || !validOriginIds.has(origin.catalogId))) {
+    context.addIssue({ code: "custom", path: ["sheet", "origin", "catalogId"], message: "Origem inválida." });
+  }
+  if (typeof origin?.catalogId === "string" && origin.catalogId !== "custom") {
+    const entry = getOriginCatalogEntry(origin.catalogId as Parameters<typeof getOriginCatalogEntry>[0]);
+    const clanId = typeof origin.clanId === "string" ? origin.clanId : "custom";
+    if (!validClanIds.has(clanId)) context.addIssue({ code: "custom", path: ["sheet", "origin", "clanId"], message: "Clã estruturado inválido." });
+    if (origin.catalogId !== "inherited" && clanId !== "custom") context.addIssue({ code: "custom", path: ["sheet", "origin", "clanId"], message: "Benefícios estruturados de clã só podem ser usados pela Origem Herdado." });
+    if (entry?.requiresRestrictedSpecialization && specialization !== "restricted") context.addIssue({ code: "custom", path: ["sheet", "progression", "specialization"], message: "A origem Restringido exige a Especialização Restringido." });
+    if (origin.catalogId === "inherited" && (typeof origin.clan !== "string" || !origin.clan.trim())) context.addIssue({ code: "custom", path: ["sheet", "origin", "clan"], message: "A origem Herdado exige a escolha de um clã ou linhagem." });
+    if (origin.catalogId === "inherited" && clanId !== "custom" && !getClanCatalogEntry(clanId as Parameters<typeof getClanCatalogEntry>[0])) context.addIssue({ code: "custom", path: ["sheet", "origin", "clanId"], message: "Clã estruturado inválido." });
+    if (origin.catalogId === "technique-less" && (specialization === "technique-specialist" || (Array.isArray(spells) && spells.length > 0))) context.addIssue({ code: "custom", path: ["sheet", "origin"], message: "Sem Técnica não pode ser Especialista em Técnica nem possuir Feitiços." });
+    const bonuses = origin.attributeBonuses as Record<string, unknown> | undefined;
+    const allocation = getOriginAttributeAllocation(origin.catalogId as Parameters<typeof getOriginAttributeAllocation>[0], (validClanIds.has(clanId) ? clanId : "custom") as Parameters<typeof getOriginAttributeAllocation>[1]);
+    if (bonuses && allocation) {
+      const entries = Object.entries(bonuses);
+      const total = entries.reduce<number>((sum, [, value]) => sum + (typeof value === "number" ? value : 0), 0);
+      const allowedViolation = allocation.allowedAttributes && entries.some(([attribute, value]) => typeof value === "number" && value > 0 && !allocation.allowedAttributes?.includes(attribute as Parameters<typeof allocation.allowedAttributes.includes>[0]));
+      const requiredViolation = Object.entries(allocation.requiredBonuses ?? {}).some(([attribute, minimum]) => typeof bonuses[attribute] !== "number" || (bonuses[attribute] as number) < minimum);
+      if (entries.some(([, value]) => typeof value !== "number" || value < 0 || value > allocation.maximumPerAttribute) || total > allocation.total || allowedViolation || requiredViolation) context.addIssue({ code: "custom", path: ["sheet", "origin", "attributeBonuses"], message: `Os bônus desta origem devem respeitar ${allocation.total} ponto(s), máximo ${allocation.maximumPerAttribute} por atributo e os atributos permitidos.` });
+    }
+  }
+  const invocations = input.sheet.invocations;
+  if (invocations !== undefined && !Array.isArray(invocations)) {
+    context.addIssue({ code: "custom", path: ["sheet", "invocations"], message: "Invocações devem ser uma lista." });
+  }
+  if (Array.isArray(invocations)) invocations.forEach((invocation, index) => {
+    const value = invocation as Record<string, unknown>;
+    if (typeof value.name !== "string" || !value.name.trim()) context.addIssue({ code: "custom", path: ["sheet", "invocations", index, "name"], message: "O nome da Invocação é obrigatório." });
+    if (typeof value.grade !== "string" || !(value.grade in FM_INVOCATION_GRADE_RULES)) context.addIssue({ code: "custom", path: ["sheet", "invocations", index, "grade"], message: "Grau de Invocação inválido." });
+    if (!Array.isArray(value.actions) || value.actions.some(action => typeof action !== "object" || action === null || typeof (action as Record<string, unknown>).name !== "string" || typeof (action as Record<string, unknown>).effect !== "string")) {
+      context.addIssue({ code: "custom", path: ["sheet", "invocations", index, "actions"], message: "Toda ação de Invocação precisa ter nome e efeito declarados." });
+    }
+  });
 });
 
 const characterIdInput = z.object({ id: z.string().min(6).max(64) });
