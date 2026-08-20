@@ -19,18 +19,16 @@ import { getExperienceForLevel, getInfiniteWorldProgress, getMissionExperienceRe
 import { FM_TECHNIQUE_CREATION_CITATION, getPrimaryTechniqueAttribute, getTechniqueCopy, getTechniqueKindForSpecialization, isTechniqueReady, validateTechnique } from "@shared/fmTechniques";
 import { FM_HOUSE_RULES_CITATION, getHouseRestAvailability, getMassiveDamageOutcome, rollHouseAttributeGeneration } from "@shared/fmHouseRules";
 
-type TabId = "overview" | "attributes" | "skills" | "spells" | "combat" | "equipment" | "house" | "diary";
+type TabId = "overview" | "attributes" | "skills" | "technique" | "spells" | "combat" | "equipment" | "house" | "diary";
 
-const tabs: Array<{ id: TabId; label: string; icon: typeof BookOpen }> = [
-  { id: "overview", label: "Visão geral", icon: BookOpen },
-  { id: "attributes", label: "Atributos", icon: Flame },
-  { id: "skills", label: "Perícias", icon: ScrollText },
-  { id: "spells", label: "Magias/Maldições", icon: WandSparkles },
-  { id: "combat", label: "Combate", icon: Swords },
-  { id: "equipment", label: "Equipamento", icon: Shield },
-  { id: "house", label: "Regras da Casa", icon: ScrollText },
-  { id: "diary", label: "Diário", icon: BookOpen },
+type SheetNavItem = { id: TabId; label: string; icon: typeof BookOpen };
+const navigationGroups: Array<{ label: string; items: SheetNavItem[] }> = [
+  { label: "Perfil", items: [{ id: "overview", label: "Resumo e identidade", icon: BookOpen }, { id: "attributes", label: "Atributos e defesas", icon: Flame }] },
+  { label: "Capacidades", items: [{ id: "skills", label: "Perícias e treinamento", icon: ScrollText }, { id: "technique", label: "Técnica e vínculo", icon: WandSparkles }, { id: "spells", label: "Poderes e feitiços", icon: WandSparkles }] },
+  { label: "Aventura", items: [{ id: "combat", label: "Combate e ataques", icon: Swords }, { id: "equipment", label: "Equipamento e carga", icon: Shield }] },
+  { label: "Campanha", items: [{ id: "house", label: "Regras da Casa", icon: ScrollText }, { id: "diary", label: "Diário e registros", icon: BookOpen }] },
 ];
+const tabs = navigationGroups.flatMap(group => group.items);
 
 const id = () => crypto.randomUUID();
 const asNumber = (value: string) => Number.isFinite(Number(value)) ? Number(value) : 0;
@@ -111,17 +109,26 @@ function ActionButton({ children, onClick, title, className = "" }: { children: 
   return <button type="button" onClick={onClick} title={title} className={`inline-flex h-9 items-center justify-center rounded-lg border border-violet-300/15 bg-[#20122e] px-3 text-sm text-violet-100 transition hover:border-amber-300/45 hover:text-amber-100 focus:outline-none focus:ring-2 focus:ring-amber-300/70 active:scale-[0.97] ${className}`}>{children}</button>;
 }
 
+function CharacterCharacteristicsStrip({ sheet, derived }: { sheet: FMCharacterSheet; derived: ReturnType<typeof getDerivedValues> }) {
+  const values = [
+    ["FOR", derived.attributes.strength], ["DES", derived.attributes.dexterity], ["CON", derived.attributes.constitution], ["INT", derived.attributes.intelligence], ["SAB", derived.attributes.wisdom], ["PRE", derived.attributes.presence],
+    ["PV", `${sheet.resources.health.current}/${derived.healthMaximum}`], [getResourceLabel(sheet.progression.specialization, sheet.progression.nonSorcerer).slice(0, 2).toUpperCase(), `${sheet.resources.energy.current}/${derived.energyMaximum}`], ["DEF", derived.defense], ["INI", `${derived.initiative >= 0 ? "+" : ""}${derived.initiative}`],
+  ];
+  return <div className="border-b border-violet-300/10 bg-[#0d0715]"><div className="mx-auto grid max-w-[1540px] grid-cols-5 gap-px overflow-hidden border-x border-violet-300/10 bg-violet-300/10 sm:grid-cols-10 lg:px-6"><div className="col-span-5 hidden bg-[#110a1b] px-4 py-2 lg:block"><p className="font-display text-[10px] uppercase tracking-[.18em] text-amber-300/60">Características e valores rápidos</p></div>{values.map(([label, value]) => <div key={label} className="flex min-h-12 flex-col justify-center bg-[#110a1b] px-3 py-1.5"><span className="text-[10px] uppercase tracking-[.14em] text-stone-500">{label}</span><span className="font-display text-base text-amber-100">{value}</span></div>)}</div></div>;
+}
+
 export default function Home() {
   const { user, loading, isAuthenticated, logout } = useAuth();
   const utils = trpc.useUtils();
   const previewVariant = new URLSearchParams(window.location.search).get("preview");
-  const previewMode = previewVariant === "full" || previewVariant === "library" || previewVariant === "library-techniques";
+  const previewMode = previewVariant === "full" || previewVariant === "library" || previewVariant === "library-techniques" || previewVariant === "persisted";
   const previewLibraryMode = previewVariant === "library" || previewVariant === "library-techniques";
-  const [activeCharacterId, setActiveCharacterId] = useState<string | null>(() => previewVariant === "full" ? "preview-local" : new URLSearchParams(window.location.search).get("ficha"));
+  const previewPersistedMode = previewVariant === "persisted";
+  const [activeCharacterId, setActiveCharacterId] = useState<string | null>(() => previewVariant === "full" || previewVariant === "persisted" ? "preview-local" : new URLSearchParams(window.location.search).get("ficha"));
   const [sheet, setSheet] = useState<FMCharacterSheet | null>(null);
   const [tab, setTab] = useState<TabId>(() => {
     const requested = new URLSearchParams(window.location.search).get("tab") as TabId | null;
-    return ["overview", "attributes", "skills", "spells", "combat", "equipment", "house", "diary"].includes(requested ?? "") ? requested! : "overview";
+    return ["overview", "attributes", "skills", "technique", "spells", "combat", "equipment", "house", "diary"].includes(requested ?? "") ? requested! : "overview";
   });
   const [creating, setCreating] = useState(false);
   const [newCharacterName, setNewCharacterName] = useState("");
@@ -149,16 +156,24 @@ export default function Home() {
 
   useEffect(() => {
     if (previewMode && !previewLibraryMode) {
-      const previewSheet = createNewSheet("Pré-visualização Infinite Worlds");
-      previewSheet.technique = { ...previewSheet.technique, name: "Fios da Aurora", basicFunction: "Manipula fios de energia para conectar alvos e objetos.", attributeKeys: ["dexterity", "intelligence"], intrinsicBenefits: "Carretel simples essencial.", limitations: "Exige linha de visão e pode ser interrompida por barreiras.", requiredItems: "Carretel amaldiçoado.", reviewNotes: "Pré-visualização local." };
-      previewSheet.techniqueLibraryId = "preview-independent-technique";
-      setSheet(previewSheet);
+      const stored = previewPersistedMode ? window.localStorage.getItem("infinite-worlds:persisted-preview") : null;
+      if (stored) {
+        try { setSheet(hydrateSheet(JSON.parse(stored) as Record<string, unknown>)); return; } catch { window.localStorage.removeItem("infinite-worlds:persisted-preview"); }
+      }
+      const initialSheet = createNewSheet(previewPersistedMode ? "Validação Persistente Infinite Worlds" : "Pré-visualização Infinite Worlds");
+      initialSheet.technique = { ...initialSheet.technique, name: "Fios da Aurora", basicFunction: "Manipula fios de energia para conectar alvos e objetos.", attributeKeys: ["dexterity", "intelligence"], intrinsicBenefits: "Carretel simples essencial.", limitations: "Exige linha de visão e pode ser interrompida por barreiras.", requiredItems: "Carretel amaldiçoado.", reviewNotes: "Pré-visualização local." };
+      initialSheet.techniqueLibraryId = "preview-independent-technique";
+      setSheet(initialSheet);
       return;
     }
     if (activeQuery.data && activeQuery.data.id === activeCharacterId) {
       setSheet(hydrateSheet(activeQuery.data.sheet));
     }
-  }, [activeCharacterId, activeQuery.data, previewLibraryMode, previewMode]);
+  }, [activeCharacterId, activeQuery.data, previewLibraryMode, previewMode, previewPersistedMode]);
+
+  useEffect(() => {
+    if (previewPersistedMode && sheet) window.localStorage.setItem("infinite-worlds:persisted-preview", JSON.stringify(sheet));
+  }, [previewPersistedMode, sheet]);
 
   useEffect(() => {
     if (!activeCharacterId || previewMode) return;
@@ -370,14 +385,11 @@ export default function Home() {
         <ActionButton title="Imprimir ou salvar PDF" onClick={() => window.print()}><Printer className="h-4 w-4" /></ActionButton>
       </div>
     </header>
+    <CharacterCharacteristicsStrip sheet={sheet} derived={derived} />
     <div className="mx-auto grid max-w-[1540px] gap-5 p-4 lg:grid-cols-[255px_minmax(0,1fr)] lg:p-6">
       <aside className="no-print rounded-2xl border border-violet-300/10 bg-[#110a1b] p-3 lg:sticky lg:top-[84px] lg:h-[calc(100vh-108px)]">
-        <label className="mb-3 flex items-center gap-2 rounded-xl border border-violet-300/10 bg-[#1a1026] px-3 py-2 text-sm text-stone-400 lg:hidden"><Menu className="h-4 w-4 text-amber-300" /><span className="sr-only">Escolha uma aba</span><select className="min-w-0 flex-1 bg-transparent text-stone-100 outline-none" value={tab} onChange={event => setTab(event.target.value as TabId)}>{tabs.map(item => <option key={item.id} value={item.id}>{item.label}</option>)}</select></label>
-        <nav className="hidden gap-1 lg:grid" aria-label="Seções da ficha">{tabs.map(item => {
-          const Icon = item.icon;
-          const active = tab === item.id;
-          return <button key={item.id} type="button" onClick={() => setTab(item.id)} className={`flex min-h-11 items-center gap-3 rounded-xl px-3 text-left text-sm transition focus:outline-none focus:ring-2 focus:ring-amber-300/70 ${active ? "bg-gradient-to-r from-violet-700/50 to-violet-700/10 text-amber-100 shadow-[inset_3px_0_0_#f4c85f]" : "text-stone-400 hover:bg-violet-300/5 hover:text-stone-100"}`}><Icon className="h-4 w-4" />{item.label}</button>;
-        })}</nav>
+        <label className="mb-3 flex items-center gap-2 rounded-xl border border-violet-300/10 bg-[#1a1026] px-3 py-2 text-sm text-stone-400 lg:hidden"><Menu className="h-4 w-4 text-amber-300" /><span className="sr-only">Escolha uma seção</span><select className="min-w-0 flex-1 bg-transparent text-stone-100 outline-none" value={tab} onChange={event => setTab(event.target.value as TabId)}>{navigationGroups.map(group => <optgroup key={group.label} label={group.label}>{group.items.map(item => <option key={item.id} value={item.id}>{item.label}</option>)}</optgroup>)}</select></label>
+        <nav className="hidden gap-4 lg:grid" aria-label="Seções da ficha">{navigationGroups.map(group => <div key={group.label}><p className="mb-1 px-3 font-display text-[10px] uppercase tracking-[.2em] text-amber-300/55">{group.label}</p><div className="grid gap-1">{group.items.map(item => { const Icon = item.icon; const active = tab === item.id; return <button key={item.id} type="button" onClick={() => setTab(item.id)} className={`flex min-h-11 items-center gap-3 rounded-xl px-3 text-left text-sm transition focus:outline-none focus:ring-2 focus:ring-amber-300/70 ${active ? "bg-gradient-to-r from-violet-700/50 to-violet-700/10 text-amber-100 shadow-[inset_3px_0_0_#f4c85f]" : "text-stone-400 hover:bg-violet-300/5 hover:text-stone-100"}`}><Icon className="h-4 w-4" />{item.label}</button>; })}</div></div>)}</nav>
         <div className="mt-5 border-t border-violet-300/10 pt-4 text-xs leading-5 text-stone-500"><p className="font-display uppercase tracking-[0.18em] text-amber-300/60">Guilda Infinite Worlds</p><p className="mt-2">F&M v2.5.2 com progressão de níveis, graus, XP e recompensas oficiais da guilda.</p></div>
       </aside>
       <section className="min-w-0">{renderTab({ tab, sheet, derived, updateSheet, addDiary, setNewNote, newNote, techniques: previewMode ? [{ id: "preview-independent-technique", name: "Fios da Aurora", technique: sheet.technique as unknown as Record<string, unknown> }] : techniquesQuery.data ?? [] })}</section>
@@ -467,15 +479,40 @@ function TechniqueForge({ characters, selectedCharacterId, target, loading, onSe
     {!selectedCharacterId ? <div className="relative grid min-h-32 place-items-center text-center"><div><WandSparkles className="mx-auto h-7 w-7 text-violet-300/70" /><p className="mt-3 text-sm text-stone-400">Escolha um personagem acima ou use o ícone de técnica no cartão dele.</p></div></div> : loading || !target ? <div className="relative grid min-h-40 place-items-center"><Loader2 className="h-6 w-6 animate-spin text-amber-300" /></div> : !draft ? null : <div className="relative mt-5"><div className="mb-4 flex flex-wrap items-center justify-between gap-3"><div><p className="font-display text-lg text-amber-100">{target.name} · {copy.singular}</p><p className="mt-1 text-xs leading-5 text-stone-500">{FM_TECHNIQUE_CREATION_CITATION}. Os benefícios narrativos não alteram cálculos automaticamente: registre efeitos de combate e feitiços nos campos próprios.</p></div><span className="rounded-full border border-violet-300/15 bg-black/20 px-3 py-1 text-xs text-violet-200">Atributo primário: {FM_ATTRIBUTE_LABELS[draft.attributeKeys[0] ?? target.sheet.progression.techniqueAttribute]}</span></div><div className="grid gap-4 xl:grid-cols-[1fr_1.3fr]"><div className="grid content-start gap-4"><Field label={`Nome da ${copy.singular.toLocaleLowerCase()}`} hint="O nome identifica o núcleo que orienta os feitiços."><Input maxLength={120} value={draft.name} onChange={event => update(current => ({ ...current, name: event.target.value }))} placeholder={kind === "martial" ? "Ex.: Caminho do Predador" : "Ex.: Boneco de Palha"} /></Field><Field label={copy.attributes} hint="Escolha os atributos coerentes com o conceito. O primeiro será usado como atributo principal da ficha."><div className="grid grid-cols-2 gap-2 sm:grid-cols-3">{fmAttributeKeys.map(attribute => <label key={attribute} className={`flex cursor-pointer items-center gap-2 rounded-xl border p-3 text-sm transition ${draft.attributeKeys.includes(attribute) ? "border-amber-300/45 bg-amber-300/10 text-amber-100" : "border-violet-300/10 bg-black/20 text-stone-400 hover:border-violet-300/35"}`}><input type="checkbox" className="accent-amber-300" checked={draft.attributeKeys.includes(attribute)} onChange={() => toggleAttribute(attribute)} /><span>{FM_ATTRIBUTE_LABELS[attribute]}</span></label>)}</div></Field><Field label="Itens ou ferramentas essenciais" hint="Registre apenas recursos indispensáveis ao funcionamento narrativo."><Textarea value={draft.requiredItems} onChange={event => update(current => ({ ...current, requiredItems: event.target.value }))} placeholder="Ex.: martelo, boneco de palha e pregos." /></Field></div><div className="grid content-start gap-4"><Field label={copy.basicFunction} hint={copy.basicFunctionHint}><Textarea className="min-h-32" maxLength={4000} value={draft.basicFunction} onChange={event => update(current => ({ ...current, basicFunction: event.target.value }))} placeholder="Defina o conceito, o que permite fazer e quais efeitos mecânicos precisam constar nos feitiços." /></Field><div className="grid gap-4 sm:grid-cols-2"><Field label={copy.benefits} hint="Benefícios pequenos, coerentes e intrínsecos; descreva a origem para aprovação do mestre."><Textarea value={draft.intrinsicBenefits} onChange={event => update(current => ({ ...current, intrinsicBenefits: event.target.value }))} placeholder="Ex.: equipamento simples essencial." /></Field><Field label={copy.limitations} hint="Limitações podem orientar o equilíbrio e a ficção da técnica."><Textarea value={draft.limitations} onChange={event => update(current => ({ ...current, limitations: event.target.value }))} placeholder="Ex.: exige um foco; não causa outro tipo de dano." /></Field></div><Field label="Observações e aprovação do mestre" hint="A ferramenta registra a proposta, mas efeitos criativos e exceções exigem validação da mesa."><Textarea value={draft.reviewNotes} onChange={event => update(current => ({ ...current, reviewNotes: event.target.value }))} placeholder="Restrições acordadas, referências e observações da campanha." /></Field></div></div><div className="mt-5 flex flex-col gap-3 border-t border-violet-300/10 pt-4 sm:flex-row sm:items-center sm:justify-between"><p className={`text-xs ${ready && errors.length === 0 ? "text-emerald-300" : "text-stone-500"}`}>{ready && errors.length === 0 ? `${copy.singular} pronta para ser registrada.` : `Para registrar uma nova entrada, informe nome, ${copy.basicFunction.toLocaleLowerCase()} e atributo.`}</p><div className="flex flex-wrap gap-2"><ActionButton title={`Limpar ${copy.singular.toLocaleLowerCase()}`} onClick={clearDraft} className="hover:border-red-400/60 hover:text-red-200"><Trash2 className="h-4 w-4" /><span className="ml-2">Remover</span></ActionButton><Button type="button" disabled={saving} onClick={() => void save()} className="bg-amber-300 text-[#190d07] hover:bg-amber-200 disabled:opacity-60"><WandSparkles className="mr-2 h-4 w-4" />{saving ? "Registrando…" : "Registrar técnica"}</Button></div></div></div>}</Panel>;
 }
 
+function GurpsDossierFrame({ tab, children }: { tab: TabId; children: React.ReactNode }) {
+  const section = tabs.find(item => item.id === tab)!;
+  const group = navigationGroups.find(item => item.items.some(entry => entry.id === tab))!;
+  const flow: Record<TabId, string> = { overview: "Identidade → recursos → progressão", attributes: "Características → modificadores → resistências", skills: "Perícia → atributo → treinamento", technique: "Vínculo → limites → poderes derivados", spells: "Poder → custo → resolução", combat: "Ataque → defesa → cena", equipment: "Item → carga → observações", house: "Regra → registro → consequência", diary: "Rolagem → evento → memória" };
+  return <div className="grid gap-4 xl:grid-cols-[188px_minmax(0,1fr)]"><aside className="hidden rounded-2xl border border-violet-300/10 bg-[#110a1b] p-4 xl:block"><p className="font-display text-[10px] uppercase tracking-[.2em] text-amber-300/60">Dossiê de personagem</p><p className="mt-4 text-xs uppercase tracking-[.13em] text-stone-500">Grupo</p><p className="mt-1 font-display text-lg text-amber-100">{group.label}</p><div className="mt-5 border-t border-violet-300/10 pt-4"><p className="text-xs uppercase tracking-[.13em] text-stone-500">Seção atual</p><p className="mt-1 text-sm leading-6 text-stone-200">{section.label}</p></div><div className="mt-5 border-t border-violet-300/10 pt-4"><p className="text-xs uppercase tracking-[.13em] text-stone-500">Fluxo</p><p className="mt-1 text-xs leading-5 text-stone-400">{flow[tab]}</p></div></aside><div className="min-w-0">{children}</div></div>;
+}
+
+function GurpsSectionLedger({ tab, sheet, derived }: { tab: TabId; sheet: FMCharacterSheet; derived: ReturnType<typeof getDerivedValues> }) {
+  const resourceLabel = getResourceLabel(sheet.progression.specialization, sheet.progression.nonSorcerer);
+  const entries: Record<TabId, Array<[string, string]>> = {
+    overview: [["Identidade", sheet.identity.name || "Sem nome"], ["Grau", sheet.identity.grade || "Não informado"], ["Progressão", `Nível ${sheet.progression.level}`]],
+    attributes: [["Primárias", "FOR · DES · CON · INT · SAB · PRE"], ["Secundárias", `Defesa ${derived.defense} · Atenção ${derived.attention}`], ["Resistências", "Treinamento e bônus declarados"]],
+    skills: [["Base", "Atributo-chave"], ["Treinamento", "Destreinado · Treinado · Mestre"], ["Resultado", "Bônus exibido em cada perícia"]],
+    technique: [["Núcleo", sheet.technique.name || "Não definido"], ["CD", String(derived.techniqueDc)], ["Origem", sheet.techniqueLibraryId ? "Biblioteca vinculada" : "Cópia local"]],
+    spells: [["Capacidade", sheet.technique.name || "Técnica não definida"], ["Energia", `${sheet.resources.energy.current}/${derived.energyMaximum} ${resourceLabel}`], ["Acesso", `Nível máximo ${getHighestSpellLevel(sheet.progression.level)}`]],
+    combat: [["Ataques", String(sheet.attacks.length)], ["Defesas", String(sheet.defenses.length)], ["Iniciativa", `${derived.initiative >= 0 ? "+" : ""}${derived.initiative}`]],
+    equipment: [["Itens", String(sheet.equipment.length)], ["Arsenal", "Armas, proteções e ferramentas"], ["Carga", "Controle narrativo de recursos"]],
+    house: [["Atributos", "Geração, Vida Mínima e modificadores"], ["Descanso", `Exaustão ${sheet.houseRules.rest.exhaustion}`], ["Campanha", "Votos, Interlúdios e Dedicação"]],
+    diary: [["Registros", String(sheet.diary.length)], ["Rolagens", "Resultados e origem"], ["Memória", "Notas da campanha"]],
+  };
+  return <div className="mb-4 grid gap-px overflow-hidden rounded-2xl border border-violet-300/10 bg-violet-300/10 sm:grid-cols-3">{entries[tab].map(([label, value]) => <div key={label} className="bg-[#120c1d] px-4 py-3"><p className="text-[10px] uppercase tracking-[.14em] text-stone-500">{label}</p><p className="mt-1 font-medium leading-5 text-stone-200">{value}</p></div>)}</div>;
+}
+
 function renderTab({ tab, sheet, derived, updateSheet, addDiary, newNote, setNewNote, techniques }: { tab: TabId; sheet: FMCharacterSheet; derived: ReturnType<typeof getDerivedValues>; updateSheet: (updater: (current: FMCharacterSheet) => FMCharacterSheet) => void; addDiary: (title: string, detail: string, category?: FMCharacterSheet["diary"][number]["category"]) => void; newNote: string; setNewNote: (value: string) => void; techniques: Array<{ id: string; name: string; technique: Record<string, unknown> }>; }) {
-  if (tab === "overview") return <OverviewTab sheet={sheet} derived={derived} updateSheet={updateSheet} addDiary={addDiary} techniques={techniques} />;
-  if (tab === "attributes") return <AttributesTab sheet={sheet} derived={derived} updateSheet={updateSheet} />;
-  if (tab === "skills") return <SkillsTab sheet={sheet} derived={derived} updateSheet={updateSheet} />;
-  if (tab === "spells") return <SpellsTab sheet={sheet} derived={derived} updateSheet={updateSheet} addDiary={addDiary} />;
-  if (tab === "combat") return <CombatTab sheet={sheet} derived={derived} updateSheet={updateSheet} addDiary={addDiary} />;
-  if (tab === "equipment") return <EquipmentTab sheet={sheet} updateSheet={updateSheet} />;
-  if (tab === "house") return <HouseRulesPanel sheet={sheet} derived={derived} updateSheet={updateSheet} addDiary={addDiary} />;
-  return <DiaryTab sheet={sheet} derived={derived} updateSheet={updateSheet} newNote={newNote} setNewNote={setNewNote} addDiary={addDiary} />;
+  const content = tab === "overview" ? <OverviewTab sheet={sheet} derived={derived} updateSheet={updateSheet} addDiary={addDiary} techniques={techniques} />
+    : tab === "attributes" ? <AttributesTab sheet={sheet} derived={derived} updateSheet={updateSheet} />
+    : tab === "skills" ? <SkillsTab sheet={sheet} derived={derived} updateSheet={updateSheet} />
+    : tab === "technique" ? <TechniqueProfileTab sheet={sheet} derived={derived} techniques={techniques} updateSheet={updateSheet} addDiary={addDiary} />
+    : tab === "spells" ? <SpellsTab sheet={sheet} derived={derived} updateSheet={updateSheet} addDiary={addDiary} />
+    : tab === "combat" ? <CombatTab sheet={sheet} derived={derived} updateSheet={updateSheet} addDiary={addDiary} />
+    : tab === "equipment" ? <EquipmentTab sheet={sheet} updateSheet={updateSheet} />
+    : tab === "house" ? <HouseRulesPanel sheet={sheet} derived={derived} updateSheet={updateSheet} addDiary={addDiary} />
+    : <DiaryTab sheet={sheet} derived={derived} updateSheet={updateSheet} newNote={newNote} setNewNote={setNewNote} addDiary={addDiary} />;
+  return <GurpsDossierFrame tab={tab}><GurpsSectionLedger tab={tab} sheet={sheet} derived={derived} />{content}</GurpsDossierFrame>;
 }
 
 function OverviewTab({ sheet, derived, updateSheet, addDiary, techniques }: { sheet: FMCharacterSheet; derived: ReturnType<typeof getDerivedValues>; updateSheet: (updater: (current: FMCharacterSheet) => FMCharacterSheet) => void; addDiary: (title: string, detail: string, category?: FMCharacterSheet["diary"][number]["category"]) => void; techniques: Array<{ id: string; name: string; technique: Record<string, unknown> }> }) {
@@ -492,7 +529,6 @@ function OverviewTab({ sheet, derived, updateSheet, addDiary, techniques }: { sh
   return <><SectionTitle eyebrow="Núcleo do personagem" title="Visão geral" description="Acompanhe a identidade, a progressão Infinite Worlds, os recursos atuais e as fórmulas que sustentam a cena." />
     <div className="grid gap-4 xl:grid-cols-[1.15fr_.85fr]"><Panel><div className="grid gap-4 sm:grid-cols-2"><Field label="Nome"><Input value={sheet.identity.name} onChange={event => updateSheet(current => ({ ...current, identity: { ...current.identity, name: event.target.value } }))} /></Field><Field label="Jogador"><Input value={sheet.identity.player} onChange={event => updateSheet(current => ({ ...current, identity: { ...current.identity, player: event.target.value } }))} /></Field><Field label="Grau"><Input value={sheet.identity.grade} onChange={event => updateSheet(current => ({ ...current, identity: { ...current.identity, grade: event.target.value } }))} placeholder="Ex.: Grau 2" /></Field><Field label="Origem"><Input value={sheet.origin.name} onChange={event => updateSheet(current => ({ ...current, origin: { ...current.origin, name: event.target.value } }))} placeholder="Ex.: Inato" /></Field><Field label="Técnica amaldiçoada" hint="Atributo-chave escolhido na aba Atributos."><Input value={sheet.technique.name} onChange={event => updateSheet(current => ({ ...current, technique: { ...current.technique, name: event.target.value } }))} placeholder="Nome da técnica" /></Field><Field label="Funcionamento básico" hint="O núcleo narrativo e os limites da técnica."><Textarea value={sheet.technique.basicFunction} onChange={event => updateSheet(current => ({ ...current, technique: { ...current.technique, basicFunction: event.target.value } }))} placeholder="Descreva o conceito e as restrições da técnica." /></Field></div></Panel>
       <div className="grid gap-4"><ResourceCard label="Pontos de Vida" shortLabel="PV" value={sheet.resources.health.current} maximum={derived.healthMaximum} onChange={value => setCurrentResource("health", value)} onAdjust={delta => changeResource("health", delta)} /><ResourceCard label={resourceLabel} shortLabel={resourceLabel === "Estamina" ? "ES" : "PE"} value={sheet.resources.energy.current} maximum={derived.energyMaximum} onChange={value => setCurrentResource("energy", value)} onAdjust={delta => changeResource("energy", delta)} /></div></div>
-    <CharacterTechniqueSelector sheet={sheet} techniques={techniques} updateSheet={updateSheet} addDiary={addDiary} />
     <GuildProgressPanel sheet={sheet} updateSheet={updateSheet} addDiary={addDiary} />
     <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-4"><FormulaCard label="Defesa" value={derived.defense} formula="10 + Destreza + metade do nível + bônus" source="Livro-base, pp. 19 e 281" /><FormulaCard label="Iniciativa" value={`${derived.initiative >= 0 ? "+" : ""}${derived.initiative}`} formula="Destreza + bônus" source="Livro-base, pp. 19 e 291" /><FormulaCard label="Atenção" value={derived.attention} formula="10 + Percepção + bônus" source="Livro-base, p. 19" /><FormulaCard label="CD da técnica" value={derived.techniqueDc} formula="10 + metade do nível + atributo + treinamento" source="Livro-base, p. 198" /></div>
     <div className="mt-4 grid gap-4 xl:grid-cols-2"><Panel><SectionTitle eyebrow="Aspectos pessoais" title="Quem atravessa a maldição" description="Campos narrativos da criação de personagem." /><div className="grid gap-4 sm:grid-cols-2"><Field label="Traços de personalidade"><Textarea value={sheet.personal.traits} onChange={event => updateSheet(current => ({ ...current, personal: { ...current.personal, traits: event.target.value } }))} /></Field><Field label="Ideais"><Textarea value={sheet.personal.ideals} onChange={event => updateSheet(current => ({ ...current, personal: { ...current.personal, ideals: event.target.value } }))} /></Field><Field label="Ligações"><Textarea value={sheet.personal.bonds} onChange={event => updateSheet(current => ({ ...current, personal: { ...current.personal, bonds: event.target.value } }))} /></Field><Field label="Complicações"><Textarea value={sheet.personal.complications} onChange={event => updateSheet(current => ({ ...current, personal: { ...current.personal, complications: event.target.value } }))} /></Field></div></Panel><Panel><SectionTitle eyebrow="Domínio inato" title="O espaço que define a alma" description="Este campo registra a representação metafísica do personagem." /><Textarea className="min-h-56" value={sheet.personal.innateDomain} onChange={event => updateSheet(current => ({ ...current, personal: { ...current.personal, innateDomain: event.target.value } }))} placeholder="Descreva o domínio inato…" /></Panel></div></>;
@@ -526,6 +562,13 @@ function ResourceCard({ label, shortLabel, value, maximum, onChange, onAdjust }:
 }
 
 function FormulaCard({ label, value, formula, source }: { label: string; value: string | number; formula: string; source?: string }) { return <Panel className="border-violet-300/10"><p className="text-xs uppercase tracking-[0.16em] text-stone-500">{label}</p><p className="mt-1 font-display text-3xl text-amber-200">{value}</p><p className="mt-2 text-xs leading-5 text-stone-500">{formula}</p>{source ? <p className="mt-1 text-[11px] leading-4 text-stone-600">{source}</p> : null}</Panel>; }
+
+function TechniqueProfileTab({ sheet, derived, techniques, updateSheet, addDiary }: { sheet: FMCharacterSheet; derived: ReturnType<typeof getDerivedValues>; techniques: Array<{ id: string; name: string; technique: Record<string, unknown> }>; updateSheet: (updater: (current: FMCharacterSheet) => FMCharacterSheet) => void; addDiary: (title: string, detail: string, category?: FMCharacterSheet["diary"][number]["category"]) => void }) {
+  const primaryAttribute = sheet.progression.techniqueAttribute;
+  return <><SectionTitle eyebrow="Capacidades especiais" title="Técnica e poderes" description="Organize a capacidade central como um bloco próprio: selecione o arquivo de técnica, consulte atributos, limites, contrajogo e então gerencie os feitiços derivados." />
+    <CharacterTechniqueSelector sheet={sheet} techniques={techniques} updateSheet={updateSheet} addDiary={addDiary} />
+    <div className="mt-4 grid gap-4 xl:grid-cols-[.85fr_1.15fr]"><Panel><p className="font-display text-xs uppercase tracking-[.18em] text-amber-300/65">Núcleo da capacidade</p><h3 className="mt-2 font-display text-2xl text-stone-100">{sheet.technique.name || "Técnica não definida"}</h3><dl className="mt-5 grid gap-4 text-sm"><div className="rounded-xl border border-violet-300/10 bg-black/20 p-3"><dt className="text-xs uppercase tracking-[.13em] text-stone-500">Atributo principal</dt><dd className="mt-1 font-display text-xl text-amber-200">{FM_ATTRIBUTE_LABELS[primaryAttribute]}</dd></div><div className="rounded-xl border border-violet-300/10 bg-black/20 p-3"><dt className="text-xs uppercase tracking-[.13em] text-stone-500">CD da técnica</dt><dd className="mt-1 font-display text-xl text-amber-200">{derived.techniqueDc}</dd></div><div className="rounded-xl border border-violet-300/10 bg-black/20 p-3"><dt className="text-xs uppercase tracking-[.13em] text-stone-500">Itens essenciais</dt><dd className="mt-1 whitespace-pre-wrap leading-6 text-stone-300">{sheet.technique.requiredItems || "Não informado"}</dd></div></dl></Panel><Panel><div className="grid gap-4"><div><p className="text-xs uppercase tracking-[.13em] text-stone-500">Funcionamento</p><p className="mt-2 whitespace-pre-wrap text-sm leading-7 text-stone-300">{sheet.technique.basicFunction || "Selecione uma técnica da biblioteca para registrar seu funcionamento."}</p></div><div className="grid gap-4 sm:grid-cols-2"><div className="rounded-xl border border-violet-300/10 bg-black/20 p-3"><p className="text-xs uppercase tracking-[.13em] text-stone-500">Benefícios intrínsecos</p><p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-stone-300">{sheet.technique.intrinsicBenefits || "Não informado"}</p></div><div className="rounded-xl border border-violet-300/10 bg-black/20 p-3"><p className="text-xs uppercase tracking-[.13em] text-stone-500">Limitações e contrajogo</p><p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-stone-300">{sheet.technique.limitations || "Não informado"}</p></div></div><div className="rounded-xl border border-amber-300/15 bg-amber-300/5 p-3 text-sm leading-6 text-stone-400"><span className="font-medium text-amber-100">Poderes derivados:</span> use a seção Poderes e feitiços para cadastrar custo, alcance, duração e efeitos mecânicos da técnica selecionada.</div></div></Panel></div></>;
+}
 
 function AttributesTab({ sheet, derived, updateSheet }: { sheet: FMCharacterSheet; derived: ReturnType<typeof getDerivedValues>; updateSheet: (updater: (current: FMCharacterSheet) => FMCharacterSheet) => void }) {
   return <><SectionTitle eyebrow="Estrutura de poder" title="Atributos e progressão" description={`Atributos de 0 a 30; o limite natural é 20. As fórmulas mostram o efeito do valor atual. ${FM_RULE_CITATIONS.coreValues} e ${FM_RULE_CITATIONS.training}.`} />

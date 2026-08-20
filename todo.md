@@ -80,3 +80,16 @@
 - [x] Cobrir persistência, autorização e integridade do vínculo entre técnica e personagem.
 - [x] Validar a aba de técnicas e o seletor de personagem em 1280×720 e 375×812.
 - [x] Testar que a ficha salva e recupera `techniqueLibraryId` e a cópia da técnica escolhida após recarga.
+- [x] Reorganizar a ficha em seções inspiradas no fluxo GURPS, sem alterar regras ou dados de F&M.
+- [x] Agrupar identidade, atributos, características, combate, magias, inventário, técnicas, casa e diário com navegação mais direta.
+- [x] Cobrir a preservação de dados após a reorganização visual e validar desktop/celular sem overflow.
+- [x] Reestruturar internamente os blocos principais para um fluxo de ficha mais próximo de GURPS, além da navegação lateral.
+- [x] Criar uma seção explícita de Técnicas no fluxo da ficha, alinhada a atributos, capacidades, combate e equipamento.
+- [x] Inspecionar cada grupo reorganizado em desktop e celular e registrar preservação de dados após navegar e recarregar.
+- [x] Reestruturar os layouts internos de todos os blocos no fluxo de dossiê inspirado em GURPS, além dos menus e da faixa superior.
+- [x] Verificar e registrar explicitamente a preservação da ficha após trocar de seção e recarregar no fluxo reorganizado.
+- [x] Reestruturar internamente Atributos, Perícias, Poderes, Combate, Equipamento, Casa e Diário em blocos de dossiê específicos.
+- [x] Verificar no navegador a persistência da ficha após navegar entre seções e recarregar o fluxo reorganizado.
+- [x] Reorganizar de forma específica os layouts internos de Atributos, Perícias, Poderes, Combate, Equipamento, Casa e Diário.
+- [x] Validar uma ficha persistida ao navegar entre seções e recarregar, com evidência de dados preservados.
+- [x] Validar navegação e recarga em cenário local persistente, sem acessar fichas reais de usuários.
