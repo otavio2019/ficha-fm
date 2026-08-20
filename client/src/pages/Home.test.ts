@@ -14,6 +14,7 @@ describe("hidratação de fichas legadas", () => {
     expect(sheet.origin).toMatchObject({ catalogId: "custom", clanId: "custom", clan: "" });
     expect(sheet.invocations).toEqual([]);
     expect(sheet.images).toEqual([]);
+    expect(sheet.missionRewards).toEqual([]);
   });
 
   it("reconhece um nome de clã legado sem perder a linhagem textual", () => {
@@ -49,5 +50,10 @@ describe("hidratação de fichas legadas", () => {
     expect(sheet.equipment).toHaveLength(1);
     expect(sheet.images).toMatchObject([{ name: "maki.png", caption: "Retrato" }]);
     expect(sheet.diary).toHaveLength(1);
+  });
+
+  it("preserva o livro-razão de recompensas ao recarregar a ficha", () => {
+    const sheet = hydrateSheet({ missionRewards: [{ id: "mission-1", at: 500, title: "Rastro de Cinzas", grade: "4º Grau", difficulty: "hard", moneyDifficulty: "normal", base: { experience: 8, money: 5000, interludes: 1, description: "Tabela Infinite Worlds" }, extra: { experience: 2, money: 1000, interludes: 0, description: "Recebeu um talismã" }, total: { experience: 10, money: 6000, interludes: 1, description: "Recebeu um talismã" } }] });
+    expect(sheet.missionRewards).toMatchObject([{ id: "mission-1", title: "Rastro de Cinzas", total: { experience: 10, money: 6000, interludes: 1 } }]);
   });
 });

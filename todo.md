@@ -133,3 +133,9 @@
 - [x] Criar um painel próprio para escolher, trocar e remover o retrato principal do personagem, separado da galeria.
 - [x] Ajustar a galeria para permanecer destinada apenas a referências visuais, sem controlar o retrato principal.
 - [x] Cobrir persistência, interface responsiva e compatibilidade legada do retrato independente.
+- [x] Exibir antecipadamente as recompensas-base de cada missão conforme nível e grau da guilda.
+- [x] Permitir registrar ganhos extras de uma missão sem alterar as recompensas-base automáticas.
+- [x] Criar um histórico persistente de recompensas concedidas, com origem, valores e extras por missão.
+- [x] Cobrir regras, persistência, compatibilidade legada e interface responsiva do novo fluxo de recompensas.
+- [x] Adicionar teste protegido de persistência do livro-razão de missões por `characters.save` e `characters.get`.
+- [x] Confirmar em teste a recarga de base, extras e total de uma recompensa registrada.

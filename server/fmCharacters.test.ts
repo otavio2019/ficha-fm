@@ -155,13 +155,13 @@ describe("biblioteca de fichas", () => {
     base.progression.level = 4;
     base.progression.specializationLevels = 4;
     base.identity.grade = "4º Grau";
-    const sheet = applyInfiniteWorldMission(base, "hard-plus", "normal", 1000).sheet;
+    const sheet = applyInfiniteWorldMission(base, "hard-plus", "normal", 1000, { title: "Rastro de Cinzas", experience: 2, money: 300, interludes: 0.5, description: "Talismã concedido pela guilda." }).sheet;
     vi.mocked(getFMCharacter).mockResolvedValueOnce(undefined).mockResolvedValueOnce({ id: "ficha-missao", ownerId: 1, name: "Megumi", portraitUrl: null, sheet, createdAt: new Date(), updatedAt: new Date() });
     vi.mocked(saveFMCharacter).mockResolvedValue({ id: "ficha-missao", ownerId: 1, name: "Megumi", portraitUrl: null, sheet, createdAt: new Date(), updatedAt: new Date() });
     const caller = appRouter.createCaller(createContext(1));
 
     await caller.characters.save({ id: "ficha-missao", name: "Megumi", sheet });
-    await expect(caller.characters.get({ id: "ficha-missao" })).resolves.toMatchObject({ sheet: { progression: { experience: 87, level: 4 }, identity: { grade: "4º Grau" }, houseRules: { rest: { exhaustion: 1, missionCount: 1 }, downtime: { interludes: 1.5 } } } });
+    await expect(caller.characters.get({ id: "ficha-missao" })).resolves.toMatchObject({ sheet: { progression: { experience: 89, level: 4 }, identity: { grade: "4º Grau" }, guild: { currency: 5300 }, houseRules: { rest: { exhaustion: 1, missionCount: 1 }, downtime: { interludes: 2 } }, missionRewards: [{ title: "Rastro de Cinzas", base: { experience: 12, money: 5000, interludes: 1.5 }, extra: { experience: 2, money: 300, interludes: 0.5, description: "Talismã concedido pela guilda." }, total: { experience: 14, money: 5300, interludes: 2 } }] } });
   });
 
   it("persiste e recupera origem selecionada e invocações da ficha", async () => {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { applyInfiniteWorldMission, getExperienceToNextLevel, getInfiniteWorldGrade, getInfiniteWorldLevel, getMissionExperienceReward, getMissionInterludeReward, getMissionMoneyReward } from "./infiniteWorlds";
+import { applyInfiniteWorldMission, getExperienceToNextLevel, getInfiniteWorldGrade, getInfiniteWorldLevel, getMissionExperienceReward, getMissionInterludeReward, getMissionMoneyReward, getMissionRewardPreview } from "./infiniteWorlds";
 import { createEmptyFMSheet } from "./fmTypes";
 
 describe("progressão Infinite Worlds", () => {
@@ -37,5 +37,21 @@ describe("progressão Infinite Worlds", () => {
 
     expect(result.rewards).toMatchObject({ experience: 12, money: 5000, interludes: 1.5, grade: "4º Grau" });
     expect(result.sheet).toMatchObject({ progression: { experience: 87, level: 4 }, identity: { grade: "4º Grau" }, guild: { currency: 5000 }, houseRules: { rest: { exhaustion: 1, missionCount: 1, lastMissionAt: 1000 }, downtime: { interludes: 1.5 } } });
+  });
+
+  it("mantém a recompensa-base e soma extras autorizados em uma prévia separada", () => {
+    const sheet = createEmptyFMSheet();
+    const preview = getMissionRewardPreview(sheet, "hard", "normal", { experience: 4.8, money: 1250.9, interludes: 0.7, description: "Ferramenta amaldiçoada recuperada." });
+
+    expect(preview.base).toMatchObject({ experience: 8, money: 5000, interludes: 1 });
+    expect(preview.extra).toMatchObject({ experience: 4, money: 1250, interludes: 0.5, description: "Ferramenta amaldiçoada recuperada." });
+    expect(preview.total).toMatchObject({ experience: 12, money: 6250, interludes: 1.5 });
+  });
+
+  it("arquiva base, extras e total ao aplicar uma missão", () => {
+    const sheet = createEmptyFMSheet();
+    const result = applyInfiniteWorldMission(sheet, "medium", "normal", 2_000, { title: "Ecos do Templo", experience: 3, money: 700, interludes: 0.5, description: "Recebeu um talismã." });
+
+    expect(result.sheet).toMatchObject({ progression: { experience: 8 }, guild: { currency: 5700 }, houseRules: { downtime: { interludes: 0.5 } }, missionRewards: [{ id: "mission-2000-1", title: "Ecos do Templo", at: 2_000, base: { experience: 5, money: 5000, interludes: 0 }, extra: { experience: 3, money: 700, interludes: 0.5, description: "Recebeu um talismã." }, total: { experience: 8, money: 5700, interludes: 0.5 } }] });
   });
 });

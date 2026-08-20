@@ -1,4 +1,4 @@
-import type { FMCharacterSheet } from "./fmTypes";
+import type { FMCharacterSheet, FMMissionReward } from "./fmTypes";
 
 export const INFINITE_WORLDS_XP_BY_LEVEL = {
   1: 0, 2: 20, 3: 45, 4: 75, 5: 100, 6: 145, 7: 200, 8: 265, 9: 300, 10: 375,
@@ -10,6 +10,7 @@ export const INFINITE_WORLDS_XP_BY_LEVEL = {
 export type InfiniteWorldGradeId = "fourth" | "third" | "second" | "first" | "special";
 export type InfiniteWorldMissionDifficulty = "easy" | "medium" | "hard" | "hard-plus";
 export type InfiniteWorldMoneyDifficulty = "easy" | "normal" | "hard";
+export type InfiniteWorldMissionExtra = Partial<FMMissionReward> & { title?: string };
 
 type GradeDefinition = {
   id: InfiniteWorldGradeId;
@@ -73,20 +74,66 @@ export function getMissionInterludeReward(difficulty: InfiniteWorldMissionDiffic
   return difficulty === "hard" ? 1 : difficulty === "hard-plus" ? 1.5 : 0;
 }
 
-export function applyInfiniteWorldMission(sheet: FMCharacterSheet, difficulty: InfiniteWorldMissionDifficulty, moneyDifficulty: InfiniteWorldMoneyDifficulty, at = Date.now()) {
-  const currentProgress = getInfiniteWorldProgress(sheet.progression.experience ?? 0);
-  const experience = getMissionExperienceReward(currentProgress.grade.id, difficulty);
-  const money = getMissionMoneyReward(currentProgress.grade.id, moneyDifficulty, sheet.houseRules.dedicationRewarding);
-  const interludes = getMissionInterludeReward(difficulty);
-  const nextProgress = getInfiniteWorldProgress(currentProgress.experience + experience);
+function safeWholeReward(value: unknown) {
+  return typeof value === "number" && Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0;
+}
+
+function safeInterludeReward(value: unknown) {
+  return typeof value === "number" && Number.isFinite(value) ? Math.max(0, Math.round(value * 2) / 2) : 0;
+}
+
+export function getMissionRewardPreview(sheet: Pick<FMCharacterSheet, "progression" | "houseRules">, difficulty: InfiniteWorldMissionDifficulty, moneyDifficulty: InfiniteWorldMoneyDifficulty, extra: InfiniteWorldMissionExtra = {}) {
+  const progress = getInfiniteWorldProgress(sheet.progression.experience ?? 0);
+  const base = {
+    experience: getMissionExperienceReward(progress.grade.id, difficulty),
+    money: getMissionMoneyReward(progress.grade.id, moneyDifficulty, sheet.houseRules.dedicationRewarding),
+    interludes: getMissionInterludeReward(difficulty),
+    description: "Recompensas automáticas da tabela Infinite Worlds.",
+  };
+  const extras = {
+    experience: safeWholeReward(extra.experience),
+    money: safeWholeReward(extra.money),
+    interludes: safeInterludeReward(extra.interludes),
+    description: typeof extra.description === "string" ? extra.description.trim() : "",
+  };
   return {
-    rewards: { experience, money, interludes, grade: currentProgress.grade.label },
+    grade: progress.grade,
+    base,
+    extra: extras,
+    total: {
+      experience: base.experience + extras.experience,
+      money: base.money + extras.money,
+      interludes: base.interludes + extras.interludes,
+      description: extras.description || base.description,
+    },
+  };
+}
+
+export function applyInfiniteWorldMission(sheet: FMCharacterSheet, difficulty: InfiniteWorldMissionDifficulty, moneyDifficulty: InfiniteWorldMoneyDifficulty, at = Date.now(), extra: InfiniteWorldMissionExtra = {}) {
+  const currentProgress = getInfiniteWorldProgress(sheet.progression.experience ?? 0);
+  const rewards = getMissionRewardPreview(sheet, difficulty, moneyDifficulty, extra);
+  const { experience, money, interludes } = rewards.total;
+  const nextProgress = getInfiniteWorldProgress(currentProgress.experience + experience);
+  const record = {
+    id: `mission-${at}-${sheet.missionRewards.length + 1}`,
+    at,
+    title: typeof extra.title === "string" && extra.title.trim() ? extra.title.trim() : `Missão de ${currentProgress.grade.label}`,
+    grade: currentProgress.grade.label,
+    difficulty,
+    moneyDifficulty,
+    base: rewards.base,
+    extra: rewards.extra,
+    total: rewards.total,
+  };
+  return {
+    rewards: { experience, money, interludes, grade: currentProgress.grade.label, base: rewards.base, extra: rewards.extra, total: rewards.total },
     sheet: {
       ...sheet,
       progression: { ...sheet.progression, experience: nextProgress.experience, level: nextProgress.level, specializationLevels: nextProgress.level },
       identity: { ...sheet.identity, grade: nextProgress.grade.label },
       guild: { ...(sheet.guild ?? { currency: 0 }), currency: (sheet.guild?.currency ?? 0) + money },
       houseRules: { ...sheet.houseRules, rest: { ...sheet.houseRules.rest, exhaustion: sheet.houseRules.rest.exhaustion + 1, missionCount: sheet.houseRules.rest.missionCount + 1, lastMissionAt: at, longRestMissionCount: null }, downtime: { ...sheet.houseRules.downtime, interludes: sheet.houseRules.downtime.interludes + interludes } },
+      missionRewards: [record, ...sheet.missionRewards],
     },
   };
 }

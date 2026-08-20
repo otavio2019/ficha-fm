@@ -208,6 +208,25 @@ export type FMDiaryEntry = {
   detail: string;
 };
 
+export type FMMissionReward = {
+  experience: number;
+  money: number;
+  interludes: number;
+  description: string;
+};
+
+export type FMMissionRewardRecord = {
+  id: string;
+  at: number;
+  title: string;
+  grade: string;
+  difficulty: "easy" | "medium" | "hard" | "hard-plus";
+  moneyDifficulty: "easy" | "normal" | "hard";
+  base: FMMissionReward;
+  extra: FMMissionReward;
+  total: FMMissionReward;
+};
+
 export type FMCombatant = {
   id: string;
   name: string;
@@ -294,6 +313,7 @@ export type FMCharacterSheet = {
   conditions: FMCondition[];
   combatants: FMCombatant[];
   diary: FMDiaryEntry[];
+  missionRewards: FMMissionRewardRecord[];
 };
 
 export const createEmptyFMSheet = (): FMCharacterSheet => ({
@@ -357,4 +377,5 @@ export const createEmptyFMSheet = (): FMCharacterSheet => ({
   conditions: [],
   combatants: [],
   diary: [],
+  missionRewards: [],
 });
