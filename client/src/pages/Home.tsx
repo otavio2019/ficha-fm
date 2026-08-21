@@ -12,6 +12,7 @@ import { CharacterTechniqueSelector } from "@/components/CharacterTechniqueSelec
 import { ModifierEditor, RaceSelectionPanel } from "@/components/RaceSelectionPanel";
 import { AssetsPanelWithActions, DomainExpansionPanel } from "@/components/CampaignCapabilitiesPanels";
 import { AptitudeManagerPanel } from "@/components/AptitudeManagerPanel";
+import { CharacterAuditPanel } from "@/components/CharacterAuditPanel";
 import { FM_RULE_CITATIONS } from "@shared/fmCitations";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { BookOpen, ChevronLeft, CirclePlus, Copy, Dice5, Download, Flame, ImagePlus, Library, Loader2, LogOut, Menu, MoonStar, Plus, Printer, ScrollText, Share2, Shield, Sparkles, Swords, Trash2, WandSparkles, Wrench } from "lucide-react";
@@ -28,15 +29,17 @@ import { FM_TECHNIQUE_CREATION_CITATION, getPrimaryTechniqueAttribute, getTechni
 import { FM_HOUSE_RULES_CITATION, getHouseRestAvailability, getMassiveDamageOutcome, rollHouseAttributeGeneration } from "@shared/fmHouseRules";
 import { applyAutomatedSpellType, createAutomatedSpell } from "@shared/fmCreationAssistant";
 import { calculateCharacterState, FM_MODIFIER_TARGET_LABELS, type FMCharacterState } from "@shared/fmCharacterState";
+import { auditCharacter, formatAuditStatus } from "@shared/fmAuditEngine";
+import type { FMAuditResult, FMAuditTab } from "@shared/fmAudit";
 
-type TabId = "overview" | "attributes" | "specialization" | "skills" | "aptitudes" | "technique" | "spells" | "domain" | "invocations" | "combat" | "equipment" | "assets" | "progression" | "missions" | "house" | "diary";
+type TabId = "overview" | "attributes" | "specialization" | "skills" | "aptitudes" | "technique" | "spells" | "domain" | "invocations" | "combat" | "equipment" | "assets" | "progression" | "missions" | "house" | "diary" | "audit";
 
 type SheetNavItem = { id: TabId; label: string; icon: typeof BookOpen };
 const navigationGroups: Array<{ label: string; items: SheetNavItem[] }> = [
   { label: "Perfil", items: [{ id: "overview", label: "Resumo e identidade", icon: BookOpen }, { id: "attributes", label: "Atributos e defesas", icon: Flame }] },
   { label: "Capacidades", items: [{ id: "specialization", label: "Especialização e multiclasse", icon: ScrollText }, { id: "skills", label: "Perícias e treinamento", icon: ScrollText }, { id: "aptitudes", label: "Aptidões e treinamentos", icon: Sparkles }, { id: "technique", label: "Técnica e vínculo", icon: WandSparkles }, { id: "spells", label: "Poderes e feitiços", icon: WandSparkles }, { id: "domain", label: "Domínio e expansão", icon: Shield }, { id: "invocations", label: "Invocações", icon: WandSparkles }] },
   { label: "Aventura", items: [{ id: "combat", label: "Combate e ataques", icon: Swords }, { id: "equipment", label: "Equipamento e carga", icon: Shield }, { id: "assets", label: "Aliados e ferramentas", icon: Wrench }] },
-  { label: "Campanha", items: [{ id: "missions", label: "Missões, Grau e Interlúdios", icon: Swords }, { id: "house", label: "Regras da Casa", icon: Shield }, { id: "diary", label: "Diário e registros", icon: BookOpen }] },
+  { label: "Campanha", items: [{ id: "missions", label: "Missões, Grau e Interlúdios", icon: Swords }, { id: "house", label: "Regras da Casa", icon: Shield }, { id: "diary", label: "Diário e registros", icon: BookOpen }, { id: "audit", label: "Auditoria da ficha", icon: Shield }] },
 ];
 const tabs = navigationGroups.flatMap(group => group.items);
 
@@ -165,12 +168,13 @@ export default function Home() {
   const [sheet, setSheet] = useState<FMCharacterSheet | null>(null);
   const [tab, setTab] = useState<TabId>(() => {
     const requested = new URLSearchParams(window.location.search).get("tab") as TabId | null;
-      return ["overview", "attributes", "specialization", "skills", "aptitudes", "technique", "spells", "domain", "invocations", "combat", "equipment", "assets", "missions", "house", "diary"].includes(requested ?? "") ? requested! : "overview";
+      return ["overview", "attributes", "specialization", "skills", "aptitudes", "technique", "spells", "domain", "invocations", "combat", "equipment", "assets", "missions", "house", "diary", "audit"].includes(requested ?? "") ? requested! : "overview";
   });
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [creating, setCreating] = useState(false);
   const [newCharacterName, setNewCharacterName] = useState("");
   const [newNote, setNewNote] = useState("");
+  const [auditResult, setAuditResult] = useState<FMAuditResult | null>(null);
   const [techniqueCharacterId, setTechniqueCharacterId] = useState<string | null>(() => previewVariant === "library" ? "preview-technique" : null);
   const [previewTechniqueSheet, setPreviewTechniqueSheet] = useState<FMCharacterSheet>(() => {
     const previewSheet = createNewSheet("Pré-visualização da Forja");
@@ -214,7 +218,7 @@ export default function Home() {
       if (previewVariant === "full") { const previewImage = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="960" height="640"><defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#24113a"/><stop offset="1" stop-color="#8a611e"/></linearGradient></defs><rect width="100%" height="100%" fill="#09060f"/><circle cx="740" cy="155" r="120" fill="url(#g)" opacity=".9"/><path d="M0 520C190 430 260 575 450 480s285-135 510-35v195H0z" fill="#120c1d"/><text x="54" y="94" fill="#f4c85f" font-family="serif" font-size="42">INFINITE WORLDS</text><text x="54" y="148" fill="#eee8df" font-family="sans-serif" font-size="25">Referência visual local</text></svg>')}`; initialSheet.images = [{ id: "preview-image-1", key: "preview/reference.svg", url: previewImage, name: "referência-local.svg", caption: "Símbolo da técnica para o cenário de validação.", createdAt: 0 }]; initialSheet.identity.portraitUrl = previewImage; }
       if (previewVariant === "full") initialSheet.invocations = [{ id: "preview-invocation", name: "Lobo de Papel", concept: "Shikigami de rastreio feito de talismãs dobrados.", grade: "fourth", attributes: { strength: 10, dexterity: 12, constitution: 10, intelligence: 8, wisdom: 12, presence: 8 }, movement: 12, trainedAttack: "melee", trainedSavingThrow: "reflexos", trainedSkills: ["Percepção"], actions: [{ id: "preview-invocation-action", name: "Farejar Maldição", kind: "simple", effect: "Localiza uma presença amaldiçoada em alcance narrativo.", counterplay: "Barreira, ocultação ou contramedida da cena." }], notes: "Exemplo local de validação; não é salvo.", active: false }];
       if (previewVariant === "full") initialSheet.missionRewards = [{ id: "preview-mission-1", at: 0, title: "Ecos do Santuário", grade: "4º Grau", difficulty: "hard", moneyDifficulty: "normal", base: { experience: 8, money: 5000, interludes: 1, description: "Recompensas automáticas da tabela Infinite Worlds." }, extra: { experience: 2, money: 1000, interludes: 0, description: "Talismã selado recebido ao fim da missão." }, total: { experience: 10, money: 6000, interludes: 1, description: "Talismã selado recebido ao fim da missão." } }];
-      if (previewVariant === "full") { initialSheet.progression = { ...initialSheet.progression, level: 12, specializationLevels: 12, specializationTracks: [{ specialization: "technique-specialist", level: 12 }] }; initialSheet.houseRules.downtime.interludes = 3; initialSheet.aptitudes = [{ id: "preview-apt-1", catalogId: "barriers", name: "Barreiras", group: "domain", requiredLevel: 3, cost: 1, prerequisite: "—", effect: "Estrutura barreiras com efeito e contrajogo registrados.", approved: true }, { id: "preview-apt-2", catalogId: "incomplete-domain", name: "Expansão de Domínio Incompleta", group: "domain", requiredLevel: 8, cost: 2, prerequisite: "Barreiras", effect: "Expansão incompleta aprovada para a campanha.", approved: false }]; initialSheet.training = [{ trackId: "barriers", stage: 3, notes: "Aprimorando a resistência da barreira." }, { trackId: "comprehension", stage: 1, notes: "Estudos sobre leitura de energia." }]; initialSheet.allies = [{ id: "preview-ally-1", name: "Ieiri", role: "Suporte médico", bond: "Aliada da guilda em missões críticas.", healthCurrent: 18, healthMaximum: 18, defense: 13, actions: [{ id: "preview-ally-action", name: "Tratamento", effect: "Estabiliza um aliado em cena." }], notes: "Exemplo local; não é salvo." }]; initialSheet.cursedTools = [{ id: "preview-tool-1", name: "Lâmina do Selo", category: "weapon", grade: "second", costTier: 2, spaces: 1, requirements: "Manejo de arma", effect: "Canaliza energia em cortes declarados.", approved: true, enchantments: [{ id: "preview-enchantment-1", name: "Corte Vivo", effect: "Amplia a área do corte uma vez por cena.", approved: true }], notes: "Exemplo local; não é salvo." }]; initialSheet.domainExpansion = { name: "Jardim do Silêncio", type: "incomplete", requiredLevel: 8, energyCost: 12, barrierHealth: 30, barrierResilience: 4, guaranteedHit: false, maximumTechnique: "", effect: "Abafa a energia no interior da barreira e limita técnicas declaradas.", counterplay: "Domínio simples, fuga da área ou quebra da barreira.", approved: false }; }
+      if (previewVariant === "full") { initialSheet.progression = { ...initialSheet.progression, level: 12, experience: getExperienceForLevel(12), specializationLevels: 12, specializationTracks: [{ specialization: "technique-specialist", level: 12 }] }; initialSheet.houseRules.downtime.interludes = 3; initialSheet.aptitudes = [{ id: "preview-apt-1", catalogId: "barriers", name: "Barreiras", group: "domain", requiredLevel: 3, cost: 1, prerequisite: "—", effect: "Estrutura barreiras com efeito e contrajogo registrados.", approved: true }, { id: "preview-apt-2", catalogId: "incomplete-domain", name: "Expansão de Domínio Incompleta", group: "domain", requiredLevel: 8, cost: 2, prerequisite: "Barreiras", effect: "Expansão incompleta aprovada para a campanha.", approved: false }]; initialSheet.training = [{ trackId: "barriers", stage: 3, notes: "Aprimorando a resistência da barreira." }, { trackId: "comprehension", stage: 1, notes: "Estudos sobre leitura de energia." }]; initialSheet.allies = [{ id: "preview-ally-1", name: "Ieiri", role: "Suporte médico", bond: "Aliada da guilda em missões críticas.", healthCurrent: 18, healthMaximum: 18, defense: 13, actions: [{ id: "preview-ally-action", name: "Tratamento", effect: "Estabiliza um aliado em cena." }], notes: "Exemplo local; não é salvo." }]; initialSheet.cursedTools = [{ id: "preview-tool-1", name: "Lâmina do Selo", category: "weapon", grade: "second", costTier: 2, spaces: 1, requirements: "Manejo de arma", effect: "Canaliza energia em cortes declarados.", approved: true, enchantments: [{ id: "preview-enchantment-1", name: "Corte Vivo", effect: "Amplia a área do corte uma vez por cena.", approved: true }], notes: "Exemplo local; não é salvo." }]; initialSheet.domainExpansion = { name: "Jardim do Silêncio", type: "incomplete", requiredLevel: 8, energyCost: 12, barrierHealth: 30, barrierResilience: 4, guaranteedHit: false, maximumTechnique: "", effect: "Abafa a energia no interior da barreira e limita técnicas declaradas.", counterplay: "Domínio simples, fuga da área ou quebra da barreira.", approved: false }; }
       setSheet(initialSheet);
       return;
     }
@@ -226,6 +230,10 @@ export default function Home() {
   useEffect(() => {
     if (previewPersistedMode && sheet) window.localStorage.setItem("infinite-worlds:persisted-preview", JSON.stringify(sheet));
   }, [previewPersistedMode, sheet]);
+
+  useEffect(() => {
+    if (previewMode && tab === "audit" && new URLSearchParams(window.location.search).get("audit") === "run" && sheet) setAuditResult(auditCharacter(sheet));
+  }, [previewMode, sheet, tab]);
 
   useEffect(() => {
     if (!sheet?.techniqueLibraryId || !Array.isArray(techniquesQuery.data)) return;
@@ -259,6 +267,15 @@ export default function Home() {
 
   const derived = useMemo(() => sheet ? getDerivedValues(sheet) : null, [sheet]);
   const updateSheet = (updater: (current: FMCharacterSheet) => FMCharacterSheet) => setSheet(current => current ? updater(current) : current);
+  const runAudit = () => {
+    if (!sheet) return;
+    const result = auditCharacter(sheet);
+    setAuditResult(result);
+    setTab("audit");
+    if (result.summary.errors) toast.error(`Auditoria concluída: ${result.summary.errors} erro(s) encontrado(s).`);
+    else if (result.summary.warnings) toast.info(`Auditoria concluída: ${result.summary.warnings} aviso(s) encontrado(s).`);
+    else toast.success("Auditoria concluída: ficha válida.");
+  };
 
   const addDiary = (title: string, detail: string, category: FMCharacterSheet["diary"][number]["category"] = "note") => updateSheet(current => ({
     ...current,
@@ -443,6 +460,7 @@ export default function Home() {
           <p className="truncate font-display text-lg text-stone-100">{sheet.identity.name || "Personagem sem nome"}</p>
         </div>
         <span className="no-print hidden text-xs text-stone-500 lg:inline">{saveMutation.isPending ? "Salvando…" : "Salvamento automático"}</span>
+        <button type="button" onClick={runAudit} className={`no-print hidden rounded-full border px-3 py-1.5 text-xs font-medium transition focus:outline-none focus:ring-2 focus:ring-amber-300/70 md:inline ${auditResult?.summary.status === "needs-correction" ? "border-rose-300/35 bg-rose-300/10 text-rose-100" : auditResult?.summary.status === "valid-with-warnings" ? "border-amber-300/35 bg-amber-300/10 text-amber-100" : auditResult ? "border-emerald-300/35 bg-emerald-300/10 text-emerald-100" : "border-violet-300/20 text-violet-100 hover:border-amber-300/40"}`}>{auditResult ? formatAuditStatus(auditResult) : "Verificar ficha"}</button>
         <ActionButton title="Compartilhar ficha" onClick={() => void shareCurrentCharacter()} className="no-print"><Share2 className="h-4 w-4" /><span className="ml-2 hidden xl:inline">Compartilhar</span></ActionButton>
         <ActionButton title="Exportar JSON" onClick={exportSheet} className="no-print"><Download className="h-4 w-4" /></ActionButton>
         <ActionButton title="Imprimir ou salvar PDF" onClick={() => window.print()} className="no-print"><Printer className="h-4 w-4" /></ActionButton>
@@ -455,7 +473,7 @@ export default function Home() {
         <nav className="hidden gap-4 lg:grid" aria-label="Seções da ficha">{navigationGroups.map(group => <div key={group.label}><p className="mb-1 px-3 font-display text-[10px] uppercase tracking-[.2em] text-amber-300/55">{group.label}</p><div className="grid gap-1">{group.items.map(item => { const Icon = item.icon; const active = tab === item.id; return <button key={item.id} type="button" onClick={() => setTab(item.id)} className={`flex min-h-11 items-center gap-3 rounded-xl px-3 text-left text-sm transition focus:outline-none focus:ring-2 focus:ring-amber-300/70 ${active ? "bg-gradient-to-r from-violet-700/50 to-violet-700/10 text-amber-100 shadow-[inset_3px_0_0_#f4c85f]" : "text-stone-400 hover:bg-violet-300/5 hover:text-stone-100"}`}><Icon className="h-4 w-4" />{item.label}</button>; })}</div></div>)}</nav>
         <div className="mt-5 border-t border-violet-300/10 pt-4 text-xs leading-5 text-stone-500"><p className="font-display uppercase tracking-[0.18em] text-amber-300/60">Guilda Infinite Worlds</p><p className="mt-2">F&M v2.5.2 com progressão de níveis, graus, XP e recompensas oficiais da guilda.</p></div>
       </aside>
-      <section className="min-w-0">{renderTab({ tab, sheet, derived, updateSheet, addDiary, setNewNote, newNote, characterId: activeCharacterId, previewMode, uploadImage: input => uploadImageMutation.mutateAsync(input), techniques: previewMode ? [{ id: "preview-independent-technique", name: "Fios da Aurora", technique: sheet.technique as unknown as Record<string, unknown> }] : techniquesQuery.data ?? [] })}</section>
+      <section className="min-w-0">{renderTab({ tab, sheet, derived, updateSheet, addDiary, setNewNote, newNote, characterId: activeCharacterId, previewMode, uploadImage: input => uploadImageMutation.mutateAsync(input), techniques: previewMode ? [{ id: "preview-independent-technique", name: "Fios da Aurora", technique: sheet.technique as unknown as Record<string, unknown> }] : techniquesQuery.data ?? [], auditResult, onRunAudit: runAudit, onNavigateAudit: auditTab => setTab(auditTab) })}</section>
     </div>
   </main>;
 }
@@ -545,7 +563,7 @@ function TechniqueForge({ characters, selectedCharacterId, target, loading, onSe
 function GurpsDossierFrame({ tab, children }: { tab: TabId; children: React.ReactNode }) {
   const section = tabs.find(item => item.id === tab)!;
   const group = navigationGroups.find(item => item.items.some(entry => entry.id === tab))!;
-  const flow: Record<TabId, string> = { overview: "Identidade → recursos → referências", attributes: "Características → modificadores → resistências", specialization: "Núcleo → níveis → multiclasse", skills: "Perícia → atributo → treinamento", aptitudes: "Pontos → aptidões → focos", technique: "Vínculo → limites → poderes derivados", spells: "Poder → custo → resolução", domain: "Tipo → barreira → contrajogo", invocations: "Grau → atributos → ações", combat: "Ataque → defesa → cena", equipment: "Item → carga → observações", assets: "Vínculo → ferramenta → aprovação", progression: "XP → nível → grau", missions: "Missão → base → extras → registro", house: "Regra → registro → consequência", diary: "Rolagem → evento → memória" };
+  const flow: Record<TabId, string> = { overview: "Identidade → recursos → referências", attributes: "Características → modificadores → resistências", specialization: "Núcleo → níveis → multiclasse", skills: "Perícia → atributo → treinamento", aptitudes: "Pontos → aptidões → focos", technique: "Vínculo → limites → poderes derivados", spells: "Poder → custo → resolução", domain: "Tipo → barreira → contrajogo", invocations: "Grau → atributos → ações", combat: "Ataque → defesa → cena", equipment: "Item → carga → observações", assets: "Vínculo → ferramenta → aprovação", progression: "XP → nível → grau", missions: "Missão → base → extras → registro", house: "Regra → registro → consequência", diary: "Rolagem → evento → memória", audit: "Verificar → entender → navegar" };
   return <div className="grid gap-4 xl:grid-cols-[188px_minmax(0,1fr)]"><aside className="hidden rounded-2xl border border-violet-300/10 bg-[#110a1b] p-4 xl:block"><p className="font-display text-[10px] uppercase tracking-[.2em] text-amber-300/60">Dossiê de personagem</p><p className="mt-4 text-xs uppercase tracking-[.13em] text-stone-500">Grupo</p><p className="mt-1 font-display text-lg text-amber-100">{group.label}</p><div className="mt-5 border-t border-violet-300/10 pt-4"><p className="text-xs uppercase tracking-[.13em] text-stone-500">Seção atual</p><p className="mt-1 text-sm leading-6 text-stone-200">{section.label}</p></div><div className="mt-5 border-t border-violet-300/10 pt-4"><p className="text-xs uppercase tracking-[.13em] text-stone-500">Fluxo</p><p className="mt-1 text-xs leading-5 text-stone-400">{flow[tab]}</p></div></aside><div className="min-w-0">{children}</div></div>;
 }
 
@@ -569,12 +587,14 @@ function GurpsSectionLedger({ tab, sheet, derived }: { tab: TabId; sheet: FMChar
     missions: [["Interlúdios", String(sheet.houseRules.downtime.interludes)], ["Concessões", String(sheet.missionRewards.length)], ["Missões", String(sheet.houseRules.rest.missionCount)]],
     house: [["Atributos", "Geração, Vida Mínima e modificadores"], ["Descanso", `Exaustão ${sheet.houseRules.rest.exhaustion}`], ["Campanha", "Votos, Interlúdios e Dedicação"]],
     diary: [["Registros", String(sheet.diary.length)], ["Rolagens", "Resultados e origem"], ["Memória", "Notas da campanha"]],
+    audit: [["Modo", "Verificação manual e somente leitura"], ["Escopo", "Regras, cálculos e requisitos existentes"], ["Ação", "Entender antes de corrigir"]],
   };
   return <div className="no-print mb-4 grid gap-px overflow-hidden rounded-2xl border border-violet-300/10 bg-violet-300/10 sm:grid-cols-3">{entries[tab].map(([label, value]) => <div key={label} className="bg-[#120c1d] px-4 py-3"><p className="text-[10px] uppercase tracking-[.14em] text-stone-500">{label}</p><p className="mt-1 font-medium leading-5 text-stone-200">{value}</p></div>)}</div>;
 }
 
-function renderTab({ tab, sheet, derived, updateSheet, addDiary, newNote, setNewNote, characterId, previewMode, uploadImage, techniques }: { tab: TabId; sheet: FMCharacterSheet; derived: ReturnType<typeof getDerivedValues>; updateSheet: (updater: (current: FMCharacterSheet) => FMCharacterSheet) => void; addDiary: (title: string, detail: string, category?: FMCharacterSheet["diary"][number]["category"]) => void; newNote: string; setNewNote: (value: string) => void; characterId: string; previewMode: boolean; uploadImage: (input: { characterId: string; fileName: string; contentType: "image/jpeg" | "image/png" | "image/webp"; base64: string; caption: string }) => Promise<FMImageAttachment>; techniques: Array<{ id: string; name: string; technique: Record<string, unknown> }>; }) {
-  const content = tab === "overview" ? <OverviewTab sheet={sheet} derived={derived} updateSheet={updateSheet} addDiary={addDiary} characterId={characterId} previewMode={previewMode} uploadImage={uploadImage} techniques={techniques} />
+function renderTab({ tab, sheet, derived, updateSheet, addDiary, newNote, setNewNote, characterId, previewMode, uploadImage, techniques, auditResult, onRunAudit, onNavigateAudit }: { tab: TabId; sheet: FMCharacterSheet; derived: ReturnType<typeof getDerivedValues>; updateSheet: (updater: (current: FMCharacterSheet) => FMCharacterSheet) => void; addDiary: (title: string, detail: string, category?: FMCharacterSheet["diary"][number]["category"]) => void; newNote: string; setNewNote: (value: string) => void; characterId: string; previewMode: boolean; uploadImage: (input: { characterId: string; fileName: string; contentType: "image/jpeg" | "image/png" | "image/webp"; base64: string; caption: string }) => Promise<FMImageAttachment>; techniques: Array<{ id: string; name: string; technique: Record<string, unknown> }>; auditResult: FMAuditResult | null; onRunAudit: () => void; onNavigateAudit: (tab: FMAuditTab) => void; }) {
+  const content = tab === "audit" ? <CharacterAuditPanel result={auditResult} onRun={onRunAudit} onNavigate={onNavigateAudit} />
+    : tab === "overview" ? <OverviewTab sheet={sheet} derived={derived} updateSheet={updateSheet} addDiary={addDiary} characterId={characterId} previewMode={previewMode} uploadImage={uploadImage} techniques={techniques} />
     : tab === "attributes" ? <AttributesTab sheet={sheet} derived={derived} updateSheet={updateSheet} />
     : tab === "specialization" ? <SpecializationTab sheet={sheet} derived={derived} updateSheet={updateSheet} />
     : tab === "skills" ? <SkillsCatalogTab sheet={sheet} derived={derived} updateSheet={updateSheet} />

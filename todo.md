@@ -208,3 +208,14 @@
 - [x] Preservar dados existentes, validar permissões no backend e registrar eventos relevantes de Técnica e compartilhamento.
 - [x] Cobrir criação, edição, poderes, rascunho, compartilhamento, revisão, autorização e compatibilidade com testes.
 - [x] Validar o editor e a visualização compartilhada em desktop e celular, executar build e sincronizar a revisão no GitHub.
+- [x] Mapear os cálculos, regras, catálogos e verificações existentes que devem alimentar a Auditoria da Ficha.
+- [x] Definir o contrato compatível de categorias, achados, status válido/aviso/erro, resumo e detalhes de auditoria.
+- [x] Construir um motor puro que reutilize estado calculado, requisitos e regras existentes sem editar automaticamente a ficha.
+- [x] Auditar Identidade, Origem/Raça, Clã, Atributos, Evoluções e modificadores sem duplicar fórmulas.
+- [x] Auditar Perícias, Aptidões, Treinamentos e requisitos centralizados conforme estruturas já implementadas.
+- [x] Auditar Técnicas, Poderes, Votos e Equipamentos apenas pelas regras e dados existentes.
+- [x] Auditar Progressão, pontos e regras da Guilda, declarando explicitamente o que ainda não puder ser determinado.
+- [x] Executar a auditoria localmente, em modo somente leitura, sem ampliar permissões, persistir resultados ou expor links compartilhados.
+- [x] Criar painel de Auditoria com botão de verificação, resumo, filtros, detalhes e atalhos de navegação sem edição automática.
+- [x] Cobrir motor, contrato, avisos, erros, compatibilidade e resultados válidos com testes automatizados.
+- [x] Validar auditoria em desktop e celular, executar tipagem/build e sincronizar a versão concluída no GitHub.
