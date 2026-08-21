@@ -154,3 +154,14 @@
 - [x] Automatizar a geração de poderes/feitiços com custo, resolução, contrajogo e limites coerentes ao tipo escolhido.
 - [x] Exibir um resumo de validação em tempo real e impedir salvamento de criações incompletas.
 - [x] Cobrir criação, persistência, compatibilidade legada e responsividade do novo assistente.
+- [x] Mapear os módulos atuais de biblioteca, compartilhamento, Missões, Aptidões e Treinamentos contra o pedido de Homebrew e revisão.
+- [x] Adicionar exclusão individual confirmada de registros de Missão, com reversão correta de recompensas e histórico.
+- [x] Criar tabelas e tipos genéricos para Homebrew, links públicos, sugestões, comentários, decisões e histórico.
+- [x] Implementar procedimentos protegidos e públicos com autorização de proprietário e avaliador.
+- [x] Renomear a Biblioteca de Técnicas para Homebrew e criar central extensível por categoria.
+- [x] Criar editor persistente para tipos Homebrew, incluindo Aptidão e Treinamento estruturados.
+- [x] Criar links públicos de avaliação para Homebrews e sugestões sem edição direta.
+- [x] Criar sugestões específicas e avaliação geral em links públicos de fichas.
+- [x] Criar painel do proprietário para revisar, responder, aceitar, recusar e marcar sugestões como implementadas.
+- [x] Registrar histórico de criação, sugestão, resposta e decisão em fichas e Homebrews.
+- [x] Cobrir banco de dados, autorização, persistência, compatibilidade legada e interface responsiva dos novos fluxos.

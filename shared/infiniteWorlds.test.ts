@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { applyInfiniteWorldMission, getExperienceToNextLevel, getInfiniteWorldGrade, getInfiniteWorldLevel, getMissionExperienceReward, getMissionInterludeReward, getMissionMoneyReward, getMissionRewardPreview } from "./infiniteWorlds";
+import { applyInfiniteWorldMission, getExperienceToNextLevel, getInfiniteWorldGrade, getInfiniteWorldLevel, getMissionExperienceReward, getMissionInterludeReward, getMissionMoneyReward, getMissionRewardPreview, removeInfiniteWorldMission } from "./infiniteWorlds";
 import { createEmptyFMSheet } from "./fmTypes";
 
 describe("progressão Infinite Worlds", () => {
@@ -53,5 +53,13 @@ describe("progressão Infinite Worlds", () => {
     const result = applyInfiniteWorldMission(sheet, "medium", "normal", 2_000, { title: "Ecos do Templo", experience: 3, money: 700, interludes: 0.5, description: "Recebeu um talismã." });
 
     expect(result.sheet).toMatchObject({ progression: { experience: 8 }, guild: { currency: 5700 }, houseRules: { downtime: { interludes: 0.5 } }, missionRewards: [{ id: "mission-2000-1", title: "Ecos do Templo", at: 2_000, base: { experience: 5, money: 5000, interludes: 0 }, extra: { experience: 3, money: 700, interludes: 0.5, description: "Recebeu um talismã." }, total: { experience: 8, money: 5700, interludes: 0.5 } }] });
+  });
+
+  it("remove uma missão e reverte XP, moeda, Interlúdios, descanso e o registro permanente", () => {
+    const sheet = applyInfiniteWorldMission(createEmptyFMSheet(), "hard", "normal", 2_000, { title: "Ecos do Templo", experience: 3, money: 700, interludes: 0.5 }).sheet;
+    const result = removeInfiniteWorldMission(sheet, "mission-2000-1", 3_000);
+
+    expect(result.removed?.title).toBe("Ecos do Templo");
+    expect(result.sheet).toMatchObject({ progression: { experience: 0, level: 1 }, guild: { currency: 0 }, houseRules: { rest: { exhaustion: 0, missionCount: 0, lastMissionAt: null }, downtime: { interludes: 0 } }, missionRewards: [], diary: [{ title: "Missão removida — Ecos do Templo" }] });
   });
 });

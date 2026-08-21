@@ -137,3 +137,26 @@ export function applyInfiniteWorldMission(sheet: FMCharacterSheet, difficulty: I
     },
   };
 }
+
+export function removeInfiniteWorldMission(sheet: FMCharacterSheet, recordId: string, at = Date.now()) {
+  const record = sheet.missionRewards.find(entry => entry.id === recordId);
+  if (!record) return { removed: null, sheet };
+  const missionRewards = sheet.missionRewards.filter(entry => entry.id !== recordId);
+  const nextProgress = getInfiniteWorldProgress(Math.max(0, sheet.progression.experience - record.total.experience));
+  const nextCurrency = Math.max(0, (sheet.guild?.currency ?? 0) - record.total.money);
+  const nextInterludes = Math.max(0, Math.round((sheet.houseRules.downtime.interludes - record.total.interludes) * 2) / 2);
+  const rest = sheet.houseRules.rest;
+  const previousLastMission = missionRewards[0]?.at ?? null;
+  return {
+    removed: record,
+    sheet: {
+      ...sheet,
+      progression: { ...sheet.progression, experience: nextProgress.experience, level: nextProgress.level, specializationLevels: nextProgress.level },
+      identity: { ...sheet.identity, grade: nextProgress.grade.label },
+      guild: { ...(sheet.guild ?? { currency: 0 }), currency: nextCurrency },
+      houseRules: { ...sheet.houseRules, rest: { ...rest, exhaustion: Math.max(0, rest.exhaustion - 1), missionCount: Math.max(0, rest.missionCount - 1), lastMissionAt: previousLastMission, longRestMissionCount: rest.longRestMissionCount === null ? null : Math.max(0, rest.longRestMissionCount - 1) }, downtime: { ...sheet.houseRules.downtime, interludes: nextInterludes } },
+      missionRewards,
+      diary: [{ id: `mission-removed-${record.id}-${at}`, at, category: "note" as const, title: `Missão removida — ${record.title}`, detail: `Revertidos: ${record.total.experience} XP, ${record.total.money} de moeda e ${record.total.interludes} Interlúdio(s).` }, ...sheet.diary],
+    },
+  };
+}

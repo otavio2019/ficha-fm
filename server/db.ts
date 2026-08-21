@@ -1,6 +1,6 @@
 import { and, desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { fmCharacters, fmCharacterShares, fmTechniques, type InsertFMCharacter, type InsertFMTechniqueLibraryItem, type InsertUser, users } from "../drizzle/schema";
+import { fmChangeHistory, fmCharacters, fmCharacterShares, fmContentShares, fmHomebrews, fmReviews, fmTechniques, type InsertFMCharacter, type InsertFMHomebrew, type InsertFMTechniqueLibraryItem, type InsertUser, users } from "../drizzle/schema";
 import { ENV } from "./_core/env";
 
 let database: ReturnType<typeof drizzle> | null = null;
@@ -133,5 +133,96 @@ export async function getSharedFMCharacter(token: string) {
     .innerJoin(fmCharacters, eq(fmCharacterShares.characterId, fmCharacters.id))
     .where(eq(fmCharacterShares.token, token))
     .limit(1);
+  return records[0];
+}
+
+export async function listFMHomebrews(ownerId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(fmHomebrews).where(eq(fmHomebrews.ownerId, ownerId)).orderBy(desc(fmHomebrews.updatedAt));
+}
+
+export async function getFMHomebrew(id: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const records = await db.select().from(fmHomebrews).where(eq(fmHomebrews.id, id)).limit(1);
+  return records[0];
+}
+
+export async function saveFMHomebrew(homebrew: InsertFMHomebrew) {
+  const db = await getDb();
+  if (!db) return undefined;
+  await db.insert(fmHomebrews).values(homebrew).onDuplicateKeyUpdate({ set: { kind: homebrew.kind, name: homebrew.name, summary: homebrew.summary, content: homebrew.content, updatedAt: new Date() } });
+  return getFMHomebrew(homebrew.id);
+}
+
+export async function deleteFMHomebrew(id: string, ownerId: number) {
+  const db = await getDb();
+  if (!db) return false;
+  await db.delete(fmContentShares).where(and(eq(fmContentShares.targetType, "homebrew"), eq(fmContentShares.targetId, id), eq(fmContentShares.ownerId, ownerId)));
+  const result = await db.delete(fmHomebrews).where(and(eq(fmHomebrews.id, id), eq(fmHomebrews.ownerId, ownerId)));
+  return result[0].affectedRows > 0;
+}
+
+export async function getFMContentShare(targetType: "character" | "homebrew", targetId: string, ownerId: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const records = await db.select().from(fmContentShares).where(and(eq(fmContentShares.targetType, targetType), eq(fmContentShares.targetId, targetId), eq(fmContentShares.ownerId, ownerId))).limit(1);
+  return records[0];
+}
+
+export async function createFMContentShare(input: { ownerId: number; targetType: "character" | "homebrew"; targetId: string; token: string }) {
+  const db = await getDb();
+  if (!db) return undefined;
+  await db.insert(fmContentShares).values(input);
+  return getFMContentShare(input.targetType, input.targetId, input.ownerId);
+}
+
+export async function getSharedFMContent(token: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const records = await db.select().from(fmContentShares).where(eq(fmContentShares.token, token)).limit(1);
+  return records[0];
+}
+
+export async function listFMReviews(ownerId: number, targetType?: "character" | "homebrew", targetId?: string) {
+  const db = await getDb();
+  if (!db) return [];
+  const filters = [eq(fmReviews.ownerId, ownerId)];
+  if (targetType) filters.push(eq(fmReviews.targetType, targetType));
+  if (targetId) filters.push(eq(fmReviews.targetId, targetId));
+  return db.select().from(fmReviews).where(and(...filters)).orderBy(desc(fmReviews.createdAt));
+}
+
+export async function createFMReview(input: typeof fmReviews.$inferInsert) {
+  const db = await getDb();
+  if (!db) return undefined;
+  await db.insert(fmReviews).values(input);
+  const records = await db.select().from(fmReviews).where(eq(fmReviews.id, input.id)).limit(1);
+  return records[0];
+}
+
+export async function updateFMReview(id: string, ownerId: number, patch: { status?: "pending" | "accepted" | "rejected" | "implemented"; ownerResponse?: string }) {
+  const db = await getDb();
+  if (!db) return undefined;
+  await db.update(fmReviews).set({ ...patch, updatedAt: new Date() }).where(and(eq(fmReviews.id, id), eq(fmReviews.ownerId, ownerId)));
+  const records = await db.select().from(fmReviews).where(and(eq(fmReviews.id, id), eq(fmReviews.ownerId, ownerId))).limit(1);
+  return records[0];
+}
+
+export async function listFMChangeHistory(ownerId: number, targetType?: "character" | "homebrew", targetId?: string) {
+  const db = await getDb();
+  if (!db) return [];
+  const filters = [eq(fmChangeHistory.ownerId, ownerId)];
+  if (targetType) filters.push(eq(fmChangeHistory.targetType, targetType));
+  if (targetId) filters.push(eq(fmChangeHistory.targetId, targetId));
+  return db.select().from(fmChangeHistory).where(and(...filters)).orderBy(desc(fmChangeHistory.createdAt));
+}
+
+export async function createFMChangeHistory(input: typeof fmChangeHistory.$inferInsert) {
+  const db = await getDb();
+  if (!db) return undefined;
+  await db.insert(fmChangeHistory).values(input);
+  const records = await db.select().from(fmChangeHistory).where(eq(fmChangeHistory.id, input.id)).limit(1);
   return records[0];
 }

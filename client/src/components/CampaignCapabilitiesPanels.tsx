@@ -4,6 +4,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Check, Minus, Plus, Shield, Sparkles, Trash2, Users, Wrench } from "lucide-react";
 import type { FMAlly, FMAptitude, FMCharacterSheet, FMCursedTool, FMCursedToolGrade, FMDomainExpansion, FMTrainingTrackKey } from "@shared/fmTypes";
 import { FM_APTITUDE_CATALOG, FM_APTITUDE_GROUPS, FM_STARTER_EQUIPMENT_BY_GRADE, FM_TRAINING_TRACKS, canAdvanceTraining, canLearnAptitude, getAptitudePointSummary, getTrainingFocusSummary } from "@shared/fmCampaignCapabilities";
+import { trpc } from "@/lib/trpc";
+import { normalizeHomebrewContent } from "@shared/fmHomebrew";
 
 type UpdateSheet = (updater: (current: FMCharacterSheet) => FMCharacterSheet) => void;
 type AddDiary = (title: string, detail: string, category?: FMCharacterSheet["diary"][number]["category"]) => void;
@@ -21,6 +23,9 @@ function Stat({ label, value, hint }: { label: string; value: string | number; h
 }
 
 export function AptitudesTrainingPanel({ sheet, onUpdate, onDiary }: { sheet: FMCharacterSheet; onUpdate: UpdateSheet; onDiary: AddDiary }) {
+  const homebrewsQuery = trpc.homebrews.list.useQuery();
+  const homebrewAptitudes = (homebrewsQuery.data ?? []).filter(item => item.kind === "aptitude");
+  const homebrewTraining = (homebrewsQuery.data ?? []).filter(item => item.kind === "training");
   const aptitudePoints = getAptitudePointSummary(sheet);
   const focuses = getTrainingFocusSummary(sheet);
   const grade = gradeForReference(sheet.identity.grade);
@@ -35,6 +40,13 @@ export function AptitudesTrainingPanel({ sheet, onUpdate, onDiary }: { sheet: FM
     onUpdate(current => ({ ...current, aptitudes: current.aptitudes.filter(item => item.id !== aptitude.id) }));
     onDiary("Aptidão removida", `${aptitude.name} foi removida e seus pontos ficaram disponíveis.`, "note");
   };
+  const learnHomebrewAptitude = (homebrew: NonNullable<typeof homebrewsQuery.data>[number]) => {
+    if (sheet.aptitudes.some(item => item.homebrewId === homebrew.id)) return;
+    const content = normalizeHomebrewContent(homebrew.content);
+    const aptitude: FMAptitude = { id: makeId(), catalogId: `homebrew:${homebrew.id}`, homebrewId: homebrew.id, name: homebrew.name, group: "special", requiredLevel: Math.max(1, Math.min(30, Number.parseInt(content.level, 10) || 1)), cost: Math.max(0, Number.parseInt(content.cost, 10) || 0), prerequisite: content.requirements || "—", effect: content.effects || content.description, approved: false };
+    onUpdate(current => ({ ...current, aptitudes: [...current.aptitudes, aptitude] }));
+    onDiary("Aptidão Homebrew vinculada", `${homebrew.name} foi adicionada à ficha e aguarda aprovação do mestre.`, "note");
+  };
   const setStage = (trackId: FMTrainingTrackKey, adjustment: -1 | 1) => {
     const currentStage = sheet.training.find(track => track.trackId === trackId)?.stage ?? 0;
     if (adjustment === 1 && !canAdvanceTraining(sheet, trackId)) return;
@@ -45,6 +57,18 @@ export function AptitudesTrainingPanel({ sheet, onUpdate, onDiary }: { sheet: FM
     onDiary("Treinamento atualizado", `${track.label}: etapa ${nextStage} de 4.`, "note");
   };
   const updateTrainingNotes = (trackId: FMTrainingTrackKey, notes: string) => onUpdate(current => ({ ...current, training: current.training.some(item => item.trackId === trackId) ? current.training.map(item => item.trackId === trackId ? { ...item, notes } : item) : [...current.training, { trackId, stage: 0, notes }] }));
+  const addHomebrewTraining = (homebrew: NonNullable<typeof homebrewsQuery.data>[number]) => {
+    if (sheet.training.some(track => track.homebrewId === homebrew.id)) return;
+    const content = normalizeHomebrewContent(homebrew.content);
+    onUpdate(current => ({ ...current, training: [...current.training, { trackId: `homebrew:${homebrew.id}`, homebrewId: homebrew.id, label: homebrew.name, effect: content.effects || content.description, stage: 0, notes: content.notes }] }));
+    onDiary("Treinamento Homebrew vinculado", `${homebrew.name} foi adicionado às trilhas da ficha.`, "note");
+  };
+  const setHomebrewTrainingStage = (trackId: string, adjustment: -1 | 1) => {
+    const currentStage = sheet.training.find(track => track.trackId === trackId)?.stage ?? 0;
+    if (adjustment === 1 && (currentStage >= 4 || focuses.available <= 0)) return;
+    const stage = Math.max(0, Math.min(4, currentStage + adjustment)) as 0 | 1 | 2 | 3 | 4;
+    onUpdate(current => ({ ...current, training: current.training.map(track => track.trackId === trackId ? { ...track, stage } : track) }));
+  };
 
   return <div className="space-y-5">
     <PanelTitle eyebrow="Capacidades" title="Aptidões e treinamentos" description="Aptidões consomem pontos conforme o nível do personagem. Cada Interlúdio vale dois focos, usados para avançar até quatro etapas em cada trilha de treinamento." />
@@ -57,6 +81,7 @@ export function AptitudesTrainingPanel({ sheet, onUpdate, onDiary }: { sheet: FM
 
     <section className="rounded-2xl border border-violet-300/10 bg-[#120c1d]/80 p-4 sm:p-5"><h3 className="font-display text-lg text-stone-100">Trilhas de treinamento</h3><p className="mt-1 text-sm text-stone-400">Avançar uma etapa consome um foco; reduzir uma etapa devolve o foco ao saldo disponível.</p><div className="mt-4 grid gap-3 xl:grid-cols-2">{FM_TRAINING_TRACKS.map(track => { const progress = sheet.training.find(item => item.trackId === track.id); const stage = progress?.stage ?? 0; return <article key={track.id} className="rounded-xl border border-violet-300/10 bg-[#0d0814] p-3"><div className="flex items-start justify-between gap-3"><div><p className="font-medium text-stone-100">{track.label}</p><p className="mt-1 text-xs leading-5 text-stone-500">{track.description}</p></div><div className="flex items-center gap-1"><Button type="button" variant="outline" size="icon" disabled={stage === 0} onClick={() => setStage(track.id, -1)} className="border-violet-300/15 text-stone-300"><Minus size={15} /></Button><span className="w-10 text-center font-display text-amber-100">{stage}/4</span><Button type="button" variant="outline" size="icon" disabled={!canAdvanceTraining(sheet, track.id)} onClick={() => setStage(track.id, 1)} className="border-violet-300/15 text-stone-300"><Plus size={15} /></Button></div></div><Textarea value={progress?.notes ?? ""} onChange={event => updateTrainingNotes(track.id, event.target.value)} placeholder="Anotações e objetivo do treinamento" className={`${baseInput} mt-3 min-h-16 text-xs`} /></article>; })}</div></section>
 
+    {homebrewAptitudes.length || homebrewTraining.length ? <section className="rounded-2xl border border-amber-300/15 bg-amber-300/[.035] p-4 sm:p-5"><p className="font-display text-[11px] uppercase tracking-[.2em] text-amber-300/70">Central Homebrew</p><h3 className="mt-1 font-display text-lg text-amber-100">Conteúdos vinculáveis</h3><p className="mt-1 text-sm leading-6 text-stone-400">Vincule Aptidões e Treinamentos da sua central sem alterar o original. A decisão de aprovação continua sendo do mestre.</p>{homebrewAptitudes.length ? <div className="mt-4"><p className="text-xs font-semibold uppercase tracking-[.14em] text-violet-200">Aptidões Homebrew</p><div className="mt-2 grid gap-2 xl:grid-cols-2">{homebrewAptitudes.map(homebrew => { const content = normalizeHomebrewContent(homebrew.content); const attached = sheet.aptitudes.some(item => item.homebrewId === homebrew.id); return <article key={homebrew.id} className="flex gap-3 rounded-xl border border-amber-300/15 bg-black/20 p-3"><Sparkles size={16} className="mt-1 shrink-0 text-amber-300" /><div className="min-w-0 flex-1"><p className="font-medium text-stone-100">{homebrew.name}</p><p className="mt-1 text-xs text-stone-500">{content.level || "Nível não informado"} · {content.cost || "custo não informado"}</p><p className="mt-2 text-xs leading-5 text-stone-400">{content.effects || content.description}</p></div><Button type="button" size="sm" disabled={attached} onClick={() => learnHomebrewAptitude(homebrew)} className="self-start bg-amber-300 text-[#190d07] hover:bg-amber-200 disabled:opacity-40">{attached ? "Vinculada" : "Vincular"}</Button></article>; })}</div></div> : null}{homebrewTraining.length ? <div className="mt-5"><p className="text-xs font-semibold uppercase tracking-[.14em] text-violet-200">Treinamentos Homebrew</p><div className="mt-2 grid gap-2 xl:grid-cols-2">{homebrewTraining.map(homebrew => { const content = normalizeHomebrewContent(homebrew.content); const progress = sheet.training.find(track => track.homebrewId === homebrew.id); const stage = progress?.stage ?? 0; return <article key={homebrew.id} className="rounded-xl border border-amber-300/15 bg-black/20 p-3"><div className="flex items-start justify-between gap-3"><div><p className="font-medium text-stone-100">{homebrew.name}</p><p className="mt-1 text-xs leading-5 text-stone-500">{content.effects || content.description}</p></div>{!progress ? <Button type="button" size="sm" onClick={() => addHomebrewTraining(homebrew)} className="bg-amber-300 text-[#190d07] hover:bg-amber-200">Vincular</Button> : <div className="flex items-center gap-1"><Button type="button" variant="outline" size="icon" disabled={stage === 0} onClick={() => setHomebrewTrainingStage(progress.trackId, -1)} className="border-violet-300/15 text-stone-300"><Minus size={15} /></Button><span className="w-10 text-center font-display text-amber-100">{stage}/4</span><Button type="button" variant="outline" size="icon" disabled={stage >= 4 || focuses.available <= 0} onClick={() => setHomebrewTrainingStage(progress.trackId, 1)} className="border-violet-300/15 text-stone-300"><Plus size={15} /></Button><button type="button" aria-label={`Remover ${homebrew.name}`} onClick={() => onUpdate(current => ({ ...current, training: current.training.filter(track => track.trackId !== progress.trackId) }))} className="rounded-md p-2 text-stone-500 hover:bg-rose-950/40 hover:text-rose-200"><Trash2 size={15} /></button></div>}</div>{progress ? <Textarea value={progress.notes} onChange={event => onUpdate(current => ({ ...current, training: current.training.map(track => track.trackId === progress.trackId ? { ...track, notes: event.target.value } : track) }))} placeholder="Anotações do treinamento" className={`${baseInput} mt-3 min-h-16 text-xs`} /> : null}</article>; })}</div></div> : null}</section> : null}
     <section className="rounded-2xl border border-amber-300/20 bg-amber-300/[0.04] p-4 sm:p-5"><div className="flex gap-3"><Shield className="mt-1 text-amber-300" size={18} /><div><h3 className="font-display text-lg text-amber-100">Referência de conjunto inicial por Grau</h3><p className="mt-1 text-sm leading-6 text-stone-300">{FM_STARTER_EQUIPMENT_BY_GRADE[grade]}</p><p className="mt-2 text-xs text-stone-500">Esta tabela é uma referência de disponibilidade da guilda. Ela não cria nem adiciona itens ao inventário automaticamente.</p></div></div></section>
   </div>;
 }

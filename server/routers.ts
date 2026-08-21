@@ -11,8 +11,10 @@ import { validateHouseRules } from "../shared/fmHouseRules";
 import { FM_CLAN_CATALOG, FM_ORIGIN_CATALOG, getClanCatalogEntry, getOriginAttributeAllocation, getOriginCatalogEntry } from "../shared/fmOrigins";
 import { FM_INVOCATION_GRADE_RULES } from "../shared/fmInvocations";
 import { getAptitudeCatalogEntry } from "../shared/fmCampaignCapabilities";
+import { FM_HOMEBREW_KINDS, FM_REVIEW_KINDS, FM_REVIEW_STATUSES, validateHomebrew, validateReview } from "../shared/fmHomebrew";
+import { normalizeHomebrewContent } from "../shared/fmHomebrew";
 import { storagePut } from "./storage";
-import { createFMCharacterShare, deleteFMCharacter, deleteFMTechnique, getFMCharacter, getFMCharacterShare, getFMTechnique, getSharedFMCharacter, listFMCharacters, listFMCharacterShares, listFMTechniques, saveFMCharacter, saveFMTechnique } from "./db";
+import { createFMChangeHistory, createFMCharacterShare, createFMContentShare, createFMReview, deleteFMCharacter, deleteFMHomebrew, deleteFMTechnique, getFMCharacter, getFMCharacterShare, getFMContentShare, getFMHomebrew, getFMTechnique, getSharedFMCharacter, getSharedFMContent, listFMChangeHistory, listFMCharacters, listFMCharacterShares, listFMHomebrews, listFMReviews, listFMTechniques, saveFMCharacter, saveFMHomebrew, saveFMTechnique, updateFMReview } from "./db";
 import { emitCharacterUpdated } from "./live";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
@@ -23,6 +25,11 @@ const validSkillProficiencies = new Set(["untrained", "trained", "master"]);
 const validOriginIds = new Set([...FM_ORIGIN_CATALOG.map(origin => origin.id), "custom"]);
 const validClanIds = new Set([...FM_CLAN_CATALOG.map(clan => clan.id), "custom"]);
 const storedImageUrl = z.union([z.string().url(), z.string().regex(/^\/manus-storage\//)]);
+const homebrewContentInput = z.object({ description: z.string().max(8000), requirements: z.string().max(8000), effects: z.string().max(8000), cost: z.string().max(1000), level: z.string().max(1000), notes: z.string().max(8000), fields: z.record(z.string(), z.string().max(4000)) });
+const homebrewInput = z.object({ id: z.string().min(6).max(64), kind: z.enum(FM_HOMEBREW_KINDS), name: z.string().trim().min(1).max(160), summary: z.string().trim().min(1).max(1000), content: homebrewContentInput }).superRefine((input, context) => validateHomebrew(input).forEach(message => context.addIssue({ code: "custom", path: ["content"], message })));
+const reviewSubmissionInput = z.object({ token: z.string().min(8).max(64), reviewerName: z.string().trim().min(1).max(160), kind: z.enum(FM_REVIEW_KINDS), section: z.string().trim().min(1).max(160), currentValue: z.string().max(8000).default(""), suggestedValue: z.string().max(8000).default(""), reason: z.string().trim().min(1).max(8000) }).superRefine((input, context) => validateReview({ ...input, targetId: "shared" }).forEach(message => context.addIssue({ code: "custom", path: ["reason"], message })));
+const reviewOwnerUpdateInput = z.object({ id: z.string().min(6).max(64), status: z.enum(FM_REVIEW_STATUSES), ownerResponse: z.string().max(8000).default("") });
+const reviewTargetInput = z.object({ targetType: z.enum(["character", "homebrew"]), targetId: z.string().min(6).max(64) });
 function validateDeclaredModifier(value: unknown, path: (string | number)[], rule: FMDeclaredModifierRule, context: z.RefinementCtx) {
   if (!isDeclaredModifierInRange(value, rule)) {
     const specification = FM_DECLARED_MODIFIER_RULES[rule];
@@ -120,6 +127,11 @@ const characterInput = z.object({
     aptitudes.forEach((aptitude, index) => {
       const value = aptitude as Record<string, unknown>;
       const catalogId = typeof value.catalogId === "string" ? value.catalogId : "";
+      if (catalogId.startsWith("homebrew:")) {
+        if (typeof value.homebrewId !== "string" || value.homebrewId !== catalogId.slice("homebrew:".length)) context.addIssue({ code: "custom", path: ["sheet", "aptitudes", index, "homebrewId"], message: "A referência da Aptidão Homebrew é inválida." });
+        if (value.group !== "special") context.addIssue({ code: "custom", path: ["sheet", "aptitudes", index, "group"], message: "Aptidões Homebrew usam o grupo Especial até aprovação do mestre." });
+        return;
+      }
       const catalog = getAptitudeCatalogEntry(catalogId);
       if (!catalog) {
         context.addIssue({ code: "custom", path: ["sheet", "aptitudes", index, "catalogId"], message: "A aptidão selecionada não corresponde ao catálogo oficial." });
@@ -271,6 +283,82 @@ export const appRouter = router({
       return { success: true } as const;
     }),
   }),
+  homebrews: router({
+    list: protectedProcedure.query(({ ctx }) => listFMHomebrews(ctx.user.id)),
+    get: protectedProcedure.input(characterIdInput).query(async ({ ctx, input }) => {
+      const homebrew = await getFMHomebrew(input.id);
+      if (!homebrew || homebrew.ownerId !== ctx.user.id) throw new TRPCError({ code: "FORBIDDEN", message: "Você não pode abrir este Homebrew." });
+      return homebrew;
+    }),
+    save: protectedProcedure.input(homebrewInput).mutation(async ({ ctx, input }) => {
+      const existing = await getFMHomebrew(input.id);
+      if (existing && existing.ownerId !== ctx.user.id) throw new TRPCError({ code: "FORBIDDEN", message: "Você não pode editar este Homebrew." });
+      const saved = await saveFMHomebrew({ ...input, ownerId: ctx.user.id });
+      if (!saved) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Não foi possível salvar o Homebrew." });
+      await createFMChangeHistory({ id: nanoid(22), ownerId: ctx.user.id, targetType: "homebrew", targetId: input.id, actorName: ctx.user.name || "Criador", eventType: existing ? "updated" : "created", detail: { kind: input.kind, name: input.name } });
+      return saved;
+    }),
+    remove: protectedProcedure.input(characterIdInput).mutation(async ({ ctx, input }) => {
+      const existing = await getFMHomebrew(input.id);
+      if (!existing || existing.ownerId !== ctx.user.id) throw new TRPCError({ code: "FORBIDDEN", message: "Você não pode excluir este Homebrew." });
+      await deleteFMHomebrew(input.id, ctx.user.id);
+      await createFMChangeHistory({ id: nanoid(22), ownerId: ctx.user.id, targetType: "homebrew", targetId: input.id, actorName: ctx.user.name || "Criador", eventType: "deleted", detail: { name: existing.name, kind: existing.kind } });
+      return { success: true } as const;
+    }),
+    share: protectedProcedure.input(characterIdInput).mutation(async ({ ctx, input }) => {
+      const homebrew = await getFMHomebrew(input.id);
+      if (!homebrew || homebrew.ownerId !== ctx.user.id) throw new TRPCError({ code: "FORBIDDEN", message: "Você não pode compartilhar este Homebrew." });
+      const existing = await getFMContentShare("homebrew", input.id, ctx.user.id);
+      const share = existing ?? await createFMContentShare({ ownerId: ctx.user.id, targetType: "homebrew", targetId: input.id, token: nanoid(24) });
+      if (!share) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Não foi possível criar o link de avaliação." });
+      if (!existing) await createFMChangeHistory({ id: nanoid(22), ownerId: ctx.user.id, targetType: "homebrew", targetId: input.id, actorName: ctx.user.name || "Criador", eventType: "shared", detail: { token: share.token } });
+      return { token: share.token };
+    }),
+  }),
+  reviews: router({
+    list: protectedProcedure.input(reviewTargetInput.optional()).query(({ ctx, input }) => listFMReviews(ctx.user.id, input?.targetType, input?.targetId)),
+    history: protectedProcedure.input(reviewTargetInput.optional()).query(({ ctx, input }) => listFMChangeHistory(ctx.user.id, input?.targetType, input?.targetId)),
+    update: protectedProcedure.input(reviewOwnerUpdateInput).mutation(async ({ ctx, input }) => {
+      const review = await updateFMReview(input.id, ctx.user.id, { status: input.status, ownerResponse: input.ownerResponse.trim() });
+      if (!review) throw new TRPCError({ code: "FORBIDDEN", message: "Você não pode atualizar esta sugestão." });
+      const eventType = input.status === "accepted" ? "accepted" : input.status === "rejected" ? "rejected" : input.status === "implemented" ? "implemented" : "responded";
+      await createFMChangeHistory({ id: nanoid(22), ownerId: ctx.user.id, targetType: review.targetType, targetId: review.targetId, actorName: ctx.user.name || "Criador", eventType, detail: { reviewId: review.id, section: review.section, status: input.status, response: input.ownerResponse.trim() } });
+      return review;
+    }),
+    getPublic: publicProcedure.input(z.object({ token: z.string().min(8).max(64) })).query(async ({ input }) => {
+      const genericShare = await getSharedFMContent(input.token);
+      if (genericShare?.targetType === "homebrew") {
+        const homebrew = await getFMHomebrew(genericShare.targetId);
+        if (!homebrew) throw new TRPCError({ code: "NOT_FOUND", message: "Homebrew compartilhado não encontrado." });
+        return { targetType: "homebrew" as const, targetId: homebrew.id, name: homebrew.name, summary: homebrew.summary, content: homebrew.content, kind: homebrew.kind };
+      }
+      const character = await getSharedFMCharacter(input.token);
+      if (!character) throw new TRPCError({ code: "NOT_FOUND", message: "Conteúdo compartilhado não encontrado." });
+      return { targetType: "character" as const, targetId: character.id, name: character.name, summary: "Ficha de personagem compartilhada para avaliação.", content: character.sheet, kind: "character" };
+    }),
+    submit: publicProcedure.input(reviewSubmissionInput).mutation(async ({ ctx, input }) => {
+      const genericShare = await getSharedFMContent(input.token);
+      let targetType: "character" | "homebrew";
+      let targetId: string;
+      let ownerId: number;
+      if (genericShare) {
+        targetType = genericShare.targetType;
+        targetId = genericShare.targetId;
+        ownerId = genericShare.ownerId;
+      } else {
+        const sharedCharacter = await getSharedFMCharacter(input.token);
+        const character = sharedCharacter ? await getFMCharacter(sharedCharacter.id) : undefined;
+        if (!character) throw new TRPCError({ code: "NOT_FOUND", message: "Link de avaliação não encontrado." });
+        targetType = "character";
+        targetId = character.id;
+        ownerId = character.ownerId;
+      }
+      const review = await createFMReview({ id: nanoid(22), ownerId, targetType, targetId, reviewerName: input.reviewerName.trim(), reviewerUserId: ctx.user?.id ?? null, kind: input.kind, section: input.section.trim(), currentValue: input.currentValue.trim(), suggestedValue: input.suggestedValue.trim(), reason: input.reason.trim(), status: "pending", ownerResponse: "" });
+      if (!review) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Não foi possível enviar a sugestão." });
+      await createFMChangeHistory({ id: nanoid(22), ownerId, targetType, targetId, actorName: input.reviewerName.trim(), eventType: input.kind === "comment" ? "commented" : "suggested", detail: { reviewId: review.id, section: input.section.trim(), kind: input.kind } });
+      return review;
+    }),
+  }),
   characters: router({
     list: protectedProcedure.query(({ ctx }) => listFMCharacters(ctx.user.id)),
     get: protectedProcedure.input(characterIdInput).query(async ({ ctx, input }) => {
@@ -301,6 +389,22 @@ export const appRouter = router({
         if (!selectedTechnique || selectedTechnique.ownerId !== ctx.user.id) {
           throw new TRPCError({ code: "BAD_REQUEST", message: "A técnica selecionada não pertence à sua biblioteca." });
         }
+      }
+      const customAptitudes = Array.isArray(input.sheet.aptitudes) ? input.sheet.aptitudes.filter((entry): entry is Record<string, unknown> => Boolean(entry && typeof entry === "object" && typeof (entry as Record<string, unknown>).catalogId === "string" && String((entry as Record<string, unknown>).catalogId).startsWith("homebrew:"))) : [];
+      for (const aptitude of customAptitudes) {
+        const homebrewId = typeof aptitude.homebrewId === "string" ? aptitude.homebrewId : "";
+        const homebrew = homebrewId ? await getFMHomebrew(homebrewId) : undefined;
+        if (!homebrew || homebrew.ownerId !== ctx.user.id || homebrew.kind !== "aptitude") throw new TRPCError({ code: "BAD_REQUEST", message: "A Aptidão Homebrew precisa pertencer à sua central e ser do tipo Aptidão." });
+        const content = normalizeHomebrewContent(homebrew.content);
+        const requiredLevel = Math.max(1, Math.min(30, Number.parseInt(content.level, 10) || 1));
+        const cost = Math.max(0, Number.parseInt(content.cost, 10) || 0);
+        if (aptitude.catalogId !== `homebrew:${homebrew.id}` || aptitude.name !== homebrew.name || aptitude.group !== "special" || aptitude.requiredLevel !== requiredLevel || aptitude.cost !== cost || aptitude.prerequisite !== (content.requirements || "—") || aptitude.effect !== (content.effects || content.description)) throw new TRPCError({ code: "BAD_REQUEST", message: "Os dados da Aptidão Homebrew devem corresponder ao conteúdo salvo na central." });
+      }
+      const customTraining = Array.isArray(input.sheet.training) ? input.sheet.training.filter((entry): entry is Record<string, unknown> => Boolean(entry && typeof entry === "object" && typeof (entry as Record<string, unknown>).trackId === "string" && String((entry as Record<string, unknown>).trackId).startsWith("homebrew:"))) : [];
+      for (const training of customTraining) {
+        const homebrewId = typeof training.homebrewId === "string" ? training.homebrewId : "";
+        const homebrew = homebrewId ? await getFMHomebrew(homebrewId) : undefined;
+        if (!homebrew || homebrew.ownerId !== ctx.user.id || homebrew.kind !== "training" || training.trackId !== `homebrew:${homebrew.id}` || training.label !== homebrew.name) throw new TRPCError({ code: "BAD_REQUEST", message: "O Treinamento Homebrew precisa pertencer à sua central e corresponder ao conteúdo salvo." });
       }
       const nextVow = (input.sheet.houseRules as Record<string, unknown> | undefined)?.birthVow as Record<string, unknown> | undefined;
       const existingVow = (existing?.sheet.houseRules as Record<string, unknown> | undefined)?.birthVow as Record<string, unknown> | undefined;

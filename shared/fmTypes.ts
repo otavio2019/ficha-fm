@@ -233,6 +233,7 @@ export type FMTrainingTrackKey = "agility" | "barriers" | "comprehension" | "ene
 export type FMAptitude = {
   id: string;
   catalogId: string;
+  homebrewId?: string;
   name: string;
   group: FMAptitudeGroup;
   requiredLevel: number;
@@ -243,7 +244,10 @@ export type FMAptitude = {
 };
 
 export type FMTrainingProgress = {
-  trackId: FMTrainingTrackKey;
+  trackId: FMTrainingTrackKey | string;
+  homebrewId?: string;
+  label?: string;
+  effect?: string;
   stage: 0 | 1 | 2 | 3 | 4;
   notes: string;
 };
