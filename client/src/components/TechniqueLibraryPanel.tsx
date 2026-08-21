@@ -1,5 +1,5 @@
 import { TechniqueEditor, type TechniqueEditorProps } from "./TechniqueEditor";
 
 export function TechniqueLibraryPanel(props: TechniqueEditorProps) {
-  return <TechniqueEditor {...props} />;
+  return <div className="technique-library-shell"><TechniqueEditor {...props} /></div>;
 }

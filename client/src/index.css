@@ -202,3 +202,36 @@
     }
   }
 }
+
+@media (min-width: 1280px) {
+  .technique-library-shell > div {
+    grid-template-columns: 276px minmax(0, 1fr);
+  }
+
+  .technique-library-shell > div > aside {
+    position: sticky;
+    top: 1.25rem;
+    height: calc(100vh - 2.5rem);
+  }
+
+  .technique-library-shell > div > aside > div:last-child {
+    max-height: calc(100vh - 16.875rem);
+  }
+
+  .technique-library-shell > div > section > div:last-child {
+    grid-template-columns: minmax(0, 1fr) 21.25rem;
+  }
+
+  .technique-library-shell > div > section > div:last-child > div:first-child > div:last-child {
+    display: none;
+  }
+
+  .technique-library-shell > div > section > div:last-child > div:nth-child(2) {
+    display: block;
+  }
+
+  .technique-library-shell > div > section > div:last-child > div:nth-child(2) > aside {
+    position: sticky;
+    top: 1.25rem;
+  }
+}

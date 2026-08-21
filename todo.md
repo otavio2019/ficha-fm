@@ -234,3 +234,11 @@
 - [x] Corrigir os contratos e a normalização de persistência sem descartar campos estruturados recentes.
 - [x] Cobrir em testes os fluxos de salvamento corrigidos, incluindo dados legados e campos opcionais.
 - [x] Validar salvamento e recarga em interface, executar tipagem/build e publicar a correção sincronizada.
+- [x] Mapear os componentes atuais do editor de Técnicas, biblioteca, compartilhamento e prévia para reutilização.
+- [x] Reestruturar o TechniqueEditor existente como experiência de criação com cabeçalho, etapas e prévia persistente.
+- [x] Melhorar os campos de informações e mecânica, cartões de tipo e seleção de atributos sem alterar regras.
+- [x] Aprimorar os cartões de Poderes, incluindo adição, edição, duplicação, reordenação e remoção já existentes.
+- [x] Tornar visíveis os estados de rascunho, alterações pendentes, salvamento, erro e compartilhamento existente.
+- [x] Refinar a biblioteca lateral de Técnicas, busca e comportamento responsivo desktop/tablet/celular.
+- [x] Cobrir os fluxos mantidos de Técnica, compartilhamento e avaliações com testes e inspeções visuais.
+- [x] Executar tipagem, testes e build; salvar checkpoint e sincronizar a evolução do editor no GitHub.
