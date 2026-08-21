@@ -11,6 +11,19 @@ export type FMAttributeKey = (typeof fmAttributeKeys)[number];
 
 export type FMAttributes = Record<FMAttributeKey, number>;
 
+export type FMModifierTarget = FMAttributeKey | "healthMaximum" | "energyMaximum" | "attention" | "defense" | "initiative" | "movement" | "techniqueDc";
+export type FMRequirement =
+  | { type: "attribute-min"; attribute: FMAttributeKey; minimum: number }
+  | { type: "level-min"; minimum: number }
+  | { type: "aptitude"; aptitudeId: string }
+  | { type: "training"; trainingId: string }
+  | { type: "race"; raceId: string }
+  | { type: "origin"; originId: string };
+export type FMModifierDefinition = { id: string; target: FMModifierTarget; operation: "add"; value: number; active?: boolean; conditions?: FMRequirement[]; note?: string };
+export type FMRaceEvolution = { id: string; name: string; description: string; replacesBaseModifiers?: boolean; requirements: FMRequirement[]; modifiers: FMModifierDefinition[]; characteristics: string[]; abilities: string[] };
+export type FMCharacterRace = { id: string; sourceId?: string; sourceKind: "homebrew" | "custom"; name: string; description: string; active: boolean; requirements: FMRequirement[]; modifiers: FMModifierDefinition[]; characteristics: string[]; abilities: string[]; evolutions: FMRaceEvolution[]; selectedEvolutionId: string | null };
+export type FMCharacterMechanics = { race: FMCharacterRace | null };
+
 export type FMSpecializationKey =
   | "fighter"
   | "combat-specialist"
@@ -57,6 +70,8 @@ export type FMTechnique = {
   requiredItems: string;
   reviewNotes: string;
   powers: FMTechniquePower[];
+  modifiers?: FMModifierDefinition[];
+  requirements?: FMRequirement[];
 };
 
 export type FMTechniquePower = {
@@ -71,6 +86,8 @@ export type FMTechniquePower = {
 
 export type FMBirthVowType = "none" | "congenital-restriction" | "celestial-restriction";
 
+export type FMBirthVow = { type: FMBirthVowType; description: string; approved: boolean; locked: boolean; active?: boolean; modifiers?: FMModifierDefinition[]; requirements?: FMRequirement[] };
+
 export type FMHouseAttributeGeneration = {
   values: number[];
   total: number;
@@ -80,7 +97,7 @@ export type FMHouseAttributeGeneration = {
 
 export type FMHouseRules = {
   attributeGeneration: FMHouseAttributeGeneration | null;
-  birthVow: { type: FMBirthVowType; description: string; approved: boolean; locked: boolean };
+  birthVow: FMBirthVow;
   actionDeclaration: { attribute: FMAttributeKey | null; detail: string; locked: boolean };
   rest: { exhaustion: number; missionCount: number; lastMissionAt: number | null; lastShortRestAt: number | null; lastLongRestAt: number | null; longRestMissionCount: number | null };
   downtime: { interludes: number; craftingFocus: string; professionChecksRequired: boolean; itemReviewRequired: boolean; freeBuildOptions: Array<{ id: string; name: string; sourceSpecialization: FMSpecializationKey; prerequisites: string; interludeCost: 1 }> };
@@ -133,6 +150,8 @@ export type FMInvocation = {
   actions: FMInvocationAction[];
   notes: string;
   active: boolean;
+  modifiers?: FMModifierDefinition[];
+  requirements?: FMRequirement[];
 };
 
 export type FMImageAttachment = {
@@ -160,6 +179,8 @@ export type FMEquipmentItem = {
   properties?: string;
   equipped: boolean;
   notes: string;
+  modifiers?: FMModifierDefinition[];
+  requirements?: FMRequirement[];
 };
 
 export type FMSpecializationTrack = {
@@ -241,6 +262,8 @@ export type FMAptitude = {
   prerequisite: string;
   effect: string;
   approved: boolean;
+  modifiers?: FMModifierDefinition[];
+  requirements?: FMRequirement[];
 };
 
 export type FMTrainingProgress = {
@@ -250,6 +273,8 @@ export type FMTrainingProgress = {
   effect?: string;
   stage: 0 | 1 | 2 | 3 | 4;
   notes: string;
+  modifiers?: FMModifierDefinition[];
+  requirements?: FMRequirement[];
 };
 
 export type FMAlly = {
@@ -286,6 +311,9 @@ export type FMCursedTool = {
   approved: boolean;
   enchantments: FMCursedEnchantment[];
   notes: string;
+  equipped?: boolean;
+  modifiers?: FMModifierDefinition[];
+  mechanicalRequirements?: FMRequirement[];
 };
 
 export type FMDomainExpansion = {
@@ -300,6 +328,9 @@ export type FMDomainExpansion = {
   effect: string;
   counterplay: string;
   approved: boolean;
+  active?: boolean;
+  modifiers?: FMModifierDefinition[];
+  requirements?: FMRequirement[];
 };
 
 export type FMCombatant = {
@@ -359,6 +390,7 @@ export type FMCharacterSheet = {
     attributeBonuses: Partial<FMAttributes>;
     description: string;
   };
+  mechanics: FMCharacterMechanics;
   technique: FMTechnique;
   techniqueLibraryId: string | null;
   attributes: {
@@ -428,6 +460,7 @@ export const createEmptyFMSheet = (): FMCharacterSheet => ({
     dedicationRewarding: false,
   },
   origin: { catalogId: "custom", clanId: "custom", name: "", clan: "", attributeBonuses: {}, description: "" },
+  mechanics: { race: null },
   technique: {
     kind: "cursed",
     name: "",

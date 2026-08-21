@@ -12,6 +12,11 @@ describe("Homebrew genérico", () => {
     expect(validateHomebrew({ kind: "aptitude", name: "", summary: "", content: createEmptyHomebrew().content })).toEqual(expect.arrayContaining(["Informe o nome do conteúdo.", "Informe um resumo do conteúdo.", "Descreva o funcionamento do conteúdo."]));
   });
 
+  it("preserva mecânicas estruturadas e fornece valores seguros para conteúdo legado", () => {
+    expect(normalizeHomebrewContent({ description: "Legado" }).mechanics).toEqual({ modifiers: [], requirements: [], evolutions: [] });
+    expect(normalizeHomebrewContent({ mechanics: { modifiers: [{ id: "forca", target: "strength", operation: "add", value: 4 }], requirements: [{ type: "level-min", minimum: 3 }] } }).mechanics).toMatchObject({ modifiers: [{ target: "strength", value: 4 }], requirements: [{ type: "level-min", minimum: 3 }], evolutions: [] });
+  });
+
   it("exige autoria, seção e motivo para avaliações", () => {
     expect(validateReview({ targetId: "homebrew-1", reviewerName: "", kind: "suggestion", section: "Custo", reason: "" })).toEqual(expect.arrayContaining(["Informe seu nome para enviar a avaliação.", "Explique o motivo da avaliação ou sugestão."]));
   });

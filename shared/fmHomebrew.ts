@@ -1,3 +1,5 @@
+import type { FMModifierDefinition, FMRequirement, FMRaceEvolution } from "./fmTypes";
+
 export const FM_HOMEBREW_KINDS = ["technique", "vow", "aptitude", "race", "domain", "training", "item", "ability", "rule", "other"] as const;
 export type FMHomebrewKind = typeof FM_HOMEBREW_KINDS[number];
 export const FM_REVIEW_STATUSES = ["pending", "accepted", "rejected", "implemented"] as const;
@@ -14,6 +16,11 @@ export type FMHomebrewContent = {
   level: string;
   notes: string;
   fields: Record<string, string>;
+  mechanics: {
+    modifiers: FMModifierDefinition[];
+    requirements: FMRequirement[];
+    evolutions: FMRaceEvolution[];
+  };
 };
 
 export type FMHomebrewDraft = {
@@ -59,7 +66,7 @@ export const FM_HOMEBREW_KIND_META: Record<FMHomebrewKind, FMHomebrewKindMeta> =
 
 export function createEmptyHomebrew(kind: FMHomebrewKind = "other"): FMHomebrewDraft {
   const meta = FM_HOMEBREW_KIND_META[kind];
-  return { id: crypto.randomUUID(), kind, name: "", summary: meta.summary, content: { description: "", requirements: "", effects: "", cost: "", level: "", notes: "", fields: Object.fromEntries(meta.fieldSpecs.map(({ key }) => [key, ""])) } };
+  return { id: crypto.randomUUID(), kind, name: "", summary: meta.summary, content: { description: "", requirements: "", effects: "", cost: "", level: "", notes: "", fields: Object.fromEntries(meta.fieldSpecs.map(({ key }) => [key, ""])), mechanics: { modifiers: [], requirements: [], evolutions: [] } } };
 }
 
 export function normalizeHomebrewContent(raw: Record<string, unknown> | undefined): FMHomebrewContent {
@@ -67,7 +74,8 @@ export function normalizeHomebrewContent(raw: Record<string, unknown> | undefine
   const source = raw ?? {};
   const fields: Record<string, string> = {};
   if (source.fields && typeof source.fields === "object" && !Array.isArray(source.fields)) Object.entries(source.fields as Record<string, unknown>).forEach(([key, value]) => { if (typeof value === "string") fields[key] = value; });
-  return { description: typeof source.description === "string" ? source.description : fallback.description, requirements: typeof source.requirements === "string" ? source.requirements : fallback.requirements, effects: typeof source.effects === "string" ? source.effects : fallback.effects, cost: typeof source.cost === "string" ? source.cost : fallback.cost, level: typeof source.level === "string" ? source.level : fallback.level, notes: typeof source.notes === "string" ? source.notes : fallback.notes, fields };
+  const rawMechanics = source.mechanics && typeof source.mechanics === "object" && !Array.isArray(source.mechanics) ? source.mechanics as Record<string, unknown> : {};
+  return { description: typeof source.description === "string" ? source.description : fallback.description, requirements: typeof source.requirements === "string" ? source.requirements : fallback.requirements, effects: typeof source.effects === "string" ? source.effects : fallback.effects, cost: typeof source.cost === "string" ? source.cost : fallback.cost, level: typeof source.level === "string" ? source.level : fallback.level, notes: typeof source.notes === "string" ? source.notes : fallback.notes, fields, mechanics: { modifiers: Array.isArray(rawMechanics.modifiers) ? rawMechanics.modifiers as FMModifierDefinition[] : [], requirements: Array.isArray(rawMechanics.requirements) ? rawMechanics.requirements as FMRequirement[] : [], evolutions: Array.isArray(rawMechanics.evolutions) ? rawMechanics.evolutions as FMRaceEvolution[] : [] } };
 }
 
 export function validateHomebrew(input: Partial<FMHomebrewDraft>) {

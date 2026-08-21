@@ -13,6 +13,7 @@ import { FM_INVOCATION_GRADE_RULES } from "../shared/fmInvocations";
 import { getAptitudeCatalogEntry } from "../shared/fmCampaignCapabilities";
 import { FM_HOMEBREW_KINDS, FM_REVIEW_KINDS, FM_REVIEW_STATUSES, validateHomebrew, validateReview } from "../shared/fmHomebrew";
 import { normalizeHomebrewContent } from "../shared/fmHomebrew";
+import { fmAttributeKeys } from "../shared/fmTypes";
 import { storagePut } from "./storage";
 import { createFMChangeHistory, createFMCharacterShare, createFMContentShare, createFMReview, deleteFMCharacter, deleteFMHomebrew, deleteFMTechnique, getFMCharacter, getFMCharacterShare, getFMContentShare, getFMHomebrew, getFMReview, getFMTechnique, getSharedFMCharacter, getSharedFMContent, listFMChangeHistory, listFMCharacters, listFMCharacterShares, listFMContentShares, listFMHomebrews, listFMReviews, listFMTechniques, regenerateFMContentShare, saveFMCharacter, saveFMHomebrew, saveFMTechnique, setFMContentShareEnabled, updateFMReview } from "./db";
 import { emitCharacterUpdated } from "./live";
@@ -25,7 +26,19 @@ const validSkillProficiencies = new Set(["untrained", "trained", "master"]);
 const validOriginIds = new Set([...FM_ORIGIN_CATALOG.map(origin => origin.id), "custom"]);
 const validClanIds = new Set([...FM_CLAN_CATALOG.map(clan => clan.id), "custom"]);
 const storedImageUrl = z.union([z.string().url(), z.string().regex(/^\/manus-storage\//)]);
-const homebrewContentInput = z.object({ description: z.string().max(8000), requirements: z.string().max(8000), effects: z.string().max(8000), cost: z.string().max(1000), level: z.string().max(1000), notes: z.string().max(8000), fields: z.record(z.string(), z.string().max(4000)) });
+const modifierTargetInput = z.enum([...fmAttributeKeys, "healthMaximum", "energyMaximum", "attention", "defense", "initiative", "movement", "techniqueDc"]);
+const requirementInput = z.discriminatedUnion("type", [
+  z.object({ type: z.literal("attribute-min"), attribute: z.enum(fmAttributeKeys), minimum: z.number().finite() }),
+  z.object({ type: z.literal("level-min"), minimum: z.number().finite() }),
+  z.object({ type: z.literal("aptitude"), aptitudeId: z.string().min(1).max(160) }),
+  z.object({ type: z.literal("training"), trainingId: z.string().min(1).max(160) }),
+  z.object({ type: z.literal("race"), raceId: z.string().min(1).max(160) }),
+  z.object({ type: z.literal("origin"), originId: z.string().min(1).max(160) }),
+]);
+const modifierDefinitionInput = z.object({ id: z.string().min(1).max(64), target: modifierTargetInput, operation: z.literal("add"), value: z.number().finite().min(-20).max(20), active: z.boolean().optional(), conditions: z.array(requirementInput).optional(), note: z.string().max(1000).optional() });
+const raceEvolutionInput = z.object({ id: z.string().min(1).max(64), name: z.string().trim().min(1).max(160), description: z.string().max(4000), replacesBaseModifiers: z.boolean().optional(), requirements: z.array(requirementInput).default([]), modifiers: z.array(modifierDefinitionInput).default([]), characteristics: z.array(z.string().max(1000)).default([]), abilities: z.array(z.string().max(1000)).default([]) });
+const homebrewMechanicsInput = z.object({ modifiers: z.array(modifierDefinitionInput).default([]), requirements: z.array(requirementInput).default([]), evolutions: z.array(raceEvolutionInput).default([]) }).default({ modifiers: [], requirements: [], evolutions: [] });
+const homebrewContentInput = z.object({ description: z.string().max(8000), requirements: z.string().max(8000), effects: z.string().max(8000), cost: z.string().max(1000), level: z.string().max(1000), notes: z.string().max(8000), fields: z.record(z.string(), z.string().max(4000)), mechanics: homebrewMechanicsInput });
 const homebrewInput = z.object({ id: z.string().min(6).max(64), kind: z.enum(FM_HOMEBREW_KINDS), name: z.string().trim().min(1).max(160), summary: z.string().trim().min(1).max(1000), content: homebrewContentInput }).superRefine((input, context) => validateHomebrew(input).forEach(message => context.addIssue({ code: "custom", path: ["content"], message })));
 const reviewSubmissionInput = z.object({ token: z.string().min(8).max(64), reviewerName: z.string().trim().min(1).max(160), kind: z.enum(FM_REVIEW_KINDS), section: z.string().trim().min(1).max(160), field: z.string().trim().max(160).default(""), currentValue: z.string().max(8000).default(""), suggestedValue: z.string().max(8000).default(""), reason: z.string().trim().min(1).max(8000) }).superRefine((input, context) => validateReview({ ...input, targetId: "shared" }).forEach(message => context.addIssue({ code: "custom", path: message.includes("campo específico") ? ["field"] : ["reason"], message })));
 const reviewOwnerUpdateInput = z.object({ id: z.string().min(6).max(64), status: z.enum(FM_REVIEW_STATUSES), ownerResponse: z.string().max(8000).default("") });
@@ -37,6 +50,38 @@ function validateDeclaredModifier(value: unknown, path: (string | number)[], rul
     const specification = FM_DECLARED_MODIFIER_RULES[rule];
     context.addIssue({ code: "custom", path, message: `${specification.label} deve ficar entre ${specification.minimum} e +${specification.maximum}.` });
   }
+}
+
+const mechanicModifierTargets = new Set([...fmAttributeKeys, "healthMaximum", "energyMaximum", "attention", "defense", "initiative", "movement", "techniqueDc"]);
+const mechanicRequirementTypes = new Set(["attribute-min", "level-min", "aptitude", "training", "race", "origin"]);
+const asRecord = (value: unknown): Record<string, unknown> | null => value && typeof value === "object" && !Array.isArray(value) ? value as Record<string, unknown> : null;
+function validateMechanicRequirements(value: unknown, path: (string | number)[], context: z.RefinementCtx) {
+  if (value === undefined) return;
+  if (!Array.isArray(value) || value.length > 30) { context.addIssue({ code: "custom", path, message: "Requisitos mecânicos devem ser uma lista de até 30 entradas." }); return; }
+  value.forEach((entry, index) => {
+    const requirement = asRecord(entry);
+    const type = requirement?.type;
+    if (!requirement || typeof type !== "string" || !mechanicRequirementTypes.has(type)) { context.addIssue({ code: "custom", path: [...path, index], message: "Tipo de requisito mecânico inválido." }); return; }
+    if (type === "attribute-min" && (typeof requirement.attribute !== "string" || !fmAttributeKeys.includes(requirement.attribute as typeof fmAttributeKeys[number]) || typeof requirement.minimum !== "number" || !Number.isFinite(requirement.minimum))) context.addIssue({ code: "custom", path: [...path, index], message: "Requisito de atributo inválido." });
+    if (type === "level-min" && (typeof requirement.minimum !== "number" || !Number.isInteger(requirement.minimum) || requirement.minimum < 1 || requirement.minimum > 30)) context.addIssue({ code: "custom", path: [...path, index], message: "O nível mínimo deve ficar entre 1 e 30." });
+    if (["aptitude", "training", "race", "origin"].includes(type)) { const key = type === "aptitude" ? "aptitudeId" : type === "training" ? "trainingId" : type === "race" ? "raceId" : "originId"; if (typeof requirement[key] !== "string" || !(requirement[key] as string).trim() || (requirement[key] as string).length > 160) context.addIssue({ code: "custom", path: [...path, index, key], message: "A referência do requisito mecânico é inválida." }); }
+  });
+}
+function validateMechanicModifiers(value: unknown, path: (string | number)[], context: z.RefinementCtx) {
+  if (value === undefined) return;
+  if (!Array.isArray(value) || value.length > 30) { context.addIssue({ code: "custom", path, message: "Modificadores mecânicos devem ser uma lista de até 30 entradas." }); return; }
+  value.forEach((entry, index) => {
+    const modifier = asRecord(entry);
+    if (!modifier || typeof modifier.id !== "string" || !modifier.id.trim() || modifier.id.length > 64 || typeof modifier.target !== "string" || !mechanicModifierTargets.has(modifier.target) || modifier.operation !== "add" || typeof modifier.value !== "number" || !Number.isFinite(modifier.value) || modifier.value < -20 || modifier.value > 20 || (modifier.active !== undefined && typeof modifier.active !== "boolean")) { context.addIssue({ code: "custom", path: [...path, index], message: "Modificador mecânico inválido; use um alvo permitido, operação de soma e valor entre −20 e +20." }); return; }
+    validateMechanicRequirements(modifier.conditions, [...path, index, "conditions"], context);
+  });
+}
+function validateMechanicSource(value: unknown, path: (string | number)[], context: z.RefinementCtx) {
+  const source = asRecord(value);
+  if (!source) return;
+  validateMechanicModifiers(source.modifiers, [...path, "modifiers"], context);
+  const requirements = Array.isArray(source.requirements) ? source.requirements : source.mechanicalRequirements;
+  validateMechanicRequirements(requirements, [...path, source.mechanicalRequirements !== undefined ? "mechanicalRequirements" : "requirements"], context);
 }
 
 const characterInput = z.object({
@@ -91,6 +136,7 @@ const characterInput = z.object({
       if (!catalog || catalog.name !== value.name || catalog.category !== value.category) context.addIssue({ code: "custom", path: ["sheet", "equipment", index, "catalogId"], message: "O equipamento selecionado não corresponde ao banco oficial." });
     }
     if (typeof value.spaces === "number" && (value.spaces < 0 || value.spaces > 4)) context.addIssue({ code: "custom", path: ["sheet", "equipment", index, "spaces"], message: "Espaços de equipamento devem ficar entre 0 e 4." });
+    validateMechanicSource(value, ["sheet", "equipment", index], context);
   });
   const progression = input.sheet.progression as Record<string, unknown> | undefined;
   const level = typeof progression?.level === "number" ? progression.level : 1;
@@ -128,6 +174,7 @@ const characterInput = z.object({
     let spent = 0;
     aptitudes.forEach((aptitude, index) => {
       const value = aptitude as Record<string, unknown>;
+      validateMechanicSource(value, ["sheet", "aptitudes", index], context);
       const catalogId = typeof value.catalogId === "string" ? value.catalogId : "";
       if (catalogId.startsWith("homebrew:")) {
         if (typeof value.homebrewId !== "string" || value.homebrewId !== catalogId.slice("homebrew:".length)) context.addIssue({ code: "custom", path: ["sheet", "aptitudes", index, "homebrewId"], message: "A referência da Aptidão Homebrew é inválida." });
@@ -151,10 +198,34 @@ const characterInput = z.object({
   validateHouseRules(houseRules).forEach(message => {
     context.addIssue({ code: "custom", path: ["sheet", "houseRules"], message });
   });
+  const birthVow = asRecord(houseRules)?.birthVow;
+  validateMechanicSource(birthVow, ["sheet", "houseRules", "birthVow"], context);
   const technique = input.sheet.technique as Record<string, unknown> | undefined;
+  validateMechanicSource(technique, ["sheet", "technique"], context);
   validateTechnique(technique, specialization).forEach(issue => {
     context.addIssue({ code: "custom", path: ["sheet", "technique", issue.field], message: issue.message });
   });
+  const mechanics = asRecord(input.sheet.mechanics);
+  const race = asRecord(mechanics?.race);
+  if (race) {
+    if (race.sourceKind !== "homebrew" && race.sourceKind !== "custom") context.addIssue({ code: "custom", path: ["sheet", "mechanics", "race", "sourceKind"], message: "A origem da raça mecânica é inválida." });
+    if (typeof race.id !== "string" || !race.id.trim() || typeof race.name !== "string" || !race.name.trim()) context.addIssue({ code: "custom", path: ["sheet", "mechanics", "race"], message: "A raça mecânica precisa de identificador e nome." });
+    validateMechanicSource(race, ["sheet", "mechanics", "race"], context);
+    if (race.evolutions !== undefined && !Array.isArray(race.evolutions)) context.addIssue({ code: "custom", path: ["sheet", "mechanics", "race", "evolutions"], message: "Evoluções da raça devem ser uma lista." });
+    if (Array.isArray(race.evolutions)) race.evolutions.forEach((evolution, index) => {
+      const item = asRecord(evolution);
+      if (!item || typeof item.id !== "string" || !item.id.trim() || typeof item.name !== "string" || !item.name.trim()) context.addIssue({ code: "custom", path: ["sheet", "mechanics", "race", "evolutions", index], message: "Cada evolução precisa de identificador e nome." });
+      validateMechanicSource(item, ["sheet", "mechanics", "race", "evolutions", index], context);
+    });
+    if (typeof race.selectedEvolutionId === "string" && Array.isArray(race.evolutions) && !race.evolutions.some(evolution => asRecord(evolution)?.id === race.selectedEvolutionId)) context.addIssue({ code: "custom", path: ["sheet", "mechanics", "race", "selectedEvolutionId"], message: "A evolução selecionada não pertence à raça atual." });
+  }
+  const training = input.sheet.training;
+  if (Array.isArray(training)) training.forEach((track, index) => validateMechanicSource(track, ["sheet", "training", index], context));
+  const cursedTools = input.sheet.cursedTools;
+  if (Array.isArray(cursedTools)) cursedTools.forEach((tool, index) => validateMechanicSource(tool, ["sheet", "cursedTools", index], context));
+  validateMechanicSource(input.sheet.domainExpansion, ["sheet", "domainExpansion"], context);
+  const mechanicInvocations = input.sheet.invocations;
+  if (Array.isArray(mechanicInvocations)) mechanicInvocations.forEach((invocation, index) => validateMechanicSource(invocation, ["sheet", "invocations", index], context));
   const experience = progression?.experience;
   if (experience !== undefined) {
     if (typeof experience !== "number" || !Number.isInteger(experience) || experience < 0 || experience > 6499) {

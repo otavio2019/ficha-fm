@@ -351,6 +351,20 @@ describe("biblioteca de fichas", () => {
     await expect(caller.characters.save({ id: "ficha-bonus-sem-origem", name: "Yuji", sheet: { skills: [{ name: "Furtividade", attribute: "dexterity", proficiency: "trained", otherBonus: 2, notes: "" }] } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
   });
 
+  it("recusa modificadores mecânicos fora da faixa protegida", async () => {
+    const caller = appRouter.createCaller(createContext(1));
+    await expect(caller.characters.save({ id: "ficha-mecanica-invalida", name: "Yuji", sheet: { mechanics: { race: { id: "raca-1", sourceKind: "custom", name: "Rajan", modifiers: [{ id: "forca", target: "strength", operation: "add", value: 21 }], requirements: [], evolutions: [], selectedEvolutionId: null } } } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+  });
+
+  it("aceita uma raça estruturada com modificador e requisito válidos", async () => {
+    const sheet = createEmptyFMSheet();
+    sheet.mechanics.race = { id: "raca-1", sourceKind: "custom", name: "Rajan", description: "", active: true, modifiers: [{ id: "forca", target: "strength", operation: "add", value: 4 }], requirements: [{ type: "level-min", minimum: 1 }], characteristics: [], abilities: [], evolutions: [], selectedEvolutionId: null };
+    vi.mocked(getFMCharacter).mockResolvedValue(undefined);
+    vi.mocked(saveFMCharacter).mockResolvedValue({ id: "ficha-mecanica-valida", ownerId: 1, name: "Yuji", portraitUrl: null, sheet, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+    await expect(caller.characters.save({ id: "ficha-mecanica-valida", name: "Yuji", sheet })).resolves.toMatchObject({ name: "Yuji" });
+  });
+
   it("duplica apenas uma ficha que pertence ao usuário", async () => {
     vi.mocked(getFMCharacter).mockResolvedValue({ id: "ficha-origem", ownerId: 1, name: "Maki", portraitUrl: null, sheet: { identity: { name: "Maki" } }, createdAt: new Date(), updatedAt: new Date() });
     vi.mocked(saveFMCharacter).mockImplementation(async input => ({ ...input, portraitUrl: input.portraitUrl ?? null, createdAt: new Date(), updatedAt: new Date() }));

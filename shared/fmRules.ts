@@ -1,4 +1,5 @@
 import { fmSavingThrowKeys, type FMAttributeKey, type FMAttributes, type FMAttackMode, type FMCharacterSheet, type FMEquipmentItem, type FMProficiency, type FMSavingThrowKey, type FMSpecializationKey, type FMSpecializationTrack, type FMSpellLevel } from "./fmTypes";
+import { calculateCharacterState } from "./fmCharacterState";
 
 export const FM_ATTRIBUTE_LABELS: Record<FMAttributeKey, string> = {
   strength: "Força",
@@ -127,36 +128,31 @@ export function getProficiencyContribution(trainingBonus: number, proficiency: F
 }
 
 export function getTotalAttributes(sheet: FMCharacterSheet): FMAttributes {
-  return {
-    strength: sheet.attributes.base.strength + sheet.attributes.permanentBonuses.strength + (sheet.origin.attributeBonuses.strength ?? 0),
-    dexterity: sheet.attributes.base.dexterity + sheet.attributes.permanentBonuses.dexterity + (sheet.origin.attributeBonuses.dexterity ?? 0),
-    constitution: sheet.attributes.base.constitution + sheet.attributes.permanentBonuses.constitution + (sheet.origin.attributeBonuses.constitution ?? 0),
-    intelligence: sheet.attributes.base.intelligence + sheet.attributes.permanentBonuses.intelligence + (sheet.origin.attributeBonuses.intelligence ?? 0),
-    wisdom: sheet.attributes.base.wisdom + sheet.attributes.permanentBonuses.wisdom + (sheet.origin.attributeBonuses.wisdom ?? 0),
-    presence: sheet.attributes.base.presence + sheet.attributes.permanentBonuses.presence + (sheet.origin.attributeBonuses.presence ?? 0),
-  };
+  return calculateCharacterState(sheet).attributes;
 }
 
 export function getHealthMaximum(sheet: FMCharacterSheet) {
   const { level, specialization, healthMode, rolledHealthGains, optionalLevelZero } = sheet.progression;
   const constitutionModifier = getAttributeModifier(getTotalAttributes(sheet).constitution);
-  if (optionalLevelZero && level === 0) return Math.max(1, 6 + constitutionModifier + sheet.resources.health.bonusMaximum);
+  const mechanics = calculateCharacterState(sheet);
+  if (optionalLevelZero && level === 0) return Math.max(1, 6 + constitutionModifier + sheet.resources.health.bonusMaximum + mechanics.derivedModifiers.healthMaximum);
   const profile = FM_SPECIALIZATION_PROFILES[specialization];
   const safeLevel = Math.max(level, 1);
   const subsequentGain = healthMode === "rolled"
     ? rolledHealthGains.slice(0, Math.max(safeLevel - 1, 0)).reduce((sum, gain) => sum + Math.max(gain, 1) + constitutionModifier, 0)
     : Math.max(safeLevel - 1, 0) * (profile.averageHealthGain + constitutionModifier);
-  return Math.max(1, profile.firstLevelHealth + constitutionModifier + subsequentGain + sheet.resources.health.bonusMaximum);
+  return Math.max(1, profile.firstLevelHealth + constitutionModifier + subsequentGain + sheet.resources.health.bonusMaximum + mechanics.derivedModifiers.healthMaximum);
 }
 
 export function getEnergyMaximum(sheet: FMCharacterSheet) {
   const { level, specialization, techniqueAttribute, optionalLevelZero, nonSorcerer } = sheet.progression;
-  if (optionalLevelZero && level === 0) return 0;
-  if (nonSorcerer) return Math.max(0, 10 + sheet.resources.energy.bonusMaximum);
+  const mechanics = calculateCharacterState(sheet);
+  if (optionalLevelZero && level === 0) return Math.max(0, mechanics.derivedModifiers.energyMaximum);
+  if (nonSorcerer) return Math.max(0, 10 + sheet.resources.energy.bonusMaximum + mechanics.derivedModifiers.energyMaximum);
   const profile = FM_SPECIALIZATION_PROFILES[specialization];
   const safeLevel = Math.max(level, 1);
   const techniqueModifier = profile.addsTechniqueModifier ? getAttributeModifier(getTotalAttributes(sheet)[techniqueAttribute]) : 0;
-  return Math.max(0, profile.energyPerLevel * safeLevel + techniqueModifier + sheet.resources.energy.bonusMaximum);
+  return Math.max(0, profile.energyPerLevel * safeLevel + techniqueModifier + sheet.resources.energy.bonusMaximum + mechanics.derivedModifiers.energyMaximum);
 }
 
 export function getResourceLabel(specialization: FMSpecializationKey, nonSorcerer = false) {
@@ -202,7 +198,8 @@ export function getTechniqueDc(level: number, attributes: FMAttributes, techniqu
 }
 
 export function getDerivedValues(sheet: FMCharacterSheet) {
-  const attributes = getTotalAttributes(sheet);
+  const mechanics = calculateCharacterState(sheet);
+  const attributes = mechanics.attributes;
   const level = sheet.progression.level;
   const perception = sheet.skills.find(skill => skill.name.trim().toLocaleLowerCase("pt-BR") === "percepção");
   const trainingBonus = getOfficialTrainingBonus(level, sheet.progression.optionalLevelZero);
@@ -220,12 +217,12 @@ export function getDerivedValues(sheet: FMCharacterSheet) {
     trainingBonus,
     healthMaximum,
     energyMaximum,
-    attention: 10 + perceptionBonus + sheet.bonuses.attention,
-    defense: 10 + getAttributeModifier(attributes.dexterity) + getHalfLevel(level) + sheet.bonuses.defense + activeCombatModifiers.defense,
-    initiative: getAttributeModifier(attributes.dexterity) + sheet.bonuses.initiative + activeCombatModifiers.initiative,
-    movement: 9 + sheet.bonuses.movement,
+    attention: 10 + perceptionBonus + sheet.bonuses.attention + mechanics.derivedModifiers.attention,
+    defense: 10 + getAttributeModifier(attributes.dexterity) + getHalfLevel(level) + sheet.bonuses.defense + activeCombatModifiers.defense + mechanics.derivedModifiers.defense,
+    initiative: getAttributeModifier(attributes.dexterity) + sheet.bonuses.initiative + activeCombatModifiers.initiative + mechanics.derivedModifiers.initiative,
+    movement: 9 + sheet.bonuses.movement + mechanics.derivedModifiers.movement,
     integrity: healthMaximum,
-    techniqueDc: getTechniqueDc(level, attributes, sheet.progression.techniqueAttribute, sheet.bonuses.techniqueDc, trainingBonus),
+    techniqueDc: getTechniqueDc(level, attributes, sheet.progression.techniqueAttribute, sheet.bonuses.techniqueDc + mechanics.derivedModifiers.techniqueDc, trainingBonus),
     savingThrows,
     activeCombatModifiers,
   };

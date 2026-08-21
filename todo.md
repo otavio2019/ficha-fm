@@ -177,3 +177,14 @@
 - [x] Aprimorar sugestões de ficha com contexto de seção e campo, além de avaliação geral.
 - [x] Ampliar o painel do proprietário com filtros, resposta e trilha de decisões por conteúdo.
 - [x] Cobrir compatibilidade, persistência, autorização, interface responsiva e revisão no GitHub.
+- [x] Auditar os tipos, cálculos, persistência e testes atuais antes de introduzir o motor de entidades.
+- [x] Criar contratos compatíveis para modificadores, requisitos, efeitos ativos e estado calculado da ficha.
+- [x] Implementar cálculo central de valor base, modificadores ativos, valor final e derivados sem duplicação após recarga.
+- [x] Estruturar Raças e Evoluções aplicáveis, com seleção, prévia de efeitos e reversão segura da forma anterior.
+- [x] Integrar Treinamentos, Aptidões, equipamentos equipados, Votos, Técnicas e Domínio ao motor existente.
+- [x] Permitir que Homebrews estruturados forneçam requisitos, efeitos e modificadores sem tornar campos narrativos obrigatórios.
+- [x] Validar requisitos e integridade no backend para toda alteração persistente de entidade aplicável.
+- [x] Exibir detalhamento sob demanda da origem de atributos e valores finais, preservando o visual atual.
+- [x] Registrar eventos relevantes de escolha, evolução, aquisição, remoção, equipar e desequipar no histórico.
+- [x] Cobrir cálculos combinados, evoluções, remoções, recarga, autorização, compartilhamento e revisão com testes e migrações não destrutivas.
+- [x] Validar a interface do sistema de personagem em desktop e celular e sincronizar a revisão no GitHub.
