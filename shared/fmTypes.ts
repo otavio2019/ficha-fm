@@ -436,6 +436,8 @@ export type FMCharacterSheet = {
     complications: string;
     innateDomain: string;
   };
+  /** História narrativa independente do Domínio inato; opcional para fichas legadas. */
+  characterHistory?: string;
   progression: {
     level: number;
     experience: number;
@@ -514,6 +516,7 @@ export const createEmptyFMSheet = (): FMCharacterSheet => ({
   version: 1,
   identity: { name: "Novo personagem", player: "", grade: "", portraitUrl: null },
   personal: { traits: "", ideals: "", bonds: "", complications: "", innateDomain: "" },
+  characterHistory: "",
   progression: {
     level: 1,
     experience: 0,

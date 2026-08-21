@@ -96,4 +96,16 @@ describe("hidratação de fichas legadas", () => {
     const sheet = hydrateSheet({ mechanics: { race: { id: "linhagem", sourceKind: "custom", name: "Linhagem", description: "", active: true, requirements: [], modifiers: [], characteristics: [], abilities: ["Sentidos ampliados"], choices: [{ id: "afinidade", label: "Afinidade", description: "", requirements: [], options: [{ id: "agil", name: "Ágil", description: "", modifiers: [] }] }], selectedChoices: [{ choiceId: "afinidade", optionId: "agil" }], evolutions: [{ id: "forma-3", name: "Forma desperta", description: "", requirements: [{ type: "level-min", minimum: 3 }], modifiers: [], characteristics: [], abilities: ["Forma desperta"], choices: [] }], selectedEvolutionId: "forma-3" } } });
     expect(sheet.mechanics.race).toMatchObject({ name: "Linhagem", selectedChoices: [{ optionId: "agil" }], evolutions: [{ id: "forma-3", abilities: ["Forma desperta"] }] });
   });
+
+  it("inicializa História de Personagem vazia sem alterar o Domínio legado", () => {
+    const sheet = hydrateSheet({ personal: { innateDomain: "Jardim do Silêncio" } });
+    expect(sheet.characterHistory).toBe("");
+    expect(sheet.personal.innateDomain).toBe("Jardim do Silêncio");
+  });
+
+  it("preserva História de Personagem e Domínio como campos independentes", () => {
+    const sheet = hydrateSheet({ characterHistory: "Cresceu entre feiticeiros renegados.", personal: { innateDomain: "Arquivo de Cinzas" } });
+    expect(sheet.characterHistory).toBe("Cresceu entre feiticeiros renegados.");
+    expect(sheet.personal.innateDomain).toBe("Arquivo de Cinzas");
+  });
 });

@@ -278,3 +278,9 @@
 - [x] Criar um componente editável de observação reutilizável e integrá-lo aos dados de ficha, Domínio, Aptidões, Treinamentos, Invocações, Equipamentos e Aliados aplicáveis.
 - [x] Exibir observações em compartilhamentos permitidos e encaminhar sugestões externas ao fluxo de revisão já existente.
 - [x] Cobrir criação, edição, cancelamento, recarga, permissões, revisão, responsividade, checkpoint e GitHub.
+
+- [x] Adicionar História de Personagem como campo opcional independente, com hidratação segura para fichas legadas.
+- [x] Integrar História de Personagem à Visão Geral com editor amplo e autosalvamento existente, mantendo Domínio separado.
+- [x] Cobrir independência História/Domínio, criação, cancelamento, recarga, responsividade, tipagem e testes de História.
+- [x] Confirmar a lacuna de tipo e fórmula das Invocações antes de introduzir qualquer cálculo específico por tipo.
+- [x] Executar build, salvar checkpoint e sincronizar a continuação no GitHub.
