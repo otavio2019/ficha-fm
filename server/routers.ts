@@ -384,10 +384,18 @@ export const appRouter = router({
         throw new TRPCError({ code: "FORBIDDEN", message: "Você não pode editar esta ficha." });
       }
       const techniqueLibraryId = input.sheet.techniqueLibraryId;
+      let sheetForSave = input.sheet;
       if (typeof techniqueLibraryId === "string" && techniqueLibraryId) {
         const selectedTechnique = await getFMTechnique(techniqueLibraryId);
-        if (!selectedTechnique || selectedTechnique.ownerId !== ctx.user.id) {
+        if (selectedTechnique && selectedTechnique.ownerId !== ctx.user.id) {
           throw new TRPCError({ code: "BAD_REQUEST", message: "A técnica selecionada não pertence à sua biblioteca." });
+        }
+        const previousTechniqueLibraryId = existing?.sheet.techniqueLibraryId;
+        if (!selectedTechnique && previousTechniqueLibraryId === techniqueLibraryId) {
+          const { techniqueLibraryId: _staleTechniqueLibraryId, ...legacySheet } = input.sheet;
+          sheetForSave = legacySheet;
+        } else if (!selectedTechnique) {
+          throw new TRPCError({ code: "BAD_REQUEST", message: "A técnica selecionada não foi encontrada na sua biblioteca." });
         }
       }
       const customAptitudes = Array.isArray(input.sheet.aptitudes) ? input.sheet.aptitudes.filter((entry): entry is Record<string, unknown> => Boolean(entry && typeof entry === "object" && typeof (entry as Record<string, unknown>).catalogId === "string" && String((entry as Record<string, unknown>).catalogId).startsWith("homebrew:"))) : [];
@@ -424,7 +432,7 @@ export const appRouter = router({
       if (nextVow?.locked && !existingVow?.locked && (nextVow.type === "none" || nextVow.approved !== true || typeof nextVow.description !== "string" || !nextVow.description.trim())) {
         throw new TRPCError({ code: "BAD_REQUEST", message: "Um voto só pode ser fixado após descrição e aprovação antes da campanha." });
       }
-      const saved = await saveFMCharacter({ ...input, ownerId: ctx.user.id, portraitUrl: input.portraitUrl ?? null });
+      const saved = await saveFMCharacter({ ...input, sheet: sheetForSave, ownerId: ctx.user.id, portraitUrl: input.portraitUrl ?? null });
       if (!saved) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Não foi possível salvar a ficha." });
       const share = await getFMCharacterShare(input.id, ctx.user.id);
       emitCharacterUpdated({ characterId: input.id, shareToken: share?.token, updatedAt: Date.now() });

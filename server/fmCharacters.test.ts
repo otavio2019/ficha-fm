@@ -425,6 +425,17 @@ describe("biblioteca independente de técnicas", () => {
     expect(saveFMCharacter).not.toHaveBeenCalled();
   });
 
+  it("remove o vínculo legado de uma técnica ausente e preserva o salvamento da ficha", async () => {
+    const legacySheet = { techniqueLibraryId: "tecnica-removida", progression: { specialization: "fighter" }, technique: { ...technique, name: "Estilo preservado" } };
+    vi.mocked(getFMCharacter).mockResolvedValue({ id: "ficha-tecnica-legada", ownerId: 1, name: "Yuji", portraitUrl: null, sheet: legacySheet, createdAt: new Date(), updatedAt: new Date() });
+    vi.mocked(getFMTechnique).mockResolvedValue(undefined);
+    vi.mocked(saveFMCharacter).mockResolvedValue({ id: "ficha-tecnica-legada", ownerId: 1, name: "Yuji", portraitUrl: null, sheet: { progression: legacySheet.progression, technique: legacySheet.technique }, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+
+    await expect(caller.characters.save({ id: "ficha-tecnica-legada", name: "Yuji", sheet: legacySheet })).resolves.toMatchObject({ sheet: { technique: { name: "Estilo preservado" } } });
+    expect(saveFMCharacter).toHaveBeenCalledWith(expect.objectContaining({ sheet: expect.not.objectContaining({ techniqueLibraryId: "tecnica-removida" }) }));
+  });
+
   it("persiste e recupera o vínculo com a técnica escolhida", async () => {
     const storedSheet = { techniqueLibraryId: "tecnica-001", progression: { specialization: "fighter" }, technique };
     vi.mocked(getFMCharacter).mockResolvedValueOnce(undefined).mockResolvedValueOnce({ id: "ficha-vinculo", ownerId: 1, name: "Yuji", portraitUrl: null, sheet: storedSheet, createdAt: new Date(), updatedAt: new Date() });

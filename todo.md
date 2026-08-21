@@ -165,3 +165,7 @@
 - [x] Criar painel do proprietário para revisar, responder, aceitar, recusar e marcar sugestões como implementadas.
 - [x] Registrar histórico de criação, sugestão, resposta e decisão em fichas e Homebrews.
 - [x] Cobrir banco de dados, autorização, persistência, compatibilidade legada e interface responsiva dos novos fluxos.
+- [x] Reproduzir o salvamento de ficha com `techniqueLibraryId` legado, removido ou migrado.
+- [x] Permitir salvar vínculo legado seguro quando a técnica não existir mais na biblioteca do proprietário.
+- [x] Manter o bloqueio de vínculo para técnicas existentes pertencentes a outra conta.
+- [x] Cobrir a correção com testes protegidos, tipagem, build e sincronização no GitHub.

@@ -213,6 +213,17 @@ export default function Home() {
   }, [previewPersistedMode, sheet]);
 
   useEffect(() => {
+    if (!sheet?.techniqueLibraryId || !Array.isArray(techniquesQuery.data)) return;
+    if (techniquesQuery.data.some(technique => technique.id === sheet.techniqueLibraryId)) return;
+    setSheet(current => current?.techniqueLibraryId === sheet.techniqueLibraryId ? {
+      ...current,
+      techniqueLibraryId: null,
+      diary: [{ id: id(), at: Date.now(), category: "note", title: "Vínculo de técnica atualizado", detail: "A referência a uma técnica que não está mais na sua biblioteca foi removida; a cópia da técnica da ficha foi preservada." }, ...current.diary],
+    } : current);
+    toast.info("A referência a uma técnica indisponível foi removida da ficha; a técnica registrada foi preservada.");
+  }, [sheet?.techniqueLibraryId, techniquesQuery.data]);
+
+  useEffect(() => {
     if (!activeCharacterId || previewMode) return;
     const socket = io({ path: "/api/live", transports: ["websocket", "polling"], withCredentials: true, auth: getLiveSocketAuth() });
     socket.on("connect", () => socket.emit("watch-character", activeCharacterId));
