@@ -219,3 +219,14 @@
 - [x] Criar painel de Auditoria com botão de verificação, resumo, filtros, detalhes e atalhos de navegação sem edição automática.
 - [x] Cobrir motor, contrato, avisos, erros, compatibilidade e resultados válidos com testes automatizados.
 - [x] Validar auditoria em desktop e celular, executar tipagem/build e sincronizar a versão concluída no GitHub.
+- [x] Mapear a especificação completa e os módulos atuais de fontes, recursos, modificadores, Origem/Raça, Votos e Técnica.
+- [x] Definir contratos compatíveis para concessões, benefícios, malefícios, habilidades, técnicas, recursos e efeitos estruturados.
+- [x] Aprimorar o TechniqueEditor existente com templates configuráveis e campos personalizados para Homebrew.
+- [x] Criar Votos próprios em área dedicada, com requisitos, benefícios, malefícios, limites e ativação independente.
+- [x] Aplicar benefícios e malefícios de Votos pelo motor central de modificadores, sem cálculo paralelo.
+- [x] Expandir Origem/Raça para conceder múltiplas habilidades, técnicas, perícias, Aptidões, Treinamentos, itens, requisitos e limitações.
+- [x] Aplicar concessões iniciais e de Evolução sem duplicar itens, técnicas ou efeitos já recebidos.
+- [x] Separar a Exaustão em estado próprio e reutilizar as regras de descanso existentes.
+- [x] Completar PV máximo e recurso energético dinâmicos por base e fontes ativas, com decomposição rastreável.
+- [x] Exibir composição dos valores, fontes e efeitos nas áreas relevantes da ficha e na Auditoria.
+- [x] Validar migrações, permissões, compatibilidade, testes, responsividade e sincronizar a versão concluída no GitHub.

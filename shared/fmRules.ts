@@ -204,8 +204,8 @@ export function getDerivedValues(sheet: FMCharacterSheet) {
   const perception = sheet.skills.find(skill => skill.name.trim().toLocaleLowerCase("pt-BR") === "percepção");
   const trainingBonus = getOfficialTrainingBonus(level, sheet.progression.optionalLevelZero);
   const perceptionBonus = perception ? getSkillBonus(level, attributes, perception.attribute, perception.proficiency, perception.otherBonus, trainingBonus) : 0;
-  const healthMaximum = getHealthMaximum(sheet);
-  const energyMaximum = getEnergyMaximum(sheet);
+  const healthMaximum = Math.max(1, getHealthMaximum(sheet) + mechanics.derivedModifiers.healthMaximum);
+  const energyMaximum = Math.max(0, getEnergyMaximum(sheet) + mechanics.derivedModifiers.energyMaximum);
   const savingThrows = Object.fromEntries(fmSavingThrowKeys.map(key => [key, getSavingThrowBonus(level, attributes, key, sheet.progression.savingThrowTraining[key], trainingBonus)])) as Record<FMSavingThrowKey, number>;
   const activeCombatModifiers = sheet.spells.reduce((totals, spell) => {
     if (!spell.active || !spell.combatModifierTarget || spell.combatModifierTarget === "none") return totals;

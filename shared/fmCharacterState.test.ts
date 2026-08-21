@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { calculateCharacterState } from "./fmCharacterState";
+import { getDerivedValues } from "./fmRules";
 import { createEmptyFMSheet } from "./fmTypes";
 
 describe("motor de estado do personagem", () => {
@@ -68,5 +69,25 @@ describe("motor de estado do personagem", () => {
     expect(calculateCharacterState(sheet).attributes.strength).toBe(12);
     sheet.mechanics.race = null;
     expect(calculateCharacterState(sheet).attributes.strength).toBe(10);
+  });
+
+  it("compõe Voto próprio, Transformação e Recursos Extras apenas enquanto suas fontes estão ativas", () => {
+    const sheet = createEmptyFMSheet();
+    sheet.houseRules.customVows = [{ id: "voto", name: "Pacto", description: "", conditions: "", benefits: [{ id: "voto-pv", target: "healthMaximum", operation: "add", value: 5 }], drawbacks: [{ id: "voto-def", target: "defense", operation: "add", value: -1 }], requirements: [], limitations: "", notes: "", approved: true, active: true }];
+    sheet.transformations = [{ id: "forma", name: "Forma", description: "", requirements: [], benefits: [{ id: "forma-for", target: "strength", operation: "add", value: 2 }], drawbacks: [], durationRounds: 2, elapsedRounds: 0, conditions: "", notes: "", active: true }];
+    sheet.customResources = [{ id: "foco", name: "Foco", description: "", current: 2, baseMaximum: 4, minimum: 0, unit: "cargas", notes: "", modifiers: [{ id: "foco-max", target: "extra:foco", operation: "add", value: 3 }] }];
+
+    const state = calculateCharacterState(sheet);
+    expect(state.attributes.strength).toBe(12);
+    expect(state.derivedModifiers.healthMaximum).toBe(5);
+    expect(state.derivedModifiers.defense).toBe(-1);
+    expect(state.extraMaximums.foco).toBe(7);
+    expect(getDerivedValues(sheet).healthMaximum).toBeGreaterThanOrEqual(5);
+
+    sheet.transformations[0].active = false;
+    sheet.houseRules.customVows[0].active = false;
+    const after = calculateCharacterState(sheet);
+    expect(after.attributes.strength).toBe(10);
+    expect(after.derivedModifiers.healthMaximum).toBe(0);
   });
 });

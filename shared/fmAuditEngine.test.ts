@@ -69,4 +69,15 @@ describe("auditCharacter", () => {
     const result = auditCharacter(sheet);
     expect(result.findings.some(item => item.category === "technique" && item.severity === "passed")).toBe(true);
   });
+
+  it("explica fontes próprias ativas e aponta Recurso Extra acima do máximo", () => {
+    const sheet = createEmptyFMSheet();
+    sheet.houseRules.customVows = [{ id: "voto", name: "Pacto", description: "", conditions: "", benefits: [{ id: "pv", target: "healthMaximum", operation: "add", value: 4 }], drawbacks: [], requirements: [], limitations: "", notes: "", approved: true, active: true }];
+    sheet.transformations = [{ id: "forma", name: "Forma de Teste", description: "", requirements: [], benefits: [], drawbacks: [], durationRounds: null, elapsedRounds: 0, conditions: "", notes: "", active: true }];
+    sheet.customResources = [{ id: "foco", name: "Foco", description: "", current: 8, baseMaximum: 4, minimum: 0, unit: "cargas", notes: "" }];
+    const result = auditCharacter(sheet);
+    expect(result.findings.some(item => item.title.includes("Voto próprio ativo") && item.severity === "passed")).toBe(true);
+    expect(result.findings.some(item => item.title.includes("Transformação ativa") && item.severity === "passed")).toBe(true);
+    expect(result.findings.some(item => item.title.includes("Recurso Extra fora do limite") && item.severity === "error")).toBe(true);
+  });
 });

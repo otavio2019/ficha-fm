@@ -13,7 +13,7 @@ import { FM_INVOCATION_GRADE_RULES } from "../shared/fmInvocations";
 import { getAptitudeCatalogEntry, getAptitudeDefinition } from "../shared/fmCampaignCapabilities";
 import { FM_HOMEBREW_KINDS, FM_REVIEW_KINDS, FM_REVIEW_STATUSES, validateHomebrew, validateReview } from "../shared/fmHomebrew";
 import { normalizeHomebrewContent } from "../shared/fmHomebrew";
-import { fmAttributeKeys, type FMRequirement } from "../shared/fmTypes";
+import { fmAttributeKeys, type FMModifierTarget, type FMRequirement } from "../shared/fmTypes";
 import { calculateCharacterState } from "../shared/fmCharacterState";
 import { storagePut } from "./storage";
 import { createFMChangeHistory, createFMCharacterShare, createFMContentShare, createFMReview, deleteFMCharacter, deleteFMHomebrew, deleteFMTechnique, getFMCharacter, getFMCharacterShare, getFMContentShare, getFMHomebrew, getFMReview, getFMTechnique, getSharedFMCharacter, getSharedFMContent, listFMChangeHistory, listFMCharacters, listFMCharacterShares, listFMContentShares, listFMHomebrews, listFMReviews, listFMTechniques, regenerateFMContentShare, saveFMCharacter, saveFMHomebrew, saveFMTechnique, setFMContentShareEnabled, updateFMReview } from "./db";
@@ -27,7 +27,7 @@ const validSkillProficiencies = new Set(["untrained", "trained", "master"]);
 const validOriginIds = new Set([...FM_ORIGIN_CATALOG.map(origin => origin.id), "custom"]);
 const validClanIds = new Set([...FM_CLAN_CATALOG.map(clan => clan.id), "custom"]);
 const storedImageUrl = z.union([z.string().url(), z.string().regex(/^\/manus-storage\//)]);
-const modifierTargetInput = z.enum([...fmAttributeKeys, "healthMaximum", "energyMaximum", "attention", "defense", "initiative", "movement", "techniqueDc"]);
+const modifierTargetInput: z.ZodType<FMModifierTarget> = z.union([z.enum([...fmAttributeKeys, "healthMaximum", "energyMaximum", "attention", "defense", "initiative", "movement", "techniqueDc"]), z.string().regex(/^extra:[a-zA-Z0-9_-]{1,64}$/)]).transform(value => value as FMModifierTarget);
 const requirementInput: z.ZodType<FMRequirement> = z.lazy(() => z.discriminatedUnion("type", [
   z.object({ type: z.literal("attribute-min"), attribute: z.enum(fmAttributeKeys), minimum: z.number().finite() }),
   z.object({ type: z.literal("level-min"), minimum: z.number().finite() }),
@@ -90,7 +90,7 @@ function validateMechanicModifiers(value: unknown, path: (string | number)[], co
   if (!Array.isArray(value) || value.length > 30) { context.addIssue({ code: "custom", path, message: "Modificadores mecânicos devem ser uma lista de até 30 entradas." }); return; }
   value.forEach((entry, index) => {
     const modifier = asRecord(entry);
-    if (!modifier || typeof modifier.id !== "string" || !modifier.id.trim() || modifier.id.length > 64 || typeof modifier.target !== "string" || !mechanicModifierTargets.has(modifier.target) || modifier.operation !== "add" || typeof modifier.value !== "number" || !Number.isFinite(modifier.value) || modifier.value < -20 || modifier.value > 20 || (modifier.active !== undefined && typeof modifier.active !== "boolean")) { context.addIssue({ code: "custom", path: [...path, index], message: "Modificador mecânico inválido; use um alvo permitido, operação de soma e valor entre −20 e +20." }); return; }
+    if (!modifier || typeof modifier.id !== "string" || !modifier.id.trim() || modifier.id.length > 64 || typeof modifier.target !== "string" || (!mechanicModifierTargets.has(modifier.target) && !/^extra:[a-zA-Z0-9_-]{1,64}$/.test(modifier.target)) || modifier.operation !== "add" || typeof modifier.value !== "number" || !Number.isFinite(modifier.value) || modifier.value < -20 || modifier.value > 20 || (modifier.active !== undefined && typeof modifier.active !== "boolean")) { context.addIssue({ code: "custom", path: [...path, index], message: "Modificador mecânico inválido; use um alvo permitido, operação de soma e valor entre −20 e +20." }); return; }
     validateMechanicRequirements(modifier.conditions, [...path, index, "conditions"], context);
   });
 }

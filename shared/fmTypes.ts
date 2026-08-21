@@ -11,7 +11,7 @@ export type FMAttributeKey = (typeof fmAttributeKeys)[number];
 
 export type FMAttributes = Record<FMAttributeKey, number>;
 
-export type FMModifierTarget = FMAttributeKey | "healthMaximum" | "energyMaximum" | "attention" | "defense" | "initiative" | "movement" | "techniqueDc";
+export type FMModifierTarget = FMAttributeKey | "healthMaximum" | "energyMaximum" | "attention" | "defense" | "initiative" | "movement" | "techniqueDc" | `extra:${string}`;
 export type FMRequirement =
   | { type: "attribute-min"; attribute: FMAttributeKey; minimum: number }
   | { type: "level-min"; minimum: number }
@@ -26,10 +26,12 @@ export type FMRequirement =
   | { type: "item"; itemId: string }
   | { type: "all"; requirements: FMRequirement[] }
   | { type: "any"; requirements: FMRequirement[] };
-export type FMModifierDefinition = { id: string; target: FMModifierTarget; operation: "add"; value: number; active?: boolean; conditions?: FMRequirement[]; note?: string };
-export type FMRaceEvolution = { id: string; name: string; description: string; replacesBaseModifiers?: boolean; requirements: FMRequirement[]; modifiers: FMModifierDefinition[]; characteristics: string[]; abilities: string[] };
-export type FMCharacterRace = { id: string; sourceId?: string; sourceKind: "homebrew" | "custom"; name: string; description: string; active: boolean; requirements: FMRequirement[]; modifiers: FMModifierDefinition[]; characteristics: string[]; abilities: string[]; evolutions: FMRaceEvolution[]; selectedEvolutionId: string | null };
-export type FMCharacterMechanics = { race: FMCharacterRace | null };
+export type FMModifierDefinition = { id: string; target: FMModifierTarget; operation: "add"; value: number; active?: boolean; conditions?: FMRequirement[]; note?: string; timing?: "permanent" | "temporary"; durationRounds?: number | null; elapsedRounds?: number };
+export type FMGrantedAbility = { id: string; name: string; description: string; type: string; requirements: FMRequirement[]; modifiers: FMModifierDefinition[] };
+export type FMGrantBundle = { abilities: FMGrantedAbility[]; techniques: Array<{ id: string; name: string; description: string }>; skills: Array<{ id: string; name: string; attribute: FMAttributeKey; proficiency: FMProficiency }>; aptitudes: string[]; trainings: string[]; equipment: Array<{ id: string; name: string; category: FMEquipmentItem["category"] }>; modifiers: FMModifierDefinition[]; limitations: string[] };
+export type FMRaceEvolution = { id: string; name: string; description: string; replacesBaseModifiers?: boolean; requirements: FMRequirement[]; modifiers: FMModifierDefinition[]; characteristics: string[]; abilities: string[]; grants?: FMGrantBundle };
+export type FMCharacterRace = { id: string; sourceId?: string; sourceKind: "homebrew" | "custom"; name: string; description: string; active: boolean; requirements: FMRequirement[]; modifiers: FMModifierDefinition[]; characteristics: string[]; abilities: string[]; grants?: FMGrantBundle; evolutions: FMRaceEvolution[]; selectedEvolutionId: string | null };
+export type FMCharacterMechanics = { race: FMCharacterRace | null; originGrants?: FMGrantBundle };
 export type FMAptitudeSkillEffect = { id: string; type: "skill-modifier"; skillId: string; value: number; note?: string };
 export type FMAptitudeUnlockEffect = { id: string; type: "unlock"; target: "technique" | "ability" | "training" | "vow" | "item"; referenceId: string; label: string; description?: string };
 export type FMAptitudeFeatureEffect = { id: string; type: "feature"; label: string; description: string };
@@ -85,6 +87,7 @@ export type FMTechnique = {
   powers: FMTechniquePower[];
   modifiers?: FMModifierDefinition[];
   requirements?: FMRequirement[];
+  customFields?: Array<{ id: string; label: string; value: string }>;
 };
 
 export type FMTechniquePower = {
@@ -99,6 +102,7 @@ export type FMTechniquePower = {
 
 export type FMBirthVowType = "none" | "congenital-restriction" | "celestial-restriction";
 
+export type FMVow = { id: string; name: string; description: string; conditions: string; benefits: FMModifierDefinition[]; drawbacks: FMModifierDefinition[]; requirements: FMRequirement[]; limitations: string; notes: string; approved: boolean; active: boolean };
 export type FMBirthVow = { type: FMBirthVowType; description: string; approved: boolean; locked: boolean; active?: boolean; modifiers?: FMModifierDefinition[]; requirements?: FMRequirement[] };
 
 export type FMHouseAttributeGeneration = {
@@ -115,6 +119,7 @@ export type FMHouseRules = {
   rest: { exhaustion: number; missionCount: number; lastMissionAt: number | null; lastShortRestAt: number | null; lastLongRestAt: number | null; longRestMissionCount: number | null };
   downtime: { interludes: number; craftingFocus: string; professionChecksRequired: boolean; itemReviewRequired: boolean; freeBuildOptions: Array<{ id: string; name: string; sourceSpecialization: FMSpecializationKey; prerequisites: string; interludeCost: 1 }> };
   dedicationRewarding: boolean;
+  customVows?: FMVow[];
 };
 
 export type FMSpell = {
@@ -293,7 +298,11 @@ export type FMTrainingProgress = {
   notes: string;
   modifiers?: FMModifierDefinition[];
   requirements?: FMRequirement[];
+  stageEffects?: Partial<Record<1 | 2 | 3 | 4, { description: string; modifiers: FMModifierDefinition[]; unlocks: FMAptitudeUnlockEffect[]; limitations: string }>>;
 };
+
+export type FMCustomResource = { id: string; name: string; description: string; current: number; baseMaximum: number; minimum: number; unit: string; notes: string; modifiers?: FMModifierDefinition[] };
+export type FMTransformation = { id: string; name: string; description: string; requirements: FMRequirement[]; benefits: FMModifierDefinition[]; drawbacks: FMModifierDefinition[]; durationRounds: number | null; elapsedRounds: number; conditions: string; notes: string; active: boolean };
 
 export type FMAlly = {
   id: string;
@@ -407,6 +416,7 @@ export type FMCharacterSheet = {
     clan: string;
     attributeBonuses: Partial<FMAttributes>;
     description: string;
+    grants?: FMGrantBundle;
   };
   mechanics: FMCharacterMechanics;
   technique: FMTechnique;
@@ -444,6 +454,8 @@ export type FMCharacterSheet = {
   allies: FMAlly[];
   cursedTools: FMCursedTool[];
   domainExpansion: FMDomainExpansion | null;
+  customResources?: FMCustomResource[];
+  transformations?: FMTransformation[];
 };
 
 export const createEmptyFMSheet = (): FMCharacterSheet => ({
@@ -476,6 +488,7 @@ export const createEmptyFMSheet = (): FMCharacterSheet => ({
     rest: { exhaustion: 0, missionCount: 0, lastMissionAt: null, lastShortRestAt: null, lastLongRestAt: null, longRestMissionCount: null },
     downtime: { interludes: 0, craftingFocus: "", professionChecksRequired: true, itemReviewRequired: true, freeBuildOptions: [] },
     dedicationRewarding: false,
+    customVows: [],
   },
   origin: { catalogId: "custom", clanId: "custom", name: "", clan: "", attributeBonuses: {}, description: "" },
   mechanics: { race: null },
@@ -514,4 +527,6 @@ export const createEmptyFMSheet = (): FMCharacterSheet => ({
   allies: [],
   cursedTools: [],
   domainExpansion: null,
+  customResources: [],
+  transformations: [],
 });

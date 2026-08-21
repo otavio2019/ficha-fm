@@ -132,6 +132,21 @@ export function auditCharacter(sheet: FMCharacterSheet): FMAuditResult {
   else if (!vow.approved) warn("vows", "Voto aguardando aprovação", "O Voto permanece registrado, mas seus efeitos não são aplicados até aprovação.", { focus: "house-vow" });
   else if (vow.active === false) warn("vows", "Voto inativo", "O Voto está aprovado, mas foi marcado como inativo e não aplica modificadores.", { focus: "house-vow" });
   else pass("vows", "Voto ativo e aprovado", "Os requisitos e modificadores do Voto foram incluídos no estado calculado.", { focus: "house-vow" });
+  (sheet.houseRules.customVows ?? []).forEach(customVow => {
+    if (!customVow.approved) warn("vows", `Voto próprio aguardando aprovação: ${customVow.name || "Sem nome"}`, "O Voto foi registrado, mas seus benefícios e malefícios não são aplicados até aprovação.", { focus: "house" });
+    else if (!customVow.active) warn("vows", `Voto próprio inativo: ${customVow.name || "Sem nome"}`, "O Voto está aprovado, porém inativo; nenhum efeito permanece aplicado.", { focus: "house" });
+    else pass("vows", `Voto próprio ativo: ${customVow.name || "Sem nome"}`, "Benefícios e contrapartidas foram avaliados juntos pelo motor de modificadores.", { focus: "house" });
+  });
+  (sheet.transformations ?? []).forEach(transformation => {
+    if (transformation.active && transformation.durationRounds !== null && transformation.elapsedRounds >= transformation.durationRounds) warn("attributes", `Transformação expirada: ${transformation.name || "Sem nome"}`, "A duração informada foi alcançada; os efeitos deixaram de ser aplicados até nova ativação.", { focus: "assets" });
+    else if (transformation.active) pass("attributes", `Transformação ativa: ${transformation.name || "Sem nome"}`, "Benefícios e contrapartidas temporários estão presentes na composição de valores.", { focus: "assets" });
+  });
+  (sheet.customResources ?? []).forEach(resource => {
+    const maximum = state.extraMaximums[resource.id] ?? resource.baseMaximum;
+    if (resource.current < resource.minimum || resource.current > maximum) error("equipment", `Recurso Extra fora do limite: ${resource.name || "Sem nome"}`, "O valor atual precisa ficar entre o mínimo definido e o máximo calculado pelas fontes ativas.", { currentValue: String(resource.current), expectedValue: `${resource.minimum} a ${maximum}`, focus: "assets" });
+    else pass("equipment", `Recurso Extra válido: ${resource.name || "Sem nome"}`, `${resource.current}/${maximum} ${resource.unit || "pontos"}; o máximo inclui as fontes ativas declaradas.`, { focus: "assets" });
+  });
+  pass("attributes", "PV e energia compostos", `PV máximo ${derived.healthMaximum} e energia máxima ${derived.energyMaximum} incluem base, especialização e modificadores ativos.`, { focus: "attributes" });
 
   const inventory = getInventoryLoad(sheet);
   if (inventory.impossible) error("equipment", "Carga impossível", "A carga excede o máximo absoluto calculado para a ficha.", { currentValue: `${inventory.spaces} espaços`, expectedValue: `até ${inventory.maximum}`, focus: "equipment" });

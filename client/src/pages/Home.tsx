@@ -13,6 +13,7 @@ import { ModifierEditor, RaceSelectionPanel } from "@/components/RaceSelectionPa
 import { AssetsPanelWithActions, DomainExpansionPanel } from "@/components/CampaignCapabilitiesPanels";
 import { AptitudeManagerPanel } from "@/components/AptitudeManagerPanel";
 import { CharacterAuditPanel } from "@/components/CharacterAuditPanel";
+import { SourceEffectsPanel } from "@/components/SourceEffectsPanel";
 import { FM_RULE_CITATIONS } from "@shared/fmCitations";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { BookOpen, ChevronLeft, CirclePlus, Copy, Dice5, Download, Flame, ImagePlus, Library, Loader2, LogOut, Menu, MoonStar, Plus, Printer, ScrollText, Share2, Shield, Sparkles, Swords, Trash2, WandSparkles, Wrench } from "lucide-react";
@@ -605,7 +606,7 @@ function renderTab({ tab, sheet, derived, updateSheet, addDiary, newNote, setNew
     : tab === "invocations" ? <InvocationsTab sheet={sheet} derived={derived} updateSheet={updateSheet} addDiary={addDiary} />
     : tab === "combat" ? <CombatTab sheet={sheet} derived={derived} updateSheet={updateSheet} addDiary={addDiary} />
     : tab === "equipment" ? <><EquipmentCatalogTab sheet={sheet} updateSheet={updateSheet} /><EquipmentModifierPanel sheet={sheet} updateSheet={updateSheet} addDiary={addDiary} /></>
-    : tab === "assets" ? <AssetsPanelWithActions sheet={sheet} onUpdate={updateSheet} onDiary={addDiary} />
+    : tab === "assets" ? <><AssetsPanelWithActions sheet={sheet} onUpdate={updateSheet} onDiary={addDiary} /><SourceEffectsPanel sheet={sheet} onUpdate={updateSheet} onDiary={addDiary} /></>
     : tab === "missions" ? <MissionsTab sheet={sheet} updateSheet={updateSheet} addDiary={addDiary} />
     : tab === "house" ? <HouseRulesPanel sheet={sheet} derived={derived} updateSheet={updateSheet} addDiary={addDiary} />
     : <DiaryTab sheet={sheet} derived={derived} updateSheet={updateSheet} newNote={newNote} setNewNote={setNewNote} addDiary={addDiary} />;

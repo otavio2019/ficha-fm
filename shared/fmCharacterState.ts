@@ -1,6 +1,6 @@
-import { fmAttributeKeys, type FMAttributeKey, type FMAttributes, type FMAptitudeEffect, type FMCharacterSheet, type FMModifierDefinition, type FMModifierTarget, type FMRequirement, type FMSkill } from "./fmTypes";
+import { fmAttributeKeys, type FMAttributeKey, type FMAttributes, type FMAptitudeEffect, type FMCharacterSheet, type FMGrantBundle, type FMModifierDefinition, type FMModifierTarget, type FMRequirement, type FMSkill } from "./fmTypes";
 
-export type FMModifierSourceType = "permanent" | "origin" | "race" | "evolution" | "training" | "aptitude" | "equipment" | "cursed-tool" | "vow" | "technique" | "domain" | "invocation";
+export type FMModifierSourceType = "permanent" | "origin" | "race" | "evolution" | "training" | "aptitude" | "equipment" | "cursed-tool" | "vow" | "custom-vow" | "technique" | "domain" | "invocation" | "transformation" | "custom-resource";
 export type FMModifierSource = { type: FMModifierSourceType; id: string; name: string; enabled: boolean; requirements: FMRequirement[]; modifiers: FMModifierDefinition[]; effects: FMAptitudeEffect[] };
 export type FMAppliedModifier = { id: string; sourceId: string; sourceName: string; sourceType: FMModifierSourceType; target: FMModifierTarget; value: number; note: string };
 export type FMAppliedSkillEffect = { id: string; sourceId: string; sourceName: string; sourceType: FMModifierSourceType; skillId: string; value: number; note: string };
@@ -13,6 +13,8 @@ export type FMCharacterState = {
   attributeBreakdown: Record<FMAttributeKey, FMValueBreakdown>;
   derivedModifiers: Record<Exclude<FMModifierTarget, FMAttributeKey>, number>;
   derivedBreakdown: Record<Exclude<FMModifierTarget, FMAttributeKey>, FMValueBreakdown>;
+  extraMaximums: Record<string, number>;
+  extraBreakdown: Record<string, FMValueBreakdown>;
   skillModifiers: Record<string, number>;
   skillBreakdown: Record<string, FMValueBreakdown>;
   appliedModifiers: FMAppliedModifier[];
@@ -24,13 +26,19 @@ export type FMCharacterState = {
 
 const derivedTargets = ["healthMaximum", "energyMaximum", "attention", "defense", "initiative", "movement", "techniqueDc"] as const;
 
-export const FM_MODIFIER_TARGET_LABELS: Record<FMModifierTarget, string> = {
+export const FM_MODIFIER_TARGET_LABELS: Record<string, string> = {
   strength: "Força", dexterity: "Destreza", constitution: "Constituição", intelligence: "Inteligência", wisdom: "Sabedoria", presence: "Presença",
   healthMaximum: "PV máximo", energyMaximum: "Energia máxima", attention: "Atenção", defense: "Defesa", initiative: "Iniciativa", movement: "Deslocamento", techniqueDc: "CD da técnica",
 };
 
 const source = (type: FMModifierSourceType, id: string, name: string, enabled: boolean, modifiers: FMModifierDefinition[] | undefined, requirements: FMRequirement[] | undefined = [], effects: FMAptitudeEffect[] | undefined = []): FMModifierSource => ({ type, id, name, enabled, modifiers: modifiers ?? [], requirements: requirements ?? [], effects: effects ?? [] });
 const matchesSkill = (skill: Pick<FMSkill, "id" | "catalogId" | "name">, reference: string) => skill.id === reference || skill.catalogId === reference || skill.name === reference;
+const grantEffects = (grants: FMGrantBundle | undefined): FMAptitudeEffect[] => [
+  ...(grants?.abilities ?? []).map(ability => ({ id: `ability:${ability.id}`, type: "feature" as const, label: ability.name, description: ability.description })),
+  ...(grants?.techniques ?? []).map(technique => ({ id: `technique:${technique.id}`, type: "unlock" as const, target: "technique" as const, referenceId: technique.id, label: technique.name, description: technique.description })),
+  ...(grants?.aptitudes ?? []).map(aptitudeId => ({ id: `aptitude:${aptitudeId}`, type: "unlock" as const, target: "ability" as const, referenceId: aptitudeId, label: aptitudeId, description: "Aptidão concedida pela fonte ativa." })),
+  ...(grants?.trainings ?? []).map(trainingId => ({ id: `training:${trainingId}`, type: "unlock" as const, target: "training" as const, referenceId: trainingId, label: trainingId, description: "Treinamento concedido pela fonte ativa." })),
+];
 
 function addAttributeModifiers(attributes: FMAttributes, modifiers: FMModifierDefinition[] | undefined) {
   modifiers?.forEach(modifier => { if (modifier.active !== false && fmAttributeKeys.includes(modifier.target as FMAttributeKey)) attributes[modifier.target as FMAttributeKey] += modifier.value; });
@@ -81,10 +89,11 @@ export function getCharacterModifierSources(sheet: FMCharacterSheet): FMModifier
   const sources: FMModifierSource[] = [];
   fmAttributeKeys.forEach(attribute => sources.push(source("permanent", `permanent:${attribute}`, "Bônus permanente", true, [{ id: `permanent:${attribute}`, target: attribute, operation: "add", value: sheet.attributes.permanentBonuses[attribute], note: "Bônus permanente declarado na ficha." }])));
   const originName = sheet.origin.clan || sheet.origin.name || "Origem";
-  fmAttributeKeys.forEach(attribute => sources.push(source("origin", `origin:${attribute}`, originName, true, [{ id: `origin:${attribute}`, target: attribute, operation: "add", value: sheet.origin.attributeBonuses[attribute] ?? 0, note: "Bônus de atributo da origem." }])));
+  fmAttributeKeys.forEach(attribute => sources.push(source("origin", `origin:${attribute}`, originName, true, [{ id: `origin:${attribute}`, target: attribute, operation: "add", value: sheet.origin.attributeBonuses[attribute] ?? 0, note: "Bônus de atributo da origem." }, ...((sheet.origin.grants?.modifiers ?? []).filter(modifier => modifier.target === attribute))], [], grantEffects(sheet.origin.grants))));
+  if (sheet.origin.grants?.modifiers.some(modifier => !fmAttributeKeys.includes(modifier.target as FMAttributeKey))) sources.push(source("origin", "origin:grants", originName, true, sheet.origin.grants.modifiers.filter(modifier => !fmAttributeKeys.includes(modifier.target as FMAttributeKey)), [], grantEffects(sheet.origin.grants)));
   const race = sheet.mechanics.race;
-  if (race) { const evolution = race.evolutions.find(item => item.id === race.selectedEvolutionId); if (!evolution || evolution.replacesBaseModifiers === false) sources.push(source("race", race.id, race.name, race.active, race.modifiers, race.requirements)); if (evolution) sources.push(source("evolution", evolution.id, evolution.name, race.active, evolution.modifiers, [...race.requirements, ...evolution.requirements])); }
-  sheet.training.forEach(training => sources.push(source("training", training.homebrewId ?? training.trackId, training.label ?? training.trackId, training.stage > 0, training.modifiers, training.requirements)));
+  if (race) { const evolution = race.evolutions.find(item => item.id === race.selectedEvolutionId); if (!evolution || evolution.replacesBaseModifiers === false) sources.push(source("race", race.id, race.name, race.active, [...race.modifiers, ...(race.grants?.modifiers ?? [])], race.requirements, grantEffects(race.grants))); if (evolution) sources.push(source("evolution", evolution.id, evolution.name, race.active, [...evolution.modifiers, ...(evolution.grants?.modifiers ?? [])], [...race.requirements, ...evolution.requirements], grantEffects(evolution.grants))); }
+  sheet.training.forEach(training => { const stageEffects = Object.entries(training.stageEffects ?? {}).filter(([stage]) => Number(stage) <= training.stage).map(([, effect]) => effect!); sources.push(source("training", training.homebrewId ?? training.trackId, training.label ?? training.trackId, training.stage > 0, [...(training.modifiers ?? []), ...stageEffects.flatMap(effect => effect.modifiers)], training.requirements, stageEffects.flatMap(effect => effect.unlocks))); });
   sheet.aptitudes.forEach(aptitude => {
     const evolution = aptitude.evolutions?.find(item => item.id === aptitude.selectedEvolutionId);
     const enabled = aptitude.approved || !aptitude.homebrewId;
@@ -95,9 +104,12 @@ export function getCharacterModifierSources(sheet: FMCharacterSheet): FMModifier
   sheet.cursedTools.forEach(tool => sources.push(source("cursed-tool", tool.id, tool.name, Boolean(tool.approved && tool.equipped), tool.modifiers, tool.mechanicalRequirements)));
   const vow = sheet.houseRules.birthVow;
   sources.push(source("vow", `birth-vow:${vow.type}`, "Voto de nascimento", Boolean(vow.type !== "none" && vow.approved && vow.active !== false), vow.modifiers, vow.requirements));
+  (sheet.houseRules.customVows ?? []).forEach(vow => sources.push(source("custom-vow", vow.id, vow.name || "Voto próprio", Boolean(vow.approved && vow.active), [...vow.benefits, ...vow.drawbacks], vow.requirements)));
   sources.push(source("technique", sheet.techniqueLibraryId ?? "sheet-technique", sheet.technique.name || "Técnica", Boolean(sheet.technique.name.trim()), sheet.technique.modifiers, sheet.technique.requirements));
   if (sheet.domainExpansion) sources.push(source("domain", "domain-expansion", sheet.domainExpansion.name || "Expansão de Domínio", Boolean(sheet.domainExpansion.approved && sheet.domainExpansion.active), sheet.domainExpansion.modifiers, sheet.domainExpansion.requirements));
   sheet.invocations.forEach(invocation => sources.push(source("invocation", invocation.id, invocation.name, invocation.active, invocation.modifiers, invocation.requirements)));
+  (sheet.transformations ?? []).forEach(transformation => sources.push(source("transformation", transformation.id, transformation.name || "Transformação", Boolean(transformation.active && (transformation.durationRounds === null || transformation.elapsedRounds < transformation.durationRounds)), [...transformation.benefits, ...transformation.drawbacks], transformation.requirements)));
+  (sheet.customResources ?? []).forEach(resource => sources.push(source("custom-resource", resource.id, resource.name || "Recurso Extra", true, resource.modifiers)));
   return sources;
 }
 
@@ -106,6 +118,8 @@ export function calculateCharacterState(sheet: FMCharacterSheet): FMCharacterSta
   const attributeBreakdown = Object.fromEntries(fmAttributeKeys.map(attribute => [attribute, { base: sheet.attributes.base[attribute], entries: [], final: sheet.attributes.base[attribute] }])) as unknown as Record<FMAttributeKey, FMValueBreakdown>;
   const derivedModifiers = Object.fromEntries(derivedTargets.map(target => [target, 0])) as FMCharacterState["derivedModifiers"];
   const derivedBreakdown = Object.fromEntries(derivedTargets.map(target => [target, { base: 0, entries: [], final: 0 }])) as unknown as FMCharacterState["derivedBreakdown"];
+  const extraMaximums = Object.fromEntries((sheet.customResources ?? []).map(resource => [resource.id, resource.baseMaximum])) as Record<string, number>;
+  const extraBreakdown = Object.fromEntries((sheet.customResources ?? []).map(resource => [resource.id, { base: resource.baseMaximum, entries: [], final: resource.baseMaximum }])) as Record<string, FMValueBreakdown>;
   const skillModifiers: Record<string, number> = {};
   const skillBreakdown: Record<string, FMValueBreakdown> = {};
   const appliedModifiers: FMAppliedModifier[] = [];
@@ -123,6 +137,7 @@ export function calculateCharacterState(sheet: FMCharacterSheet): FMCharacterSta
       const applied: FMAppliedModifier = { id: modifier.id, sourceId: item.id, sourceName: item.name, sourceType: item.type, target: modifier.target, value: modifier.value, note: modifier.note ?? "" };
       appliedModifiers.push(applied);
       if (fmAttributeKeys.includes(modifier.target as FMAttributeKey)) { const attribute = modifier.target as FMAttributeKey; attributes[attribute] += modifier.value; (attributeBreakdown[attribute].entries as FMAppliedModifier[]).push(applied); attributeBreakdown[attribute].final = attributes[attribute]; }
+      else if (modifier.target.startsWith("extra:")) { const resourceId = modifier.target.slice("extra:".length); const breakdown = extraBreakdown[resourceId]; if (breakdown) { extraMaximums[resourceId] = (extraMaximums[resourceId] ?? 0) + modifier.value; (breakdown.entries as FMAppliedModifier[]).push(applied); breakdown.final = extraMaximums[resourceId]; } }
       else { const target = modifier.target as keyof typeof derivedModifiers; derivedModifiers[target] += modifier.value; (derivedBreakdown[target].entries as FMAppliedModifier[]).push(applied); derivedBreakdown[target].final = derivedModifiers[target]; }
     }
     for (const effect of item.effects) {
@@ -131,7 +146,7 @@ export function calculateCharacterState(sheet: FMCharacterSheet): FMCharacterSta
       if (effect.type === "feature") features.push({ id: effect.id, sourceId: item.id, sourceName: item.name, label: effect.label, description: effect.description });
     }
   }
-  return { attributes, attributeBreakdown, derivedModifiers, derivedBreakdown, skillModifiers, skillBreakdown, appliedModifiers, appliedSkillEffects, unlocks, features, requirements };
+  return { attributes, attributeBreakdown, derivedModifiers, derivedBreakdown, extraMaximums, extraBreakdown, skillModifiers, skillBreakdown, appliedModifiers, appliedSkillEffects, unlocks, features, requirements };
 }
 
 export function getSkillModifierFromState(state: FMCharacterState, skill: Pick<FMSkill, "id">) { return state.skillModifiers[skill.id] ?? 0; }
