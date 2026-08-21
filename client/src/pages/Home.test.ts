@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { hydrateSheet } from "./Home";
+import { hydrateSheet } from "@shared/fmSheetHydration";
 
 describe("hidratação de fichas legadas", () => {
   it("adiciona valores seguros das Regras da Casa a uma ficha salva sem esse bloco", () => {
