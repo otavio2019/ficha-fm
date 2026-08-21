@@ -230,3 +230,7 @@
 - [x] Completar PV máximo e recurso energético dinâmicos por base e fontes ativas, com decomposição rastreável.
 - [x] Exibir composição dos valores, fontes e efeitos nas áreas relevantes da ficha e na Auditoria.
 - [x] Validar migrações, permissões, compatibilidade, testes, responsividade e sincronizar a versão concluída no GitHub.
+- [x] Auditar criação, atualização, recarga e normalização de fichas, priorizando falhas de salvamento.
+- [x] Corrigir os contratos e a normalização de persistência sem descartar campos estruturados recentes.
+- [x] Cobrir em testes os fluxos de salvamento corrigidos, incluindo dados legados e campos opcionais.
+- [x] Validar salvamento e recarga em interface, executar tipagem/build e publicar a correção sincronizada.

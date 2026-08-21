@@ -101,6 +101,73 @@ function validateMechanicSource(value: unknown, path: (string | number)[], conte
   const requirements = Array.isArray(source.requirements) ? source.requirements : source.mechanicalRequirements;
   validateMechanicRequirements(requirements, [...path, source.mechanicalRequirements !== undefined ? "mechanicalRequirements" : "requirements"], context);
 }
+function validateStringList(value: unknown, path: (string | number)[], context: z.RefinementCtx, label: string, maximum = 30) {
+  if (!Array.isArray(value) || value.length > maximum || value.some(item => typeof item !== "string" || item.length > 4000)) context.addIssue({ code: "custom", path, message: `${label} deve ser uma lista de até ${maximum} textos válidos.` });
+}
+function validateGrantBundle(value: unknown, path: (string | number)[], context: z.RefinementCtx) {
+  if (value === undefined) return;
+  const grants = asRecord(value);
+  if (!grants) { context.addIssue({ code: "custom", path, message: "As concessões precisam formar um bloco estruturado." }); return; }
+  const checkEntries = (key: "abilities" | "techniques" | "skills" | "equipment", validator: (entry: Record<string, unknown>, index: number) => void) => {
+    const entries = grants[key];
+    if (!Array.isArray(entries) || entries.length > 30) { context.addIssue({ code: "custom", path: [...path, key], message: `${key} deve conter até 30 concessões.` }); return; }
+    entries.forEach((entry, index) => { const item = asRecord(entry); if (!item) context.addIssue({ code: "custom", path: [...path, key, index], message: "Concessão inválida." }); else validator(item, index); });
+  };
+  checkEntries("abilities", (ability, index) => {
+    if (typeof ability.id !== "string" || !ability.id.trim() || typeof ability.name !== "string" || !ability.name.trim() || typeof ability.description !== "string" || typeof ability.type !== "string") context.addIssue({ code: "custom", path: [...path, "abilities", index], message: "Habilidade concedida inválida." });
+    validateMechanicRequirements(ability.requirements, [...path, "abilities", index, "requirements"], context);
+    validateMechanicModifiers(ability.modifiers, [...path, "abilities", index, "modifiers"], context);
+  });
+  checkEntries("techniques", (technique, index) => { if (typeof technique.id !== "string" || !technique.id.trim() || typeof technique.name !== "string" || !technique.name.trim() || typeof technique.description !== "string") context.addIssue({ code: "custom", path: [...path, "techniques", index], message: "Técnica concedida inválida." }); });
+  checkEntries("skills", (skill, index) => { if (typeof skill.id !== "string" || !skill.id.trim() || typeof skill.name !== "string" || !skill.name.trim() || typeof skill.attribute !== "string" || !fmAttributeKeys.includes(skill.attribute as typeof fmAttributeKeys[number]) || !validSkillProficiencies.has(String(skill.proficiency))) context.addIssue({ code: "custom", path: [...path, "skills", index], message: "Perícia concedida inválida." }); });
+  checkEntries("equipment", (item, index) => { if (typeof item.id !== "string" || !item.id.trim() || typeof item.name !== "string" || !item.name.trim() || typeof item.category !== "string") context.addIssue({ code: "custom", path: [...path, "equipment", index], message: "Item concedido inválido." }); });
+  validateStringList(grants.aptitudes, [...path, "aptitudes"], context, "Aptidões concedidas");
+  validateStringList(grants.trainings, [...path, "trainings"], context, "Treinamentos concedidos");
+  validateStringList(grants.limitations, [...path, "limitations"], context, "Limitações concedidas");
+  validateMechanicModifiers(grants.modifiers, [...path, "modifiers"], context);
+}
+function validateCustomVows(value: unknown, path: (string | number)[], context: z.RefinementCtx) {
+  if (value === undefined) return;
+  if (!Array.isArray(value) || value.length > 30) { context.addIssue({ code: "custom", path, message: "Votos próprios devem ser uma lista de até 30 entradas." }); return; }
+  value.forEach((entry, index) => {
+    const vow = asRecord(entry);
+    if (!vow || typeof vow.id !== "string" || !vow.id.trim() || typeof vow.name !== "string" || typeof vow.description !== "string" || typeof vow.conditions !== "string" || typeof vow.limitations !== "string" || typeof vow.notes !== "string" || typeof vow.approved !== "boolean" || typeof vow.active !== "boolean") context.addIssue({ code: "custom", path: [...path, index], message: "Voto próprio inválido." });
+    validateMechanicRequirements(vow?.requirements, [...path, index, "requirements"], context);
+    validateMechanicModifiers(vow?.benefits, [...path, index, "benefits"], context);
+    validateMechanicModifiers(vow?.drawbacks, [...path, index, "drawbacks"], context);
+  });
+}
+function validateCustomResources(value: unknown, path: (string | number)[], context: z.RefinementCtx) {
+  if (value === undefined) return;
+  if (!Array.isArray(value) || value.length > 30) { context.addIssue({ code: "custom", path, message: "Recursos Extras devem ser uma lista de até 30 entradas." }); return; }
+  value.forEach((entry, index) => {
+    const resource = asRecord(entry);
+    if (!resource || typeof resource.id !== "string" || !resource.id.trim() || typeof resource.name !== "string" || typeof resource.description !== "string" || typeof resource.unit !== "string" || typeof resource.notes !== "string" || ![resource.current, resource.baseMaximum, resource.minimum].every(item => typeof item === "number" && Number.isFinite(item)) || Number(resource.baseMaximum) < Number(resource.minimum)) context.addIssue({ code: "custom", path: [...path, index], message: "Recurso Extra inválido; o máximo-base não pode ser menor que o mínimo." });
+    validateMechanicModifiers(resource?.modifiers, [...path, index, "modifiers"], context);
+  });
+}
+function validateTransformations(value: unknown, path: (string | number)[], context: z.RefinementCtx) {
+  if (value === undefined) return;
+  if (!Array.isArray(value) || value.length > 30) { context.addIssue({ code: "custom", path, message: "Transformações devem ser uma lista de até 30 entradas." }); return; }
+  value.forEach((entry, index) => {
+    const transformation = asRecord(entry);
+    if (!transformation || typeof transformation.id !== "string" || !transformation.id.trim() || typeof transformation.name !== "string" || typeof transformation.description !== "string" || typeof transformation.conditions !== "string" || typeof transformation.notes !== "string" || typeof transformation.active !== "boolean" || !Number.isInteger(transformation.elapsedRounds) || Number(transformation.elapsedRounds) < 0 || (transformation.durationRounds !== null && (!Number.isInteger(transformation.durationRounds) || Number(transformation.durationRounds) < 1))) context.addIssue({ code: "custom", path: [...path, index], message: "Transformação inválida." });
+    validateMechanicRequirements(transformation?.requirements, [...path, index, "requirements"], context);
+    validateMechanicModifiers(transformation?.benefits, [...path, index, "benefits"], context);
+    validateMechanicModifiers(transformation?.drawbacks, [...path, index, "drawbacks"], context);
+  });
+}
+function validateTrainingStageEffects(value: unknown, path: (string | number)[], context: z.RefinementCtx) {
+  if (value === undefined) return;
+  const stages = asRecord(value);
+  if (!stages || Object.keys(stages).some(key => !["1", "2", "3", "4"].includes(key))) { context.addIssue({ code: "custom", path, message: "Efeitos por etapa devem usar apenas as etapas de 1 a 4." }); return; }
+  Object.entries(stages).forEach(([stage, entry]) => {
+    const effect = asRecord(entry);
+    if (!effect || typeof effect.description !== "string" || typeof effect.limitations !== "string") context.addIssue({ code: "custom", path: [...path, stage], message: "Efeito por etapa inválido." });
+    validateMechanicModifiers(effect?.modifiers, [...path, stage, "modifiers"], context);
+    if (!Array.isArray(effect?.unlocks) || effect.unlocks.some(unlock => { const item = asRecord(unlock); return !item || item.type !== "unlock" || typeof item.id !== "string" || !item.id.trim() || typeof item.referenceId !== "string" || !item.referenceId.trim() || typeof item.label !== "string" || !item.label.trim() || !["technique", "ability", "training", "vow", "item"].includes(String(item.target)); })) context.addIssue({ code: "custom", path: [...path, stage, "unlocks"], message: "Desbloqueios por etapa inválidos." });
+  });
+}
 function validateAptitudeEffects(value: unknown, path: (string | number)[], context: z.RefinementCtx) {
   if (value === undefined) return;
   if (!Array.isArray(value) || value.length > 30) { context.addIssue({ code: "custom", path, message: "Efeitos de Aptidão devem ser uma lista de até 30 entradas." }); return; }
@@ -132,6 +199,7 @@ const characterInput = z.object({
   id: z.string().min(6).max(64),
   name: z.string().trim().min(1).max(160),
   portraitUrl: storedImageUrl.nullable().optional(),
+  clientId: z.string().uuid().optional(),
   sheet: z.record(z.string(), z.unknown()),
 }).superRefine((input, context) => {
   const skills = input.sheet.skills;
@@ -250,27 +318,34 @@ const characterInput = z.object({
   });
   const birthVow = asRecord(houseRules)?.birthVow;
   validateMechanicSource(birthVow, ["sheet", "houseRules", "birthVow"], context);
+  validateCustomVows(asRecord(houseRules)?.customVows, ["sheet", "houseRules", "customVows"], context);
   const technique = input.sheet.technique as Record<string, unknown> | undefined;
   validateMechanicSource(technique, ["sheet", "technique"], context);
   validateTechnique(technique, specialization).forEach(issue => {
     context.addIssue({ code: "custom", path: ["sheet", "technique", issue.field], message: issue.message });
   });
   const mechanics = asRecord(input.sheet.mechanics);
+  validateGrantBundle(mechanics?.originGrants, ["sheet", "mechanics", "originGrants"], context);
   const race = asRecord(mechanics?.race);
   if (race) {
     if (race.sourceKind !== "homebrew" && race.sourceKind !== "custom") context.addIssue({ code: "custom", path: ["sheet", "mechanics", "race", "sourceKind"], message: "A origem da raça mecânica é inválida." });
     if (typeof race.id !== "string" || !race.id.trim() || typeof race.name !== "string" || !race.name.trim()) context.addIssue({ code: "custom", path: ["sheet", "mechanics", "race"], message: "A raça mecânica precisa de identificador e nome." });
     validateMechanicSource(race, ["sheet", "mechanics", "race"], context);
+    validateGrantBundle(race.grants, ["sheet", "mechanics", "race", "grants"], context);
     if (race.evolutions !== undefined && !Array.isArray(race.evolutions)) context.addIssue({ code: "custom", path: ["sheet", "mechanics", "race", "evolutions"], message: "Evoluções da raça devem ser uma lista." });
     if (Array.isArray(race.evolutions)) race.evolutions.forEach((evolution, index) => {
       const item = asRecord(evolution);
       if (!item || typeof item.id !== "string" || !item.id.trim() || typeof item.name !== "string" || !item.name.trim()) context.addIssue({ code: "custom", path: ["sheet", "mechanics", "race", "evolutions", index], message: "Cada evolução precisa de identificador e nome." });
       validateMechanicSource(item, ["sheet", "mechanics", "race", "evolutions", index], context);
+      validateGrantBundle(item?.grants, ["sheet", "mechanics", "race", "evolutions", index, "grants"], context);
     });
     if (typeof race.selectedEvolutionId === "string" && Array.isArray(race.evolutions) && !race.evolutions.some(evolution => asRecord(evolution)?.id === race.selectedEvolutionId)) context.addIssue({ code: "custom", path: ["sheet", "mechanics", "race", "selectedEvolutionId"], message: "A evolução selecionada não pertence à raça atual." });
   }
   const training = input.sheet.training;
-  if (Array.isArray(training)) training.forEach((track, index) => validateMechanicSource(track, ["sheet", "training", index], context));
+  if (Array.isArray(training)) training.forEach((track, index) => {
+    validateMechanicSource(track, ["sheet", "training", index], context);
+    validateTrainingStageEffects(asRecord(track)?.stageEffects, ["sheet", "training", index, "stageEffects"], context);
+  });
   const cursedTools = input.sheet.cursedTools;
   if (Array.isArray(cursedTools)) cursedTools.forEach((tool, index) => validateMechanicSource(tool, ["sheet", "cursedTools", index], context));
   validateMechanicSource(input.sheet.domainExpansion, ["sheet", "domainExpansion"], context);
@@ -321,6 +396,7 @@ const characterInput = z.object({
     });
   }
   const origin = input.sheet.origin as Record<string, unknown> | undefined;
+  validateGrantBundle(origin?.grants, ["sheet", "origin", "grants"], context);
   if (origin?.catalogId !== undefined && (typeof origin.catalogId !== "string" || !validOriginIds.has(origin.catalogId))) {
     context.addIssue({ code: "custom", path: ["sheet", "origin", "catalogId"], message: "Origem inválida." });
   }
@@ -355,6 +431,8 @@ const characterInput = z.object({
       context.addIssue({ code: "custom", path: ["sheet", "invocations", index, "actions"], message: "Toda ação de Invocação precisa ter nome e efeito declarados." });
     }
   });
+  validateCustomResources(input.sheet.customResources, ["sheet", "customResources"], context);
+  validateTransformations(input.sheet.transformations, ["sheet", "transformations"], context);
 });
 
 const characterIdInput = z.object({ id: z.string().min(6).max(64) });
@@ -575,7 +653,8 @@ export const appRouter = router({
       if (nextVow?.locked && !existingVow?.locked && (nextVow.type === "none" || nextVow.approved !== true || typeof nextVow.description !== "string" || !nextVow.description.trim())) {
         throw new TRPCError({ code: "BAD_REQUEST", message: "Um voto só pode ser fixado após descrição e aprovação antes da campanha." });
       }
-      const saved = await saveFMCharacter({ ...input, sheet: sheetForSave, ownerId: ctx.user.id, portraitUrl: input.portraitUrl ?? null });
+      const { clientId: _clientId, ...characterInputForStorage } = input;
+      const saved = await saveFMCharacter({ ...characterInputForStorage, sheet: sheetForSave, ownerId: ctx.user.id, portraitUrl: input.portraitUrl ?? null });
       if (!saved) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Não foi possível salvar a ficha." });
       const previousAptitudes = Array.isArray(existing?.sheet.aptitudes) ? existing.sheet.aptitudes.filter((entry): entry is Record<string, unknown> => Boolean(entry && typeof entry === "object")) : [];
       const nextAptitudes = Array.isArray(sheetForSave.aptitudes) ? sheetForSave.aptitudes.filter((entry): entry is Record<string, unknown> => Boolean(entry && typeof entry === "object")) : [];
@@ -596,7 +675,7 @@ export const appRouter = router({
         for (const item of unmet) await createFMChangeHistory({ id: nanoid(22), ownerId: ctx.user.id, targetType: "character", targetId: input.id, actorName: ctx.user.name || "Sistema", eventType: "updated", detail: { category: "aptitude-requirement-unmet", aptitude: item.sourceName, requirement: item.message } });
       }
       const share = await getFMCharacterShare(input.id, ctx.user.id);
-      emitCharacterUpdated({ characterId: input.id, shareToken: share?.token, updatedAt: Date.now() });
+      emitCharacterUpdated({ characterId: input.id, shareToken: share?.token, updatedAt: Date.now(), sourceClientId: input.clientId });
       return saved;
     }),
     remove: protectedProcedure.input(characterIdInput).mutation(async ({ ctx, input }) => {

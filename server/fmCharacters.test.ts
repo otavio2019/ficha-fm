@@ -124,6 +124,35 @@ describe("biblioteca de fichas", () => {
     await expect(caller.characters.save({ id: "ficha-legada", name: "Yuta", sheet: { identity: { name: "Yuta" } } })).resolves.toMatchObject({ name: "Yuta" });
   });
 
+  it("persiste fontes estruturadas e não grava o identificador transitório do cliente", async () => {
+    const sheet = createEmptyFMSheet();
+    const grants = { abilities: [], techniques: [], skills: [], aptitudes: [], trainings: [], equipment: [], modifiers: [], limitations: [] };
+    sheet.origin.grants = grants;
+    sheet.mechanics.originGrants = grants;
+    sheet.mechanics.race = { id: "raca-salva", sourceKind: "custom", name: "Raça Salva", description: "", active: true, requirements: [], modifiers: [], characteristics: [], abilities: [], grants, evolutions: [{ id: "evo-salva", name: "Evolução Salva", description: "", requirements: [], modifiers: [], characteristics: [], abilities: [], grants }], selectedEvolutionId: "evo-salva" };
+    sheet.houseRules.customVows = [{ id: "voto-salvo", name: "Pacto", description: "", conditions: "", benefits: [], drawbacks: [], requirements: [], limitations: "", notes: "", approved: true, active: true }];
+    sheet.training = [{ trackId: "barriers", stage: 1, notes: "", stageEffects: { 1: { description: "Base", modifiers: [], unlocks: [], limitations: "" } } }];
+    sheet.customResources = [{ id: "foco", name: "Foco", description: "", current: 2, baseMaximum: 4, minimum: 0, unit: "cargas", notes: "", modifiers: [] }];
+    sheet.transformations = [{ id: "forma", name: "Forma", description: "", requirements: [], benefits: [], drawbacks: [], durationRounds: null, elapsedRounds: 0, conditions: "", notes: "", active: false }];
+    vi.mocked(getFMCharacter).mockResolvedValue(undefined);
+    vi.mocked(saveFMCharacter).mockResolvedValue({ id: "ficha-fontes", ownerId: 1, name: "Yuji", portraitUrl: null, sheet, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+
+    await expect(caller.characters.save({ id: "ficha-fontes", name: "Yuji", portraitUrl: null, clientId: "a1b2c3d4-e5f6-4789-8abc-def012345678", sheet })).resolves.toMatchObject({ id: "ficha-fontes" });
+    const stored = vi.mocked(saveFMCharacter).mock.calls[0]?.[0];
+    expect(stored?.sheet).toMatchObject({ customResources: [{ id: "foco" }], transformations: [{ id: "forma" }], houseRules: { customVows: [{ id: "voto-salvo" }] } });
+    expect(stored).not.toHaveProperty("clientId");
+  });
+
+  it("bloqueia Recurso Extra cujo máximo-base seja menor que o mínimo", async () => {
+    const sheet = createEmptyFMSheet();
+    sheet.customResources = [{ id: "recurso-invalido", name: "Foco", description: "", current: 0, baseMaximum: 1, minimum: 2, unit: "cargas", notes: "" }];
+    const caller = appRouter.createCaller(createContext(1));
+
+    await expect(caller.characters.save({ id: "ficha-recurso-invalido", name: "Yuji", sheet })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+    expect(saveFMCharacter).not.toHaveBeenCalled();
+  });
+
   it("persiste e recupera todos os campos da técnica vinculada à ficha", async () => {
     const technique = { kind: "cursed" as const, name: "Fios da Aurora", basicFunction: "Manipula fios de energia para conectar alvos e objetos.", attributeKeys: ["dexterity", "intelligence"], intrinsicBenefits: "Uma ferramenta simples essencial.", limitations: "Exige linha de visão.", requiredItems: "Carretel amaldiçoado.", reviewNotes: "Aguardando aprovação do mestre." };
     const storedSheet = { progression: { specialization: "fighter" }, technique };

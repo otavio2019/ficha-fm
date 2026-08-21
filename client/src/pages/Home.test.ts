@@ -66,4 +66,14 @@ describe("hidratação de fichas legadas", () => {
     const sheet = hydrateSheet({ aptitudes: [{ id: "apt-1", catalogId: "barriers", name: "Barreiras", group: "domain", requiredLevel: 3, cost: 1, prerequisite: "—", effect: "Cria barreiras.", approved: true }], training: [{ trackId: "barriers", stage: 2, notes: "Treino" }], allies: [{ id: "ally-1", name: "Ieiri", role: "Suporte", bond: "Médica", healthCurrent: 12, healthMaximum: 12, defense: 13, actions: [], notes: "" }], cursedTools: [{ id: "tool-1", name: "Lâmina Selada", category: "weapon", grade: "second", costTier: 2, spaces: 1, requirements: "", effect: "Corte", approved: true, enchantments: [], notes: "" }], domainExpansion: { name: "Jardim Vazio", type: "incomplete", requiredLevel: 8, energyCost: 12, barrierHealth: 30, barrierResilience: 4, guaranteedHit: false, maximumTechnique: "", effect: "Silencia", counterplay: "Domínio simples", approved: false } });
     expect(sheet).toMatchObject({ aptitudes: [{ catalogId: "barriers" }], training: [{ trackId: "barriers", stage: 2 }], allies: [{ name: "Ieiri" }], cursedTools: [{ name: "Lâmina Selada" }], domainExpansion: { name: "Jardim Vazio", type: "incomplete" } });
   });
+
+  it("preserva Votos próprios, Recursos Extras e Transformações ao recarregar", () => {
+    const sheet = hydrateSheet({
+      houseRules: { customVows: [{ id: "voto-1", name: "Pacto", description: "", conditions: "", benefits: [], drawbacks: [], requirements: [], limitations: "", notes: "", approved: true, active: true }] },
+      customResources: [{ id: "foco", name: "Foco", description: "", current: 2, baseMaximum: 4, minimum: 0, unit: "cargas", notes: "" }],
+      transformations: [{ id: "forma", name: "Forma", description: "", requirements: [], benefits: [], drawbacks: [], durationRounds: null, elapsedRounds: 0, conditions: "", notes: "", active: true }],
+      training: [{ trackId: "barriers", stage: 1, notes: "", stageEffects: { 1: { description: "Base", modifiers: [], unlocks: [], limitations: "" } } }],
+    });
+    expect(sheet).toMatchObject({ houseRules: { customVows: [{ id: "voto-1", active: true }] }, customResources: [{ id: "foco", unit: "cargas" }], transformations: [{ id: "forma", active: true }], training: [{ stageEffects: { 1: { description: "Base" } } }] });
+  });
 });

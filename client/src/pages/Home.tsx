@@ -17,7 +17,7 @@ import { SourceEffectsPanel } from "@/components/SourceEffectsPanel";
 import { FM_RULE_CITATIONS } from "@shared/fmCitations";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { BookOpen, ChevronLeft, CirclePlus, Copy, Dice5, Download, Flame, ImagePlus, Library, Loader2, LogOut, Menu, MoonStar, Plus, Printer, ScrollText, Share2, Shield, Sparkles, Swords, Trash2, WandSparkles, Wrench } from "lucide-react";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { io } from "socket.io-client";
 import { toast } from "sonner";
 import { FM_ATTRIBUTE_LABELS, FM_MULTICLASS_REQUIREMENTS, FM_SAVING_THROW_LABELS, FM_SPECIALIZATION_LABELS, canAddMulticlass, getAttackBonus, getDerivedValues, getHighestSpellLevel, getInventoryLoad, getResourceLabel, getSkillBonus, getSpellCost, getSustainCost, getTechniquePowerProgression, getSpecializationTracks, rollD20 } from "@shared/fmRules";
@@ -34,6 +34,7 @@ import { auditCharacter, formatAuditStatus } from "@shared/fmAuditEngine";
 import type { FMAuditResult, FMAuditTab } from "@shared/fmAudit";
 
 type TabId = "overview" | "attributes" | "specialization" | "skills" | "aptitudes" | "technique" | "spells" | "domain" | "invocations" | "combat" | "equipment" | "assets" | "progression" | "missions" | "house" | "diary" | "audit";
+type CharacterSavePayload = { id: string; name: string; portraitUrl: string | null; sheet: Record<string, unknown>; clientId: string };
 
 type SheetNavItem = { id: TabId; label: string; icon: typeof BookOpen };
 const navigationGroups: Array<{ label: string; items: SheetNavItem[] }> = [
@@ -71,6 +72,7 @@ export function hydrateSheet(raw: Record<string, unknown> | null | undefined): F
       actionDeclaration: { ...empty.houseRules.actionDeclaration, ...(source.houseRules?.actionDeclaration ?? {}) },
       rest: { ...empty.houseRules.rest, ...(source.houseRules?.rest ?? {}) },
       downtime: { ...empty.houseRules.downtime, ...(source.houseRules?.downtime ?? {}), freeBuildOptions: Array.isArray(source.houseRules?.downtime?.freeBuildOptions) ? source.houseRules.downtime.freeBuildOptions : [] },
+      customVows: Array.isArray(source.houseRules?.customVows) ? source.houseRules.customVows : [],
     },
     origin: { ...empty.origin, ...(source.origin ?? {}), clanId: resolveClanId(source.origin?.clanId, source.origin?.clan) },
     mechanics: {
@@ -108,6 +110,8 @@ export function hydrateSheet(raw: Record<string, unknown> | null | undefined): F
     missionRewards: Array.isArray(source.missionRewards) ? source.missionRewards : [],
     aptitudes: Array.isArray(source.aptitudes) ? source.aptitudes : [],
     training: Array.isArray(source.training) ? source.training : [],
+    customResources: Array.isArray(source.customResources) ? source.customResources : [],
+    transformations: Array.isArray(source.transformations) ? source.transformations : [],
     allies: Array.isArray(source.allies) ? source.allies : [],
     cursedTools: Array.isArray(source.cursedTools) ? source.cursedTools : [],
     domainExpansion: source.domainExpansion ?? null,
@@ -193,6 +197,16 @@ export default function Home() {
   const techniqueTargetQuery = trpc.characters.get.useQuery({ id: techniqueCharacterId ?? "sem-tecnica" }, { enabled: isAuthenticated && Boolean(techniqueCharacterId) && !previewMode });
   const sharesQuery = trpc.shares.list.useQuery(undefined, { enabled: isAuthenticated });
   const saveMutation = trpc.characters.save.useMutation({ onSuccess: () => utils.characters.list.invalidate(), onError: () => toast.error("A ficha contém dados inválidos e não foi salva.") });
+  const liveClientIdRef = useRef(crypto.randomUUID());
+  const saveQueueRef = useRef<Promise<void>>(Promise.resolve());
+  const queueCharacterSave = useCallback((payload: CharacterSavePayload) => {
+    const queued = saveQueueRef.current.then(
+      () => saveMutation.mutateAsync(payload).then(() => undefined),
+      () => saveMutation.mutateAsync(payload).then(() => undefined),
+    );
+    saveQueueRef.current = queued.catch(() => undefined);
+    return queued;
+  }, [saveMutation]);
   const uploadImageMutation = trpc.characters.uploadImage.useMutation();
   const removeMutation = trpc.characters.remove.useMutation({ onSuccess: () => utils.characters.list.invalidate() });
   const duplicateMutation = trpc.characters.duplicate.useMutation({ onSuccess: () => utils.characters.list.invalidate() });
@@ -251,7 +265,8 @@ export default function Home() {
     if (!activeCharacterId || previewMode) return;
     const socket = io({ path: "/api/live", transports: ["websocket", "polling"], withCredentials: true, auth: getLiveSocketAuth() });
     socket.on("connect", () => socket.emit("watch-character", activeCharacterId));
-    socket.on("character-updated", () => {
+    socket.on("character-updated", (event: { sourceClientId?: string }) => {
+      if (event.sourceClientId === liveClientIdRef.current) return;
       void refetchActiveCharacter();
       void refetchCharacterLibrary();
     });
@@ -261,10 +276,10 @@ export default function Home() {
   useEffect(() => {
     if (!sheet || !activeCharacterId || !isAuthenticated || previewMode || sheet.skills.some(skill => !skill.name.trim())) return;
     const timer = window.setTimeout(() => {
-      saveMutation.mutate({ id: activeCharacterId, name: sheet.identity.name.trim() || "Personagem sem nome", portraitUrl: sheet.identity.portraitUrl, sheet: sheet as unknown as Record<string, unknown> });
+      void queueCharacterSave({ id: activeCharacterId, name: sheet.identity.name.trim() || "Personagem sem nome", portraitUrl: sheet.identity.portraitUrl, sheet: sheet as unknown as Record<string, unknown>, clientId: liveClientIdRef.current }).catch(() => undefined);
     }, 700);
     return () => window.clearTimeout(timer);
-  }, [activeCharacterId, isAuthenticated, previewMode, sheet]);
+  }, [activeCharacterId, isAuthenticated, previewMode, queueCharacterSave, sheet]);
 
   const derived = useMemo(() => sheet ? getDerivedValues(sheet) : null, [sheet]);
   const updateSheet = (updater: (current: FMCharacterSheet) => FMCharacterSheet) => setSheet(current => current ? updater(current) : current);
@@ -288,7 +303,7 @@ export default function Home() {
     const newSheet = createNewSheet(name);
     const characterId = id();
     try {
-      await saveMutation.mutateAsync({ id: characterId, name, portraitUrl: null, sheet: newSheet as unknown as Record<string, unknown> });
+      await queueCharacterSave({ id: characterId, name, portraitUrl: null, sheet: newSheet as unknown as Record<string, unknown>, clientId: liveClientIdRef.current });
       setCreating(false);
       setNewCharacterName("");
       setActiveCharacterId(characterId);
@@ -365,7 +380,7 @@ export default function Home() {
       return;
     }
     try {
-      await saveMutation.mutateAsync({ id: character.id, name: nextSheet.identity.name.trim() || character.name, portraitUrl: character.portraitUrl, sheet: nextSheet as unknown as Record<string, unknown> });
+      await queueCharacterSave({ id: character.id, name: nextSheet.identity.name.trim() || character.name, portraitUrl: character.portraitUrl, sheet: nextSheet as unknown as Record<string, unknown>, clientId: liveClientIdRef.current });
       await utils.characters.get.invalidate({ id: character.id });
       await utils.characters.list.invalidate();
       toast.success(normalizedTechnique.name.trim() ? "Técnica registrada na ficha selecionada." : "Técnica removida da ficha selecionada.");

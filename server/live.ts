@@ -4,7 +4,7 @@ import { Server } from "socket.io";
 import { getFMCharacter } from "./db";
 import { sdk } from "./_core/sdk";
 
-type CharacterUpdatedEvent = { characterId: string; shareToken?: string; updatedAt: number };
+type CharacterUpdatedEvent = { characterId: string; shareToken?: string; updatedAt: number; sourceClientId?: string };
 
 let liveServer: Server | null = null;
 
@@ -42,7 +42,7 @@ export function registerLiveGateway(server: HttpServer) {
 
 export function emitCharacterUpdated(event: CharacterUpdatedEvent) {
   if (!liveServer) return;
-  const payload = { characterId: event.characterId, updatedAt: event.updatedAt };
+  const payload = { characterId: event.characterId, updatedAt: event.updatedAt, sourceClientId: event.sourceClientId };
   liveServer.to(`fm-character:${event.characterId}`).emit("character-updated", payload);
   if (event.shareToken) liveServer.to(`fm-share:${event.shareToken}`).emit("character-updated", payload);
 }

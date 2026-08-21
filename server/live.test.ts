@@ -24,18 +24,19 @@ describe("gateway de atualização ao vivo", () => {
     const address = server.address();
     if (!address || typeof address === "string") throw new Error("Endereço de teste indisponível");
 
-    const received = new Promise<{ characterId: string; shareToken?: string }>(resolve => {
+    const received = new Promise<{ characterId: string; shareToken?: string; sourceClientId?: string }>(resolve => {
       const client = io(`http://127.0.0.1:${address.port}`, { path: "/api/live", transports: ["websocket"] });
       sockets.push(client);
       client.on("connect", () => {
         client.emit("watch-share", "token-publico");
         client.on("character-updated", event => resolve(event));
-        setTimeout(() => emitCharacterUpdated({ characterId: "ficha-123", shareToken: "token-publico", updatedAt: Date.now() }), 10);
+        setTimeout(() => emitCharacterUpdated({ characterId: "ficha-123", shareToken: "token-publico", updatedAt: Date.now(), sourceClientId: "cliente-origem" }), 10);
       });
     });
 
     await expect(received).resolves.toMatchObject({ characterId: "ficha-123" });
     await expect(received).resolves.not.toHaveProperty("shareToken");
+    await expect(received).resolves.toMatchObject({ sourceClientId: "cliente-origem" });
   });
 
   it("não permite que um cliente não autenticado observe uma ficha privada", async () => {
