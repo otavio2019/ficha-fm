@@ -503,6 +503,22 @@ describe("Homebrew e revisão", () => {
     expect(createFMReview).toHaveBeenCalledWith(expect.objectContaining({ ownerId: 1, targetId: aptitude.id, field: "Custo", status: "pending" }));
   });
 
+  it("compartilha Técnica pelo link genérico e recebe revisão sem entregar edição ao visitante", async () => {
+    const techniquePayload = { ...createEmptyFMSheet().technique, name: "Caminho do Eclipse", kind: "cursed" as const, basicFunction: "Canaliza energia em marcas de sombra.", attributeKeys: ["intelligence" as const], limitations: "Pode ser dissipada por barreiras.", counterplay: "Barreiras anulam as marcas.", powers: [] };
+    vi.mocked(getFMTechnique).mockResolvedValue({ id: "tecnica-publica-1", ownerId: 1, name: techniquePayload.name, technique: techniquePayload, createdAt: new Date(), updatedAt: new Date() });
+    vi.mocked(getFMContentShare).mockResolvedValue(undefined);
+    vi.mocked(createFMContentShare).mockResolvedValue({ id: 2, ownerId: 1, targetType: "technique", targetId: "tecnica-publica-1", token: "link-tecnica-avaliacao-123", enabled: true, createdAt: new Date(), updatedAt: new Date() });
+    vi.mocked(getSharedFMContent).mockResolvedValue({ id: 2, ownerId: 1, targetType: "technique", targetId: "tecnica-publica-1", token: "link-tecnica-avaliacao-123", enabled: true, createdAt: new Date(), updatedAt: new Date() });
+    vi.mocked(createFMReview).mockResolvedValue({ id: "review-tecnica-1", ownerId: 1, targetType: "technique", targetId: "tecnica-publica-1", reviewerName: "Avaliador", reviewerUserId: null, kind: "suggestion", section: "Poderes", field: "Custo", currentValue: "10", suggestedValue: "8", reason: "O custo parece alto para o efeito.", status: "pending", ownerResponse: "", createdAt: new Date(), updatedAt: new Date() });
+    const owner = appRouter.createCaller(createContext(1));
+    const publicCaller = appRouter.createCaller({ ...createContext(1), user: null });
+
+    await expect(owner.contentShares.create({ targetType: "technique", targetId: "tecnica-publica-1" })).resolves.toMatchObject({ targetType: "technique", enabled: true });
+    await expect(publicCaller.reviews.getPublic({ token: "link-tecnica-avaliacao-123" })).resolves.toMatchObject({ targetType: "technique", name: "Caminho do Eclipse", kind: "technique" });
+    await expect(publicCaller.reviews.submit({ token: "link-tecnica-avaliacao-123", reviewerName: "Avaliador", kind: "suggestion", section: "Poderes", field: "Custo", currentValue: "10", suggestedValue: "8", reason: "O custo parece alto para o efeito." })).resolves.toMatchObject({ targetType: "technique", status: "pending" });
+    await expect(appRouter.createCaller(createContext(2)).contentShares.create({ targetType: "technique", targetId: "tecnica-publica-1" })).rejects.toMatchObject({ code: "FORBIDDEN" });
+  });
+
   it("só permite ao proprietário decidir o estado de uma sugestão", async () => {
     vi.mocked(getFMReview).mockResolvedValue({ id: "review-1", ownerId: 1, targetType: "homebrew", targetId: aptitude.id, reviewerName: "Avaliador", reviewerUserId: null, kind: "suggestion", section: "Técnica", field: "Custo", currentValue: "2 PE", suggestedValue: "1 PE", reason: "Adequar ao benefício inicial.", status: "pending", ownerResponse: "", createdAt: new Date(), updatedAt: new Date() });
     vi.mocked(updateFMReview).mockResolvedValue({ id: "review-1", ownerId: 1, targetType: "homebrew", targetId: aptitude.id, reviewerName: "Avaliador", reviewerUserId: null, kind: "suggestion", section: "Técnica", field: "Custo", currentValue: "2 PE", suggestedValue: "1 PE", reason: "Adequar ao benefício inicial.", status: "accepted", ownerResponse: "Vamos testar em mesa.", createdAt: new Date(), updatedAt: new Date() });

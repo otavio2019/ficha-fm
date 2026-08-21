@@ -67,7 +67,7 @@ export const fmHomebrews = mysqlTable("fm_homebrews", {
 export const fmContentShares = mysqlTable("fm_content_shares", {
   id: int("id").autoincrement().primaryKey(),
   ownerId: int("ownerId").notNull(),
-  targetType: mysqlEnum("targetType", ["character", "homebrew"]).notNull(),
+  targetType: mysqlEnum("targetType", ["character", "homebrew", "technique"]).notNull(),
   targetId: varchar("targetId", { length: 64 }).notNull(),
   token: varchar("token", { length: 64 }).notNull(),
   enabled: boolean("enabled").default(true).notNull(),
@@ -82,7 +82,7 @@ export const fmContentShares = mysqlTable("fm_content_shares", {
 export const fmReviews = mysqlTable("fm_reviews", {
   id: varchar("id", { length: 64 }).primaryKey(),
   ownerId: int("ownerId").notNull(),
-  targetType: mysqlEnum("targetType", ["character", "homebrew"]).notNull(),
+  targetType: mysqlEnum("targetType", ["character", "homebrew", "technique"]).notNull(),
   targetId: varchar("targetId", { length: 64 }).notNull(),
   reviewerName: varchar("reviewerName", { length: 160 }).notNull(),
   reviewerUserId: int("reviewerUserId"),
@@ -104,7 +104,7 @@ export const fmReviews = mysqlTable("fm_reviews", {
 export const fmChangeHistory = mysqlTable("fm_change_history", {
   id: varchar("id", { length: 64 }).primaryKey(),
   ownerId: int("ownerId").notNull(),
-  targetType: mysqlEnum("targetType", ["character", "homebrew"]).notNull(),
+  targetType: mysqlEnum("targetType", ["character", "homebrew", "technique"]).notNull(),
   targetId: varchar("targetId", { length: 64 }).notNull(),
   actorName: varchar("actorName", { length: 160 }).notNull(),
   eventType: mysqlEnum("eventType", ["created", "updated", "shared", "revoked", "regenerated", "suggested", "commented", "responded", "accepted", "rejected", "implemented", "deleted"]).notNull(),

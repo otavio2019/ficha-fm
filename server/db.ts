@@ -80,6 +80,7 @@ export async function saveFMTechnique(technique: InsertFMTechniqueLibraryItem) {
 export async function deleteFMTechnique(id: string, ownerId: number) {
   const db = await getDb();
   if (!db) return false;
+  await db.delete(fmContentShares).where(and(eq(fmContentShares.targetType, "technique"), eq(fmContentShares.targetId, id), eq(fmContentShares.ownerId, ownerId)));
   const result = await db.delete(fmTechniques).where(and(eq(fmTechniques.id, id), eq(fmTechniques.ownerId, ownerId)));
   return result[0].affectedRows > 0;
 }
@@ -164,14 +165,14 @@ export async function deleteFMHomebrew(id: string, ownerId: number) {
   return result[0].affectedRows > 0;
 }
 
-export async function getFMContentShare(targetType: "character" | "homebrew", targetId: string, ownerId: number) {
+export async function getFMContentShare(targetType: "character" | "homebrew" | "technique", targetId: string, ownerId: number) {
   const db = await getDb();
   if (!db) return undefined;
   const records = await db.select().from(fmContentShares).where(and(eq(fmContentShares.targetType, targetType), eq(fmContentShares.targetId, targetId), eq(fmContentShares.ownerId, ownerId))).limit(1);
   return records[0];
 }
 
-export async function createFMContentShare(input: { ownerId: number; targetType: "character" | "homebrew"; targetId: string; token: string }) {
+export async function createFMContentShare(input: { ownerId: number; targetType: "character" | "homebrew" | "technique"; targetId: string; token: string }) {
   const db = await getDb();
   if (!db) return undefined;
   await db.insert(fmContentShares).values({ ...input, enabled: true }).onDuplicateKeyUpdate({ set: { token: input.token, enabled: true, updatedAt: new Date() } });
@@ -207,7 +208,7 @@ export async function getSharedFMContent(token: string) {
   return records[0];
 }
 
-export async function listFMReviews(ownerId: number, targetType?: "character" | "homebrew", targetId?: string) {
+export async function listFMReviews(ownerId: number, targetType?: "character" | "homebrew" | "technique", targetId?: string) {
   const db = await getDb();
   if (!db) return [];
   const filters = [eq(fmReviews.ownerId, ownerId)];
@@ -239,7 +240,7 @@ export async function updateFMReview(id: string, ownerId: number, patch: { statu
   return records[0];
 }
 
-export async function listFMChangeHistory(ownerId: number, targetType?: "character" | "homebrew", targetId?: string) {
+export async function listFMChangeHistory(ownerId: number, targetType?: "character" | "homebrew" | "technique", targetId?: string) {
   const db = await getDb();
   if (!db) return [];
   const filters = [eq(fmChangeHistory.ownerId, ownerId)];

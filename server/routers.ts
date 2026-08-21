@@ -57,7 +57,7 @@ const homebrewContentInput = z.object({ description: z.string().max(8000), requi
 const homebrewInput = z.object({ id: z.string().min(6).max(64), kind: z.enum(FM_HOMEBREW_KINDS), name: z.string().trim().min(1).max(160), summary: z.string().trim().min(1).max(1000), content: homebrewContentInput }).superRefine((input, context) => validateHomebrew(input).forEach(message => context.addIssue({ code: "custom", path: ["content"], message })));
 const reviewSubmissionInput = z.object({ token: z.string().min(8).max(64), reviewerName: z.string().trim().min(1).max(160), kind: z.enum(FM_REVIEW_KINDS), section: z.string().trim().min(1).max(160), field: z.string().trim().max(160).default(""), currentValue: z.string().max(8000).default(""), suggestedValue: z.string().max(8000).default(""), reason: z.string().trim().min(1).max(8000) }).superRefine((input, context) => validateReview({ ...input, targetId: "shared" }).forEach(message => context.addIssue({ code: "custom", path: message.includes("campo específico") ? ["field"] : ["reason"], message })));
 const reviewOwnerUpdateInput = z.object({ id: z.string().min(6).max(64), status: z.enum(FM_REVIEW_STATUSES), ownerResponse: z.string().max(8000).default("") });
-const reviewTargetInput = z.object({ targetType: z.enum(["character", "homebrew"]), targetId: z.string().min(6).max(64) });
+const reviewTargetInput = z.object({ targetType: z.enum(["character", "homebrew", "technique"]), targetId: z.string().min(6).max(64) });
 const contentShareTargetInput = reviewTargetInput;
 const contentShareIdInput = z.object({ id: z.number().int().positive() });
 function validateDeclaredModifier(value: unknown, path: (string | number)[], rule: FMDeclaredModifierRule, context: z.RefinementCtx) {
@@ -460,6 +460,12 @@ export const appRouter = router({
         if (!homebrew) throw new TRPCError({ code: "NOT_FOUND", message: "Homebrew compartilhado não encontrado." });
         return { targetType: "homebrew" as const, targetId: homebrew.id, name: homebrew.name, summary: homebrew.summary, content: homebrew.content, kind: homebrew.kind };
       }
+      if (genericShare?.targetType === "technique") {
+        const technique = await getFMTechnique(genericShare.targetId);
+        if (!technique) throw new TRPCError({ code: "NOT_FOUND", message: "Técnica compartilhada não encontrada." });
+        const content = technique.technique as Record<string, unknown>;
+        return { targetType: "technique" as const, targetId: technique.id, name: technique.name, summary: typeof content.basicFunction === "string" ? content.basicFunction : "Técnica compartilhada para avaliação.", content, kind: "technique" as const };
+      }
       if (genericShare?.targetType === "character") {
         const character = await getFMCharacter(genericShare.targetId);
         if (!character) throw new TRPCError({ code: "NOT_FOUND", message: "Ficha compartilhada não encontrada." });
@@ -471,7 +477,7 @@ export const appRouter = router({
     }),
     submit: publicProcedure.input(reviewSubmissionInput).mutation(async ({ ctx, input }) => {
       const genericShare = await getSharedFMContent(input.token);
-      let targetType: "character" | "homebrew";
+      let targetType: "character" | "homebrew" | "technique";
       let targetId: string;
       let ownerId: number;
       if (genericShare) {
@@ -626,7 +632,7 @@ export const appRouter = router({
   contentShares: router({
     list: protectedProcedure.query(({ ctx }) => listFMContentShares(ctx.user.id)),
     create: protectedProcedure.input(contentShareTargetInput).mutation(async ({ ctx, input }) => {
-      const target = input.targetType === "character" ? await getFMCharacter(input.targetId) : await getFMHomebrew(input.targetId);
+      const target = input.targetType === "character" ? await getFMCharacter(input.targetId) : input.targetType === "homebrew" ? await getFMHomebrew(input.targetId) : await getFMTechnique(input.targetId);
       if (!target || target.ownerId !== ctx.user.id) throw new TRPCError({ code: "FORBIDDEN", message: "Você não pode compartilhar este conteúdo." });
       const existing = await getFMContentShare(input.targetType, input.targetId, ctx.user.id);
       const share = existing?.enabled ? existing : await createFMContentShare({ ownerId: ctx.user.id, targetType: input.targetType, targetId: input.targetId, token: nanoid(24) });

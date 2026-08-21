@@ -198,3 +198,13 @@
 - [x] Registrar no Diário aquisição, remoção, evolução e incompatibilidade sem registrar cálculos individuais.
 - [x] Cobrir cálculo, requisitos dinâmicos, evoluções, remoção reversível, compatibilidade, autorização, Homebrew e revisão com testes.
 - [x] Validar Aptidões em desktop e celular, executar tipagem/build e sincronizar a revisão concluída no GitHub.
+- [x] Auditar a biblioteca, o editor, os tipos, poderes, contentShares, reviews e páginas públicas de Técnicas atuais.
+- [x] Definir o fluxo compatível por etapas, validação contextual, estado de rascunho e indicadores de salvamento do editor.
+- [x] Reestruturar Informações e Mecânica com hierarquia visual, atributos em chips e campos narrativos amplos.
+- [x] Reorganizar Poderes em cards expansíveis com criação, edição, duplicação, remoção, requisitos e ordem preservada.
+- [x] Implementar pré-visualização reativa da Técnica durante a criação e edição, em desktop e celular.
+- [x] Integrar criação, cópia, revogação e regeneração de link ao contentShares genérico durante o fluxo do editor.
+- [x] Aprimorar a leitura pública de Técnicas e o envio de avaliações, comentários e sugestões por campo específico.
+- [x] Preservar dados existentes, validar permissões no backend e registrar eventos relevantes de Técnica e compartilhamento.
+- [x] Cobrir criação, edição, poderes, rascunho, compartilhamento, revisão, autorização e compatibilidade com testes.
+- [x] Validar o editor e a visualização compartilhada em desktop e celular, executar build e sincronizar a revisão no GitHub.
