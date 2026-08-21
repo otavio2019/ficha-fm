@@ -288,4 +288,4 @@
 - [x] Auditar logs atuais, testes, tipagem e build para identificar erros reproduzíveis da ficha.
 - [x] Corrigir falhas confirmadas sem alterar dados de personagens ou compatibilidade legada.
 - [x] Acrescentar testes de regressão para cada correção de persistência ou interface.
-- [ ] Validar a versão corrigida, salvar checkpoint e sincronizar no GitHub.
+- [x] Validar a versão corrigida, salvar checkpoint e sincronizar no GitHub.
