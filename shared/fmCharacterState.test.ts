@@ -38,4 +38,35 @@ describe("motor de estado do personagem", () => {
     expect(state.attributes.strength).toBe(12);
     expect(state.requirements).toMatchObject([{ sourceName: "Aptidão pesada", met: false }]);
   });
+
+  it("aplica efeitos de Aptidão em Perícia e desbloqueios, substituindo a forma anterior ao evoluir", () => {
+    const sheet = createEmptyFMSheet();
+    sheet.attributes.base.strength = 10;
+    sheet.skills = [{ id: "combate", name: "Combate Corpo a Corpo", attribute: "strength", proficiency: "trained", otherBonus: 0, notes: "" }];
+    sheet.aptitudes = [{
+      id: "forca-sobrenatural", catalogId: "forca-sobrenatural", name: "Força Sobrenatural", group: "special", requiredLevel: 1, cost: 1, prerequisite: "—", effect: "", approved: true,
+      modifiers: [{ id: "forca-base", target: "strength", operation: "add", value: 2 }],
+      effects: [{ id: "combate-base", type: "skill-modifier", skillId: "combate", value: 1 }, { id: "desbloqueio-base", type: "unlock", target: "ability", referenceId: "golpe-pesado", label: "Golpe pesado" }],
+      evolutions: [{ id: "nivel-2", name: "Nível 2", description: "", level: 2, requirements: [], modifiers: [{ id: "forca-nivel-2", target: "strength", operation: "add", value: 3 }], effects: [{ id: "combate-nivel-2", type: "skill-modifier", skillId: "combate", value: 2 }, { id: "traco-nivel-2", type: "feature", label: "Corpo reforçado", description: "Descrição" }], limitations: "", replacesBaseEffects: true }],
+      selectedEvolutionId: "nivel-2",
+    }];
+
+    const state = calculateCharacterState(sheet);
+    expect(state.attributes.strength).toBe(13);
+    expect(state.skillModifiers.combate).toBe(2);
+    expect(state.appliedSkillEffects).toHaveLength(1);
+    expect(state.unlocks).toHaveLength(0);
+    expect(state.features).toMatchObject([{ label: "Corpo reforçado" }]);
+  });
+
+  it("reavalia requisitos de Aptidão ao trocar a Raça e remove o efeito quando a condição deixa de existir", () => {
+    const sheet = createEmptyFMSheet();
+    sheet.attributes.base.strength = 10;
+    sheet.aptitudes = [{ id: "linhagem", catalogId: "linhagem", name: "Força da Linhagem", group: "special", requiredLevel: 1, cost: 0, prerequisite: "—", effect: "", approved: true, requirements: [{ type: "race", raceId: "rajang" }], modifiers: [{ id: "linhagem-for", target: "strength", operation: "add", value: 2 }] }];
+    expect(calculateCharacterState(sheet).attributes.strength).toBe(10);
+    sheet.mechanics.race = { id: "rajang", sourceKind: "custom", name: "Rajang", description: "", active: true, requirements: [], modifiers: [], characteristics: [], abilities: [], evolutions: [], selectedEvolutionId: null };
+    expect(calculateCharacterState(sheet).attributes.strength).toBe(12);
+    sheet.mechanics.race = null;
+    expect(calculateCharacterState(sheet).attributes.strength).toBe(10);
+  });
 });

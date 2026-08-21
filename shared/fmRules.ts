@@ -159,8 +159,8 @@ export function getResourceLabel(specialization: FMSpecializationKey, nonSorcere
   return nonSorcerer || FM_SPECIALIZATION_PROFILES[specialization].usesStamina ? "Estamina" : "Energia Amaldiçoada";
 }
 
-export function getSkillBonus(level: number, attributes: FMAttributes, attribute: FMAttributeKey, proficiency: FMProficiency, otherBonus = 0, trainingBonus = getOfficialTrainingBonus(level)) {
-  return getAttributeModifier(attributes[attribute]) + getHalfLevel(level) + getProficiencyContribution(trainingBonus, proficiency) + otherBonus;
+export function getSkillBonus(level: number, attributes: FMAttributes, attribute: FMAttributeKey, proficiency: FMProficiency, otherBonus = 0, trainingBonus = getOfficialTrainingBonus(level), calculatedBonus = 0) {
+  return getAttributeModifier(attributes[attribute]) + getHalfLevel(level) + getProficiencyContribution(trainingBonus, proficiency) + otherBonus + calculatedBonus;
 }
 
 export function getSavingThrowBonus(level: number, attributes: FMAttributes, savingThrow: FMSavingThrowKey, trained: boolean, trainingBonus = getOfficialTrainingBonus(level)) {

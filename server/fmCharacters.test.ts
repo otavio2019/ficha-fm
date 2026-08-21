@@ -215,6 +215,13 @@ describe("biblioteca de fichas", () => {
     await expect(caller.characters.save({ id: "ficha-aptidao-invalida", name: "Yuji", sheet: { progression: { level: 1, specialization: "fighter" }, aptitudes: [{ id: "apt-1", catalogId: "complete-domain", name: "Expansão de Domínio Completa", group: "domain", requiredLevel: 12, cost: 1, prerequisite: "Expansão de Domínio Incompleta", effect: "Habilita expansão completa com custo e contrajogo declarados.", approved: false }] } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
   });
 
+  it("bloqueia efeitos inválidos e evolução de Aptidão acima do nível atual", async () => {
+    const caller = appRouter.createCaller(createContext(1));
+    const base = { id: "apt-1", catalogId: "expanded-affinity", name: "Afinidade Ampliada", group: "aura", requiredLevel: 1, cost: 1, prerequisite: "—", effect: "Amplia a afinidade declarada com a própria energia.", approved: true };
+    await expect(caller.characters.save({ id: "ficha-aptidao-efeito", name: "Yuji", sheet: { progression: { level: 2, specialization: "fighter" }, aptitudes: [{ ...base, effects: [{ id: "efeito-invalido", type: "skill-modifier", skillId: "", value: 2 }] }] } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+    await expect(caller.characters.save({ id: "ficha-aptidao-evolucao", name: "Yuji", sheet: { progression: { level: 2, specialization: "fighter" }, aptitudes: [{ ...base, selectedEvolutionId: "nivel-3", evolutions: [{ id: "nivel-3", name: "Nível 3", description: "", level: 3, requirements: [], modifiers: [], effects: [], limitations: "" }] }] } })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+  });
+
   it("bloqueia selecionar poder de técnica antes do nível liberado", async () => {
     const sheet = createEmptyFMSheet();
     sheet.progression.experience = 20;

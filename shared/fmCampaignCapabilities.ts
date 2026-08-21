@@ -1,4 +1,5 @@
-import type { FMAptitudeGroup, FMCharacterSheet, FMCursedToolGrade, FMTrainingTrackKey } from "./fmTypes";
+import type { FMAptitudeDefinition, FMAptitudeEffect, FMAptitudeEvolution, FMAptitudeGroup, FMCharacterSheet, FMCursedToolGrade, FMModifierDefinition, FMRequirement, FMTrainingTrackKey } from "./fmTypes";
+import { formatRequirement, requirementIsMet } from "./fmCharacterState";
 
 export type FMAptitudeCatalogEntry = {
   id: string;
@@ -8,6 +9,12 @@ export type FMAptitudeCatalogEntry = {
   cost: number;
   prerequisite: string;
   effect: string;
+  description?: string;
+  requirements?: FMRequirement[];
+  modifiers?: FMModifierDefinition[];
+  effects?: FMAptitudeEffect[];
+  limitations?: string;
+  evolutions?: FMAptitudeEvolution[];
 };
 
 export const FM_APTITUDE_GROUPS: Array<{ id: FMAptitudeGroup; label: string }> = [
@@ -68,6 +75,18 @@ export function getAptitudeCatalogEntry(id: string) {
   return FM_APTITUDE_CATALOG.find(entry => entry.id === id);
 }
 
+export function getAptitudeDefinition(entry: FMAptitudeCatalogEntry): FMAptitudeDefinition {
+  const legacyPrerequisite = entry.prerequisite === "—" ? undefined : FM_APTITUDE_CATALOG.find(candidate => candidate.name === entry.prerequisite)?.id ?? entry.prerequisite;
+  return {
+    description: entry.description ?? entry.effect,
+    requirements: entry.requirements ?? [{ type: "level-min", minimum: entry.requiredLevel }, ...(legacyPrerequisite ? [{ type: "aptitude", aptitudeId: legacyPrerequisite } as const] : [])],
+    modifiers: entry.modifiers ?? [],
+    effects: entry.effects ?? [],
+    limitations: entry.limitations ?? "",
+    evolutions: entry.evolutions ?? [],
+  };
+}
+
 export function getAptitudePointSummary(sheet: Pick<FMCharacterSheet, "progression" | "aptitudes">) {
   const level = Math.max(1, Math.min(30, Math.floor(sheet.progression.level)));
   const total = Math.floor(level / 2) + Math.floor(level / 10);
@@ -75,10 +94,19 @@ export function getAptitudePointSummary(sheet: Pick<FMCharacterSheet, "progressi
   return { total, spent, available: Math.max(0, total - spent) };
 }
 
-export function canLearnAptitude(sheet: Pick<FMCharacterSheet, "progression" | "aptitudes">, catalogId: string) {
+export type FMAptitudeEligibility = { allowed: boolean; reasons: string[]; definition: FMAptitudeDefinition | null };
+export function getAptitudeEligibility(sheet: Pick<FMCharacterSheet, "progression" | "aptitudes" | "attributes" | "origin" | "mechanics" | "skills" | "training" | "identity" | "technique" | "techniqueLibraryId" | "houseRules" | "equipment" | "cursedTools">, catalogId: string): FMAptitudeEligibility {
   const aptitude = getAptitudeCatalogEntry(catalogId);
-  const hasPrerequisite = aptitude?.prerequisite === "—" || sheet.aptitudes.some(item => item.name === aptitude?.prerequisite);
-  return Boolean(aptitude && hasPrerequisite && sheet.progression.level >= aptitude.requiredLevel && !sheet.aptitudes.some(item => item.catalogId === catalogId) && getAptitudePointSummary(sheet).available >= aptitude.cost);
+  if (!aptitude) return { allowed: false, reasons: ["A Aptidão não pertence ao catálogo oficial."], definition: null };
+  const definition = getAptitudeDefinition(aptitude);
+  const reasons = definition.requirements.filter(requirement => !requirementIsMet(sheet as FMCharacterSheet, requirement)).map(formatRequirement);
+  if (sheet.aptitudes.some(item => item.catalogId === catalogId)) reasons.push("Esta Aptidão já foi escolhida.");
+  if (getAptitudePointSummary(sheet).available < aptitude.cost) reasons.push(`Requer ${aptitude.cost} ponto(s) de Aptidão disponível(is).`);
+  return { allowed: reasons.length === 0, reasons, definition };
+}
+
+export function canLearnAptitude(sheet: Pick<FMCharacterSheet, "progression" | "aptitudes">, catalogId: string) {
+  return getAptitudeEligibility(sheet as FMCharacterSheet, catalogId).allowed;
 }
 
 export function getTrainingFocusSummary(sheet: Pick<FMCharacterSheet, "houseRules" | "training">) {

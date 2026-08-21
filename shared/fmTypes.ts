@@ -18,11 +18,24 @@ export type FMRequirement =
   | { type: "aptitude"; aptitudeId: string }
   | { type: "training"; trainingId: string }
   | { type: "race"; raceId: string }
-  | { type: "origin"; originId: string };
+  | { type: "origin"; originId: string }
+  | { type: "skill-min"; skillId: string; minimum: number }
+  | { type: "grade"; grade: string }
+  | { type: "technique"; techniqueId: string }
+  | { type: "vow"; vowType: FMBirthVowType }
+  | { type: "item"; itemId: string }
+  | { type: "all"; requirements: FMRequirement[] }
+  | { type: "any"; requirements: FMRequirement[] };
 export type FMModifierDefinition = { id: string; target: FMModifierTarget; operation: "add"; value: number; active?: boolean; conditions?: FMRequirement[]; note?: string };
 export type FMRaceEvolution = { id: string; name: string; description: string; replacesBaseModifiers?: boolean; requirements: FMRequirement[]; modifiers: FMModifierDefinition[]; characteristics: string[]; abilities: string[] };
 export type FMCharacterRace = { id: string; sourceId?: string; sourceKind: "homebrew" | "custom"; name: string; description: string; active: boolean; requirements: FMRequirement[]; modifiers: FMModifierDefinition[]; characteristics: string[]; abilities: string[]; evolutions: FMRaceEvolution[]; selectedEvolutionId: string | null };
 export type FMCharacterMechanics = { race: FMCharacterRace | null };
+export type FMAptitudeSkillEffect = { id: string; type: "skill-modifier"; skillId: string; value: number; note?: string };
+export type FMAptitudeUnlockEffect = { id: string; type: "unlock"; target: "technique" | "ability" | "training" | "vow" | "item"; referenceId: string; label: string; description?: string };
+export type FMAptitudeFeatureEffect = { id: string; type: "feature"; label: string; description: string };
+export type FMAptitudeEffect = FMAptitudeSkillEffect | FMAptitudeUnlockEffect | FMAptitudeFeatureEffect;
+export type FMAptitudeEvolution = { id: string; name: string; description: string; level: number; requirements: FMRequirement[]; modifiers: FMModifierDefinition[]; effects: FMAptitudeEffect[]; limitations: string; replacesBaseEffects?: boolean };
+export type FMAptitudeDefinition = { description: string; requirements: FMRequirement[]; modifiers: FMModifierDefinition[]; effects: FMAptitudeEffect[]; limitations: string; evolutions: FMAptitudeEvolution[] };
 
 export type FMSpecializationKey =
   | "fighter"
@@ -264,6 +277,11 @@ export type FMAptitude = {
   approved: boolean;
   modifiers?: FMModifierDefinition[];
   requirements?: FMRequirement[];
+  description?: string;
+  limitations?: string;
+  effects?: FMAptitudeEffect[];
+  evolutions?: FMAptitudeEvolution[];
+  selectedEvolutionId?: string | null;
 };
 
 export type FMTrainingProgress = {

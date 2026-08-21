@@ -10,10 +10,11 @@ import { validateTechnique } from "../shared/fmTechniques";
 import { validateHouseRules } from "../shared/fmHouseRules";
 import { FM_CLAN_CATALOG, FM_ORIGIN_CATALOG, getClanCatalogEntry, getOriginAttributeAllocation, getOriginCatalogEntry } from "../shared/fmOrigins";
 import { FM_INVOCATION_GRADE_RULES } from "../shared/fmInvocations";
-import { getAptitudeCatalogEntry } from "../shared/fmCampaignCapabilities";
+import { getAptitudeCatalogEntry, getAptitudeDefinition } from "../shared/fmCampaignCapabilities";
 import { FM_HOMEBREW_KINDS, FM_REVIEW_KINDS, FM_REVIEW_STATUSES, validateHomebrew, validateReview } from "../shared/fmHomebrew";
 import { normalizeHomebrewContent } from "../shared/fmHomebrew";
-import { fmAttributeKeys } from "../shared/fmTypes";
+import { fmAttributeKeys, type FMRequirement } from "../shared/fmTypes";
+import { calculateCharacterState } from "../shared/fmCharacterState";
 import { storagePut } from "./storage";
 import { createFMChangeHistory, createFMCharacterShare, createFMContentShare, createFMReview, deleteFMCharacter, deleteFMHomebrew, deleteFMTechnique, getFMCharacter, getFMCharacterShare, getFMContentShare, getFMHomebrew, getFMReview, getFMTechnique, getSharedFMCharacter, getSharedFMContent, listFMChangeHistory, listFMCharacters, listFMCharacterShares, listFMContentShares, listFMHomebrews, listFMReviews, listFMTechniques, regenerateFMContentShare, saveFMCharacter, saveFMHomebrew, saveFMTechnique, setFMContentShareEnabled, updateFMReview } from "./db";
 import { emitCharacterUpdated } from "./live";
@@ -27,17 +28,31 @@ const validOriginIds = new Set([...FM_ORIGIN_CATALOG.map(origin => origin.id), "
 const validClanIds = new Set([...FM_CLAN_CATALOG.map(clan => clan.id), "custom"]);
 const storedImageUrl = z.union([z.string().url(), z.string().regex(/^\/manus-storage\//)]);
 const modifierTargetInput = z.enum([...fmAttributeKeys, "healthMaximum", "energyMaximum", "attention", "defense", "initiative", "movement", "techniqueDc"]);
-const requirementInput = z.discriminatedUnion("type", [
+const requirementInput: z.ZodType<FMRequirement> = z.lazy(() => z.discriminatedUnion("type", [
   z.object({ type: z.literal("attribute-min"), attribute: z.enum(fmAttributeKeys), minimum: z.number().finite() }),
   z.object({ type: z.literal("level-min"), minimum: z.number().finite() }),
   z.object({ type: z.literal("aptitude"), aptitudeId: z.string().min(1).max(160) }),
   z.object({ type: z.literal("training"), trainingId: z.string().min(1).max(160) }),
   z.object({ type: z.literal("race"), raceId: z.string().min(1).max(160) }),
   z.object({ type: z.literal("origin"), originId: z.string().min(1).max(160) }),
-]);
+  z.object({ type: z.literal("skill-min"), skillId: z.string().min(1).max(160), minimum: z.number().finite() }),
+  z.object({ type: z.literal("grade"), grade: z.string().min(1).max(160) }),
+  z.object({ type: z.literal("technique"), techniqueId: z.string().min(1).max(160) }),
+  z.object({ type: z.literal("vow"), vowType: z.enum(["none", "congenital-restriction", "celestial-restriction"]) }),
+  z.object({ type: z.literal("item"), itemId: z.string().min(1).max(160) }),
+  z.object({ type: z.literal("all"), requirements: z.array(requirementInput).min(1).max(12) }),
+  z.object({ type: z.literal("any"), requirements: z.array(requirementInput).min(1).max(12) }),
+]));
 const modifierDefinitionInput = z.object({ id: z.string().min(1).max(64), target: modifierTargetInput, operation: z.literal("add"), value: z.number().finite().min(-20).max(20), active: z.boolean().optional(), conditions: z.array(requirementInput).optional(), note: z.string().max(1000).optional() });
 const raceEvolutionInput = z.object({ id: z.string().min(1).max(64), name: z.string().trim().min(1).max(160), description: z.string().max(4000), replacesBaseModifiers: z.boolean().optional(), requirements: z.array(requirementInput).default([]), modifiers: z.array(modifierDefinitionInput).default([]), characteristics: z.array(z.string().max(1000)).default([]), abilities: z.array(z.string().max(1000)).default([]) });
-const homebrewMechanicsInput = z.object({ modifiers: z.array(modifierDefinitionInput).default([]), requirements: z.array(requirementInput).default([]), evolutions: z.array(raceEvolutionInput).default([]) }).default({ modifiers: [], requirements: [], evolutions: [] });
+const aptitudeEffectInput = z.discriminatedUnion("type", [
+  z.object({ id: z.string().min(1).max(64), type: z.literal("skill-modifier"), skillId: z.string().min(1).max(160), value: z.number().finite().min(-20).max(20), note: z.string().max(1000).optional() }),
+  z.object({ id: z.string().min(1).max(64), type: z.literal("unlock"), target: z.enum(["technique", "ability", "training", "vow", "item"]), referenceId: z.string().min(1).max(160), label: z.string().min(1).max(160), description: z.string().max(4000).optional() }),
+  z.object({ id: z.string().min(1).max(64), type: z.literal("feature"), label: z.string().min(1).max(160), description: z.string().min(1).max(4000) }),
+]);
+const aptitudeEvolutionInput = z.object({ id: z.string().min(1).max(64), name: z.string().min(1).max(160), description: z.string().max(4000), level: z.number().int().min(1).max(30), requirements: z.array(requirementInput).default([]), modifiers: z.array(modifierDefinitionInput).default([]), effects: z.array(aptitudeEffectInput).default([]), limitations: z.string().max(4000).default(""), replacesBaseEffects: z.boolean().optional() });
+const aptitudeMechanicsInput = z.object({ description: z.string().max(8000).default(""), requirements: z.array(requirementInput).default([]), modifiers: z.array(modifierDefinitionInput).default([]), effects: z.array(aptitudeEffectInput).default([]), limitations: z.string().max(4000).default(""), evolutions: z.array(aptitudeEvolutionInput).default([]) }).default({ description: "", requirements: [], modifiers: [], effects: [], limitations: "", evolutions: [] });
+const homebrewMechanicsInput = z.object({ modifiers: z.array(modifierDefinitionInput).default([]), requirements: z.array(requirementInput).default([]), evolutions: z.array(raceEvolutionInput).default([]), aptitude: aptitudeMechanicsInput }).default({ modifiers: [], requirements: [], evolutions: [], aptitude: { description: "", requirements: [], modifiers: [], effects: [], limitations: "", evolutions: [] } });
 const homebrewContentInput = z.object({ description: z.string().max(8000), requirements: z.string().max(8000), effects: z.string().max(8000), cost: z.string().max(1000), level: z.string().max(1000), notes: z.string().max(8000), fields: z.record(z.string(), z.string().max(4000)), mechanics: homebrewMechanicsInput });
 const homebrewInput = z.object({ id: z.string().min(6).max(64), kind: z.enum(FM_HOMEBREW_KINDS), name: z.string().trim().min(1).max(160), summary: z.string().trim().min(1).max(1000), content: homebrewContentInput }).superRefine((input, context) => validateHomebrew(input).forEach(message => context.addIssue({ code: "custom", path: ["content"], message })));
 const reviewSubmissionInput = z.object({ token: z.string().min(8).max(64), reviewerName: z.string().trim().min(1).max(160), kind: z.enum(FM_REVIEW_KINDS), section: z.string().trim().min(1).max(160), field: z.string().trim().max(160).default(""), currentValue: z.string().max(8000).default(""), suggestedValue: z.string().max(8000).default(""), reason: z.string().trim().min(1).max(8000) }).superRefine((input, context) => validateReview({ ...input, targetId: "shared" }).forEach(message => context.addIssue({ code: "custom", path: message.includes("campo específico") ? ["field"] : ["reason"], message })));
@@ -53,18 +68,21 @@ function validateDeclaredModifier(value: unknown, path: (string | number)[], rul
 }
 
 const mechanicModifierTargets = new Set([...fmAttributeKeys, "healthMaximum", "energyMaximum", "attention", "defense", "initiative", "movement", "techniqueDc"]);
-const mechanicRequirementTypes = new Set(["attribute-min", "level-min", "aptitude", "training", "race", "origin"]);
+const mechanicRequirementTypes = new Set(["attribute-min", "level-min", "aptitude", "training", "race", "origin", "skill-min", "grade", "technique", "vow", "item", "all", "any"]);
 const asRecord = (value: unknown): Record<string, unknown> | null => value && typeof value === "object" && !Array.isArray(value) ? value as Record<string, unknown> : null;
-function validateMechanicRequirements(value: unknown, path: (string | number)[], context: z.RefinementCtx) {
+function validateMechanicRequirements(value: unknown, path: (string | number)[], context: z.RefinementCtx, depth = 0) {
   if (value === undefined) return;
-  if (!Array.isArray(value) || value.length > 30) { context.addIssue({ code: "custom", path, message: "Requisitos mecânicos devem ser uma lista de até 30 entradas." }); return; }
+  if (!Array.isArray(value) || value.length > 30 || depth > 4) { context.addIssue({ code: "custom", path, message: "Requisitos mecânicos devem ser uma lista de até 30 entradas e quatro níveis de composição." }); return; }
   value.forEach((entry, index) => {
     const requirement = asRecord(entry);
     const type = requirement?.type;
     if (!requirement || typeof type !== "string" || !mechanicRequirementTypes.has(type)) { context.addIssue({ code: "custom", path: [...path, index], message: "Tipo de requisito mecânico inválido." }); return; }
     if (type === "attribute-min" && (typeof requirement.attribute !== "string" || !fmAttributeKeys.includes(requirement.attribute as typeof fmAttributeKeys[number]) || typeof requirement.minimum !== "number" || !Number.isFinite(requirement.minimum))) context.addIssue({ code: "custom", path: [...path, index], message: "Requisito de atributo inválido." });
     if (type === "level-min" && (typeof requirement.minimum !== "number" || !Number.isInteger(requirement.minimum) || requirement.minimum < 1 || requirement.minimum > 30)) context.addIssue({ code: "custom", path: [...path, index], message: "O nível mínimo deve ficar entre 1 e 30." });
-    if (["aptitude", "training", "race", "origin"].includes(type)) { const key = type === "aptitude" ? "aptitudeId" : type === "training" ? "trainingId" : type === "race" ? "raceId" : "originId"; if (typeof requirement[key] !== "string" || !(requirement[key] as string).trim() || (requirement[key] as string).length > 160) context.addIssue({ code: "custom", path: [...path, index, key], message: "A referência do requisito mecânico é inválida." }); }
+    if (type === "skill-min" && (typeof requirement.skillId !== "string" || !requirement.skillId.trim() || requirement.skillId.length > 160 || typeof requirement.minimum !== "number" || !Number.isFinite(requirement.minimum))) context.addIssue({ code: "custom", path: [...path, index], message: "Requisito de perícia inválido." });
+    if (["aptitude", "training", "race", "origin", "grade", "technique", "item"].includes(type)) { const key = type === "aptitude" ? "aptitudeId" : type === "training" ? "trainingId" : type === "race" ? "raceId" : type === "origin" ? "originId" : type === "grade" ? "grade" : type === "technique" ? "techniqueId" : "itemId"; if (typeof requirement[key] !== "string" || !(requirement[key] as string).trim() || (requirement[key] as string).length > 160) context.addIssue({ code: "custom", path: [...path, index, key], message: "A referência do requisito mecânico é inválida." }); }
+    if (type === "vow" && !["none", "congenital-restriction", "celestial-restriction"].includes(String(requirement.vowType))) context.addIssue({ code: "custom", path: [...path, index, "vowType"], message: "O voto exigido é inválido." });
+    if (type === "all" || type === "any") { if (!Array.isArray(requirement.requirements) || requirement.requirements.length === 0 || requirement.requirements.length > 12) context.addIssue({ code: "custom", path: [...path, index, "requirements"], message: "Um grupo de requisitos precisa ter entre uma e 12 condições." }); else validateMechanicRequirements(requirement.requirements, [...path, index, "requirements"], context, depth + 1); }
   });
 }
 function validateMechanicModifiers(value: unknown, path: (string | number)[], context: z.RefinementCtx) {
@@ -82,6 +100,32 @@ function validateMechanicSource(value: unknown, path: (string | number)[], conte
   validateMechanicModifiers(source.modifiers, [...path, "modifiers"], context);
   const requirements = Array.isArray(source.requirements) ? source.requirements : source.mechanicalRequirements;
   validateMechanicRequirements(requirements, [...path, source.mechanicalRequirements !== undefined ? "mechanicalRequirements" : "requirements"], context);
+}
+function validateAptitudeEffects(value: unknown, path: (string | number)[], context: z.RefinementCtx) {
+  if (value === undefined) return;
+  if (!Array.isArray(value) || value.length > 30) { context.addIssue({ code: "custom", path, message: "Efeitos de Aptidão devem ser uma lista de até 30 entradas." }); return; }
+  value.forEach((entry, index) => {
+    const effect = asRecord(entry);
+    if (!effect || typeof effect.id !== "string" || !effect.id.trim() || effect.id.length > 64 || typeof effect.type !== "string") { context.addIssue({ code: "custom", path: [...path, index], message: "Efeito de Aptidão inválido." }); return; }
+    if (effect.type === "skill-modifier" && (typeof effect.skillId !== "string" || !effect.skillId.trim() || effect.skillId.length > 160 || typeof effect.value !== "number" || !Number.isFinite(effect.value) || effect.value < -20 || effect.value > 20)) context.addIssue({ code: "custom", path: [...path, index], message: "Modificador de Perícia inválido." });
+    if (effect.type === "unlock" && (!["technique", "ability", "training", "vow", "item"].includes(String(effect.target)) || typeof effect.referenceId !== "string" || !effect.referenceId.trim() || typeof effect.label !== "string" || !effect.label.trim())) context.addIssue({ code: "custom", path: [...path, index], message: "Desbloqueio de Aptidão inválido." });
+    if (effect.type === "feature" && (typeof effect.label !== "string" || !effect.label.trim() || typeof effect.description !== "string" || !effect.description.trim())) context.addIssue({ code: "custom", path: [...path, index], message: "Característica de Aptidão inválida." });
+    if (!["skill-modifier", "unlock", "feature"].includes(effect.type)) context.addIssue({ code: "custom", path: [...path, index, "type"], message: "Tipo de efeito de Aptidão inválido." });
+  });
+}
+function validateAptitudeDefinition(value: unknown, path: (string | number)[], context: z.RefinementCtx) {
+  const aptitude = asRecord(value);
+  if (!aptitude) return;
+  validateMechanicSource(aptitude, path, context);
+  validateAptitudeEffects(aptitude.effects, [...path, "effects"], context);
+  if (aptitude.evolutions !== undefined && !Array.isArray(aptitude.evolutions)) { context.addIssue({ code: "custom", path: [...path, "evolutions"], message: "Evoluções de Aptidão devem ser uma lista." }); return; }
+  if (Array.isArray(aptitude.evolutions)) aptitude.evolutions.forEach((evolution, index) => {
+    const item = asRecord(evolution);
+    if (!item || typeof item.id !== "string" || !item.id.trim() || typeof item.name !== "string" || !item.name.trim() || !Number.isInteger(item.level) || Number(item.level) < 1 || Number(item.level) > 30) context.addIssue({ code: "custom", path: [...path, "evolutions", index], message: "Evolução de Aptidão inválida." });
+    validateMechanicSource(item, [...path, "evolutions", index], context);
+    validateAptitudeEffects(item?.effects, [...path, "evolutions", index, "effects"], context);
+  });
+  if (typeof aptitude.selectedEvolutionId === "string" && Array.isArray(aptitude.evolutions) && !aptitude.evolutions.some(item => asRecord(item)?.id === aptitude.selectedEvolutionId)) context.addIssue({ code: "custom", path: [...path, "selectedEvolutionId"], message: "A evolução selecionada não pertence à Aptidão." });
 }
 
 const characterInput = z.object({
@@ -174,7 +218,7 @@ const characterInput = z.object({
     let spent = 0;
     aptitudes.forEach((aptitude, index) => {
       const value = aptitude as Record<string, unknown>;
-      validateMechanicSource(value, ["sheet", "aptitudes", index], context);
+      validateAptitudeDefinition(value, ["sheet", "aptitudes", index], context);
       const catalogId = typeof value.catalogId === "string" ? value.catalogId : "";
       if (catalogId.startsWith("homebrew:")) {
         if (typeof value.homebrewId !== "string" || value.homebrewId !== catalogId.slice("homebrew:".length)) context.addIssue({ code: "custom", path: ["sheet", "aptitudes", index, "homebrewId"], message: "A referência da Aptidão Homebrew é inválida." });
@@ -188,8 +232,14 @@ const characterInput = z.object({
       }
       spent += catalog.cost;
       if (value.name !== catalog.name || value.group !== catalog.group || value.requiredLevel !== catalog.requiredLevel || value.cost !== catalog.cost || value.prerequisite !== catalog.prerequisite || value.effect !== catalog.effect) context.addIssue({ code: "custom", path: ["sheet", "aptitudes", index], message: "Os dados da aptidão devem corresponder ao catálogo oficial." });
+      const definition = getAptitudeDefinition(catalog);
+      const serialized = (entry: unknown) => JSON.stringify(entry ?? null);
+      if ((value.modifiers !== undefined && serialized(value.modifiers) !== serialized(definition.modifiers)) || (value.requirements !== undefined && serialized(value.requirements) !== serialized(definition.requirements)) || (value.effects !== undefined && serialized(value.effects) !== serialized(definition.effects)) || (value.evolutions !== undefined && serialized(value.evolutions) !== serialized(definition.evolutions)) || (value.limitations !== undefined && value.limitations !== definition.limitations)) context.addIssue({ code: "custom", path: ["sheet", "aptitudes", index], message: "Os efeitos mecânicos da Aptidão oficial devem corresponder ao catálogo." });
       if (level < catalog.requiredLevel) context.addIssue({ code: "custom", path: ["sheet", "aptitudes", index, "catalogId"], message: `${catalog.name} exige nível ${catalog.requiredLevel}.` });
       if (catalog.prerequisite !== "—" && !aptitudes.some(candidate => (candidate as Record<string, unknown>).name === catalog.prerequisite)) context.addIssue({ code: "custom", path: ["sheet", "aptitudes", index, "catalogId"], message: `${catalog.name} exige ${catalog.prerequisite}.` });
+      const selectedEvolutionId = typeof value.selectedEvolutionId === "string" ? value.selectedEvolutionId : null;
+      const selectedEvolution = Array.isArray(value.evolutions) ? value.evolutions.find(entry => asRecord(entry)?.id === selectedEvolutionId) : undefined;
+      if (selectedEvolution && Number(asRecord(selectedEvolution)?.level) > level) context.addIssue({ code: "custom", path: ["sheet", "aptitudes", index, "selectedEvolutionId"], message: "A evolução selecionada exige nível maior que o personagem atual." });
     });
     const budget = Math.floor(Math.max(1, Math.min(30, level)) / 2) + Math.floor(Math.max(1, Math.min(30, level)) / 10);
     if (spent > budget) context.addIssue({ code: "custom", path: ["sheet", "aptitudes"], message: `A ficha possui ${spent} ponto(s) de aptidão gastos, mas o nível ${level} libera apenas ${budget}.` });
@@ -490,6 +540,10 @@ export const appRouter = router({
         const requiredLevel = Math.max(1, Math.min(30, Number.parseInt(content.level, 10) || 1));
         const cost = Math.max(0, Number.parseInt(content.cost, 10) || 0);
         if (aptitude.catalogId !== `homebrew:${homebrew.id}` || aptitude.name !== homebrew.name || aptitude.group !== "special" || aptitude.requiredLevel !== requiredLevel || aptitude.cost !== cost || aptitude.prerequisite !== (content.requirements || "—") || aptitude.effect !== (content.effects || content.description)) throw new TRPCError({ code: "BAD_REQUEST", message: "Os dados da Aptidão Homebrew devem corresponder ao conteúdo salvo na central." });
+        const mechanics = content.mechanics.aptitude;
+        const expected = { description: mechanics.description || content.description, requirements: mechanics.requirements.length ? mechanics.requirements : content.mechanics.requirements, modifiers: mechanics.modifiers.length ? mechanics.modifiers : content.mechanics.modifiers, effects: mechanics.effects, limitations: mechanics.limitations || content.fields.limitations || "", evolutions: mechanics.evolutions };
+        const serialized = (entry: unknown) => JSON.stringify(entry ?? null);
+        if ((aptitude.description !== undefined && aptitude.description !== expected.description) || (aptitude.modifiers !== undefined && serialized(aptitude.modifiers) !== serialized(expected.modifiers)) || (aptitude.requirements !== undefined && serialized(aptitude.requirements) !== serialized(expected.requirements)) || (aptitude.effects !== undefined && serialized(aptitude.effects) !== serialized(expected.effects)) || (aptitude.evolutions !== undefined && serialized(aptitude.evolutions) !== serialized(expected.evolutions)) || (aptitude.limitations !== undefined && aptitude.limitations !== expected.limitations)) throw new TRPCError({ code: "BAD_REQUEST", message: "Os efeitos da Aptidão Homebrew devem corresponder ao conteúdo estruturado salvo na central." });
       }
       const customTraining = Array.isArray(input.sheet.training) ? input.sheet.training.filter((entry): entry is Record<string, unknown> => Boolean(entry && typeof entry === "object" && typeof (entry as Record<string, unknown>).trackId === "string" && String((entry as Record<string, unknown>).trackId).startsWith("homebrew:"))) : [];
       for (const training of customTraining) {
@@ -517,6 +571,24 @@ export const appRouter = router({
       }
       const saved = await saveFMCharacter({ ...input, sheet: sheetForSave, ownerId: ctx.user.id, portraitUrl: input.portraitUrl ?? null });
       if (!saved) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Não foi possível salvar a ficha." });
+      const previousAptitudes = Array.isArray(existing?.sheet.aptitudes) ? existing.sheet.aptitudes.filter((entry): entry is Record<string, unknown> => Boolean(entry && typeof entry === "object")) : [];
+      const nextAptitudes = Array.isArray(sheetForSave.aptitudes) ? sheetForSave.aptitudes.filter((entry): entry is Record<string, unknown> => Boolean(entry && typeof entry === "object")) : [];
+      for (const aptitude of nextAptitudes) {
+        const id = typeof aptitude.id === "string" ? aptitude.id : "";
+        const name = typeof aptitude.name === "string" ? aptitude.name : "Aptidão";
+        const previous = previousAptitudes.find(item => item.id === id);
+        if (!previous) await createFMChangeHistory({ id: nanoid(22), ownerId: ctx.user.id, targetType: "character", targetId: input.id, actorName: ctx.user.name || "Jogador", eventType: "updated", detail: { category: aptitude.homebrewId ? "aptitude-homebrew-added" : "aptitude-acquired", aptitudeId: id, name } });
+        else if (previous.selectedEvolutionId !== aptitude.selectedEvolutionId) await createFMChangeHistory({ id: nanoid(22), ownerId: ctx.user.id, targetType: "character", targetId: input.id, actorName: ctx.user.name || "Jogador", eventType: "updated", detail: { category: aptitude.selectedEvolutionId ? "aptitude-evolved" : "aptitude-evolution-removed", aptitudeId: id, name, evolutionId: aptitude.selectedEvolutionId ?? null } });
+      }
+      for (const aptitude of previousAptitudes) {
+        const id = typeof aptitude.id === "string" ? aptitude.id : "";
+        if (id && !nextAptitudes.some(item => item.id === id)) await createFMChangeHistory({ id: nanoid(22), ownerId: ctx.user.id, targetType: "character", targetId: input.id, actorName: ctx.user.name || "Jogador", eventType: "updated", detail: { category: "aptitude-removed", aptitudeId: id, name: typeof aptitude.name === "string" ? aptitude.name : "Aptidão" } });
+      }
+      const calculatedSheet = sheetForSave as unknown as import("../shared/fmTypes").FMCharacterSheet;
+      if (calculatedSheet.mechanics && Array.isArray(calculatedSheet.aptitudes)) {
+        const unmet = calculateCharacterState(calculatedSheet).requirements.filter(item => !item.met && nextAptitudes.some(aptitude => item.sourceId === aptitude.id || item.sourceId.startsWith(`${aptitude.id}:`)));
+        for (const item of unmet) await createFMChangeHistory({ id: nanoid(22), ownerId: ctx.user.id, targetType: "character", targetId: input.id, actorName: ctx.user.name || "Sistema", eventType: "updated", detail: { category: "aptitude-requirement-unmet", aptitude: item.sourceName, requirement: item.message } });
+      }
       const share = await getFMCharacterShare(input.id, ctx.user.id);
       emitCharacterUpdated({ characterId: input.id, shareToken: share?.token, updatedAt: Date.now() });
       return saved;

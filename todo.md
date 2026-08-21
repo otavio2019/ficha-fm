@@ -188,3 +188,13 @@
 - [x] Registrar eventos relevantes de escolha, evolução, aquisição, remoção, equipar e desequipar no histórico.
 - [x] Cobrir cálculos combinados, evoluções, remoções, recarga, autorização, compartilhamento e revisão com testes e migrações não destrutivas.
 - [x] Validar a interface do sistema de personagem em desktop e celular e sincronizar a revisão no GitHub.
+- [x] Auditar catálogos, vínculos, custos, requisitos e testes atuais de Aptidões antes de ampliar o sistema.
+- [x] Definir modelo compatível de Aptidão mecânica, níveis/evoluções, requisitos compostos, efeitos e limitações.
+- [x] Integrar efeitos de Aptidões ao motor central para atributos, perícias, recursos, derivados e desbloqueios.
+- [x] Validar no backend a aquisição, evolução e remoção de Aptidões por custo, requisitos, origem e propriedade.
+- [x] Implementar seleção visual de Aptidões com busca, prévia de efeitos, custo e motivos de bloqueio.
+- [x] Exibir Aptidões aplicadas, evolução, fontes e incompatibilidades dinâmicas na ficha e no compartilhamento.
+- [x] Conectar Aptidões Homebrew ao mesmo fluxo mecânico, de revisão e de associação à ficha.
+- [x] Registrar no Diário aquisição, remoção, evolução e incompatibilidade sem registrar cálculos individuais.
+- [x] Cobrir cálculo, requisitos dinâmicos, evoluções, remoção reversível, compatibilidade, autorização, Homebrew e revisão com testes.
+- [x] Validar Aptidões em desktop e celular, executar tipagem/build e sincronizar a revisão concluída no GitHub.
