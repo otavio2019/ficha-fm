@@ -206,6 +206,12 @@ export type FMSpecializationTrack = {
   level: number;
 };
 
+export type FMSpecializationAbilityChoice = {
+  specialization: FMSpecializationKey;
+  slotId: string;
+  abilityId: string;
+};
+
 export type FMAttack = {
   id: string;
   name: string;
@@ -395,6 +401,7 @@ export type FMCharacterSheet = {
     primarySpecialization: FMSpecializationKey | null;
     primarySpecializationLocked: boolean;
     specializationTracks: FMSpecializationTrack[];
+    specializationAbilityChoices?: FMSpecializationAbilityChoice[];
     skillTrainingAttribute: FMSkillTrainingAttribute | null;
     skillTrainingAttributeLocked: boolean;
     healthMode: "average" | "rolled";
@@ -470,6 +477,7 @@ export const createEmptyFMSheet = (): FMCharacterSheet => ({
     primarySpecialization: null,
     primarySpecializationLocked: false,
     specializationTracks: [],
+    specializationAbilityChoices: [],
     skillTrainingAttribute: null,
     skillTrainingAttributeLocked: false,
     healthMode: "average",

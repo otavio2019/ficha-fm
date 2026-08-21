@@ -242,3 +242,10 @@
 - [x] Refinar a biblioteca lateral de Técnicas, busca e comportamento responsivo desktop/tablet/celular.
 - [x] Cobrir os fluxos mantidos de Técnica, compartilhamento e avaliações com testes e inspeções visuais.
 - [x] Executar tipagem, testes e build; salvar checkpoint e sincronizar a evolução do editor no GitHub.
+- [x] Mapear os dados oficiais disponíveis de Especialização, habilidades, progressão e regras do livro sem inventar conteúdo.
+- [x] Auditar banco, contrato, normalização e logs para identificar a causa concreta de rejeições de salvamento.
+- [x] Modelar habilidades automáticas, escolhas e evoluções de Especialização de forma compatível e idempotente.
+- [x] Corrigir o fluxo de salvamento e mensagens de erro, preservando fichas antigas e validações necessárias.
+- [x] Exibir Núcleo, Configuração, Habilidades da Especialização e Multiclasse em cartões consistentes na ficha.
+- [x] Cobrir ficha nova/legada, níveis, escolhas, evoluções, ausência de duplicação e recarga com testes.
+- [x] Validar desktop, tablet e celular; executar testes, tipagem e build; publicar e sincronizar no GitHub.

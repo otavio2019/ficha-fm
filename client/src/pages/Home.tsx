@@ -27,6 +27,7 @@ import { FM_CLAN_CATALOG, FM_ORIGIN_CATALOG, getClanCatalogEntry, getOriginAttri
 import { FM_INVOCATION_GRADE_RULES, getInvocationDerived } from "@shared/fmInvocations";
 import { applyInfiniteWorldMission, getExperienceForLevel, getInfiniteWorldProgress, getMissionRewardPreview, removeInfiniteWorldMission, type InfiniteWorldMissionDifficulty, type InfiniteWorldMoneyDifficulty } from "@shared/infiniteWorlds";
 import { FM_TECHNIQUE_CREATION_CITATION, getPrimaryTechniqueAttribute, getTechniqueCopy, getTechniqueKindForSpecialization, isTechniqueReady, validateTechnique } from "@shared/fmTechniques";
+import { getSpecializationAbilityProgress, updateSpecializationAbilityChoice } from "@shared/fmSpecializationAbilities";
 import { FM_HOUSE_RULES_CITATION, getHouseRestAvailability, getMassiveDamageOutcome, rollHouseAttributeGeneration } from "@shared/fmHouseRules";
 import { applyAutomatedSpellType, createAutomatedSpell } from "@shared/fmCreationAssistant";
 import { calculateCharacterState, FM_MODIFIER_TARGET_LABELS, type FMCharacterState } from "@shared/fmCharacterState";
@@ -48,6 +49,16 @@ const tabs = navigationGroups.flatMap(group => group.items);
 const id = () => crypto.randomUUID();
 const asNumber = (value: string) => Number.isFinite(Number(value)) ? Number(value) : 0;
 
+function getSaveErrorMessage(error: unknown, fallback = "Não foi possível salvar a ficha.") {
+  const raw = error instanceof Error ? error.message : "";
+  try {
+    const parsed = JSON.parse(raw) as Array<{ message?: unknown }>;
+    const message = Array.isArray(parsed) ? parsed.find(issue => typeof issue?.message === "string")?.message : undefined;
+    if (typeof message === "string" && message.trim()) return message;
+  } catch { /* O servidor também pode devolver uma mensagem simples. */ }
+  return raw.trim() || fallback;
+}
+
 export function hydrateSheet(raw: Record<string, unknown> | null | undefined): FMCharacterSheet {
   const empty = createEmptyFMSheet();
   const source = raw as Partial<FMCharacterSheet> | undefined;
@@ -63,6 +74,7 @@ export function hydrateSheet(raw: Record<string, unknown> | null | undefined): F
       primarySpecialization: source.progression && Object.prototype.hasOwnProperty.call(source.progression, "primarySpecialization") ? source.progression.primarySpecialization : source.progression?.specialization ?? empty.progression.primarySpecialization,
       primarySpecializationLocked: source.progression && Object.prototype.hasOwnProperty.call(source.progression, "primarySpecializationLocked") ? Boolean(source.progression.primarySpecializationLocked) : Boolean(source.progression?.specialization),
       specializationTracks: Array.isArray(source.progression?.specializationTracks) ? source.progression.specializationTracks : [{ specialization: source.progression?.specialization ?? empty.progression.specialization, level: Math.max(1, source.progression?.specializationLevels ?? source.progression?.level ?? 1) }],
+      specializationAbilityChoices: Array.isArray(source.progression?.specializationAbilityChoices) ? source.progression.specializationAbilityChoices : [],
       experience: typeof source.progression?.experience === "number" ? source.progression.experience : getExperienceForLevel(typeof source.progression?.level === "number" ? source.progression.level : 1),
     },
     houseRules: {
@@ -87,7 +99,7 @@ export function hydrateSheet(raw: Record<string, unknown> | null | undefined): F
         evolutions: Array.isArray(source.mechanics.race.evolutions) ? source.mechanics.race.evolutions : [],
       } : null,
     },
-    technique: { ...empty.technique, ...(source.technique ?? {}) },
+    technique: { ...empty.technique, ...(source.technique ?? {}), kind: getTechniqueKindForSpecialization(source.progression?.specialization ?? empty.progression.specialization), powers: Array.isArray(source.technique?.powers) ? source.technique.powers : [] },
     attributes: {
       base: { ...empty.attributes.base, ...(source.attributes?.base ?? {}) },
       permanentBonuses: { ...empty.attributes.permanentBonuses, ...(source.attributes?.permanentBonuses ?? {}) },
@@ -196,7 +208,7 @@ export default function Home() {
   const activeQuery = trpc.characters.get.useQuery({ id: activeCharacterId ?? "sem-ficha" }, { enabled: isAuthenticated && Boolean(activeCharacterId) && !previewMode });
   const techniqueTargetQuery = trpc.characters.get.useQuery({ id: techniqueCharacterId ?? "sem-tecnica" }, { enabled: isAuthenticated && Boolean(techniqueCharacterId) && !previewMode });
   const sharesQuery = trpc.shares.list.useQuery(undefined, { enabled: isAuthenticated });
-  const saveMutation = trpc.characters.save.useMutation({ onSuccess: () => utils.characters.list.invalidate(), onError: () => toast.error("A ficha contém dados inválidos e não foi salva.") });
+  const saveMutation = trpc.characters.save.useMutation({ onSuccess: () => utils.characters.list.invalidate(), onError: error => toast.error(getSaveErrorMessage(error)) });
   const liveClientIdRef = useRef(crypto.randomUUID());
   const saveQueueRef = useRef<Promise<void>>(Promise.resolve());
   const queueCharacterSave = useCallback((payload: CharacterSavePayload) => {
@@ -311,9 +323,7 @@ export default function Home() {
       setSheet(newSheet);
       setTab("overview");
       toast.success("Ficha criada e vinculada à sua conta.");
-    } catch {
-      toast.error("Não foi possível criar a ficha. Tente novamente.");
-    }
+    } catch { /* A mutação já apresenta a mensagem específica devolvida pelo contrato. */ }
   };
 
   const openCharacter = (characterId: string) => {
@@ -384,9 +394,7 @@ export default function Home() {
       await utils.characters.get.invalidate({ id: character.id });
       await utils.characters.list.invalidate();
       toast.success(normalizedTechnique.name.trim() ? "Técnica registrada na ficha selecionada." : "Técnica removida da ficha selecionada.");
-    } catch {
-      toast.error("Não foi possível registrar a técnica. Revise os campos e tente novamente.");
-    }
+    } catch { /* A mutação já apresenta a mensagem específica devolvida pelo contrato. */ }
   };
 
   const saveIndependentTechnique = async (input: { id: string; name: string; technique: FMTechnique }) => {
@@ -612,7 +620,7 @@ function renderTab({ tab, sheet, derived, updateSheet, addDiary, newNote, setNew
   const content = tab === "audit" ? <CharacterAuditPanel result={auditResult} onRun={onRunAudit} onNavigate={onNavigateAudit} />
     : tab === "overview" ? <OverviewTab sheet={sheet} derived={derived} updateSheet={updateSheet} addDiary={addDiary} characterId={characterId} previewMode={previewMode} uploadImage={uploadImage} techniques={techniques} />
     : tab === "attributes" ? <AttributesTab sheet={sheet} derived={derived} updateSheet={updateSheet} />
-    : tab === "specialization" ? <SpecializationTab sheet={sheet} derived={derived} updateSheet={updateSheet} />
+    : tab === "specialization" ? <><SpecializationTab sheet={sheet} derived={derived} updateSheet={updateSheet} /><SpecializationAbilitiesPanel sheet={sheet} updateSheet={updateSheet} /></>
     : tab === "skills" ? <SkillsCatalogTab sheet={sheet} derived={derived} updateSheet={updateSheet} />
     : tab === "aptitudes" ? <AptitudeManagerPanel sheet={sheet} onUpdate={updateSheet} onDiary={addDiary} />
     : tab === "technique" ? <TechniqueProfileTab sheet={sheet} derived={derived} techniques={techniques} updateSheet={updateSheet} addDiary={addDiary} />
@@ -796,11 +804,27 @@ function InvocationsTab({ sheet, derived, updateSheet, addDiary }: { sheet: FMCh
   return <><SectionTitle eyebrow="Capacidades de controlador" title="Invocações" description="Monte Shikigamis, corpos amaldiçoados ou outras Invocações por grau, atributos, ações e características. O mestre valida conceitos e exceções." action={<Button size="sm" onClick={addInvocation} className="bg-amber-300 text-[#190d07] hover:bg-amber-200"><Plus className="mr-2 h-4 w-4" />Adicionar invocação</Button>} />{sheet.progression.specialization !== "controller" ? <Panel className="mb-4 border-amber-300/15 bg-amber-300/5 text-sm leading-6 text-stone-400">Controladores recebem Invocações iniciais e progressão própria. Outras especializações podem registrar uma Invocação somente com autorização da campanha.</Panel> : null}<div className="space-y-4">{sheet.invocations.length === 0 ? <Panel className="border-dashed text-center text-sm text-stone-500">Nenhuma Invocação registrada. Adicione uma para montar grau, atributos, ações e características.</Panel> : sheet.invocations.map(invocation => { const values = getInvocationDerived(invocation, sheet.progression.level, derived.trainingBonus); const gradeRule = FM_INVOCATION_GRADE_RULES[invocation.grade]; return <Panel key={invocation.id}><div className="flex flex-col gap-3 border-b border-violet-300/10 pb-4 lg:flex-row lg:items-end lg:justify-between"><div className="grid min-w-0 gap-3 sm:grid-cols-2"><Field label="Nome"><Input value={invocation.name} onChange={event => updateInvocation(invocation.id, current => ({ ...current, name: event.target.value }))} /></Field><Field label="Grau"><select className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground" value={invocation.grade} onChange={event => updateInvocation(invocation.id, current => ({ ...current, grade: event.target.value as FMInvocation["grade"] }))}>{Object.entries(FM_INVOCATION_GRADE_RULES).map(([grade, entry]) => <option key={grade} value={grade}>{entry.label}</option>)}</select></Field></div><div className="flex items-center gap-2"><label className="flex items-center gap-2 rounded-lg border border-violet-300/15 px-3 py-2 text-sm text-stone-300"><input type="checkbox" className="accent-amber-300" checked={invocation.active} onChange={event => { updateInvocation(invocation.id, current => ({ ...current, active: event.target.checked })); addDiary(event.target.checked ? `Invocação ativada — ${invocation.name}` : `Invocação recolhida — ${invocation.name}`, `Custo de ${values.totalSummonCost} PE.`, "combat"); }} />Em campo</label><ActionButton title="Remover invocação" onClick={() => updateSheet(current => ({ ...current, invocations: current.invocations.filter(entry => entry.id !== invocation.id) }))} className="hover:border-red-400/60 hover:text-red-200"><Trash2 className="h-4 w-4" /></ActionButton></div></div><div className="mt-4 grid gap-4 xl:grid-cols-[1.1fr_.9fr]"><div><Field label="Conceito e aparência"><Textarea value={invocation.concept} onChange={event => updateInvocation(invocation.id, current => ({ ...current, concept: event.target.value }))} placeholder="Descreva forma, função e origem da Invocação." /></Field><div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">{fmAttributeKeys.map(attribute => <Field key={attribute} label={FM_ATTRIBUTE_LABELS[attribute]}><Input type="number" min={6} max={gradeRule.attributeMaximum} value={invocation.attributes[attribute]} onChange={event => updateInvocation(invocation.id, current => ({ ...current, attributes: { ...current.attributes, [attribute]: Math.max(6, Math.min(gradeRule.attributeMaximum, asNumber(event.target.value))) } }))} /></Field>)}</div><div className="mt-4 grid gap-3 sm:grid-cols-3"><Field label="Deslocamento"><Input type="number" min={0} value={invocation.movement} onChange={event => updateInvocation(invocation.id, current => ({ ...current, movement: Math.max(0, asNumber(event.target.value)) }))} /></Field><Field label="Ataque treinado"><select className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground" value={invocation.trainedAttack} onChange={event => updateInvocation(invocation.id, current => ({ ...current, trainedAttack: event.target.value as FMInvocation["trainedAttack"] }))}><option value="melee">Corpo a corpo</option><option value="ranged">À distância</option></select></Field><Field label="TR treinado"><select className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground" value={invocation.trainedSavingThrow} onChange={event => updateInvocation(invocation.id, current => ({ ...current, trainedSavingThrow: event.target.value as FMInvocation["trainedSavingThrow"] }))}><option value="astucia">Astúcia</option><option value="fortitude">Fortitude</option><option value="reflexos">Reflexos</option><option value="vontade">Vontade</option></select></Field></div></div><div className="grid content-start gap-3"><FormulaCard label="PV" value={values.health} formula="Grau + Constituição + nível" source="Livro-base, p. 261" /><FormulaCard label="Defesa" value={values.defense} formula="Base do grau + DES + treinamento" source="Livro-base, p. 261" /><FormulaCard label="Custo ao campo" value={`${values.totalSummonCost} PE`} formula={`${values.summonCost} base + ${values.actionCost} por ações`} source="Livro-base, pp. 260 e 262" /><FormulaCard label="Pontos de atributo" value={`${values.attributeSpend}/${values.attributePoints}`} formula={`Base 8; máximo ${values.attributeMaximum}`} source="Livro-base, p. 260" /></div></div><div className="mt-4 border-t border-violet-300/10 pt-4"><div className="mb-3 flex items-center justify-between"><p className="font-display text-xs uppercase tracking-[.16em] text-amber-300/70">Ações e características · {invocation.actions.length}/{values.actionSlots} base</p><Button type="button" size="sm" variant="outline" onClick={() => updateInvocation(invocation.id, current => ({ ...current, actions: [...current.actions, { id: id(), name: "Nova ação", kind: "simple", effect: "", counterplay: "" }] }))}><Plus className="mr-2 h-4 w-4" />Adicionar</Button></div><div className="space-y-3">{invocation.actions.map(action => <div key={action.id} className="grid gap-3 rounded-xl border border-violet-300/10 bg-black/20 p-3 lg:grid-cols-[.85fr_.8fr_1.3fr_1.25fr_auto]"><Field label="Nome"><Input value={action.name} onChange={event => updateInvocation(invocation.id, current => ({ ...current, actions: current.actions.map(entry => entry.id === action.id ? { ...entry, name: event.target.value } : entry) }))} /></Field><Field label="Tipo"><select className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground" value={action.kind} onChange={event => updateInvocation(invocation.id, current => ({ ...current, actions: current.actions.map(entry => entry.id === action.id ? { ...entry, kind: event.target.value as typeof entry.kind } : entry) }))}><option value="simple">Simples</option><option value="complex">Complexa</option><option value="trait">Característica</option></select></Field><Field label="Efeito"><Input value={action.effect} onChange={event => updateInvocation(invocation.id, current => ({ ...current, actions: current.actions.map(entry => entry.id === action.id ? { ...entry, effect: event.target.value } : entry) }))} /></Field><Field label="Contrajogo"><Input value={action.counterplay} onChange={event => updateInvocation(invocation.id, current => ({ ...current, actions: current.actions.map(entry => entry.id === action.id ? { ...entry, counterplay: event.target.value } : entry) }))} placeholder="Ex.: Defesa ou TR" /></Field><ActionButton title="Remover ação" onClick={() => updateInvocation(invocation.id, current => ({ ...current, actions: current.actions.filter(entry => entry.id !== action.id) }))} className="self-end hover:border-red-400/60 hover:text-red-200"><Trash2 className="h-4 w-4" /></ActionButton></div>)}</div><Field label="Observações e aprovação do mestre" className="mt-3"><Textarea value={invocation.notes} onChange={event => updateInvocation(invocation.id, current => ({ ...current, notes: event.target.value }))} placeholder="Registre perícias treinadas, características especiais e acordos da mesa." /></Field></div></Panel>; })}</div></>;
 }
 
+function SpecializationAbilitiesPanel({ sheet, updateSheet }: { sheet: FMCharacterSheet; updateSheet: (updater: (current: FMCharacterSheet) => FMCharacterSheet) => void }) {
+  const progress = getSpecializationAbilityProgress(sheet);
+  const selectedAbilityIds = new Set((sheet.progression.specializationAbilityChoices ?? []).map(choice => choice.abilityId));
+  const chooseAbility = (specialization: FMSpecializationKey, slotId: string, abilityId: string | null) => updateSheet(current => ({
+    ...current,
+    progression: { ...current.progression, specializationAbilityChoices: updateSpecializationAbilityChoice(current.progression.specializationAbilityChoices, specialization, slotId, abilityId) },
+  }));
+  return <Panel className="mt-4"><SectionTitle eyebrow="Progressão rastreável" title="Habilidades da Especialização" description="Marcos automáticos dependem exclusivamente do núcleo e do nível. As escolhas abaixo são salvas na ficha; níveis sem catálogo detalhado permanecem indicados sem benefícios inventados." />
+    <div className="space-y-4">{progress.map(entry => <div key={entry.specialization} className="rounded-xl border border-violet-300/10 bg-black/20 p-4"><div className="flex flex-wrap items-end justify-between gap-3"><div><p className="text-xs uppercase tracking-[.14em] text-stone-500">{FM_SPECIALIZATION_LABELS[entry.specialization]}</p><h3 className="mt-1 font-display text-xl text-amber-100">Nível de núcleo {entry.level}</h3></div><span className="rounded-full border border-violet-300/15 bg-violet-950/50 px-3 py-1 text-xs text-violet-100">{entry.automatic.length} marco(s) automático(s)</span></div>
+      <div className="mt-4 grid gap-3 lg:grid-cols-2">{entry.automatic.map(ability => <details key={ability.id} className="group rounded-xl border border-violet-300/10 bg-[#120c1d]/80 p-3"><summary className="cursor-pointer list-none"><div className="flex items-center justify-between gap-3"><div><p className="font-medium text-stone-100">{ability.name}</p><p className="mt-1 text-xs text-amber-200">Nível {ability.requiredLevel}</p></div><span className="text-xs text-violet-300 group-open:text-amber-100">Detalhes</span></div></summary><p className="mt-3 border-t border-violet-300/10 pt-3 text-sm leading-6 text-stone-400">{ability.description}</p><p className="mt-2 text-xs text-stone-600">{ability.source}</p></details>)}</div>
+      {entry.choiceSlots.length ? <div className="mt-4 border-t border-violet-300/10 pt-4"><p className="font-display text-xs uppercase tracking-[.16em] text-amber-300/70">Escolhas liberadas</p><div className="mt-3 grid gap-3 lg:grid-cols-2">{entry.choiceSlots.map(slot => <div key={slot.id} className="rounded-xl border border-amber-300/15 bg-amber-300/[.035] p-3"><Field label={`${slot.label} · nível ${slot.requiredLevel}`} hint={slot.description}><select className="h-10 rounded-md border border-input bg-background px-3 text-sm text-foreground" value={slot.selectedAbilityId ?? ""} onChange={event => chooseAbility(entry.specialization, slot.id, event.target.value || null)}><option value="">Definir com a ficha</option>{slot.options.map(option => <option key={option.id} value={option.id} disabled={(selectedAbilityIds.has(option.id) && option.id !== slot.selectedAbilityId) || option.requiredLevel > entry.level}>{option.name}{option.requiredLevel > slot.requiredLevel ? ` · requer nível ${option.requiredLevel}` : ""}</option>)}</select></Field>{slot.selectedAbility ? <p className="mt-3 text-sm leading-6 text-stone-300"><strong className="font-medium text-amber-100">{slot.selectedAbility.name}.</strong> {slot.selectedAbility.description}</p> : <p className="mt-3 text-sm text-stone-500">Nenhuma escolha registrada.</p>}<p className="mt-2 text-xs text-stone-600">{slot.source}</p></div>)}</div></div> : null}
+      {entry.catalogPendingLevels.length ? <div className="mt-4 rounded-xl border border-dashed border-violet-300/15 px-3 py-3 text-sm leading-6 text-stone-500"><strong className="font-medium text-stone-300">Habilidades de Especialização sem catálogo detalhado:</strong> níveis {entry.catalogPendingLevels.join(", ")}. A tabela do livro libera uma Habilidade de Especialização nesses níveis, mas a ficha não cria efeito automático até que a opção oficial seja estruturada.</div> : null}
+    </div>)}</div>
+  </Panel>;
+}
+
 function SpecializationTab({ sheet, derived, updateSheet }: { sheet: FMCharacterSheet; derived: ReturnType<typeof getDerivedValues>; updateSheet: (updater: (current: FMCharacterSheet) => FMCharacterSheet) => void }) {
   const [candidate, setCandidate] = useState<FMSpecializationKey>("combat-specialist");
   const primary = sheet.progression.primarySpecialization;
   const tracks = getSpecializationTracks(sheet);
-  const choosePrimary = (specialization: FMSpecializationKey) => updateSheet(current => ({ ...current, progression: { ...current.progression, specialization, specializationLevels: current.progression.level, primarySpecialization: specialization, primarySpecializationLocked: true, specializationTracks: [{ specialization, level: current.progression.level }], specializationCdAttribute: current.progression.techniqueAttribute } }));
+  const choosePrimary = (specialization: FMSpecializationKey) => updateSheet(current => ({ ...current, progression: { ...current.progression, specialization, specializationLevels: current.progression.level, primarySpecialization: specialization, primarySpecializationLocked: true, specializationTracks: [{ specialization, level: current.progression.level }], specializationAbilityChoices: [], specializationCdAttribute: current.progression.techniqueAttribute }, technique: { ...current.technique, kind: getTechniqueKindForSpecialization(specialization) } }));
   const addMulticlass = () => {
     if (!primary) { toast.error("Escolha primeiro a especialização primária."); return; }
     if (tracks.some(track => track.specialization === candidate)) { toast.error("Este núcleo já integra a Multiclasse."); return; }

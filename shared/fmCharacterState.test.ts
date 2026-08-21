@@ -57,7 +57,7 @@ describe("motor de estado do personagem", () => {
     expect(state.skillModifiers.combate).toBe(2);
     expect(state.appliedSkillEffects).toHaveLength(1);
     expect(state.unlocks).toHaveLength(0);
-    expect(state.features).toMatchObject([{ label: "Corpo reforçado" }]);
+    expect(state.features).toEqual(expect.arrayContaining([expect.objectContaining({ label: "Corpo reforçado" })]));
   });
 
   it("reavalia requisitos de Aptidão ao trocar a Raça e remove o efeito quando a condição deixa de existir", () => {
@@ -89,5 +89,22 @@ describe("motor de estado do personagem", () => {
     const after = calculateCharacterState(sheet);
     expect(after.attributes.strength).toBe(10);
     expect(after.derivedModifiers.healthMaximum).toBe(0);
+  });
+
+  it("expõe marcos e escolhas da Especialização como fontes derivadas sem gravá-los em duplicidade", () => {
+    const sheet = createEmptyFMSheet();
+    sheet.progression.level = 6;
+    sheet.progression.specialization = "combat-specialist";
+    sheet.progression.specializationLevels = 6;
+    sheet.progression.primarySpecialization = "combat-specialist";
+    sheet.progression.specializationTracks = [{ specialization: "combat-specialist", level: 6 }];
+    sheet.progression.specializationAbilityChoices = [
+      { specialization: "combat-specialist", slotId: "combat-style-1", abilityId: "combat-defensive-style" },
+      { specialization: "combat-specialist", slotId: "combat-style-6", abilityId: "combat-heavy-style" },
+    ];
+
+    const state = calculateCharacterState(sheet);
+    expect(state.features.map(feature => feature.label)).toEqual(expect.arrayContaining(["Repertório do Especialista", "Renovação pelo Sangue", "Estilo Defensivo", "Estilo Massivo"]));
+    expect(state.features.filter(feature => feature.label === "Estilo Defensivo")).toHaveLength(1);
   });
 });

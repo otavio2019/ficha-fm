@@ -34,6 +34,12 @@ describe("hidratação de fichas legadas", () => {
     expect(legacySheet.progression).toMatchObject({ primarySpecialization: "technique-specialist", primarySpecializationLocked: true, specializationTracks: [{ specialization: "technique-specialist", level: 3 }] });
   });
 
+  it("normaliza uma ficha Restringida legada para Estilo Marcial e inicializa escolhas de Especialização", () => {
+    const sheet = hydrateSheet({ progression: { level: 2, specialization: "restricted", specializationLevels: 2 }, technique: { kind: "cursed", name: "Legado" } });
+    expect(sheet.technique.kind).toBe("martial");
+    expect(sheet.progression.specializationAbilityChoices).toEqual([]);
+  });
+
   it("preserva identidade, características, técnica, equipamento e diário após recarregar a ficha reorganizada", () => {
     const sheet = hydrateSheet({
       identity: { name: "Maki", player: "Jogadora", grade: "2º Grau" },

@@ -185,6 +185,28 @@ describe("biblioteca de fichas", () => {
     await expect(caller.characters.get({ id: "ficha-catalogos" })).resolves.toMatchObject({ sheet: { progression: { primarySpecialization: "fighter", primarySpecializationLocked: true, specializationTracks: [{ specialization: "fighter", level: 1 }, { specialization: "combat-specialist", level: 1 }] }, skills: [{ catalogId: "perception", name: "Percepção" }], equipment: [{ catalogId: "dagger", name: "Adaga", spaces: 1 }] } });
   });
 
+  it("persiste escolhas válidas de Especialização e bloqueia repetição ou nível insuficiente", async () => {
+    const sheet = createEmptyFMSheet();
+    sheet.progression.specializationTracks = [{ specialization: "fighter", level: 1 }];
+    sheet.progression.specializationAbilityChoices = [
+      { specialization: "fighter", slotId: "fighter-excitement-1a", abilityId: "fighter-adjustment" },
+      { specialization: "fighter", slotId: "fighter-excitement-1b", abilityId: "fighter-command" },
+    ];
+    vi.mocked(getFMCharacter).mockResolvedValue(undefined);
+    vi.mocked(saveFMCharacter).mockResolvedValue({ id: "ficha-especializacao", ownerId: 1, name: "Yuji", portraitUrl: null, sheet, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+
+    await expect(caller.characters.save({ id: "ficha-especializacao", name: "Yuji", sheet })).resolves.toMatchObject({ id: "ficha-especializacao" });
+    const invalid = createEmptyFMSheet();
+    invalid.progression.specializationTracks = [{ specialization: "fighter", level: 1 }];
+    invalid.progression.specializationAbilityChoices = [
+      { specialization: "fighter", slotId: "fighter-excitement-1a", abilityId: "fighter-adjustment" },
+      { specialization: "fighter", slotId: "fighter-excitement-1b", abilityId: "fighter-adjustment" },
+      { specialization: "fighter", slotId: "fighter-excitement-6", abilityId: "fighter-command" },
+    ];
+    await expect(caller.characters.save({ id: "ficha-especializacao-invalida", name: "Yuji", sheet: invalid })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+  });
+
   it("persiste e recupera o bloco completo de Regras da Casa", async () => {
     const houseRules = { rest: { exhaustion: 2, missionCount: 3, lastMissionAt: 1000, lastShortRestAt: null, lastLongRestAt: 2000, longRestMissionCount: 3 }, dedicationRewarding: true, downtime: { interludes: 1, craftingFocus: "Ferraria", professionChecksRequired: true, itemReviewRequired: true, freeBuildOptions: [{ id: "free-1", name: "Barreira", sourceSpecialization: "controller", prerequisites: "Nível 5", interludeCost: 1 }] } };
     vi.mocked(getFMCharacter).mockResolvedValueOnce(undefined).mockResolvedValueOnce({ id: "ficha-casa", ownerId: 1, name: "Maki", portraitUrl: null, sheet: { houseRules }, createdAt: new Date(), updatedAt: new Date() });

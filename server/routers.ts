@@ -7,6 +7,7 @@ import { getEquipmentCatalogEntry, getSkillCatalogEntry } from "../shared/fmCata
 import { FM_DECLARED_MODIFIER_RULES, isDeclaredModifierInRange, type FMDeclaredModifierRule } from "../shared/fmModifiers";
 import { getInfiniteWorldLevel } from "../shared/infiniteWorlds";
 import { validateTechnique } from "../shared/fmTechniques";
+import { validateSpecializationAbilityChoices } from "../shared/fmSpecializationAbilities";
 import { validateHouseRules } from "../shared/fmHouseRules";
 import { FM_CLAN_CATALOG, FM_ORIGIN_CATALOG, getClanCatalogEntry, getOriginAttributeAllocation, getOriginCatalogEntry } from "../shared/fmOrigins";
 import { FM_INVOCATION_GRADE_RULES } from "../shared/fmInvocations";
@@ -276,6 +277,14 @@ const characterInput = z.object({
       if (!requirement.attributes.some(attribute => Number(base[attribute] ?? 0) + Number(bonuses[attribute] ?? 0) >= requirement.minimum)) context.addIssue({ code: "custom", path: ["sheet", "progression", "specializationTracks", index], message: `A Multiclasse em ${track.specialization} requer ${requirement.label}.` });
     });
   }
+  const specializationChoiceErrors = validateSpecializationAbilityChoices({
+    level,
+    specialization: specialization as Parameters<typeof validateSpecializationAbilityChoices>[0]["specialization"],
+    specializationLevels: typeof progression?.specializationLevels === "number" ? progression.specializationLevels : level,
+    specializationTracks: tracks as Parameters<typeof validateSpecializationAbilityChoices>[0]["specializationTracks"],
+    specializationAbilityChoices: Array.isArray(progression?.specializationAbilityChoices) ? progression.specializationAbilityChoices as Parameters<typeof validateSpecializationAbilityChoices>[0]["specializationAbilityChoices"] : [],
+  });
+  specializationChoiceErrors.forEach(message => context.addIssue({ code: "custom", path: ["sheet", "progression", "specializationAbilityChoices"], message }));
   const aptitudes = input.sheet.aptitudes;
   if (aptitudes !== undefined && !Array.isArray(aptitudes)) {
     context.addIssue({ code: "custom", path: ["sheet", "aptitudes"], message: "Aptidões devem ser uma lista." });
