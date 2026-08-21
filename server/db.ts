@@ -1,7 +1,7 @@
 import { and, asc, desc, eq, sql } from "drizzle-orm";
 import { createHash } from "node:crypto";
 import { drizzle } from "drizzle-orm/mysql2";
-import { fmChangeHistory, fmCharacterSpecializationAbilities, fmCharacters, fmCharacterShares, fmContentShares, fmHomebrews, fmReviews, fmSpecializationAbilities, fmTechniques, type InsertFMCharacter, type InsertFMHomebrew, type InsertFMSpecializationAbilityCatalogItem, type InsertFMTechniqueLibraryItem, type InsertUser, users } from "../drizzle/schema";
+import { fmChangeHistory, fmCharacterSpecializationAbilities, fmCharacters, fmCharacterShares, fmContentShares, fmContentVersions, fmContentVotes, fmHomebrews, fmReviews, fmSpecializationAbilities, fmTechniques, type InsertFMCharacter, type InsertFMContentVersion, type InsertFMHomebrew, type InsertFMSpecializationAbilityCatalogItem, type InsertFMTechniqueLibraryItem, type InsertUser, users } from "../drizzle/schema";
 import { ENV } from "./_core/env";
 import type { FMSpecializationAbilityUnlock } from "../shared/fmTypes";
 
@@ -313,5 +313,53 @@ export async function createFMChangeHistory(input: typeof fmChangeHistory.$infer
   if (!db) return undefined;
   await db.insert(fmChangeHistory).values(input);
   const records = await db.select().from(fmChangeHistory).where(eq(fmChangeHistory.id, input.id)).limit(1);
+  return records[0];
+}
+
+export async function listFMContentVotes(targetType: "character" | "homebrew" | "technique", targetId: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(fmContentVotes).where(and(eq(fmContentVotes.targetType, targetType), eq(fmContentVotes.targetId, targetId))).orderBy(desc(fmContentVotes.updatedAt));
+}
+
+export async function upsertFMContentVote(input: typeof fmContentVotes.$inferInsert) {
+  const db = await getDb();
+  if (!db) return undefined;
+  await db.insert(fmContentVotes).values(input).onDuplicateKeyUpdate({ set: { voterName: input.voterName, value: input.value, updatedAt: new Date() } });
+  const records = await db.select().from(fmContentVotes).where(eq(fmContentVotes.id, input.id)).limit(1);
+  if (records[0]) return records[0];
+  const matching = await db.select().from(fmContentVotes).where(and(eq(fmContentVotes.targetType, input.targetType), eq(fmContentVotes.targetId, input.targetId), eq(fmContentVotes.voterKey, input.voterKey))).limit(1);
+  return matching[0];
+}
+
+export async function listFMContentVersions(ownerId: number, targetType: "character" | "homebrew" | "technique", targetId: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(fmContentVersions).where(and(eq(fmContentVersions.ownerId, ownerId), eq(fmContentVersions.targetType, targetType), eq(fmContentVersions.targetId, targetId))).orderBy(desc(fmContentVersions.versionNumber));
+}
+
+export async function getLatestFMContentVersion(ownerId: number, targetType: "character" | "homebrew" | "technique", targetId: string) {
+  const records = await listFMContentVersions(ownerId, targetType, targetId);
+  return records[0];
+}
+
+export async function listFMContentVersionsByOwner(ownerId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(fmContentVersions).where(eq(fmContentVersions.ownerId, ownerId)).orderBy(desc(fmContentVersions.createdAt));
+}
+
+export async function getFMContentVersion(id: string, ownerId: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const records = await db.select().from(fmContentVersions).where(and(eq(fmContentVersions.id, id), eq(fmContentVersions.ownerId, ownerId))).limit(1);
+  return records[0];
+}
+
+export async function createFMContentVersion(input: InsertFMContentVersion) {
+  const db = await getDb();
+  if (!db) return undefined;
+  await db.insert(fmContentVersions).values(input);
+  const records = await db.select().from(fmContentVersions).where(eq(fmContentVersions.id, input.id)).limit(1);
   return records[0];
 }

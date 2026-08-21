@@ -1,4 +1,5 @@
 import { TRPCError } from "@trpc/server";
+import { createHash } from "node:crypto";
 import { nanoid } from "nanoid";
 import { z } from "zod";
 import { COOKIE_NAME } from "../shared/const";
@@ -13,16 +14,18 @@ import { validateHouseRules } from "../shared/fmHouseRules";
 import { FM_CLAN_CATALOG, FM_ORIGIN_CATALOG, getClanCatalogEntry, getOriginAttributeAllocation, getOriginCatalogEntry } from "../shared/fmOrigins";
 import { FM_INVOCATION_GRADE_RULES, FM_INVOCATION_TYPE_LABELS } from "../shared/fmInvocations";
 import { getAptitudeCatalogEntry, getAptitudeDefinition } from "../shared/fmCampaignCapabilities";
+import { validateAptitudeProgression } from "../shared/fmAptitudeProgression";
 import { FM_HOMEBREW_KINDS, FM_REVIEW_KINDS, FM_REVIEW_STATUSES, validateHomebrew, validateReview } from "../shared/fmHomebrew";
 import { normalizeHomebrewContent } from "../shared/fmHomebrew";
 import { applyCharacterObservationSuggestion } from "../shared/fmObservations";
 import { fmAttributeKeys, type FMCharacterSheet, type FMModifierTarget, type FMRequirement } from "../shared/fmTypes";
 import { calculateCharacterState } from "../shared/fmCharacterState";
 import { storagePut } from "./storage";
-import { createFMChangeHistory, createFMCharacterShare, createFMContentShare, createFMReview, deleteFMCharacter, deleteFMHomebrew, deleteFMTechnique, getFMCharacter, getFMCharacterShare, getFMContentShare, getFMHomebrew, getFMReview, getFMTechnique, getSharedFMCharacter, getSharedFMContent, listFMChangeHistory, listFMCharacters, listFMCharacterShares, listFMContentShares, listFMHomebrews, listFMReviews, listFMTechniques, regenerateFMContentShare, saveFMCharacter, saveFMHomebrew, saveFMTechnique, syncFMCharacterSpecializationAbilities, setFMContentShareEnabled, updateFMReview } from "./db";
+import { createFMChangeHistory, createFMCharacterShare, createFMContentShare, createFMContentVersion, createFMReview, deleteFMCharacter, deleteFMHomebrew, deleteFMTechnique, getFMCharacter, getFMCharacterShare, getFMContentShare, getFMContentVersion, getFMHomebrew, getFMReview, getFMTechnique, getLatestFMContentVersion, getSharedFMCharacter, getSharedFMContent, listFMChangeHistory, listFMCharacters, listFMCharacterShares, listFMContentShares, listFMContentVersions, listFMContentVersionsByOwner, listFMContentVotes, listFMHomebrews, listFMReviews, listFMTechniques, regenerateFMContentShare, saveFMCharacter, saveFMHomebrew, saveFMTechnique, syncFMCharacterSpecializationAbilities, setFMContentShareEnabled, updateFMReview, upsertFMContentVote } from "./db";
 import { ensureFMSpecializationAbilityCatalog, listSeededFMSpecializationAbilities } from "./fmSpecializationAbilityCatalog";
 import { emitCharacterUpdated } from "./live";
 import { getSessionCookieOptions } from "./_core/cookies";
+import { versionChangeSummary } from "../shared/fmVersioning";
 import { systemRouter } from "./_core/systemRouter";
 import { protectedProcedure, publicProcedure, router } from "./_core/trpc";
 
@@ -66,6 +69,29 @@ const reviewOwnerUpdateInput = z.object({ id: z.string().min(6).max(64), status:
 const reviewTargetInput = z.object({ targetType: z.enum(["character", "homebrew", "technique"]), targetId: z.string().min(6).max(64) });
 const contentShareTargetInput = reviewTargetInput;
 const contentShareIdInput = z.object({ id: z.number().int().positive() });
+const voteInput = z.object({ token: z.string().min(8).max(64), voterKey: z.string().trim().min(8).max(128), voterName: z.string().trim().min(1).max(160), value: z.enum(["support", "concern"]) });
+const versionIdInput = z.object({ id: z.string().min(6).max(64) });
+
+async function resolvePublicReviewTarget(token: string) {
+  const genericShare = await getSharedFMContent(token);
+  if (genericShare) return { targetType: genericShare.targetType, targetId: genericShare.targetId, ownerId: genericShare.ownerId };
+  const sharedCharacter = await getSharedFMCharacter(token);
+  const character = sharedCharacter ? await getFMCharacter(sharedCharacter.id) : undefined;
+  if (!character) throw new TRPCError({ code: "NOT_FOUND", message: "Link público não encontrado." });
+  return { targetType: "character" as const, targetId: character.id, ownerId: character.ownerId };
+}
+
+async function recordContentVersion(input: { ownerId: number; targetType: "character" | "homebrew" | "technique"; targetId: string; content: Record<string, unknown>; authorName: string; reason: string; rulesVersion?: string }) {
+  const previous = await getLatestFMContentVersion(input.ownerId, input.targetType, input.targetId);
+  const changes = versionChangeSummary(previous?.content ?? null, input.content);
+  if (previous && changes.changed === false) return previous;
+  return createFMContentVersion({ id: nanoid(22), ownerId: input.ownerId, targetType: input.targetType, targetId: input.targetId, versionNumber: (previous?.versionNumber ?? 0) + 1, previousVersionId: previous?.id ?? null, authorName: input.authorName, reason: input.reason, rulesVersion: input.rulesVersion ?? "2.5.2", content: input.content, changes });
+}
+
+function summarizeVotes(votes: Array<{ value: "support" | "concern" }>) {
+  return { support: votes.filter(vote => vote.value === "support").length, concern: votes.filter(vote => vote.value === "concern").length, total: votes.length };
+}
+
 function validateDeclaredModifier(value: unknown, path: (string | number)[], rule: FMDeclaredModifierRule, context: z.RefinementCtx) {
   if (!isDeclaredModifierInRange(value, rule)) {
     const specification = FM_DECLARED_MODIFIER_RULES[rule];
@@ -357,6 +383,8 @@ const characterInput = z.object({
     specializationAbilityChoices: Array.isArray(progression?.specializationAbilityChoices) ? progression.specializationAbilityChoices as Parameters<typeof validateSpecializationAbilityChoices>[0]["specializationAbilityChoices"] : [],
   });
   specializationChoiceErrors.forEach(message => context.addIssue({ code: "custom", path: ["sheet", "progression", "specializationAbilityChoices"], message }));
+  const rulesVersion = input.sheet.rulesVersion;
+  if (rulesVersion !== undefined && (typeof rulesVersion !== "string" || !["2.5.2", "3.0", "homebrew"].includes(rulesVersion))) context.addIssue({ code: "custom", path: ["sheet", "rulesVersion"], message: "A versão de regras da ficha não é suportada." });
   const aptitudes = input.sheet.aptitudes;
   if (aptitudes !== undefined && !Array.isArray(aptitudes)) {
     context.addIssue({ code: "custom", path: ["sheet", "aptitudes"], message: "Aptidões devem ser uma lista." });
@@ -393,6 +421,7 @@ const characterInput = z.object({
     const budget = Math.floor(Math.max(1, Math.min(30, level)) / 2) + Math.floor(Math.max(1, Math.min(30, level)) / 10);
     if (spent > budget) context.addIssue({ code: "custom", path: ["sheet", "aptitudes"], message: `A ficha possui ${spent} ponto(s) de aptidão gastos, mas o nível ${level} libera apenas ${budget}.` });
   }
+  validateAptitudeProgression(input.sheet as FMCharacterSheet).forEach(message => context.addIssue({ code: "custom", path: ["sheet", "aptitudeProgression"], message }));
   const houseRules = input.sheet.houseRules;
   validateHouseRules(houseRules).forEach(message => {
     context.addIssue({ code: "custom", path: ["sheet", "houseRules"], message });
@@ -576,8 +605,11 @@ export const appRouter = router({
     save: protectedProcedure.input(techniqueLibraryInput).mutation(async ({ ctx, input }) => {
       const existing = await getFMTechnique(input.id);
       if (existing && existing.ownerId !== ctx.user.id) throw new TRPCError({ code: "FORBIDDEN", message: "Você não pode editar esta técnica." });
-      const saved = await saveFMTechnique({ id: input.id, ownerId: ctx.user.id, name: input.name, technique: { ...input.technique, name: input.name } });
+      const technique = { ...(input.technique as Record<string, unknown>), name: input.name };
+      const techniqueRecord = technique as Record<string, unknown>;
+      const saved = await saveFMTechnique({ id: input.id, ownerId: ctx.user.id, name: input.name, technique });
       if (!saved) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Não foi possível salvar a técnica." });
+      await recordContentVersion({ ownerId: ctx.user.id, targetType: "technique", targetId: input.id, content: technique, authorName: ctx.user.name || "Criador", reason: existing ? "Atualização da Técnica" : "Criação da Técnica", rulesVersion: typeof techniqueRecord.source === "object" && techniqueRecord.source && "rulesVersion" in techniqueRecord.source ? String((techniqueRecord.source as Record<string, unknown>).rulesVersion) : "2.5.2" });
       return saved;
     }),
     remove: protectedProcedure.input(characterIdInput).mutation(async ({ ctx, input }) => {
@@ -599,6 +631,7 @@ export const appRouter = router({
       if (existing && existing.ownerId !== ctx.user.id) throw new TRPCError({ code: "FORBIDDEN", message: "Você não pode editar este Homebrew." });
       const saved = await saveFMHomebrew({ ...input, ownerId: ctx.user.id });
       if (!saved) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Não foi possível salvar o Homebrew." });
+      await recordContentVersion({ ownerId: ctx.user.id, targetType: "homebrew", targetId: input.id, content: input.content, authorName: ctx.user.name || "Criador", reason: existing ? "Atualização do Homebrew" : "Criação do Homebrew" });
       await createFMChangeHistory({ id: nanoid(22), ownerId: ctx.user.id, targetType: "homebrew", targetId: input.id, actorName: ctx.user.name || "Criador", eventType: existing ? "updated" : "created", detail: { kind: input.kind, name: input.name } });
       return saved;
     }),
@@ -686,6 +719,34 @@ export const appRouter = router({
       if (!review) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Não foi possível enviar a sugestão." });
       await createFMChangeHistory({ id: nanoid(22), ownerId, targetType, targetId, actorName: input.reviewerName.trim(), eventType: input.kind === "comment" ? "commented" : "suggested", detail: { reviewId: review.id, section: input.section.trim(), field: input.field.trim(), kind: input.kind } });
       return review;
+    }),
+  }),
+  votes: router({
+    publicSummary: publicProcedure.input(z.object({ token: z.string().min(8).max(64) })).query(async ({ input }) => {
+      const target = await resolvePublicReviewTarget(input.token);
+      const votes = await listFMContentVotes(target.targetType, target.targetId);
+      return summarizeVotes(votes);
+    }),
+    cast: publicProcedure.input(voteInput).mutation(async ({ input }) => {
+      const target = await resolvePublicReviewTarget(input.token);
+      const voterKey = createHash("sha256").update(`${input.token}:${input.voterKey}`).digest("hex");
+      const vote = await upsertFMContentVote({ id: nanoid(22), targetType: target.targetType, targetId: target.targetId, voterKey, voterName: input.voterName.trim(), value: input.value });
+      if (!vote) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Não foi possível registrar o voto." });
+      const votes = await listFMContentVotes(target.targetType, target.targetId);
+      return summarizeVotes(votes);
+    }),
+  }),
+  versions: router({
+    list: protectedProcedure.input(reviewTargetInput).query(async ({ ctx, input }) => {
+      const target = input.targetType === "character" ? await getFMCharacter(input.targetId) : input.targetType === "homebrew" ? await getFMHomebrew(input.targetId) : await getFMTechnique(input.targetId);
+      if (!target || target.ownerId !== ctx.user.id) throw new TRPCError({ code: "FORBIDDEN", message: "Você não pode consultar as versões deste conteúdo." });
+      return listFMContentVersions(ctx.user.id, input.targetType, input.targetId);
+    }),
+    listAll: protectedProcedure.query(({ ctx }) => listFMContentVersionsByOwner(ctx.user.id)),
+    get: protectedProcedure.input(versionIdInput).query(async ({ ctx, input }) => {
+      const version = await getFMContentVersion(input.id, ctx.user.id);
+      if (!version) throw new TRPCError({ code: "NOT_FOUND", message: "Versão não encontrada." });
+      return version;
     }),
   }),
   characters: router({

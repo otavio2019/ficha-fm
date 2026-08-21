@@ -156,6 +156,38 @@ export const fmChangeHistory = mysqlTable("fm_change_history", {
   ownerIndex: index("fm_change_history_owner_index").on(table.ownerId),
 }));
 
+export const fmContentVotes = mysqlTable("fm_content_votes", {
+  id: varchar("id", { length: 64 }).primaryKey(),
+  targetType: mysqlEnum("targetType", ["character", "homebrew", "technique"]).notNull(),
+  targetId: varchar("targetId", { length: 64 }).notNull(),
+  voterKey: varchar("voterKey", { length: 128 }).notNull(),
+  voterName: varchar("voterName", { length: 160 }).notNull(),
+  value: mysqlEnum("value", ["support", "concern"]).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, table => ({
+  targetIndex: index("fm_content_votes_target_index").on(table.targetType, table.targetId),
+  targetVoterUnique: uniqueIndex("fm_content_votes_target_voter_unique").on(table.targetType, table.targetId, table.voterKey),
+}));
+
+export const fmContentVersions = mysqlTable("fm_content_versions", {
+  id: varchar("id", { length: 64 }).primaryKey(),
+  ownerId: int("ownerId").notNull(),
+  targetType: mysqlEnum("targetType", ["character", "homebrew", "technique"]).notNull(),
+  targetId: varchar("targetId", { length: 64 }).notNull(),
+  versionNumber: int("versionNumber").notNull(),
+  previousVersionId: varchar("previousVersionId", { length: 64 }),
+  authorName: varchar("authorName", { length: 160 }).notNull(),
+  reason: varchar("reason", { length: 240 }).notNull(),
+  rulesVersion: varchar("rulesVersion", { length: 32 }).default("2.5.2").notNull(),
+  content: json("content").$type<Record<string, unknown>>().notNull(),
+  changes: json("changes").$type<Record<string, unknown>>().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, table => ({
+  targetIndex: index("fm_content_versions_target_index").on(table.targetType, table.targetId, table.versionNumber),
+  targetVersionUnique: uniqueIndex("fm_content_versions_target_version_unique").on(table.targetType, table.targetId, table.versionNumber),
+}));
+
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 export type FMCharacter = typeof fmCharacters.$inferSelect;
@@ -171,3 +203,6 @@ export type InsertFMHomebrew = typeof fmHomebrews.$inferInsert;
 export type FMContentShare = typeof fmContentShares.$inferSelect;
 export type FMReview = typeof fmReviews.$inferSelect;
 export type FMChangeHistory = typeof fmChangeHistory.$inferSelect;
+export type FMContentVote = typeof fmContentVotes.$inferSelect;
+export type FMContentVersion = typeof fmContentVersions.$inferSelect;
+export type InsertFMContentVersion = typeof fmContentVersions.$inferInsert;

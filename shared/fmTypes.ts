@@ -11,6 +11,19 @@ export type FMAttributeKey = (typeof fmAttributeKeys)[number];
 
 export type FMAttributes = Record<FMAttributeKey, number>;
 
+export type FMSourceKind = "official" | "book" | "homebrew" | "community" | "adapted" | "own";
+export type FMSourceStatus = "verified" | "unverified" | "pending";
+export type FMContentStatus = "draft" | "review" | "published" | "archived";
+export type FMContentSource = {
+  kind: FMSourceKind;
+  name: string;
+  author: string;
+  reference: string;
+  url: string;
+  rulesVersion: string;
+  status: FMSourceStatus;
+};
+
 export type FMModifierTarget = FMAttributeKey | "healthMaximum" | "energyMaximum" | "attention" | "defense" | "initiative" | "movement" | "techniqueDc" | `extra:${string}`;
 export type FMRequirement =
   | { type: "attribute-min"; attribute: FMAttributeKey; minimum: number }
@@ -115,10 +128,33 @@ export type FMTechnique = {
   requiredItems: string;
   reviewNotes: string;
   notes?: string;
+  visualIdentity?: string;
+  resourceNotes?: string;
+  marks?: string;
+  strategies?: string;
+  weaknesses?: string;
+  maximumTechnique?: FMMaximumTechnique | null;
+  source?: FMContentSource;
+  status?: FMContentStatus;
   powers: FMTechniquePower[];
   modifiers?: FMModifierDefinition[];
   requirements?: FMRequirement[];
   customFields?: Array<{ id: string; label: string; value: string }>;
+};
+
+export type FMMaximumTechnique = {
+  name: string;
+  concept: string;
+  requirements: string;
+  casting: FMActionType;
+  reach: string;
+  area: string;
+  duration: string;
+  cost: string;
+  effect: string;
+  limitations: string;
+  consequences: string;
+  source?: FMContentSource;
 };
 
 export type FMTechniquePower = {
@@ -129,6 +165,21 @@ export type FMTechniquePower = {
   type: FMSpellType;
   summary: string;
   requirement: string;
+  casting?: FMActionType;
+  reach?: string;
+  target?: string;
+  area?: string;
+  duration?: string;
+  cost?: string;
+  effect?: string;
+  damage?: string;
+  bonus?: string;
+  conditions?: string;
+  attackTest?: string;
+  resistanceTest?: string;
+  dc?: string;
+  limitations?: string;
+  source?: FMContentSource;
 };
 
 export type FMBirthVowType = "none" | "congenital-restriction" | "celestial-restriction";
@@ -322,6 +373,24 @@ export type FMMissionRewardRecord = {
 export type FMAptitudeGroup = "aura" | "control-reading" | "domain" | "curse-anatomy" | "special";
 export type FMTrainingTrackKey = "agility" | "barriers" | "comprehension" | "energy-control" | "domains" | "reverse-energy" | "combat" | "weapon-mastery" | "skill" | "saving-throw" | "physical-potential";
 
+export type FMAptitudeProgressionRecord = {
+  id: string;
+  aptitudeId: string;
+  aptitudeName: string;
+  previousLevel: number;
+  newLevel: number;
+  characterLevel: number;
+  source: string;
+  at: number;
+  rulesVersion: string;
+  sheetVersion: number;
+};
+
+export type FMAptitudeProgression = {
+  levels: Record<string, number>;
+  history: FMAptitudeProgressionRecord[];
+};
+
 export type FMAptitude = {
   id: string;
   catalogId: string;
@@ -429,6 +498,8 @@ export type FMResourceState = {
 
 export type FMCharacterSheet = {
   version: 1;
+  /** Versão do motor de regras escolhida pela ficha; ausente em fichas legadas. */
+  rulesVersion?: string;
   identity: {
     name: string;
     player: string;
@@ -515,6 +586,8 @@ export type FMCharacterSheet = {
   diary: FMDiaryEntry[];
   missionRewards: FMMissionRewardRecord[];
   aptitudes: FMAptitude[];
+  /** Progressão separada do custo de aquisição legado das Aptidões. */
+  aptitudeProgression?: FMAptitudeProgression;
   training: FMTrainingProgress[];
   allies: FMAlly[];
   cursedTools: FMCursedTool[];
@@ -526,6 +599,7 @@ export type FMCharacterSheet = {
 
 export const createEmptyFMSheet = (): FMCharacterSheet => ({
   version: 1,
+  rulesVersion: "2.5.2",
   identity: { name: "Novo personagem", player: "", grade: "", portraitUrl: null },
   personal: { traits: "", ideals: "", bonds: "", complications: "", innateDomain: "" },
   characterHistory: "",
@@ -598,6 +672,7 @@ export const createEmptyFMSheet = (): FMCharacterSheet => ({
   diary: [],
   missionRewards: [],
   aptitudes: [],
+  aptitudeProgression: { levels: {}, history: [] },
   training: [],
   allies: [],
   cursedTools: [],
