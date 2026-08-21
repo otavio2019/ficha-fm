@@ -108,4 +108,14 @@ describe("hidratação de fichas legadas", () => {
     expect(sheet.characterHistory).toBe("Cresceu entre feiticeiros renegados.");
     expect(sheet.personal.innateDomain).toBe("Arquivo de Cinzas");
   });
+
+  it("hidrata os blocos de sobrevivência e resistência com valores seguros", () => {
+    const sheet = hydrateSheet({ deathSaves: { successes: 2, failures: 1, stabilized: true, notes: "Ajuda recebida" }, damageReductions: [{ id: "rd-1", damageType: "Cortante", amount: 3, notes: "Armadura" }], resistances: ["Fogo"], vulnerabilities: ["Dano na alma"], inspiration: 2, energyLimit: 99 });
+    expect(sheet.deathSaves).toEqual({ successes: 2, failures: 1, stabilized: true, notes: "Ajuda recebida" });
+    expect(sheet.damageReductions).toMatchObject([{ damageType: "Cortante", amount: 3 }]);
+    expect(sheet.resistances).toEqual(["Fogo"]);
+    expect(sheet.vulnerabilities).toEqual(["Dano na alma"]);
+    expect(sheet.inspiration).toBe(2);
+    expect(sheet.energyLimit).toBe(99);
+  });
 });

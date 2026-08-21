@@ -1,4 +1,10 @@
-import type { FMAttributes, FMInvocation, FMInvocationGrade } from "./fmTypes";
+import type { FMAttributes, FMInvocation, FMInvocationGrade, FMInvocationType } from "./fmTypes";
+
+export const FM_INVOCATION_TYPE_LABELS: Record<FMInvocationType, string> = {
+  puppet: "Corpo Amaldiçoado / Marionete",
+  "tamed-curse": "Maldição Domada",
+  shikigami: "Shikigami",
+};
 
 export const FM_INVOCATION_GRADE_RULES: Record<FMInvocationGrade, { label: string; attributePoints: number; attributeMaximum: number; baseHealth: number; defenseBase: number; summonCost: number; actionSlots: number }> = {
   fourth: { label: "Quarto Grau", attributePoints: 10, attributeMaximum: 16, baseHealth: 10, defenseBase: 10, summonCost: 2, actionSlots: 2 },
@@ -12,8 +18,11 @@ export const getInvocationAttributeSpend = (attributes: FMAttributes) => Object.
 export const getInvocationActionCost = (invocation: FMInvocation) => invocation.actions.reduce((total, action) => total + (action.kind === "complex" ? 2 : action.kind === "simple" ? 1 : 1), 0);
 export function getInvocationDerived(invocation: FMInvocation, controllerLevel: number, trainingBonus: number) {
   const rule = FM_INVOCATION_GRADE_RULES[invocation.grade];
+  const type = invocation.type ?? "shikigami";
+  const typeLabel = FM_INVOCATION_TYPE_LABELS[type];
+  const typeDetails = type === "puppet" ? { intermediary: "O próprio corpo/dispositivo", zeroHealthState: "Desativada", destroyedState: "Destruída" } : type === "tamed-curse" ? { intermediary: "Vínculo de dominação", zeroHealthState: "Dissipada", destroyedState: "Exorcizada" } : { intermediary: "Talismã ou técnica aplicável", zeroHealthState: "Dissipado", destroyedState: "Exorcizado" };
   const constitutionHalf = Math.floor(invocation.attributes.constitution / 2);
   const health = rule.baseHealth + (invocation.grade === "fourth" || invocation.grade === "third" ? constitutionHalf + controllerLevel : invocation.attributes.constitution + (invocation.grade === "first" ? Math.floor(controllerLevel * 1.5) : invocation.grade === "special" ? controllerLevel * 2 : controllerLevel));
   const dexterityModifier = Math.floor((invocation.attributes.dexterity - 10) / 2);
-  return { ...rule, health, defense: rule.defenseBase + dexterityModifier + trainingBonus, actionCost: getInvocationActionCost(invocation), totalSummonCost: rule.summonCost + getInvocationActionCost(invocation), attributeSpend: getInvocationAttributeSpend(invocation.attributes) };
+  return { ...rule, type, typeLabel, ...typeDetails, health, defense: rule.defenseBase + dexterityModifier + trainingBonus, actionCost: getInvocationActionCost(invocation), totalSummonCost: rule.summonCost + getInvocationActionCost(invocation), attributeSpend: getInvocationAttributeSpend(invocation.attributes) };
 }

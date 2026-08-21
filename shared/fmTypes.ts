@@ -100,6 +100,7 @@ export type FMTechniqueKind = "cursed" | "martial";
 export type FMOriginKey = "innate" | "inherited" | "derived" | "restricted" | "cursed-womb" | "technique-less" | "mutant-cursed-corpse" | "custom";
 export type FMClanKey = "gojo" | "inumaki" | "kamo" | "zenin" | "custom";
 export type FMInvocationGrade = "fourth" | "third" | "second" | "first" | "special";
+export type FMInvocationType = "puppet" | "tamed-curse" | "shikigami";
 export type FMInvocationActionKind = "simple" | "complex" | "trait";
 export type FMObservationEntityType = "character" | "history" | "domain" | "aptitude" | "technique" | "training" | "invocation" | "equipment" | "advantage" | "disadvantage" | "ally" | "homebrew";
 
@@ -189,6 +190,8 @@ export type FMInvocation = {
   id: string;
   name: string;
   concept: string;
+  /** Tipo oficial do livro; ausente apenas em fichas legadas. */
+  type?: FMInvocationType;
   grade: FMInvocationGrade;
   attributes: FMAttributes;
   movement: number;
@@ -285,6 +288,9 @@ export type FMCondition = {
   duration: string;
   source: string;
 };
+
+export type FMDeathSaves = { successes: number; failures: number; stabilized: boolean; notes: string };
+export type FMDamageReduction = { id: string; damageType: string; amount: number; notes: string };
 
 export type FMDiaryEntry = {
   id: string;
@@ -500,6 +506,12 @@ export type FMCharacterSheet = {
   defenses: FMDefenseEntry[];
   conditions: FMCondition[];
   combatants: FMCombatant[];
+  deathSaves?: FMDeathSaves;
+  damageReductions?: FMDamageReduction[];
+  resistances?: string[];
+  vulnerabilities?: string[];
+  inspiration?: number;
+  energyLimit?: number;
   diary: FMDiaryEntry[];
   missionRewards: FMMissionRewardRecord[];
   aptitudes: FMAptitude[];
@@ -577,6 +589,12 @@ export const createEmptyFMSheet = (): FMCharacterSheet => ({
   defenses: [],
   conditions: [],
   combatants: [],
+  deathSaves: { successes: 0, failures: 0, stabilized: false, notes: "" },
+  damageReductions: [],
+  resistances: [],
+  vulnerabilities: [],
+  inspiration: 1,
+  energyLimit: 999999,
   diary: [],
   missionRewards: [],
   aptitudes: [],

@@ -11,7 +11,7 @@ import { getSheetSpecializationAbilityUnlocks, mergeSpecializationAbilityUnlockH
 import { FM_MUTANT_CORE_COUNT, FM_MUTANT_CURSED_CORPSE_ORIGIN } from "../shared/fmMutantCores";
 import { validateHouseRules } from "../shared/fmHouseRules";
 import { FM_CLAN_CATALOG, FM_ORIGIN_CATALOG, getClanCatalogEntry, getOriginAttributeAllocation, getOriginCatalogEntry } from "../shared/fmOrigins";
-import { FM_INVOCATION_GRADE_RULES } from "../shared/fmInvocations";
+import { FM_INVOCATION_GRADE_RULES, FM_INVOCATION_TYPE_LABELS } from "../shared/fmInvocations";
 import { getAptitudeCatalogEntry, getAptitudeDefinition } from "../shared/fmCampaignCapabilities";
 import { FM_HOMEBREW_KINDS, FM_REVIEW_KINDS, FM_REVIEW_STATUSES, validateHomebrew, validateReview } from "../shared/fmHomebrew";
 import { normalizeHomebrewContent } from "../shared/fmHomebrew";
@@ -526,6 +526,7 @@ const characterInput = z.object({
     const value = invocation as Record<string, unknown>;
     if (typeof value.name !== "string" || !value.name.trim()) context.addIssue({ code: "custom", path: ["sheet", "invocations", index, "name"], message: "O nome da Invocação é obrigatório." });
     if (typeof value.grade !== "string" || !(value.grade in FM_INVOCATION_GRADE_RULES)) context.addIssue({ code: "custom", path: ["sheet", "invocations", index, "grade"], message: "Grau de Invocação inválido." });
+    if (value.type !== undefined && (typeof value.type !== "string" || !(value.type in FM_INVOCATION_TYPE_LABELS))) context.addIssue({ code: "custom", path: ["sheet", "invocations", index, "type"], message: "Tipo de Invocação inválido." });
     if (!Array.isArray(value.actions) || value.actions.some(action => typeof action !== "object" || action === null || typeof (action as Record<string, unknown>).name !== "string" || typeof (action as Record<string, unknown>).effect !== "string")) {
       context.addIssue({ code: "custom", path: ["sheet", "invocations", index, "actions"], message: "Toda ação de Invocação precisa ter nome e efeito declarados." });
     }
