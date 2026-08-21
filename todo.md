@@ -289,3 +289,9 @@
 - [x] Corrigir falhas confirmadas sem alterar dados de personagens ou compatibilidade legada.
 - [x] Acrescentar testes de regressão para cada correção de persistência ou interface.
 - [x] Validar a versão corrigida, salvar checkpoint e sincronizar no GitHub.
+
+- [ ] Auditar a estrutura atual de Invocações, tipos permitidos e fórmulas disponíveis nos PDFs anexados.
+- [ ] Definir contrato compatível para Invocações por tipo (Domada, Técnica, Normal, Manipulação) com valores seguros para dados legados.
+- [ ] Implementar cálculos de custo, PV e defesas por tipo no motor de regras, apenas com fórmulas confirmadas.
+- [ ] Atualizar a interface de Invocações com seletor de tipo, exibição de cálculos e remoção individual.
+- [ ] Cobrir regras, persistência, responsividade, checkpoint e GitHub.
