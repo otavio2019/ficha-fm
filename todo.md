@@ -301,4 +301,4 @@
 - [x] Adicionar descrições editáveis dos Treinamentos, preservando trilhas, etapas e progresso existentes.
 - [x] Adicionar reduções de dano por tipo, resistências, vulnerabilidades, RD geral, Inspiração e limite de Energia.
 - [x] Exibir níveis de Aptidão por categoria com progressão, descrições e edição segura.
-- [ ] Cobrir os novos fluxos com testes, responsividade, checkpoint e sincronização no GitHub.
+- [x] Cobrir os novos fluxos com testes, responsividade, checkpoint e sincronização no GitHub.
