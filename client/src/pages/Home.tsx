@@ -9,7 +9,7 @@ import { TechniqueLibraryPanel } from "@/components/TechniqueLibraryPanel";
 import { HomebrewHub } from "@/components/HomebrewHub";
 import { ReviewCenter } from "@/components/ReviewCenter";
 import { CharacterTechniqueSelector } from "@/components/CharacterTechniqueSelector";
-import { ModifierEditor, RaceSelectionPanel } from "@/components/RaceSelectionPanel";
+import { ModifierEditor, RaceProgressPanel, RaceSelectionPanel } from "@/components/RaceSelectionPanel";
 import { AssetsPanelWithActions, DomainExpansionPanel } from "@/components/CampaignCapabilitiesPanels";
 import { AptitudeManagerPanel } from "@/components/AptitudeManagerPanel";
 import { CharacterAuditPanel } from "@/components/CharacterAuditPanel";
@@ -96,7 +96,9 @@ export function hydrateSheet(raw: Record<string, unknown> | null | undefined): F
         requirements: Array.isArray(source.mechanics.race.requirements) ? source.mechanics.race.requirements : [],
         characteristics: Array.isArray(source.mechanics.race.characteristics) ? source.mechanics.race.characteristics : [],
         abilities: Array.isArray(source.mechanics.race.abilities) ? source.mechanics.race.abilities : [],
-        evolutions: Array.isArray(source.mechanics.race.evolutions) ? source.mechanics.race.evolutions : [],
+        choices: Array.isArray(source.mechanics.race.choices) ? source.mechanics.race.choices : [],
+        selectedChoices: Array.isArray(source.mechanics.race.selectedChoices) ? source.mechanics.race.selectedChoices : [],
+        evolutions: Array.isArray(source.mechanics.race.evolutions) ? source.mechanics.race.evolutions.map(evolution => ({ ...evolution, requirements: Array.isArray(evolution.requirements) ? evolution.requirements : [], modifiers: Array.isArray(evolution.modifiers) ? evolution.modifiers : [], characteristics: Array.isArray(evolution.characteristics) ? evolution.characteristics : [], abilities: Array.isArray(evolution.abilities) ? evolution.abilities : [], choices: Array.isArray(evolution.choices) ? evolution.choices : [] })) : [],
       } : null,
     },
     technique: { ...empty.technique, ...(source.technique ?? {}), kind: getTechniqueKindForSpecialization(source.progression?.specialization ?? empty.progression.specialization), powers: Array.isArray(source.technique?.powers) ? source.technique.powers : [] },
@@ -655,6 +657,7 @@ function OverviewTab({ sheet, derived, updateSheet, addDiary, characterId, previ
     <OriginSelectionPanel sheet={sheet} updateSheet={updateSheet} />
     <OriginBenefitsLedger sheet={sheet} updateSheet={updateSheet} />
     <RaceSelectionPanel sheet={sheet} onUpdate={updateSheet} onDiary={addDiary} previewMode={previewMode} />
+    <RaceProgressPanel sheet={sheet} onUpdate={updateSheet} />
     <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-4"><FormulaCard label="Defesa" value={derived.defense} formula="10 + Destreza + metade do nível + bônus" source="Livro-base, pp. 19 e 281" /><FormulaCard label="Iniciativa" value={`${derived.initiative >= 0 ? "+" : ""}${derived.initiative}`} formula="Destreza + bônus" source="Livro-base, pp. 19 e 291" /><FormulaCard label="Atenção" value={derived.attention} formula="10 + Percepção + bônus" source="Livro-base, p. 19" /><FormulaCard label="CD da técnica" value={derived.techniqueDc} formula="10 + metade do nível + atributo + treinamento" source="Livro-base, p. 198" /></div>
     <div className="mt-4 grid gap-4 xl:grid-cols-2"><Panel><SectionTitle eyebrow="Aspectos pessoais" title="Quem atravessa a maldição" description="Campos narrativos da criação de personagem." /><div className="grid gap-4 sm:grid-cols-2"><Field label="Traços de personalidade"><Textarea value={sheet.personal.traits} onChange={event => updateSheet(current => ({ ...current, personal: { ...current.personal, traits: event.target.value } }))} /></Field><Field label="Ideais"><Textarea value={sheet.personal.ideals} onChange={event => updateSheet(current => ({ ...current, personal: { ...current.personal, ideals: event.target.value } }))} /></Field><Field label="Ligações"><Textarea value={sheet.personal.bonds} onChange={event => updateSheet(current => ({ ...current, personal: { ...current.personal, bonds: event.target.value } }))} /></Field><Field label="Complicações"><Textarea value={sheet.personal.complications} onChange={event => updateSheet(current => ({ ...current, personal: { ...current.personal, complications: event.target.value } }))} /></Field></div></Panel><Panel><SectionTitle eyebrow="Domínio inato" title="O espaço que define a alma" description="Este campo registra a representação metafísica do personagem." /><Textarea className="min-h-56" value={sheet.personal.innateDomain} onChange={event => updateSheet(current => ({ ...current, personal: { ...current.personal, innateDomain: event.target.value } }))} placeholder="Descreva o domínio inato…" /></Panel></div></>;
 }

@@ -249,3 +249,10 @@
 - [x] Exibir Núcleo, Configuração, Habilidades da Especialização e Multiclasse em cartões consistentes na ficha.
 - [x] Cobrir ficha nova/legada, níveis, escolhas, evoluções, ausência de duplicação e recarga com testes.
 - [x] Validar desktop, tablet e celular; executar testes, tipagem e build; publicar e sincronizar no GitHub.
+- [x] Mapear tipos, catálogos, banco, motor, salvamento, testes e painel atuais de Raças antes de alterá-los.
+- [x] Modelar vínculo, bônus, habilidades, escolhas e evoluções raciais com valores seguros para fichas legadas.
+- [x] Derivar efeitos raciais no motor central, sem acumular bônus ao salvar, recarregar, trocar de raça ou subir de nível.
+- [x] Integrar seleção de Raça, evolução desbloqueada, habilidades, fontes de bônus e próximas etapas na ficha.
+- [x] Validar no backend a estrutura, a propriedade e os requisitos de Raça/Evolução preservando conteúdo existente.
+- [x] Cobrir criação, escolha, troca, recarga, evolução por nível, habilidades e ausência de duplicação com testes.
+- [x] Validar desktop/celular, tipagem e build; registrar evidências, publicar checkpoint e sincronizar no GitHub.

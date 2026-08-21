@@ -107,4 +107,38 @@ describe("motor de estado do personagem", () => {
     expect(state.features.map(feature => feature.label)).toEqual(expect.arrayContaining(["Repertório do Especialista", "Renovação pelo Sangue", "Estilo Defensivo", "Estilo Massivo"]));
     expect(state.features.filter(feature => feature.label === "Estilo Defensivo")).toHaveLength(1);
   });
+
+  it("deriva bônus, habilidade e escolha racial sem alterar o valor-base nem acumular ao recalcular", () => {
+    const sheet = createEmptyFMSheet();
+    sheet.attributes.base.strength = 10;
+    sheet.mechanics.race = {
+      id: "linhagem-forte", sourceKind: "custom", name: "Linhagem Forte", description: "", active: true, requirements: [],
+      modifiers: [{ id: "raca-for", target: "strength", operation: "add", value: 2 }], characteristics: [], abilities: ["Corpo adaptado"],
+      choices: [{ id: "afinidade", label: "Afinidade", description: "", requirements: [], options: [{ id: "agil", name: "Passos ágeis", description: "Movimento racial.", modifiers: [{ id: "escolha-des", target: "dexterity", operation: "add", value: 1 }] }] }],
+      selectedChoices: [{ choiceId: "afinidade", optionId: "agil" }], evolutions: [], selectedEvolutionId: null,
+    };
+
+    const first = calculateCharacterState(sheet);
+    const second = calculateCharacterState(sheet);
+    expect(first.attributes.strength).toBe(12);
+    expect(first.attributes.dexterity).toBe(11);
+    expect(second.attributes).toEqual(first.attributes);
+    expect(first.attributeBreakdown.strength.base).toBe(10);
+    expect(first.features.map(feature => feature.label)).toEqual(expect.arrayContaining(["Corpo adaptado", "Passos ágeis"]));
+  });
+
+  it("mantém evolução racial bloqueada até o nível exigido e remove somente o bônus racial ao trocar de raça", () => {
+    const sheet = createEmptyFMSheet();
+    sheet.attributes.base.strength = 10;
+    sheet.training = [{ trackId: "combat", stage: 1, notes: "", modifiers: [{ id: "treino-for", target: "strength", operation: "add", value: 1 }] }];
+    sheet.mechanics.race = { id: "metamorfo", sourceKind: "custom", name: "Metamorfo", description: "", active: true, requirements: [], modifiers: [{ id: "base-for", target: "strength", operation: "add", value: 2 }], characteristics: [], abilities: [], evolutions: [{ id: "forma-3", name: "Forma nível 3", description: "", requirements: [{ type: "level-min", minimum: 3 }], modifiers: [{ id: "evo-for", target: "strength", operation: "add", value: 5 }], characteristics: [], abilities: ["Forma desperta"] }], selectedEvolutionId: "forma-3" };
+
+    expect(calculateCharacterState(sheet).attributes.strength).toBe(11);
+    sheet.progression.level = 3;
+    expect(calculateCharacterState(sheet).attributes.strength).toBe(16);
+    sheet.mechanics.race = { id: "leve", sourceKind: "custom", name: "Leve", description: "", active: true, requirements: [], modifiers: [{ id: "leve-des", target: "dexterity", operation: "add", value: 2 }], characteristics: [], abilities: [], evolutions: [], selectedEvolutionId: null };
+    const afterSwitch = calculateCharacterState(sheet);
+    expect(afterSwitch.attributes.strength).toBe(11);
+    expect(afterSwitch.attributes.dexterity).toBe(12);
+  });
 });

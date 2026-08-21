@@ -39,6 +39,7 @@ const grantEffects = (grants: FMGrantBundle | undefined): FMAptitudeEffect[] => 
   ...(grants?.aptitudes ?? []).map(aptitudeId => ({ id: `aptitude:${aptitudeId}`, type: "unlock" as const, target: "ability" as const, referenceId: aptitudeId, label: aptitudeId, description: "Aptidão concedida pela fonte ativa." })),
   ...(grants?.trainings ?? []).map(trainingId => ({ id: `training:${trainingId}`, type: "unlock" as const, target: "training" as const, referenceId: trainingId, label: trainingId, description: "Treinamento concedido pela fonte ativa." })),
 ];
+const namedFeatureEffects = (scope: string, abilities: string[] | undefined): FMAptitudeEffect[] => (abilities ?? []).map((ability, index) => ({ id: `${scope}:ability:${index}:${ability}`, type: "feature" as const, label: ability, description: "Habilidade concedida pela Raça ativa." }));
 
 function addAttributeModifiers(attributes: FMAttributes, modifiers: FMModifierDefinition[] | undefined) {
   modifiers?.forEach(modifier => { if (modifier.active !== false && fmAttributeKeys.includes(modifier.target as FMAttributeKey)) attributes[modifier.target as FMAttributeKey] += modifier.value; });
@@ -50,6 +51,12 @@ function getRequirementAttributes(sheet: FMCharacterSheet): FMAttributes {
     const evolution = race.evolutions.find(item => item.id === race.selectedEvolutionId);
     if (!evolution || evolution.replacesBaseModifiers === false) addAttributeModifiers(attributes, race.modifiers);
     if (evolution) addAttributeModifiers(attributes, evolution.modifiers);
+    const selectedChoiceModifiers = (choices: typeof race.choices | undefined) => (choices ?? []).flatMap(choice => {
+      const selected = race.selectedChoices?.find(item => item.choiceId === choice.id);
+      return choice.options.find(option => option.id === selected?.optionId)?.modifiers ?? [];
+    });
+    addAttributeModifiers(attributes, selectedChoiceModifiers(race.choices));
+    addAttributeModifiers(attributes, selectedChoiceModifiers(evolution?.choices));
   }
   sheet.training.filter(item => item.stage > 0).forEach(item => addAttributeModifiers(attributes, item.modifiers));
   return attributes;
@@ -93,7 +100,18 @@ export function getCharacterModifierSources(sheet: FMCharacterSheet): FMModifier
   fmAttributeKeys.forEach(attribute => sources.push(source("origin", `origin:${attribute}`, originName, true, [{ id: `origin:${attribute}`, target: attribute, operation: "add", value: sheet.origin.attributeBonuses[attribute] ?? 0, note: "Bônus de atributo da origem." }, ...((sheet.origin.grants?.modifiers ?? []).filter(modifier => modifier.target === attribute))], [], grantEffects(sheet.origin.grants))));
   if (sheet.origin.grants?.modifiers.some(modifier => !fmAttributeKeys.includes(modifier.target as FMAttributeKey))) sources.push(source("origin", "origin:grants", originName, true, sheet.origin.grants.modifiers.filter(modifier => !fmAttributeKeys.includes(modifier.target as FMAttributeKey)), [], grantEffects(sheet.origin.grants)));
   const race = sheet.mechanics.race;
-  if (race) { const evolution = race.evolutions.find(item => item.id === race.selectedEvolutionId); if (!evolution || evolution.replacesBaseModifiers === false) sources.push(source("race", race.id, race.name, race.active, [...race.modifiers, ...(race.grants?.modifiers ?? [])], race.requirements, grantEffects(race.grants))); if (evolution) sources.push(source("evolution", evolution.id, evolution.name, race.active, [...evolution.modifiers, ...(evolution.grants?.modifiers ?? [])], [...race.requirements, ...evolution.requirements], grantEffects(evolution.grants))); }
+  if (race) {
+    const evolution = race.evolutions.find(item => item.id === race.selectedEvolutionId);
+    const baseModifiers = !evolution || evolution.replacesBaseModifiers === false ? [...race.modifiers, ...(race.grants?.modifiers ?? [])] : [];
+    sources.push(source("race", race.id, race.name, race.active, baseModifiers, race.requirements, [...namedFeatureEffects(race.id, race.abilities), ...grantEffects(race.grants)]));
+    if (evolution) sources.push(source("evolution", evolution.id, evolution.name, race.active, [...evolution.modifiers, ...(evolution.grants?.modifiers ?? [])], [...race.requirements, ...evolution.requirements], [...namedFeatureEffects(`${race.id}:${evolution.id}`, evolution.abilities), ...grantEffects(evolution.grants)]));
+    [...(race.choices ?? []), ...(evolution?.choices ?? [])].forEach(choice => {
+      const selected = race.selectedChoices?.find(item => item.choiceId === choice.id);
+      const option = choice.options.find(item => item.id === selected?.optionId);
+      if (!option) return;
+      sources.push(source("race", `${race.id}:choice:${choice.id}`, `${race.name} · ${choice.label}: ${option.name}`, race.active, [...option.modifiers, ...(option.grants?.modifiers ?? [])], [...race.requirements, ...(evolution?.requirements ?? []), ...choice.requirements], [{ id: `choice:${choice.id}:${option.id}`, type: "feature", label: option.name, description: option.description }, ...grantEffects(option.grants)]));
+    });
+  }
   sheet.training.forEach(training => { const stageEffects = Object.entries(training.stageEffects ?? {}).filter(([stage]) => Number(stage) <= training.stage).map(([, effect]) => effect!); sources.push(source("training", training.homebrewId ?? training.trackId, training.label ?? training.trackId, training.stage > 0, [...(training.modifiers ?? []), ...stageEffects.flatMap(effect => effect.modifiers)], training.requirements, stageEffects.flatMap(effect => effect.unlocks))); });
   sheet.aptitudes.forEach(aptitude => {
     const evolution = aptitude.evolutions?.find(item => item.id === aptitude.selectedEvolutionId);

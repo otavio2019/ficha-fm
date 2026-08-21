@@ -45,7 +45,9 @@ const requirementInput: z.ZodType<FMRequirement> = z.lazy(() => z.discriminatedU
   z.object({ type: z.literal("any"), requirements: z.array(requirementInput).min(1).max(12) }),
 ]));
 const modifierDefinitionInput = z.object({ id: z.string().min(1).max(64), target: modifierTargetInput, operation: z.literal("add"), value: z.number().finite().min(-20).max(20), active: z.boolean().optional(), conditions: z.array(requirementInput).optional(), note: z.string().max(1000).optional() });
-const raceEvolutionInput = z.object({ id: z.string().min(1).max(64), name: z.string().trim().min(1).max(160), description: z.string().max(4000), replacesBaseModifiers: z.boolean().optional(), requirements: z.array(requirementInput).default([]), modifiers: z.array(modifierDefinitionInput).default([]), characteristics: z.array(z.string().max(1000)).default([]), abilities: z.array(z.string().max(1000)).default([]) });
+const raceChoiceOptionInput = z.object({ id: z.string().min(1).max(64), name: z.string().trim().min(1).max(160), description: z.string().max(4000), modifiers: z.array(modifierDefinitionInput).default([]) });
+const raceChoiceInput = z.object({ id: z.string().min(1).max(64), label: z.string().trim().min(1).max(160), description: z.string().max(4000), requirements: z.array(requirementInput).default([]), options: z.array(raceChoiceOptionInput).min(1).max(12) });
+const raceEvolutionInput = z.object({ id: z.string().min(1).max(64), name: z.string().trim().min(1).max(160), description: z.string().max(4000), replacesBaseModifiers: z.boolean().optional(), requirements: z.array(requirementInput).default([]), modifiers: z.array(modifierDefinitionInput).default([]), characteristics: z.array(z.string().max(1000)).default([]), abilities: z.array(z.string().max(1000)).default([]), choices: z.array(raceChoiceInput).default([]) });
 const aptitudeEffectInput = z.discriminatedUnion("type", [
   z.object({ id: z.string().min(1).max(64), type: z.literal("skill-modifier"), skillId: z.string().min(1).max(160), value: z.number().finite().min(-20).max(20), note: z.string().max(1000).optional() }),
   z.object({ id: z.string().min(1).max(64), type: z.literal("unlock"), target: z.enum(["technique", "ability", "training", "vow", "item"]), referenceId: z.string().min(1).max(160), label: z.string().min(1).max(160), description: z.string().max(4000).optional() }),
@@ -53,7 +55,7 @@ const aptitudeEffectInput = z.discriminatedUnion("type", [
 ]);
 const aptitudeEvolutionInput = z.object({ id: z.string().min(1).max(64), name: z.string().min(1).max(160), description: z.string().max(4000), level: z.number().int().min(1).max(30), requirements: z.array(requirementInput).default([]), modifiers: z.array(modifierDefinitionInput).default([]), effects: z.array(aptitudeEffectInput).default([]), limitations: z.string().max(4000).default(""), replacesBaseEffects: z.boolean().optional() });
 const aptitudeMechanicsInput = z.object({ description: z.string().max(8000).default(""), requirements: z.array(requirementInput).default([]), modifiers: z.array(modifierDefinitionInput).default([]), effects: z.array(aptitudeEffectInput).default([]), limitations: z.string().max(4000).default(""), evolutions: z.array(aptitudeEvolutionInput).default([]) }).default({ description: "", requirements: [], modifiers: [], effects: [], limitations: "", evolutions: [] });
-const homebrewMechanicsInput = z.object({ modifiers: z.array(modifierDefinitionInput).default([]), requirements: z.array(requirementInput).default([]), evolutions: z.array(raceEvolutionInput).default([]), aptitude: aptitudeMechanicsInput }).default({ modifiers: [], requirements: [], evolutions: [], aptitude: { description: "", requirements: [], modifiers: [], effects: [], limitations: "", evolutions: [] } });
+const homebrewMechanicsInput = z.object({ modifiers: z.array(modifierDefinitionInput).default([]), requirements: z.array(requirementInput).default([]), evolutions: z.array(raceEvolutionInput).default([]), raceChoices: z.array(raceChoiceInput).default([]), aptitude: aptitudeMechanicsInput }).default({ modifiers: [], requirements: [], evolutions: [], raceChoices: [], aptitude: { description: "", requirements: [], modifiers: [], effects: [], limitations: "", evolutions: [] } });
 const homebrewContentInput = z.object({ description: z.string().max(8000), requirements: z.string().max(8000), effects: z.string().max(8000), cost: z.string().max(1000), level: z.string().max(1000), notes: z.string().max(8000), fields: z.record(z.string(), z.string().max(4000)), mechanics: homebrewMechanicsInput });
 const homebrewInput = z.object({ id: z.string().min(6).max(64), kind: z.enum(FM_HOMEBREW_KINDS), name: z.string().trim().min(1).max(160), summary: z.string().trim().min(1).max(1000), content: homebrewContentInput }).superRefine((input, context) => validateHomebrew(input).forEach(message => context.addIssue({ code: "custom", path: ["content"], message })));
 const reviewSubmissionInput = z.object({ token: z.string().min(8).max(64), reviewerName: z.string().trim().min(1).max(160), kind: z.enum(FM_REVIEW_KINDS), section: z.string().trim().min(1).max(160), field: z.string().trim().max(160).default(""), currentValue: z.string().max(8000).default(""), suggestedValue: z.string().max(8000).default(""), reason: z.string().trim().min(1).max(8000) }).superRefine((input, context) => validateReview({ ...input, targetId: "shared" }).forEach(message => context.addIssue({ code: "custom", path: message.includes("campo específico") ? ["field"] : ["reason"], message })));
@@ -126,6 +128,28 @@ function validateGrantBundle(value: unknown, path: (string | number)[], context:
   validateStringList(grants.trainings, [...path, "trainings"], context, "Treinamentos concedidos");
   validateStringList(grants.limitations, [...path, "limitations"], context, "Limitações concedidas");
   validateMechanicModifiers(grants.modifiers, [...path, "modifiers"], context);
+}
+function validateRaceChoices(value: unknown, path: (string | number)[], context: z.RefinementCtx) {
+  if (value === undefined) return;
+  if (!Array.isArray(value) || value.length > 12) { context.addIssue({ code: "custom", path, message: "Escolhas raciais devem conter até 12 grupos." }); return; }
+  const ids = new Set<string>();
+  value.forEach((entry, index) => {
+    const choice = asRecord(entry);
+    if (!choice || typeof choice.id !== "string" || !choice.id.trim() || typeof choice.label !== "string" || !choice.label.trim() || typeof choice.description !== "string") { context.addIssue({ code: "custom", path: [...path, index], message: "Escolha racial inválida." }); return; }
+    if (ids.has(choice.id)) context.addIssue({ code: "custom", path: [...path, index, "id"], message: "Cada escolha racial deve ter um identificador único." });
+    ids.add(choice.id);
+    validateMechanicRequirements(choice.requirements, [...path, index, "requirements"], context);
+    if (!Array.isArray(choice.options) || choice.options.length === 0 || choice.options.length > 12) { context.addIssue({ code: "custom", path: [...path, index, "options"], message: "Uma escolha racial precisa ter entre uma e 12 opções." }); return; }
+    const optionIds = new Set<string>();
+    choice.options.forEach((option, optionIndex) => {
+      const item = asRecord(option);
+      if (!item || typeof item.id !== "string" || !item.id.trim() || typeof item.name !== "string" || !item.name.trim() || typeof item.description !== "string") context.addIssue({ code: "custom", path: [...path, index, "options", optionIndex], message: "Opção racial inválida." });
+      else if (optionIds.has(item.id)) context.addIssue({ code: "custom", path: [...path, index, "options", optionIndex, "id"], message: "Cada opção racial deve ter identificador único." });
+      else optionIds.add(item.id);
+      validateMechanicModifiers(item?.modifiers, [...path, index, "options", optionIndex, "modifiers"], context);
+      validateGrantBundle(item?.grants, [...path, index, "options", optionIndex, "grants"], context);
+    });
+  });
 }
 function validateCustomVows(value: unknown, path: (string | number)[], context: z.RefinementCtx) {
   if (value === undefined) return;
@@ -341,14 +365,31 @@ const characterInput = z.object({
     if (typeof race.id !== "string" || !race.id.trim() || typeof race.name !== "string" || !race.name.trim()) context.addIssue({ code: "custom", path: ["sheet", "mechanics", "race"], message: "A raça mecânica precisa de identificador e nome." });
     validateMechanicSource(race, ["sheet", "mechanics", "race"], context);
     validateGrantBundle(race.grants, ["sheet", "mechanics", "race", "grants"], context);
+    validateRaceChoices(race.choices, ["sheet", "mechanics", "race", "choices"], context);
     if (race.evolutions !== undefined && !Array.isArray(race.evolutions)) context.addIssue({ code: "custom", path: ["sheet", "mechanics", "race", "evolutions"], message: "Evoluções da raça devem ser uma lista." });
     if (Array.isArray(race.evolutions)) race.evolutions.forEach((evolution, index) => {
       const item = asRecord(evolution);
       if (!item || typeof item.id !== "string" || !item.id.trim() || typeof item.name !== "string" || !item.name.trim()) context.addIssue({ code: "custom", path: ["sheet", "mechanics", "race", "evolutions", index], message: "Cada evolução precisa de identificador e nome." });
       validateMechanicSource(item, ["sheet", "mechanics", "race", "evolutions", index], context);
       validateGrantBundle(item?.grants, ["sheet", "mechanics", "race", "evolutions", index, "grants"], context);
+      validateRaceChoices(item?.choices, ["sheet", "mechanics", "race", "evolutions", index, "choices"], context);
     });
     if (typeof race.selectedEvolutionId === "string" && Array.isArray(race.evolutions) && !race.evolutions.some(evolution => asRecord(evolution)?.id === race.selectedEvolutionId)) context.addIssue({ code: "custom", path: ["sheet", "mechanics", "race", "selectedEvolutionId"], message: "A evolução selecionada não pertence à raça atual." });
+    const selectedEvolution = Array.isArray(race.evolutions) ? race.evolutions.find(evolution => asRecord(evolution)?.id === race.selectedEvolutionId) : undefined;
+    const choices = [...(Array.isArray(race.choices) ? race.choices : []), ...(Array.isArray(asRecord(selectedEvolution)?.choices) ? asRecord(selectedEvolution)?.choices as unknown[] : [])].map(asRecord).filter(Boolean) as Record<string, unknown>[];
+    if (race.selectedChoices !== undefined && !Array.isArray(race.selectedChoices)) context.addIssue({ code: "custom", path: ["sheet", "mechanics", "race", "selectedChoices"], message: "As escolhas selecionadas da raça devem formar uma lista." });
+    if (Array.isArray(race.selectedChoices)) {
+      const selectedIds = new Set<string>();
+      race.selectedChoices.forEach((selection, index) => {
+        const item = asRecord(selection);
+        const choiceId = typeof item?.choiceId === "string" ? item.choiceId : "";
+        const optionId = typeof item?.optionId === "string" ? item.optionId : "";
+        const choice = choices.find(candidate => candidate.id === choiceId);
+        if (!choice || !optionId || !Array.isArray(choice.options) || !choice.options.some(option => asRecord(option)?.id === optionId)) context.addIssue({ code: "custom", path: ["sheet", "mechanics", "race", "selectedChoices", index], message: "A opção racial selecionada não pertence à raça ou evolução ativa." });
+        if (selectedIds.has(choiceId)) context.addIssue({ code: "custom", path: ["sheet", "mechanics", "race", "selectedChoices", index, "choiceId"], message: "Cada escolha racial pode ser definida apenas uma vez." });
+        selectedIds.add(choiceId);
+      });
+    }
   }
   const training = input.sheet.training;
   if (Array.isArray(training)) training.forEach((track, index) => {

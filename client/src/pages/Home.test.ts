@@ -82,4 +82,9 @@ describe("hidratação de fichas legadas", () => {
     });
     expect(sheet).toMatchObject({ houseRules: { customVows: [{ id: "voto-1", active: true }] }, customResources: [{ id: "foco", unit: "cargas" }], transformations: [{ id: "forma", active: true }], training: [{ stageEffects: { 1: { description: "Base" } } }] });
   });
+
+  it("preserva escolhas e evoluções estruturadas de Raça ao recarregar", () => {
+    const sheet = hydrateSheet({ mechanics: { race: { id: "linhagem", sourceKind: "custom", name: "Linhagem", description: "", active: true, requirements: [], modifiers: [], characteristics: [], abilities: ["Sentidos ampliados"], choices: [{ id: "afinidade", label: "Afinidade", description: "", requirements: [], options: [{ id: "agil", name: "Ágil", description: "", modifiers: [] }] }], selectedChoices: [{ choiceId: "afinidade", optionId: "agil" }], evolutions: [{ id: "forma-3", name: "Forma desperta", description: "", requirements: [{ type: "level-min", minimum: 3 }], modifiers: [], characteristics: [], abilities: ["Forma desperta"], choices: [] }], selectedEvolutionId: "forma-3" } } });
+    expect(sheet.mechanics.race).toMatchObject({ name: "Linhagem", selectedChoices: [{ optionId: "agil" }], evolutions: [{ id: "forma-3", abilities: ["Forma desperta"] }] });
+  });
 });

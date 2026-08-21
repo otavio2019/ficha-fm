@@ -423,6 +423,17 @@ describe("biblioteca de fichas", () => {
     await expect(caller.characters.save({ id: "ficha-mecanica-valida", name: "Yuji", sheet })).resolves.toMatchObject({ name: "Yuji" });
   });
 
+  it("preserva escolha racial válida e recusa opção que não pertence à raça atual", async () => {
+    const sheet = createEmptyFMSheet();
+    sheet.mechanics.race = { id: "raca-escolha", sourceKind: "custom", name: "Linhagem", description: "", active: true, modifiers: [], requirements: [], characteristics: [], abilities: [], choices: [{ id: "afinidade", label: "Afinidade", description: "", requirements: [], options: [{ id: "agil", name: "Ágil", description: "", modifiers: [{ id: "des", target: "dexterity", operation: "add", value: 1 }] }] }], selectedChoices: [{ choiceId: "afinidade", optionId: "agil" }], evolutions: [], selectedEvolutionId: null };
+    vi.mocked(getFMCharacter).mockResolvedValue(undefined);
+    vi.mocked(saveFMCharacter).mockResolvedValue({ id: "ficha-raca-escolha", ownerId: 1, name: "Yuji", portraitUrl: null, sheet, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+    await expect(caller.characters.save({ id: "ficha-raca-escolha", name: "Yuji", sheet })).resolves.toMatchObject({ name: "Yuji" });
+    sheet.mechanics.race.selectedChoices = [{ choiceId: "afinidade", optionId: "inexistente" }];
+    await expect(caller.characters.save({ id: "ficha-raca-escolha", name: "Yuji", sheet })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+  });
+
   it("duplica apenas uma ficha que pertence ao usuário", async () => {
     vi.mocked(getFMCharacter).mockResolvedValue({ id: "ficha-origem", ownerId: 1, name: "Maki", portraitUrl: null, sheet: { identity: { name: "Maki" } }, createdAt: new Date(), updatedAt: new Date() });
     vi.mocked(saveFMCharacter).mockImplementation(async input => ({ ...input, portraitUrl: input.portraitUrl ?? null, createdAt: new Date(), updatedAt: new Date() }));
