@@ -1,4 +1,4 @@
-export const FM_HOMEBREW_KINDS = ["technique", "vow", "aptitude", "race", "domain", "training", "item", "rule", "other"] as const;
+export const FM_HOMEBREW_KINDS = ["technique", "vow", "aptitude", "race", "domain", "training", "item", "ability", "rule", "other"] as const;
 export type FMHomebrewKind = typeof FM_HOMEBREW_KINDS[number];
 export const FM_REVIEW_STATUSES = ["pending", "accepted", "rejected", "implemented"] as const;
 export type FMReviewStatus = typeof FM_REVIEW_STATUSES[number];
@@ -31,26 +31,35 @@ export type FMReviewDraft = {
   reviewerName: string;
   kind: FMReviewKind;
   section: string;
+  field: string;
   currentValue: string;
   suggestedValue: string;
   reason: string;
 };
 
-export const FM_HOMEBREW_KIND_META: Record<FMHomebrewKind, { label: string; summary: string; fieldLabels: Array<[string, string]> }> = {
-  technique: { label: "Técnica", summary: "Técnica Amaldiçoada ou Estilo Marcial personalizado.", fieldLabels: [["attribute", "Atributo principal"], ["counterplay", "Contrajogo"]] },
-  vow: { label: "Voto", summary: "Voto ou pacto com benefício e sacrifício declarados.", fieldLabels: [["benefit", "Benefício"], ["sacrifice", "Sacrifício ou restrição"]] },
-  aptitude: { label: "Aptidão", summary: "Aptidão com nível, custo, requisito e efeito estruturados.", fieldLabels: [["group", "Grupo"], ["approval", "Aprovação do mestre"]] },
-  race: { label: "Raça", summary: "Origem, raça ou linhagem personalizada.", fieldLabels: [["attributeBonus", "Bônus de atributo"], ["restriction", "Restrição"]] },
-  domain: { label: "Expansão de Domínio", summary: "Domínio com barreira, custo, efeito e contrajogo.", fieldLabels: [["barrier", "Barreira"], ["counterplay", "Contrajogo"]] },
-  training: { label: "Treinamento", summary: "Treinamento com foco, etapas, custos e efeitos rastreáveis.", fieldLabels: [["focus", "Foco ou Interlúdios"], ["stages", "Etapas"]] },
-  item: { label: "Item", summary: "Item, ferramenta ou encantamento homebrew.", fieldLabels: [["spaces", "Espaços de carga"], ["approval", "Aprovação do mestre"]] },
-  rule: { label: "Regra", summary: "Regra opcional ou ajuste de campanha.", fieldLabels: [["scope", "Escopo"], ["counterplay", "Limite ou contrapartida"]] },
-  other: { label: "Outro", summary: "Conteúdo personalizado que não se encaixa nas demais categorias.", fieldLabels: [["category", "Categoria sugerida"], ["approval", "Aprovação do mestre"]] },
+export type FMHomebrewFieldSpec = { key: string; label: string; placeholder?: string; multiline?: boolean };
+export type FMHomebrewKindMeta = { label: string; summary: string; fieldSpecs: FMHomebrewFieldSpec[]; fieldLabels: Array<[string, string]> };
+
+function homebrewKind(label: string, summary: string, fieldSpecs: FMHomebrewFieldSpec[]): FMHomebrewKindMeta {
+  return { label, summary, fieldSpecs, fieldLabels: fieldSpecs.map(({ key, label: fieldLabel }) => [key, fieldLabel]) };
+}
+
+export const FM_HOMEBREW_KIND_META: Record<FMHomebrewKind, FMHomebrewKindMeta> = {
+  technique: homebrewKind("Técnica", "Técnica Amaldiçoada ou Estilo Marcial personalizado.", [{ key: "type", label: "Tipo" }, { key: "range", label: "Alcance" }, { key: "damage", label: "Dano" }, { key: "counterplay", label: "Contrajogo", multiline: true }, { key: "limitations", label: "Limitações", multiline: true }]),
+  vow: homebrewKind("Voto", "Voto ou pacto com benefício e sacrifício declarados.", [{ key: "condition", label: "Condição", multiline: true }, { key: "benefit", label: "Benefício", multiline: true }, { key: "restriction", label: "Restrição", multiline: true }, { key: "consequence", label: "Consequência", multiline: true }]),
+  aptitude: homebrewKind("Aptidão", "Aptidão com nível, custo, requisito e efeito estruturados.", [{ key: "group", label: "Grupo" }, { key: "limitations", label: "Limitações", multiline: true }, { key: "approval", label: "Aprovação do mestre" }]),
+  race: homebrewKind("Raça", "Origem, raça ou linhagem personalizada.", [{ key: "characteristics", label: "Características", multiline: true }, { key: "modifiers", label: "Modificadores", multiline: true }, { key: "abilities", label: "Habilidades", multiline: true }, { key: "restrictions", label: "Restrições", multiline: true }]),
+  domain: homebrewKind("Expansão de Domínio", "Domínio com barreira, custo, efeito e contrajogo.", [{ key: "conditions", label: "Condições", multiline: true }, { key: "area", label: "Área ou alcance" }, { key: "barrier", label: "Barreira", multiline: true }, { key: "characteristics", label: "Características", multiline: true }, { key: "counterplay", label: "Contrajogo", multiline: true }]),
+  training: homebrewKind("Treinamento", "Treinamento com foco, etapas, custos e efeitos rastreáveis.", [{ key: "benefits", label: "Benefícios", multiline: true }, { key: "limitations", label: "Limitações", multiline: true }, { key: "focus", label: "Foco ou Interlúdios" }, { key: "stages", label: "Etapas" }]),
+  item: homebrewKind("Item", "Item, ferramenta ou encantamento Homebrew.", [{ key: "category", label: "Categoria" }, { key: "weight", label: "Peso" }, { key: "characteristics", label: "Características", multiline: true }, { key: "limitations", label: "Limitações", multiline: true }]),
+  ability: homebrewKind("Habilidade", "Habilidade personalizada sem regra automática presumida.", [{ key: "type", label: "Tipo" }, { key: "activation", label: "Ativação" }, { key: "limitations", label: "Limitações", multiline: true }, { key: "counterplay", label: "Contrajogo", multiline: true }]),
+  rule: homebrewKind("Regra", "Regra opcional ou ajuste de campanha.", [{ key: "scope", label: "Escopo" }, { key: "adjustment", label: "Ajuste proposto", multiline: true }, { key: "limitations", label: "Limite ou contrapartida", multiline: true }]),
+  other: homebrewKind("Outro", "Conteúdo personalizado que não se encaixa nas demais categorias.", [{ key: "category", label: "Categoria sugerida" }, { key: "approval", label: "Aprovação do mestre" }]),
 };
 
 export function createEmptyHomebrew(kind: FMHomebrewKind = "other"): FMHomebrewDraft {
   const meta = FM_HOMEBREW_KIND_META[kind];
-  return { id: crypto.randomUUID(), kind, name: "", summary: meta.summary, content: { description: "", requirements: "", effects: "", cost: "", level: "", notes: "", fields: Object.fromEntries(meta.fieldLabels.map(([key]) => [key, ""])) } };
+  return { id: crypto.randomUUID(), kind, name: "", summary: meta.summary, content: { description: "", requirements: "", effects: "", cost: "", level: "", notes: "", fields: Object.fromEntries(meta.fieldSpecs.map(({ key }) => [key, ""])) } };
 }
 
 export function normalizeHomebrewContent(raw: Record<string, unknown> | undefined): FMHomebrewContent {
@@ -80,6 +89,7 @@ export function validateReview(input: Partial<FMReviewDraft>) {
   if (!input.reviewerName?.trim()) issues.push("Informe seu nome para enviar a avaliação.");
   if (!FM_REVIEW_KINDS.includes(input.kind as FMReviewKind)) issues.push("Escolha o tipo de avaliação.");
   if (!input.section?.trim()) issues.push("Informe a seção ou campo avaliado.");
+  if (input.kind === "suggestion" && !input.field?.trim()) issues.push("Informe o campo específico da sugestão.");
   if (!input.reason?.trim()) issues.push("Explique o motivo da avaliação ou sugestão.");
   return issues;
 }

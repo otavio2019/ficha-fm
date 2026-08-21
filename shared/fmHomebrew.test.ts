@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createEmptyHomebrew, normalizeHomebrewContent, validateHomebrew, validateReview } from "./fmHomebrew";
+import { createEmptyHomebrew, FM_HOMEBREW_KIND_META, normalizeHomebrewContent, validateHomebrew, validateReview } from "./fmHomebrew";
 
 describe("Homebrew genérico", () => {
   it("cria conteúdo estruturado por categoria com campos extensíveis", () => {
@@ -14,5 +14,16 @@ describe("Homebrew genérico", () => {
 
   it("exige autoria, seção e motivo para avaliações", () => {
     expect(validateReview({ targetId: "homebrew-1", reviewerName: "", kind: "suggestion", section: "Custo", reason: "" })).toEqual(expect.arrayContaining(["Informe seu nome para enviar a avaliação.", "Explique o motivo da avaliação ou sugestão."]));
+  });
+
+  it("exige campo específico apenas em sugestões de alteração", () => {
+    expect(validateReview({ targetId: "homebrew-1", reviewerName: "Avaliador", kind: "suggestion", section: "Técnica", field: "", reason: "Ajustar o custo." })).toContain("Informe o campo específico da sugestão.");
+    expect(validateReview({ targetId: "homebrew-1", reviewerName: "Avaliador", kind: "general", section: "Avaliação geral", field: "", reason: "Conteúdo claro." })).not.toContain("Informe o campo específico da sugestão.");
+  });
+
+  it("expõe campos específicos extensíveis para Habilidade sem pressupor regra automática", () => {
+    const draft = createEmptyHomebrew("ability");
+    expect(FM_HOMEBREW_KIND_META.ability.fieldSpecs.map(field => field.key)).toEqual(["type", "activation", "limitations", "counterplay"]);
+    expect(draft.content.fields).toMatchObject({ type: "", activation: "", limitations: "", counterplay: "" });
   });
 });

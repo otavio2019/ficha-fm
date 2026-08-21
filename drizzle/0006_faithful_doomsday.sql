@@ -1,0 +1,1 @@
+ALTER TABLE `fm_reviews` ADD `field` varchar(160) DEFAULT '' NOT NULL;

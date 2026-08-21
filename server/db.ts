@@ -174,14 +174,36 @@ export async function getFMContentShare(targetType: "character" | "homebrew", ta
 export async function createFMContentShare(input: { ownerId: number; targetType: "character" | "homebrew"; targetId: string; token: string }) {
   const db = await getDb();
   if (!db) return undefined;
-  await db.insert(fmContentShares).values(input);
+  await db.insert(fmContentShares).values({ ...input, enabled: true }).onDuplicateKeyUpdate({ set: { token: input.token, enabled: true, updatedAt: new Date() } });
   return getFMContentShare(input.targetType, input.targetId, input.ownerId);
+}
+
+export async function listFMContentShares(ownerId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(fmContentShares).where(eq(fmContentShares.ownerId, ownerId)).orderBy(desc(fmContentShares.updatedAt));
+}
+
+export async function setFMContentShareEnabled(input: { id: number; ownerId: number; enabled: boolean }) {
+  const db = await getDb();
+  if (!db) return undefined;
+  await db.update(fmContentShares).set({ enabled: input.enabled, updatedAt: new Date() }).where(and(eq(fmContentShares.id, input.id), eq(fmContentShares.ownerId, input.ownerId)));
+  const records = await db.select().from(fmContentShares).where(and(eq(fmContentShares.id, input.id), eq(fmContentShares.ownerId, input.ownerId))).limit(1);
+  return records[0];
+}
+
+export async function regenerateFMContentShare(input: { id: number; ownerId: number; token: string }) {
+  const db = await getDb();
+  if (!db) return undefined;
+  await db.update(fmContentShares).set({ token: input.token, enabled: true, updatedAt: new Date() }).where(and(eq(fmContentShares.id, input.id), eq(fmContentShares.ownerId, input.ownerId)));
+  const records = await db.select().from(fmContentShares).where(and(eq(fmContentShares.id, input.id), eq(fmContentShares.ownerId, input.ownerId))).limit(1);
+  return records[0];
 }
 
 export async function getSharedFMContent(token: string) {
   const db = await getDb();
   if (!db) return undefined;
-  const records = await db.select().from(fmContentShares).where(eq(fmContentShares.token, token)).limit(1);
+  const records = await db.select().from(fmContentShares).where(and(eq(fmContentShares.token, token), eq(fmContentShares.enabled, true))).limit(1);
   return records[0];
 }
 
@@ -199,6 +221,13 @@ export async function createFMReview(input: typeof fmReviews.$inferInsert) {
   if (!db) return undefined;
   await db.insert(fmReviews).values(input);
   const records = await db.select().from(fmReviews).where(eq(fmReviews.id, input.id)).limit(1);
+  return records[0];
+}
+
+export async function getFMReview(id: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const records = await db.select().from(fmReviews).where(eq(fmReviews.id, id)).limit(1);
   return records[0];
 }
 

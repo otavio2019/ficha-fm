@@ -14,7 +14,7 @@ import { getAptitudeCatalogEntry } from "../shared/fmCampaignCapabilities";
 import { FM_HOMEBREW_KINDS, FM_REVIEW_KINDS, FM_REVIEW_STATUSES, validateHomebrew, validateReview } from "../shared/fmHomebrew";
 import { normalizeHomebrewContent } from "../shared/fmHomebrew";
 import { storagePut } from "./storage";
-import { createFMChangeHistory, createFMCharacterShare, createFMContentShare, createFMReview, deleteFMCharacter, deleteFMHomebrew, deleteFMTechnique, getFMCharacter, getFMCharacterShare, getFMContentShare, getFMHomebrew, getFMTechnique, getSharedFMCharacter, getSharedFMContent, listFMChangeHistory, listFMCharacters, listFMCharacterShares, listFMHomebrews, listFMReviews, listFMTechniques, saveFMCharacter, saveFMHomebrew, saveFMTechnique, updateFMReview } from "./db";
+import { createFMChangeHistory, createFMCharacterShare, createFMContentShare, createFMReview, deleteFMCharacter, deleteFMHomebrew, deleteFMTechnique, getFMCharacter, getFMCharacterShare, getFMContentShare, getFMHomebrew, getFMReview, getFMTechnique, getSharedFMCharacter, getSharedFMContent, listFMChangeHistory, listFMCharacters, listFMCharacterShares, listFMContentShares, listFMHomebrews, listFMReviews, listFMTechniques, regenerateFMContentShare, saveFMCharacter, saveFMHomebrew, saveFMTechnique, setFMContentShareEnabled, updateFMReview } from "./db";
 import { emitCharacterUpdated } from "./live";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
@@ -27,9 +27,11 @@ const validClanIds = new Set([...FM_CLAN_CATALOG.map(clan => clan.id), "custom"]
 const storedImageUrl = z.union([z.string().url(), z.string().regex(/^\/manus-storage\//)]);
 const homebrewContentInput = z.object({ description: z.string().max(8000), requirements: z.string().max(8000), effects: z.string().max(8000), cost: z.string().max(1000), level: z.string().max(1000), notes: z.string().max(8000), fields: z.record(z.string(), z.string().max(4000)) });
 const homebrewInput = z.object({ id: z.string().min(6).max(64), kind: z.enum(FM_HOMEBREW_KINDS), name: z.string().trim().min(1).max(160), summary: z.string().trim().min(1).max(1000), content: homebrewContentInput }).superRefine((input, context) => validateHomebrew(input).forEach(message => context.addIssue({ code: "custom", path: ["content"], message })));
-const reviewSubmissionInput = z.object({ token: z.string().min(8).max(64), reviewerName: z.string().trim().min(1).max(160), kind: z.enum(FM_REVIEW_KINDS), section: z.string().trim().min(1).max(160), currentValue: z.string().max(8000).default(""), suggestedValue: z.string().max(8000).default(""), reason: z.string().trim().min(1).max(8000) }).superRefine((input, context) => validateReview({ ...input, targetId: "shared" }).forEach(message => context.addIssue({ code: "custom", path: ["reason"], message })));
+const reviewSubmissionInput = z.object({ token: z.string().min(8).max(64), reviewerName: z.string().trim().min(1).max(160), kind: z.enum(FM_REVIEW_KINDS), section: z.string().trim().min(1).max(160), field: z.string().trim().max(160).default(""), currentValue: z.string().max(8000).default(""), suggestedValue: z.string().max(8000).default(""), reason: z.string().trim().min(1).max(8000) }).superRefine((input, context) => validateReview({ ...input, targetId: "shared" }).forEach(message => context.addIssue({ code: "custom", path: message.includes("campo específico") ? ["field"] : ["reason"], message })));
 const reviewOwnerUpdateInput = z.object({ id: z.string().min(6).max(64), status: z.enum(FM_REVIEW_STATUSES), ownerResponse: z.string().max(8000).default("") });
 const reviewTargetInput = z.object({ targetType: z.enum(["character", "homebrew"]), targetId: z.string().min(6).max(64) });
+const contentShareTargetInput = reviewTargetInput;
+const contentShareIdInput = z.object({ id: z.number().int().positive() });
 function validateDeclaredModifier(value: unknown, path: (string | number)[], rule: FMDeclaredModifierRule, context: z.RefinementCtx) {
   if (!isDeclaredModifierInRange(value, rule)) {
     const specification = FM_DECLARED_MODIFIER_RULES[rule];
@@ -309,9 +311,9 @@ export const appRouter = router({
       const homebrew = await getFMHomebrew(input.id);
       if (!homebrew || homebrew.ownerId !== ctx.user.id) throw new TRPCError({ code: "FORBIDDEN", message: "Você não pode compartilhar este Homebrew." });
       const existing = await getFMContentShare("homebrew", input.id, ctx.user.id);
-      const share = existing ?? await createFMContentShare({ ownerId: ctx.user.id, targetType: "homebrew", targetId: input.id, token: nanoid(24) });
+      const share = existing?.enabled ? existing : await createFMContentShare({ ownerId: ctx.user.id, targetType: "homebrew", targetId: input.id, token: nanoid(24) });
       if (!share) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Não foi possível criar o link de avaliação." });
-      if (!existing) await createFMChangeHistory({ id: nanoid(22), ownerId: ctx.user.id, targetType: "homebrew", targetId: input.id, actorName: ctx.user.name || "Criador", eventType: "shared", detail: { token: share.token } });
+      if (!existing || !existing.enabled) await createFMChangeHistory({ id: nanoid(22), ownerId: ctx.user.id, targetType: "homebrew", targetId: input.id, actorName: ctx.user.name || "Criador", eventType: existing ? "regenerated" : "shared", detail: { token: share.token } });
       return { token: share.token };
     }),
   }),
@@ -319,9 +321,14 @@ export const appRouter = router({
     list: protectedProcedure.input(reviewTargetInput.optional()).query(({ ctx, input }) => listFMReviews(ctx.user.id, input?.targetType, input?.targetId)),
     history: protectedProcedure.input(reviewTargetInput.optional()).query(({ ctx, input }) => listFMChangeHistory(ctx.user.id, input?.targetType, input?.targetId)),
     update: protectedProcedure.input(reviewOwnerUpdateInput).mutation(async ({ ctx, input }) => {
+      const previous = await getFMReview(input.id);
+      if (!previous || previous.ownerId !== ctx.user.id) throw new TRPCError({ code: "FORBIDDEN", message: "Você não pode atualizar esta sugestão." });
+      const transitions: Record<typeof previous.status, Array<typeof previous.status>> = { pending: ["accepted", "rejected"], accepted: ["implemented", "rejected"], rejected: [], implemented: [] };
+      if (input.status !== previous.status && !transitions[previous.status].includes(input.status)) throw new TRPCError({ code: "BAD_REQUEST", message: "Esta transição de status não é permitida para a revisão atual." });
+      if ((previous.status === "rejected" || previous.status === "implemented") && input.ownerResponse.trim() !== previous.ownerResponse) throw new TRPCError({ code: "BAD_REQUEST", message: "A resposta só pode ser editada enquanto a revisão estiver pendente ou aceita." });
       const review = await updateFMReview(input.id, ctx.user.id, { status: input.status, ownerResponse: input.ownerResponse.trim() });
       if (!review) throw new TRPCError({ code: "FORBIDDEN", message: "Você não pode atualizar esta sugestão." });
-      const eventType = input.status === "accepted" ? "accepted" : input.status === "rejected" ? "rejected" : input.status === "implemented" ? "implemented" : "responded";
+      const eventType = input.status === previous.status ? "responded" : input.status === "accepted" ? "accepted" : input.status === "rejected" ? "rejected" : "implemented";
       await createFMChangeHistory({ id: nanoid(22), ownerId: ctx.user.id, targetType: review.targetType, targetId: review.targetId, actorName: ctx.user.name || "Criador", eventType, detail: { reviewId: review.id, section: review.section, status: input.status, response: input.ownerResponse.trim() } });
       return review;
     }),
@@ -331,6 +338,11 @@ export const appRouter = router({
         const homebrew = await getFMHomebrew(genericShare.targetId);
         if (!homebrew) throw new TRPCError({ code: "NOT_FOUND", message: "Homebrew compartilhado não encontrado." });
         return { targetType: "homebrew" as const, targetId: homebrew.id, name: homebrew.name, summary: homebrew.summary, content: homebrew.content, kind: homebrew.kind };
+      }
+      if (genericShare?.targetType === "character") {
+        const character = await getFMCharacter(genericShare.targetId);
+        if (!character) throw new TRPCError({ code: "NOT_FOUND", message: "Ficha compartilhada não encontrada." });
+        return { targetType: "character" as const, targetId: character.id, name: character.name, summary: "Ficha de personagem compartilhada para avaliação.", content: character.sheet, kind: "character" };
       }
       const character = await getSharedFMCharacter(input.token);
       if (!character) throw new TRPCError({ code: "NOT_FOUND", message: "Conteúdo compartilhado não encontrado." });
@@ -353,9 +365,9 @@ export const appRouter = router({
         targetId = character.id;
         ownerId = character.ownerId;
       }
-      const review = await createFMReview({ id: nanoid(22), ownerId, targetType, targetId, reviewerName: input.reviewerName.trim(), reviewerUserId: ctx.user?.id ?? null, kind: input.kind, section: input.section.trim(), currentValue: input.currentValue.trim(), suggestedValue: input.suggestedValue.trim(), reason: input.reason.trim(), status: "pending", ownerResponse: "" });
+      const review = await createFMReview({ id: nanoid(22), ownerId, targetType, targetId, reviewerName: input.reviewerName.trim(), reviewerUserId: ctx.user?.id ?? null, kind: input.kind, section: input.section.trim(), field: input.field.trim(), currentValue: input.currentValue.trim(), suggestedValue: input.suggestedValue.trim(), reason: input.reason.trim(), status: "pending", ownerResponse: "" });
       if (!review) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Não foi possível enviar a sugestão." });
-      await createFMChangeHistory({ id: nanoid(22), ownerId, targetType, targetId, actorName: input.reviewerName.trim(), eventType: input.kind === "comment" ? "commented" : "suggested", detail: { reviewId: review.id, section: input.section.trim(), kind: input.kind } });
+      await createFMChangeHistory({ id: nanoid(22), ownerId, targetType, targetId, actorName: input.reviewerName.trim(), eventType: input.kind === "comment" ? "commented" : "suggested", detail: { reviewId: review.id, section: input.section.trim(), field: input.field.trim(), kind: input.kind } });
       return review;
     }),
   }),
@@ -466,6 +478,30 @@ export const appRouter = router({
       const share = existing ?? await createFMCharacterShare({ characterId: input.characterId, ownerId: ctx.user.id, token: nanoid(24) });
       if (!share) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Não foi possível criar o link público." });
       return { token: share.token };
+    }),
+  }),
+  contentShares: router({
+    list: protectedProcedure.query(({ ctx }) => listFMContentShares(ctx.user.id)),
+    create: protectedProcedure.input(contentShareTargetInput).mutation(async ({ ctx, input }) => {
+      const target = input.targetType === "character" ? await getFMCharacter(input.targetId) : await getFMHomebrew(input.targetId);
+      if (!target || target.ownerId !== ctx.user.id) throw new TRPCError({ code: "FORBIDDEN", message: "Você não pode compartilhar este conteúdo." });
+      const existing = await getFMContentShare(input.targetType, input.targetId, ctx.user.id);
+      const share = existing?.enabled ? existing : await createFMContentShare({ ownerId: ctx.user.id, targetType: input.targetType, targetId: input.targetId, token: nanoid(24) });
+      if (!share) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Não foi possível criar o link compartilhável." });
+      if (!existing || !existing.enabled) await createFMChangeHistory({ id: nanoid(22), ownerId: ctx.user.id, targetType: input.targetType, targetId: input.targetId, actorName: ctx.user.name || "Criador", eventType: existing ? "regenerated" : "shared", detail: { shareId: share.id, token: share.token } });
+      return share;
+    }),
+    revoke: protectedProcedure.input(contentShareIdInput).mutation(async ({ ctx, input }) => {
+      const share = await setFMContentShareEnabled({ id: input.id, ownerId: ctx.user.id, enabled: false });
+      if (!share) throw new TRPCError({ code: "FORBIDDEN", message: "Você não pode revogar este link." });
+      await createFMChangeHistory({ id: nanoid(22), ownerId: ctx.user.id, targetType: share.targetType, targetId: share.targetId, actorName: ctx.user.name || "Criador", eventType: "revoked", detail: { shareId: share.id } });
+      return share;
+    }),
+    regenerate: protectedProcedure.input(contentShareIdInput).mutation(async ({ ctx, input }) => {
+      const share = await regenerateFMContentShare({ id: input.id, ownerId: ctx.user.id, token: nanoid(24) });
+      if (!share) throw new TRPCError({ code: "FORBIDDEN", message: "Você não pode gerar um novo link para este conteúdo." });
+      await createFMChangeHistory({ id: nanoid(22), ownerId: ctx.user.id, targetType: share.targetType, targetId: share.targetId, actorName: ctx.user.name || "Criador", eventType: "regenerated", detail: { shareId: share.id, token: share.token } });
+      return share;
     }),
   }),
   shares: router({

@@ -29,6 +29,27 @@
       "when": 1787271003441,
       "tag": "0003_sticky_nebula",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1787273004199,
+      "tag": "0004_strong_mimic",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1787273193113,
+      "tag": "0005_thin_black_panther",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1787273468934,
+      "tag": "0006_faithful_doomsday",
+      "breakpoints": true
     }
   ]
 }

@@ -169,3 +169,11 @@
 - [x] Permitir salvar vínculo legado seguro quando a técnica não existir mais na biblioteca do proprietário.
 - [x] Manter o bloqueio de vínculo para técnicas existentes pertencentes a outra conta.
 - [x] Cobrir a correção com testes protegidos, tipagem, build e sincronização no GitHub.
+- [x] Mapear a especificação anexada contra HomebrewHub, biblioteca de técnicas, compartilhamento e revisões atuais.
+- [x] Formalizar metadados extensíveis de categoria para Técnicas, Votos, Aptidões, Raças, Domínios, Treinamentos, Itens, Habilidades, Regras e Outros.
+- [x] Reorganizar a central Homebrew para integrar visualmente a biblioteca de Técnicas aos filtros e categorias.
+- [x] Completar links genéricos e controles de compartilhamento para todo conteúdo Homebrew.
+- [x] Ampliar a visualização pública com autor, leitura estruturada, avaliação, comentário e sugestão.
+- [x] Aprimorar sugestões de ficha com contexto de seção e campo, além de avaliação geral.
+- [x] Ampliar o painel do proprietário com filtros, resposta e trilha de decisões por conteúdo.
+- [x] Cobrir compatibilidade, persistência, autorização, interface responsiva e revisão no GitHub.

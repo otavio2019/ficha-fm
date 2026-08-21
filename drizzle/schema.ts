@@ -52,7 +52,7 @@ export const fmTechniques = mysqlTable("fm_techniques", {
 export const fmHomebrews = mysqlTable("fm_homebrews", {
   id: varchar("id", { length: 64 }).primaryKey(),
   ownerId: int("ownerId").notNull(),
-  kind: mysqlEnum("kind", ["technique", "vow", "aptitude", "race", "domain", "training", "item", "rule", "other"]).notNull(),
+  kind: mysqlEnum("kind", ["technique", "vow", "aptitude", "race", "domain", "training", "item", "ability", "rule", "other"]).notNull(),
   name: varchar("name", { length: 160 }).notNull(),
   summary: text("summary").notNull(),
   content: json("content").$type<Record<string, unknown>>().notNull(),
@@ -70,7 +70,9 @@ export const fmContentShares = mysqlTable("fm_content_shares", {
   targetType: mysqlEnum("targetType", ["character", "homebrew"]).notNull(),
   targetId: varchar("targetId", { length: 64 }).notNull(),
   token: varchar("token", { length: 64 }).notNull(),
+  enabled: boolean("enabled").default(true).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 }, table => ({
   tokenUnique: uniqueIndex("fm_content_shares_token_unique").on(table.token),
   targetUnique: uniqueIndex("fm_content_shares_target_unique").on(table.targetType, table.targetId),
@@ -86,6 +88,7 @@ export const fmReviews = mysqlTable("fm_reviews", {
   reviewerUserId: int("reviewerUserId"),
   kind: mysqlEnum("kind", ["general", "suggestion", "comment"]).notNull(),
   section: varchar("section", { length: 160 }).notNull(),
+  field: varchar("field", { length: 160 }).default("").notNull(),
   currentValue: text("currentValue").notNull(),
   suggestedValue: text("suggestedValue").notNull(),
   reason: text("reason").notNull(),
@@ -104,7 +107,7 @@ export const fmChangeHistory = mysqlTable("fm_change_history", {
   targetType: mysqlEnum("targetType", ["character", "homebrew"]).notNull(),
   targetId: varchar("targetId", { length: 64 }).notNull(),
   actorName: varchar("actorName", { length: 160 }).notNull(),
-  eventType: mysqlEnum("eventType", ["created", "updated", "shared", "suggested", "commented", "responded", "accepted", "rejected", "implemented", "deleted"]).notNull(),
+  eventType: mysqlEnum("eventType", ["created", "updated", "shared", "revoked", "regenerated", "suggested", "commented", "responded", "accepted", "rejected", "implemented", "deleted"]).notNull(),
   detail: json("detail").$type<Record<string, unknown>>().notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 }, table => ({
@@ -124,3 +127,4 @@ export type InsertFMHomebrew = typeof fmHomebrews.$inferInsert;
 export type FMContentShare = typeof fmContentShares.$inferSelect;
 export type FMReview = typeof fmReviews.$inferSelect;
 export type FMChangeHistory = typeof fmChangeHistory.$inferSelect;
+import { boolean } from "drizzle-orm/mysql-core";

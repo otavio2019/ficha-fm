@@ -1,0 +1,3 @@
+ALTER TABLE `fm_change_history` MODIFY COLUMN `eventType` enum('created','updated','shared','revoked','regenerated','suggested','commented','responded','accepted','rejected','implemented','deleted') NOT NULL;--> statement-breakpoint
+ALTER TABLE `fm_content_shares` ADD `enabled` boolean DEFAULT true NOT NULL;--> statement-breakpoint
+ALTER TABLE `fm_content_shares` ADD `updatedAt` timestamp DEFAULT (now()) NOT NULL ON UPDATE CURRENT_TIMESTAMP;

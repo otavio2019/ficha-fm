@@ -1,0 +1,1 @@
+ALTER TABLE `fm_homebrews` MODIFY COLUMN `kind` enum('technique','vow','aptitude','race','domain','training','item','ability','rule','other') NOT NULL;

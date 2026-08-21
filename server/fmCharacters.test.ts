@@ -13,23 +13,27 @@ vi.mock("./db", () => ({
   getFMCharacterShare: vi.fn(),
   getFMContentShare: vi.fn(),
   getFMHomebrew: vi.fn(),
+  getFMReview: vi.fn(),
   getFMTechnique: vi.fn(),
   getSharedFMContent: vi.fn(),
   getSharedFMCharacter: vi.fn(),
   listFMChangeHistory: vi.fn(),
   listFMCharacters: vi.fn(),
   listFMCharacterShares: vi.fn(),
+  listFMContentShares: vi.fn(),
   listFMHomebrews: vi.fn(),
   listFMReviews: vi.fn(),
   listFMTechniques: vi.fn(),
   saveFMCharacter: vi.fn(),
   saveFMHomebrew: vi.fn(),
   saveFMTechnique: vi.fn(),
+  regenerateFMContentShare: vi.fn(),
+  setFMContentShareEnabled: vi.fn(),
   updateFMReview: vi.fn(),
 }));
 vi.mock("./storage", () => ({ storagePut: vi.fn() }));
 
-import { createFMChangeHistory, createFMCharacterShare, createFMContentShare, createFMReview, deleteFMCharacter, deleteFMHomebrew, deleteFMTechnique, getFMCharacter, getFMCharacterShare, getFMContentShare, getFMHomebrew, getFMTechnique, getSharedFMCharacter, getSharedFMContent, listFMHomebrews, listFMTechniques, saveFMCharacter, saveFMHomebrew, saveFMTechnique, updateFMReview } from "./db";
+import { createFMChangeHistory, createFMCharacterShare, createFMContentShare, createFMReview, deleteFMCharacter, deleteFMHomebrew, deleteFMTechnique, getFMCharacter, getFMCharacterShare, getFMContentShare, getFMHomebrew, getFMReview, getFMTechnique, getSharedFMCharacter, getSharedFMContent, listFMHomebrews, listFMTechniques, regenerateFMContentShare, saveFMCharacter, saveFMHomebrew, saveFMTechnique, setFMContentShareEnabled, updateFMReview } from "./db";
 import { appRouter } from "./routers";
 import { storagePut } from "./storage";
 import { createTechniqueFromPreset } from "../shared/fmCreationAssistant";
@@ -469,21 +473,45 @@ describe("Homebrew e revisão", () => {
     vi.mocked(getFMContentShare).mockResolvedValue(undefined);
     vi.mocked(createFMContentShare).mockResolvedValue({ id: 1, ownerId: 1, targetType: "homebrew", targetId: aptitude.id, token: "link-homebrew-avaliacao-123", createdAt: new Date() });
     vi.mocked(getSharedFMContent).mockResolvedValue({ id: 1, ownerId: 1, targetType: "homebrew", targetId: aptitude.id, token: "link-homebrew-avaliacao-123", createdAt: new Date() });
-    vi.mocked(createFMReview).mockResolvedValue({ id: "review-1", ownerId: 1, targetType: "homebrew", targetId: aptitude.id, reviewerName: "Avaliador", reviewerUserId: null, kind: "suggestion", section: "Custo", currentValue: "2 PE", suggestedValue: "1 PE", reason: "Adequar ao benefício inicial.", status: "pending", ownerResponse: "", createdAt: new Date(), updatedAt: new Date() });
+    vi.mocked(createFMReview).mockResolvedValue({ id: "review-1", ownerId: 1, targetType: "homebrew", targetId: aptitude.id, reviewerName: "Avaliador", reviewerUserId: null, kind: "suggestion", section: "Técnica", field: "Custo", currentValue: "2 PE", suggestedValue: "1 PE", reason: "Adequar ao benefício inicial.", status: "pending", ownerResponse: "", createdAt: new Date(), updatedAt: new Date() });
     const owner = appRouter.createCaller(createContext(1));
     const publicCaller = appRouter.createCaller({ ...createContext(1), user: null });
 
     await expect(owner.homebrews.share({ id: aptitude.id })).resolves.toMatchObject({ token: "link-homebrew-avaliacao-123" });
-    await expect(publicCaller.reviews.submit({ token: "link-homebrew-avaliacao-123", reviewerName: "Avaliador", kind: "suggestion", section: "Custo", currentValue: "2 PE", suggestedValue: "1 PE", reason: "Adequar ao benefício inicial." })).resolves.toMatchObject({ status: "pending", targetType: "homebrew" });
-    expect(createFMReview).toHaveBeenCalledWith(expect.objectContaining({ ownerId: 1, targetId: aptitude.id, status: "pending" }));
+    await expect(publicCaller.reviews.submit({ token: "link-homebrew-avaliacao-123", reviewerName: "Avaliador", kind: "suggestion", section: "Técnica", field: "Custo", currentValue: "2 PE", suggestedValue: "1 PE", reason: "Adequar ao benefício inicial." })).resolves.toMatchObject({ status: "pending", targetType: "homebrew" });
+    expect(createFMReview).toHaveBeenCalledWith(expect.objectContaining({ ownerId: 1, targetId: aptitude.id, field: "Custo", status: "pending" }));
   });
 
   it("só permite ao proprietário decidir o estado de uma sugestão", async () => {
-    vi.mocked(updateFMReview).mockResolvedValue({ id: "review-1", ownerId: 1, targetType: "homebrew", targetId: aptitude.id, reviewerName: "Avaliador", reviewerUserId: null, kind: "suggestion", section: "Custo", currentValue: "2 PE", suggestedValue: "1 PE", reason: "Adequar ao benefício inicial.", status: "accepted", ownerResponse: "Vamos testar em mesa.", createdAt: new Date(), updatedAt: new Date() });
+    vi.mocked(getFMReview).mockResolvedValue({ id: "review-1", ownerId: 1, targetType: "homebrew", targetId: aptitude.id, reviewerName: "Avaliador", reviewerUserId: null, kind: "suggestion", section: "Técnica", field: "Custo", currentValue: "2 PE", suggestedValue: "1 PE", reason: "Adequar ao benefício inicial.", status: "pending", ownerResponse: "", createdAt: new Date(), updatedAt: new Date() });
+    vi.mocked(updateFMReview).mockResolvedValue({ id: "review-1", ownerId: 1, targetType: "homebrew", targetId: aptitude.id, reviewerName: "Avaliador", reviewerUserId: null, kind: "suggestion", section: "Técnica", field: "Custo", currentValue: "2 PE", suggestedValue: "1 PE", reason: "Adequar ao benefício inicial.", status: "accepted", ownerResponse: "Vamos testar em mesa.", createdAt: new Date(), updatedAt: new Date() });
     const caller = appRouter.createCaller(createContext(1));
 
     await expect(caller.reviews.update({ id: "review-1", status: "accepted", ownerResponse: "Vamos testar em mesa." })).resolves.toMatchObject({ status: "accepted", ownerResponse: "Vamos testar em mesa." });
     expect(updateFMReview).toHaveBeenCalledWith("review-1", 1, { status: "accepted", ownerResponse: "Vamos testar em mesa." });
+  });
+
+  it("exige aceite antes de permitir marcar uma sugestão como implementada", async () => {
+    vi.mocked(getFMReview).mockResolvedValue({ id: "review-pendente", ownerId: 1, targetType: "homebrew", targetId: aptitude.id, reviewerName: "Avaliador", reviewerUserId: null, kind: "suggestion", section: "Técnica", field: "Custo", currentValue: "2 PE", suggestedValue: "1 PE", reason: "Adequar ao benefício inicial.", status: "pending", ownerResponse: "", createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+
+    await expect(caller.reviews.update({ id: "review-pendente", status: "implemented", ownerResponse: "" })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+    expect(updateFMReview).not.toHaveBeenCalled();
+  });
+
+  it("cria, revoga e regenera um link genérico sem entregar edição ao visitante", async () => {
+    vi.mocked(getFMHomebrew).mockResolvedValue({ ...aptitude, ownerId: 1, createdAt: new Date(), updatedAt: new Date() });
+    vi.mocked(getFMContentShare).mockResolvedValue(undefined);
+    vi.mocked(createFMContentShare).mockResolvedValue({ id: 9, ownerId: 1, targetType: "homebrew", targetId: aptitude.id, token: "link-compartilhado-123", enabled: true, createdAt: new Date(), updatedAt: new Date() });
+    vi.mocked(setFMContentShareEnabled).mockResolvedValue({ id: 9, ownerId: 1, targetType: "homebrew", targetId: aptitude.id, token: "link-compartilhado-123", enabled: false, createdAt: new Date(), updatedAt: new Date() });
+    vi.mocked(regenerateFMContentShare).mockResolvedValue({ id: 9, ownerId: 1, targetType: "homebrew", targetId: aptitude.id, token: "link-renovado-123", enabled: true, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+
+    await expect(caller.contentShares.create({ targetType: "homebrew", targetId: aptitude.id })).resolves.toMatchObject({ enabled: true, token: "link-compartilhado-123" });
+    await expect(caller.contentShares.revoke({ id: 9 })).resolves.toMatchObject({ enabled: false });
+    await expect(caller.contentShares.regenerate({ id: 9 })).resolves.toMatchObject({ enabled: true, token: "link-renovado-123" });
+    expect(createFMChangeHistory).toHaveBeenCalledWith(expect.objectContaining({ eventType: "revoked", targetId: aptitude.id }));
+    expect(createFMChangeHistory).toHaveBeenCalledWith(expect.objectContaining({ eventType: "regenerated", targetId: aptitude.id }));
   });
 
   it("aceita uma Aptidão Homebrew fiel ao arquivo do criador e rejeita referência de outra conta", async () => {
