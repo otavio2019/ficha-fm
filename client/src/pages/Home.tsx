@@ -14,6 +14,7 @@ import { AssetsPanelWithActions, DomainExpansionPanel } from "@/components/Campa
 import { AptitudeManagerPanel } from "@/components/AptitudeManagerPanel";
 import { CharacterAuditPanel } from "@/components/CharacterAuditPanel";
 import { SourceEffectsPanel } from "@/components/SourceEffectsPanel";
+import { MutantCorePanel } from "@/components/MutantCorePanel";
 import { FM_RULE_CITATIONS } from "@shared/fmCitations";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { BookOpen, ChevronLeft, CirclePlus, Copy, Dice5, Download, Flame, ImagePlus, Library, Loader2, LogOut, Menu, MoonStar, Plus, Printer, ScrollText, Share2, Shield, Sparkles, Swords, Trash2, WandSparkles, Wrench } from "lucide-react";
@@ -28,6 +29,7 @@ import { FM_INVOCATION_GRADE_RULES, getInvocationDerived } from "@shared/fmInvoc
 import { applyInfiniteWorldMission, getExperienceForLevel, getInfiniteWorldProgress, getMissionRewardPreview, removeInfiniteWorldMission, type InfiniteWorldMissionDifficulty, type InfiniteWorldMoneyDifficulty } from "@shared/infiniteWorlds";
 import { FM_TECHNIQUE_CREATION_CITATION, getPrimaryTechniqueAttribute, getTechniqueCopy, getTechniqueKindForSpecialization, isTechniqueReady, validateTechnique } from "@shared/fmTechniques";
 import { getSpecializationAbilityProgress, updateSpecializationAbilityChoice } from "@shared/fmSpecializationAbilities";
+import { FM_MUTANT_CURSED_CORPSE_ORIGIN, getEffectiveMutantSheet, getMutantActiveCore, isMutantCursedCorpse, normalizeMutantCoreState, updateActiveMutantCore } from "@shared/fmMutantCores";
 import { FM_HOUSE_RULES_CITATION, getHouseRestAvailability, getMassiveDamageOutcome, rollHouseAttributeGeneration } from "@shared/fmHouseRules";
 import { applyAutomatedSpellType, createAutomatedSpell } from "@shared/fmCreationAssistant";
 import { calculateCharacterState, FM_MODIFIER_TARGET_LABELS, type FMCharacterState } from "@shared/fmCharacterState";
@@ -126,6 +128,12 @@ export function hydrateSheet(raw: Record<string, unknown> | null | undefined): F
     training: Array.isArray(source.training) ? source.training : [],
     customResources: Array.isArray(source.customResources) ? source.customResources : [],
     transformations: Array.isArray(source.transformations) ? source.transformations : [],
+    mutantCores: source.mutantCores || source.origin?.catalogId === FM_MUTANT_CURSED_CORPSE_ORIGIN ? normalizeMutantCoreState(source.mutantCores, {
+      progression: { ...empty.progression, ...(source.progression ?? {}), specializationAbilityChoices: Array.isArray(source.progression?.specializationAbilityChoices) ? source.progression.specializationAbilityChoices : [] },
+      attributes: { base: { ...empty.attributes.base, ...(source.attributes?.base ?? {}) }, permanentBonuses: { ...empty.attributes.permanentBonuses, ...(source.attributes?.permanentBonuses ?? {}) } },
+      resources: { health: { ...empty.resources.health, ...(source.resources?.health ?? {}) }, energy: { ...empty.resources.energy, ...(source.resources?.energy ?? {}) } },
+      spells: Array.isArray(source.spells) ? source.spells : [],
+    }) : undefined,
     allies: Array.isArray(source.allies) ? source.allies : [],
     cursedTools: Array.isArray(source.cursedTools) ? source.cursedTools : [],
     domainExpansion: source.domainExpansion ?? null,
@@ -639,23 +647,34 @@ function renderTab({ tab, sheet, derived, updateSheet, addDiary, newNote, setNew
 }
 
 function OverviewTab({ sheet, derived, updateSheet, addDiary, characterId, previewMode, uploadImage, techniques }: { sheet: FMCharacterSheet; derived: ReturnType<typeof getDerivedValues>; updateSheet: (updater: (current: FMCharacterSheet) => FMCharacterSheet) => void; addDiary: (title: string, detail: string, category?: FMCharacterSheet["diary"][number]["category"]) => void; characterId: string; previewMode: boolean; uploadImage: (input: { characterId: string; fileName: string; contentType: "image/jpeg" | "image/png" | "image/webp"; base64: string; caption: string }) => Promise<FMImageAttachment>; techniques: Array<{ id: string; name: string; technique: Record<string, unknown> }> }) {
-  const resourceLabel = getResourceLabel(sheet.progression.specialization, sheet.progression.nonSorcerer);
+  const effectiveSheet = getEffectiveMutantSheet(sheet);
+  const activeCore = isMutantCursedCorpse(sheet) ? getMutantActiveCore(sheet.mutantCores) : null;
+  const activeResources = activeCore?.resources ?? sheet.resources;
+  const resourceLabel = getResourceLabel(effectiveSheet.progression.specialization, effectiveSheet.progression.nonSorcerer);
   const changeResource = (resource: "health" | "energy", delta: number) => updateSheet(current => {
     const values = getDerivedValues(current);
     const maximum = resource === "health" ? values.healthMaximum : values.energyMaximum;
-    const currentValue = current.resources[resource].current;
+    const core = isMutantCursedCorpse(current) ? getMutantActiveCore(current.mutantCores) : null;
+    const currentValue = core?.resources[resource].current ?? current.resources[resource].current;
     const nextValue = Math.min(maximum, Math.max(0, currentValue + delta));
-    const label = resource === "health" ? "PV" : getResourceLabel(current.progression.specialization, current.progression.nonSorcerer);
-    return { ...current, resources: { ...current.resources, [resource]: { ...current.resources[resource], current: nextValue } }, diary: [{ id: id(), at: Date.now(), category: "resource", title: `${label} ajustado`, detail: `${currentValue} → ${nextValue} (${delta > 0 ? "+" : ""}${delta})` }, ...current.diary] };
+    const label = resource === "health" ? "PV" : getResourceLabel(getEffectiveMutantSheet(current).progression.specialization, current.progression.nonSorcerer);
+    const nextResources = core && current.mutantCores ? { ...current.mutantCores, cores: current.mutantCores.cores.map(item => item.id === core.id ? { ...item, resources: { ...item.resources, [resource]: { ...item.resources[resource], current: nextValue } } } : item) } : null;
+    return { ...current, ...(nextResources ? { mutantCores: nextResources } : { resources: { ...current.resources, [resource]: { ...current.resources[resource], current: nextValue } } }), diary: [{ id: id(), at: Date.now(), category: "resource", title: `${label} ajustado`, detail: `${currentValue} → ${nextValue} (${delta > 0 ? "+" : ""}${delta})` }, ...current.diary] };
   });
-  const setCurrentResource = (resource: "health" | "energy", value: string) => updateSheet(current => ({ ...current, resources: { ...current.resources, [resource]: { ...current.resources[resource], current: Math.max(0, asNumber(value)) } } }));
+  const setCurrentResource = (resource: "health" | "energy", value: string) => updateSheet(current => {
+    const core = isMutantCursedCorpse(current) ? getMutantActiveCore(current.mutantCores) : null;
+    const nextValue = Math.max(0, asNumber(value));
+    if (core && current.mutantCores) return { ...current, mutantCores: { ...current.mutantCores, cores: current.mutantCores.cores.map(item => item.id === core.id ? { ...item, resources: { ...item.resources, [resource]: { ...item.resources[resource], current: nextValue } } } : item) } };
+    return { ...current, resources: { ...current.resources, [resource]: { ...current.resources[resource], current: nextValue } } };
+  });
   return <><SectionTitle eyebrow="Núcleo do personagem" title="Visão geral" description="Acompanhe identidade, retrato principal, recursos atuais e as fórmulas que sustentam a cena." />
     <CharacterPortraitPanel sheet={sheet} updateSheet={updateSheet} addDiary={addDiary} characterId={characterId} previewMode={previewMode} uploadImage={uploadImage} />
     <div className="grid gap-4 xl:grid-cols-[1.15fr_.85fr]"><Panel><div className="grid gap-4 sm:grid-cols-2"><Field label="Nome"><Input value={sheet.identity.name} onChange={event => updateSheet(current => ({ ...current, identity: { ...current.identity, name: event.target.value } }))} /></Field><Field label="Jogador"><Input value={sheet.identity.player} onChange={event => updateSheet(current => ({ ...current, identity: { ...current.identity, player: event.target.value } }))} /></Field><Field label="Grau"><Input value={sheet.identity.grade} onChange={event => updateSheet(current => ({ ...current, identity: { ...current.identity, grade: event.target.value } }))} placeholder="Ex.: Grau 2" /></Field><Field label="Origem"><Input value={sheet.origin.name} onChange={event => updateSheet(current => ({ ...current, origin: { ...current.origin, name: event.target.value } }))} placeholder="Ex.: Inato" /></Field><Field label="Técnica amaldiçoada" hint="Atributo-chave escolhido na aba Atributos."><Input value={sheet.technique.name} onChange={event => updateSheet(current => ({ ...current, technique: { ...current.technique, name: event.target.value } }))} placeholder="Nome da técnica" /></Field><Field label="Funcionamento básico" hint="O núcleo narrativo e os limites da técnica."><Textarea value={sheet.technique.basicFunction} onChange={event => updateSheet(current => ({ ...current, technique: { ...current.technique, basicFunction: event.target.value } }))} placeholder="Descreva o conceito e as restrições da técnica." /></Field></div></Panel>
-      <div className="grid gap-4"><ResourceCard label="Pontos de Vida" shortLabel="PV" value={sheet.resources.health.current} maximum={derived.healthMaximum} onChange={value => setCurrentResource("health", value)} onAdjust={delta => changeResource("health", delta)} /><ResourceCard label={resourceLabel} shortLabel={resourceLabel === "Estamina" ? "ES" : "PE"} value={sheet.resources.energy.current} maximum={derived.energyMaximum} onChange={value => setCurrentResource("energy", value)} onAdjust={delta => changeResource("energy", delta)} /></div></div>
+      <div className="grid gap-4"><ResourceCard label="Pontos de Vida" shortLabel="PV" value={activeResources.health.current} maximum={derived.healthMaximum} onChange={value => setCurrentResource("health", value)} onAdjust={delta => changeResource("health", delta)} /><ResourceCard label={resourceLabel} shortLabel={resourceLabel === "Estamina" ? "ES" : "PE"} value={activeResources.energy.current} maximum={derived.energyMaximum} onChange={value => setCurrentResource("energy", value)} onAdjust={delta => changeResource("energy", delta)} /></div></div>
     <ImageAttachmentsPanel sheet={sheet} updateSheet={updateSheet} addDiary={addDiary} characterId={characterId} previewMode={previewMode} uploadImage={uploadImage} />
     <OriginSelectionPanel sheet={sheet} updateSheet={updateSheet} />
     <OriginBenefitsLedger sheet={sheet} updateSheet={updateSheet} />
+    <MutantCorePanel sheet={sheet} onUpdate={updateSheet} />
     <RaceSelectionPanel sheet={sheet} onUpdate={updateSheet} onDiary={addDiary} previewMode={previewMode} />
     <RaceProgressPanel sheet={sheet} onUpdate={updateSheet} />
     <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-4"><FormulaCard label="Defesa" value={derived.defense} formula="10 + Destreza + metade do nível + bônus" source="Livro-base, pp. 19 e 281" /><FormulaCard label="Iniciativa" value={`${derived.initiative >= 0 ? "+" : ""}${derived.initiative}`} formula="Destreza + bônus" source="Livro-base, pp. 19 e 291" /><FormulaCard label="Atenção" value={derived.attention} formula="10 + Percepção + bônus" source="Livro-base, p. 19" /><FormulaCard label="CD da técnica" value={derived.techniqueDc} formula="10 + metade do nível + atributo + treinamento" source="Livro-base, p. 198" /></div>
@@ -776,7 +795,7 @@ function OriginSelectionPanel({ sheet, updateSheet }: { sheet: FMCharacterSheet;
   const selectedClan = getClanCatalogEntry(sheet.origin.clanId);
   const chooseOrigin = (catalogId: FMCharacterSheet["origin"]["catalogId"]) => updateSheet(current => {
     const entry = getOriginCatalogEntry(catalogId);
-    return { ...current, origin: { ...current.origin, catalogId, clanId: catalogId === "inherited" ? current.origin.clanId : "custom", name: entry?.name ?? current.origin.name, clan: catalogId === "inherited" ? current.origin.clan : "", attributeBonuses: {}, description: entry?.description ?? current.origin.description } };
+    return { ...current, origin: { ...current.origin, catalogId, clanId: catalogId === "inherited" ? current.origin.clanId : "custom", name: entry?.name ?? current.origin.name, clan: catalogId === "inherited" ? current.origin.clan : "", attributeBonuses: {}, description: entry?.description ?? current.origin.description }, mutantCores: catalogId === FM_MUTANT_CURSED_CORPSE_ORIGIN ? normalizeMutantCoreState(current.mutantCores, current) : current.mutantCores };
   });
   const chooseClan = (clanId: FMCharacterSheet["origin"]["clanId"]) => updateSheet(current => { const clan = getClanCatalogEntry(clanId); return { ...current, origin: { ...current.origin, clanId, clan: clan?.name ?? current.origin.clan, attributeBonuses: {} } }; });
   return <Panel className="mt-4 border-amber-300/15 bg-amber-300/[.025]"><SectionTitle eyebrow="Fonte de poder" title="Origem" description="Escolha de onde vem o poder do personagem. A origem costuma ser definida na criação; mudanças posteriores exigem decisão da mesa." /><div className="grid gap-4 xl:grid-cols-[.85fr_1.15fr]"><div className="grid gap-3"><Field label="Origem escolhida"><select className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground" value={sheet.origin.catalogId} onChange={event => chooseOrigin(event.target.value as FMCharacterSheet["origin"]["catalogId"])}><option value="custom">Personalizada / legado</option>{FM_ORIGIN_CATALOG.map(origin => <option key={origin.id} value={origin.id}>{origin.name}{origin.rare ? " · rara" : ""}</option>)}</select></Field>{sheet.origin.catalogId === "inherited" ? <><Field label="Clã estruturado" hint="Os quatro clãs padrão aplicam benefícios e limites do livro F&M."><select className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground" value={sheet.origin.clanId} onChange={event => chooseClan(event.target.value as FMCharacterSheet["origin"]["clanId"])}><option value="custom">Outra linhagem / texto livre</option>{FM_CLAN_CATALOG.map(clan => <option key={clan.id} value={clan.id}>{clan.name}</option>)}</select></Field><Field label="Clã ou linhagem" hint={selectedClan ? "Preenchido pelo catálogo; ajuste apenas para registrar uma variação aprovada." : "Obrigatório para a linhagem personalizada."}><Input value={sheet.origin.clan} onChange={event => updateSheet(current => ({ ...current, origin: { ...current.origin, clan: event.target.value } }))} placeholder="Ex.: Clã Gojo" /></Field></> : <Field label="Clã ou linhagem narrativa" hint="Opcional fora da Origem Herdado; não concede benefícios mecânicos."><Input value={sheet.origin.clan} onChange={event => updateSheet(current => ({ ...current, origin: { ...current.origin, clan: event.target.value } }))} placeholder="Ex.: família ou clã de origem" /></Field>}</div><div className="rounded-xl border border-violet-300/10 bg-black/20 p-4"><p className="font-display text-lg text-amber-100">{(selectedClan?.name ?? selected?.name ?? sheet.origin.name) || "Origem personalizada"}</p><p className="mt-2 text-sm leading-6 text-stone-300">{selectedClan?.description ?? selected?.description ?? sheet.origin.description ?? "Descreva a fonte de força do personagem."}</p><p className="mt-3 rounded-lg border border-amber-300/10 bg-amber-300/5 p-3 text-xs leading-5 text-stone-400">{selectedClan?.creationNote ?? selected?.creationNote ?? "Registre bônus de atributo e características de origem com origem declarada e aprovação da mesa."}</p>{selected?.requiresRestrictedSpecialization && sheet.progression.specialization !== "restricted" ? <p className="mt-3 text-xs leading-5 text-amber-200">Esta origem exige a Especialização Restringido. Ajuste-a em Atributos e defesas antes de salvar.</p> : null}</div></div></Panel>;
@@ -857,7 +876,15 @@ function CalculatedStatePanel({ state }: { state: FMCharacterState }) {
   return <Panel className="mb-4 border-amber-300/15 bg-amber-300/[.025]"><div className="flex flex-col gap-2 border-b border-violet-300/10 pb-4 sm:flex-row sm:items-end sm:justify-between"><div><p className="font-display text-xs uppercase tracking-[.18em] text-amber-300/70">Estado calculado</p><h3 className="mt-1 font-display text-xl text-stone-100">Origem dos valores</h3><p className="mt-1 text-sm leading-6 text-stone-400">O valor-base permanece editável. Os efeitos ativos são somados separadamente e podem ser auditados sem poluir a ficha.</p></div><span className="text-xs text-stone-500">{state.appliedModifiers.length} modificador(es) ativo(s)</span></div><div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">{fmAttributeKeys.map(attribute => { const breakdown = state.attributeBreakdown[attribute]; return <details key={attribute} className="group rounded-xl border border-violet-300/10 bg-black/20 p-3"><summary className="cursor-pointer list-none"><div className="flex items-center justify-between gap-3"><div><p className="text-xs uppercase tracking-[.13em] text-stone-500">{FM_ATTRIBUTE_LABELS[attribute]}</p><p className="mt-1 text-sm text-stone-400">Base {breakdown.base} · Final <strong className="text-amber-100">{breakdown.final}</strong></p></div><span className="text-xs text-violet-200 group-open:text-amber-100">{breakdown.entries.length ? `${breakdown.entries.length} fonte(s)` : "Sem efeitos"}</span></div></summary><div className="mt-3 border-t border-violet-300/10 pt-3">{breakdown.entries.length ? <ul className="space-y-2 text-xs leading-5 text-stone-400">{breakdown.entries.map(entry => <li key={`${entry.sourceId}:${entry.id}`}><strong className="font-medium text-stone-200">{entry.sourceName}</strong> <span className="text-amber-100">{entry.value >= 0 ? "+" : ""}{entry.value}</span>{entry.note ? ` · ${entry.note}` : ""}</li>)}</ul> : <p className="text-xs text-stone-500">Nenhum modificador ativo para este atributo.</p>}</div></details>; })}</div>{derivedEntries.length ? <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">{derivedEntries.map(([target, breakdown]) => <details key={target} className="group rounded-xl border border-violet-300/10 bg-black/20 p-3"><summary className="cursor-pointer list-none"><p className="text-xs uppercase tracking-[.13em] text-stone-500">{FM_MODIFIER_TARGET_LABELS[target as keyof typeof FM_MODIFIER_TARGET_LABELS]}</p><p className="mt-1 text-sm text-stone-400">Ajuste final <strong className="text-amber-100">{breakdown.final >= 0 ? "+" : ""}{breakdown.final}</strong></p></summary><ul className="mt-3 space-y-2 border-t border-violet-300/10 pt-3 text-xs leading-5 text-stone-400">{breakdown.entries.map(entry => <li key={`${entry.sourceId}:${entry.id}`}><strong className="font-medium text-stone-200">{entry.sourceName}</strong> {entry.value >= 0 ? "+" : ""}{entry.value}{entry.note ? ` · ${entry.note}` : ""}</li>)}</ul></details>)}</div> : null}{pendingRequirements.length ? <div className="mt-4 rounded-xl border border-amber-300/20 bg-amber-300/[.06] p-3 text-sm leading-6 text-amber-100"><strong>Requisitos não atendidos:</strong> {pendingRequirements.map(item => `${item.sourceName}: ${item.message}`).join(" ")}</div> : null}</Panel>;
 }
 
-function AttributesTab({ sheet, derived, updateSheet }: { sheet: FMCharacterSheet; derived: ReturnType<typeof getDerivedValues>; updateSheet: (updater: (current: FMCharacterSheet) => FMCharacterSheet) => void }) {
+function AttributesTab({ sheet: characterSheet, derived, updateSheet: updateCharacterSheet }: { sheet: FMCharacterSheet; derived: ReturnType<typeof getDerivedValues>; updateSheet: (updater: (current: FMCharacterSheet) => FMCharacterSheet) => void }) {
+  const sheet = getEffectiveMutantSheet(characterSheet);
+  const updateSheet = (updater: (current: FMCharacterSheet) => FMCharacterSheet) => updateCharacterSheet(current => {
+    if (!isMutantCursedCorpse(current) || !current.mutantCores) return updater(current);
+    const active = getMutantActiveCore(current.mutantCores);
+    if (!active) return updater(current);
+    const next = updater(getEffectiveMutantSheet(current));
+    return { ...current, progression: next.progression, attributes: { ...current.attributes, permanentBonuses: next.attributes.permanentBonuses }, mutantCores: { ...current.mutantCores, cores: current.mutantCores.cores.map(core => core.id === active.id ? { ...core, attributes: next.attributes.base } : core) } };
+  });
   const calculatedState = calculateCharacterState(sheet);
   return <><SectionTitle eyebrow="Estrutura de poder" title="Atributos e defesas" description={`Atributos de 0 a 30; o limite natural é 20. Especialização, Multiclasse e nível ficam em sua própria seção. ${FM_RULE_CITATIONS.coreValues} e ${FM_RULE_CITATIONS.training}.`} />
     <CalculatedStatePanel state={calculatedState} />
@@ -890,17 +917,30 @@ function SkillsTab({ sheet, derived, updateSheet }: { sheet: FMCharacterSheet; d
     <div className="space-y-3">{sheet.skills.length === 0 ? <Panel className="border-dashed text-center text-sm text-stone-500">Nenhuma perícia registrada. Adicione as perícias em que o personagem possui treinamento.</Panel> : sheet.skills.map(skill => { const bonus = getSkillBonus(sheet.progression.level, derived.attributes, skill.attribute, skill.proficiency, skill.otherBonus, derived.trainingBonus, calculatedState.skillModifiers[skill.id] ?? 0); return <Panel key={skill.id}><div className="grid gap-3 lg:grid-cols-[minmax(160px,1.3fr)_minmax(130px,.8fr)_minmax(130px,.8fr)_100px_110px_auto]"><Field label="Perícia"><Input value={skill.name} onChange={event => updateSheet(current => ({ ...current, skills: current.skills.map(item => item.id === skill.id ? { ...item, name: event.target.value } : item) }))} /></Field><Field label="Atributo"><select className="h-10 rounded-md border border-input bg-background px-3 text-sm text-foreground" value={skill.attribute} onChange={event => updateSheet(current => ({ ...current, skills: current.skills.map(item => item.id === skill.id ? { ...item, attribute: event.target.value as typeof item.attribute } : item) }))}>{fmAttributeKeys.map(key => <option key={key} value={key}>{FM_ATTRIBUTE_LABELS[key]}</option>)}</select></Field><Field label="Proficiência"><select className="h-10 rounded-md border border-input bg-background px-3 text-sm text-foreground" value={skill.proficiency} onChange={event => updateSheet(current => ({ ...current, skills: current.skills.map(item => item.id === skill.id ? { ...item, proficiency: event.target.value as typeof item.proficiency } : item) }))}><option value="untrained">Sem treino</option><option value="trained">Treinado</option><option value="master">Mestre</option></select></Field><Field label="Outros"><Input type="number" value={skill.otherBonus} onChange={event => updateSheet(current => ({ ...current, skills: current.skills.map(item => item.id === skill.id ? { ...item, otherBonus: asNumber(event.target.value) } : item) }))} /></Field><Field label="Bônus"><Input readOnly value={`${bonus >= 0 ? "+" : ""}${bonus}`} /></Field><ActionButton title="Remover perícia" onClick={() => updateSheet(current => ({ ...current, skills: current.skills.filter(item => item.id !== skill.id) }))} className="self-end hover:border-red-400/60 hover:text-red-200"><Trash2 className="h-4 w-4" /></ActionButton></div>{skill.notes ? <p className="mt-3 text-xs text-stone-500">{skill.notes}</p> : null}</Panel>})}</div></>;
 }
 
-function SpellsTab({ sheet, derived, updateSheet, addDiary }: { sheet: FMCharacterSheet; derived: ReturnType<typeof getDerivedValues>; updateSheet: (updater: (current: FMCharacterSheet) => FMCharacterSheet) => void; addDiary: (title: string, detail: string, category?: FMCharacterSheet["diary"][number]["category"]) => void }) {
-  const addSpell = () => updateSheet(current => ({ ...current, spells: [...current.spells, createAutomatedSpell()] }));
+function SpellsTab({ sheet: characterSheet, derived, updateSheet: updateCharacterSheet, addDiary }: { sheet: FMCharacterSheet; derived: ReturnType<typeof getDerivedValues>; updateSheet: (updater: (current: FMCharacterSheet) => FMCharacterSheet) => void; addDiary: (title: string, detail: string, category?: FMCharacterSheet["diary"][number]["category"]) => void }) {
+  const sheet = getEffectiveMutantSheet(characterSheet);
+  const updateSheet = (updater: (current: FMCharacterSheet) => FMCharacterSheet) => updateCharacterSheet(current => {
+    if (!isMutantCursedCorpse(current)) return updater(current);
+    const active = getMutantActiveCore(current.mutantCores);
+    if (!active || !current.mutantCores) return updater(current);
+    const next = updater(getEffectiveMutantSheet(current));
+    return { ...current, diary: next.diary, mutantCores: { ...current.mutantCores, cores: current.mutantCores.cores.map(core => core.id === active.id ? { ...core, attributes: next.attributes.base, resources: next.resources, spells: next.spells, specialization: next.progression.specialization, specializationAbilityChoices: next.progression.specializationAbilityChoices ?? core.specializationAbilityChoices } : core) } };
+  });
+  const effectiveSheet = getEffectiveMutantSheet(sheet);
+  const activeCore = isMutantCursedCorpse(sheet) ? getMutantActiveCore(sheet.mutantCores) : null;
+  const activeSpells = activeCore?.spells ?? sheet.spells;
+  const activeEnergy = activeCore?.resources.energy.current ?? sheet.resources.energy.current;
+  const updateActiveSpells = (updater: (spells: FMSpell[]) => FMSpell[]) => updateCharacterSheet(current => isMutantCursedCorpse(current) ? updateActiveMutantCore(current, core => ({ ...core, spells: updater(core.spells) })) : { ...current, spells: updater(current.spells) });
+  const addSpell = () => updateActiveSpells(spells => [...spells, createAutomatedSpell()]);
   const highestLevel = getHighestSpellLevel(sheet.progression.level);
-  const specializationLevel = Math.max(0, sheet.progression.specializationLevels ?? sheet.progression.level);
-  const powerProgression = getTechniquePowerProgression(sheet.progression.specialization, specializationLevel);
+  const specializationLevel = isMutantCursedCorpse(sheet) ? sheet.progression.level : Math.max(0, sheet.progression.specializationLevels ?? sheet.progression.level);
+  const powerProgression = getTechniquePowerProgression(effectiveSheet.progression.specialization, specializationLevel);
   const techniquePowers = Array.isArray(sheet.technique.powers) ? sheet.technique.powers : [];
-  const selectedPowerIds = new Set(sheet.spells.map(spell => spell.sourcePowerId).filter((powerId): powerId is string => Boolean(powerId)));
+  const selectedPowerIds = new Set(activeSpells.map(spell => spell.sourcePowerId).filter((powerId): powerId is string => Boolean(powerId)));
   const addTechniquePower = (power: FMTechniquePower) => {
     if (selectedPowerIds.has(power.id)) return;
     if (power.requiredCharacterLevel > specializationLevel || power.spellLevel > highestLevel || selectedPowerIds.size >= powerProgression.availableSlots) return;
-    updateSheet(current => ({ ...current, spells: [...current.spells, createAutomatedSpell(power.type, power)] }));
+    updateActiveSpells(spells => [...spells, createAutomatedSpell(power.type, power)]);
     addDiary(`Poder selecionado — ${power.name}`, `Poder de ${sheet.technique.name || "técnica"} selecionado no nível ${specializationLevel}.`, "note");
   };
   const castSpell = (spell: FMSpell) => {
@@ -909,15 +949,11 @@ function SpellsTab({ sheet, derived, updateSheet, addDiary }: { sheet: FMCharact
       return;
     }
     const cost = getSpellCost(spell.level, spell.costAdjustment);
-    if (sheet.resources.energy.current < cost) {
+    if (activeEnergy < cost) {
       toast.error(`Energia insuficiente para usar ${spell.name}.`);
       return;
     }
-    updateSheet(current => ({
-      ...current,
-      resources: { ...current.resources, energy: { ...current.resources.energy, current: current.resources.energy.current - cost } },
-      spells: current.spells.map(item => item.id === spell.id && item.durationType !== "immediate" ? { ...item, active: true } : item),
-    }));
+    updateSheet(current => isMutantCursedCorpse(current) ? updateActiveMutantCore(current, core => ({ ...core, resources: { ...core.resources, energy: { ...core.resources.energy, current: core.resources.energy.current - cost } }, spells: core.spells.map(item => item.id === spell.id && item.durationType !== "immediate" ? { ...item, active: true } : item) })) : { ...current, resources: { ...current.resources, energy: { ...current.resources.energy, current: current.resources.energy.current - cost } }, spells: current.spells.map(item => item.id === spell.id && item.durationType !== "immediate" ? { ...item, active: true } : item) });
     addDiary(`Feitiço: ${spell.name}`, `${cost} PE gastos. ${spell.durationType === "immediate" ? "Efeito imediato resolvido." : "Feitiço marcado como ativo."}`, "spell");
     toast.success(`${spell.name} conjurado: ${cost} PE gastos.`);
   };
@@ -927,11 +963,11 @@ function SpellsTab({ sheet, derived, updateSheet, addDiary }: { sheet: FMCharact
       toast.error("Apenas feitiços sustentados e ativos podem ser mantidos.");
       return;
     }
-    if (sheet.resources.energy.current < cost) {
+    if (activeEnergy < cost) {
       toast.error(`Energia insuficiente para sustentar ${spell.name}.`);
       return;
     }
-    updateSheet(current => ({ ...current, resources: { ...current.resources, energy: { ...current.resources.energy, current: current.resources.energy.current - cost } } }));
+    updateSheet(current => isMutantCursedCorpse(current) ? updateActiveMutantCore(current, core => ({ ...core, resources: { ...core.resources, energy: { ...core.resources.energy, current: core.resources.energy.current - cost } } })) : { ...current, resources: { ...current.resources, energy: { ...current.resources.energy, current: current.resources.energy.current - cost } } });
     addDiary(`Sustentação: ${spell.name}`, `${cost} PE gastos para sustentar o feitiço nesta rodada.`, "spell");
     toast.success(`${spell.name} sustentado: ${cost} PE gastos.`);
   };
@@ -939,7 +975,7 @@ function SpellsTab({ sheet, derived, updateSheet, addDiary }: { sheet: FMCharact
     <TechniquePowerSelectionPanel powers={techniquePowers} selectedPowerIds={selectedPowerIds} specialization={sheet.progression.specialization} specializationLevel={specializationLevel} highestSpellLevel={highestLevel} progression={powerProgression} onSelect={addTechniquePower} />
     <Panel className="mb-4 border-amber-300/15 bg-amber-300/[.035]"><p className="text-sm text-amber-100">Nível máximo disponível: <strong>{highestLevel}</strong>. Custo padrão: nível 0 = 0 PE; níveis 1–5 = 2, 5, 8, 12 e 20 PE. Um feitiço acima do acesso atual permanece identificado para revisão.</p></Panel>
     <div className="space-y-4">{sheet.spells.length === 0 ? <Panel className="border-dashed text-center text-sm text-stone-500">A técnica não possui feitiços registrados. Personagens com técnica normalmente começam com dois.</Panel> : sheet.spells.map(spell => <div key={spell.id} className="space-y-2"><SpellEditor spell={spell} highestLevel={highestLevel} onCast={() => castSpell(spell)} onSustain={() => sustainSpell(spell)} update={updater => updateSheet(current => ({ ...current, spells: current.spells.map(item => item.id === spell.id ? updater(item) : item) }))} remove={() => updateSheet(current => ({ ...current, spells: current.spells.filter(item => item.id !== spell.id) }))} /><SpellCombatModifier spell={spell} update={updater => updateSheet(current => ({ ...current, spells: current.spells.map(item => item.id === spell.id ? updater(item) : item) }))} /><CounterplayEditor spell={spell} update={updater => updateSheet(current => ({ ...current, spells: current.spells.map(item => item.id === spell.id ? updater(item) : item) }))} /></div>)}</div>
-    <div className="mt-4 grid gap-4 md:grid-cols-3"><FormulaCard label="CD da técnica" value={derived.techniqueDc} formula="Usada por feitiços com teste de resistência" source="Livro-base, pp. 198–203" /><FormulaCard label="Atributo da técnica" value={FM_ATTRIBUTE_LABELS[sheet.progression.techniqueAttribute]} formula="Definido no funcionamento básico" source="Livro-base, p. 198" /><FormulaCard label="Energia atual" value={`${sheet.resources.energy.current}/${derived.energyMaximum}`} formula="O uso de feitiço consome PE conforme o custo" source="Livro-base, pp. 200–203" /></div></>;
+    <div className="mt-4 grid gap-4 md:grid-cols-3"><FormulaCard label="CD da técnica" value={derived.techniqueDc} formula="Usada por feitiços com teste de resistência" source="Livro-base, pp. 198–203" /><FormulaCard label="Atributo da técnica" value={FM_ATTRIBUTE_LABELS[sheet.progression.techniqueAttribute]} formula="Definido no funcionamento básico" source="Livro-base, p. 198" /><FormulaCard label="Energia atual" value={`${activeEnergy}/${derived.energyMaximum}`} formula="O uso de feitiço consome PE conforme o custo" source="Livro-base, pp. 200–203" /></div></>;
 }
 
 export function TechniquePowerSelectionPanel({ powers, selectedPowerIds, specialization, specializationLevel, highestSpellLevel, progression, onSelect }: { powers: FMTechniquePower[]; selectedPowerIds: Set<string>; specialization: FMSpecializationKey; specializationLevel: number; highestSpellLevel: FMSpellLevel; progression: ReturnType<typeof getTechniquePowerProgression>; onSelect: (power: FMTechniquePower) => void }) {
@@ -963,7 +999,8 @@ function CounterplayEditor({ spell, update }: { spell: FMSpell; update: (updater
   return <div className={`rounded-xl border p-3 ${spell.counterplay?.trim() ? "border-emerald-300/20 bg-emerald-500/[.035]" : "border-amber-300/25 bg-amber-300/[.035]"}`}><Field label="Contrajogo, reação ou resistência" hint="Regra da Casa I: nenhum efeito pode eliminar completamente a possibilidade de resposta do alvo."><Textarea value={spell.counterplay ?? ""} onChange={event => update(current => ({ ...current, counterplay: event.target.value }))} placeholder="Ex.: teste de Reflexos, barreira, reação, distância mínima ou condição para interromper o efeito." /></Field></div>;
 }
 
-function CombatTab({ sheet, derived, updateSheet, addDiary }: { sheet: FMCharacterSheet; derived: ReturnType<typeof getDerivedValues>; updateSheet: (updater: (current: FMCharacterSheet) => FMCharacterSheet) => void; addDiary: (title: string, detail: string, category?: FMCharacterSheet["diary"][number]["category"]) => void }) {
+function CombatTab({ sheet: characterSheet, derived, updateSheet, addDiary }: { sheet: FMCharacterSheet; derived: ReturnType<typeof getDerivedValues>; updateSheet: (updater: (current: FMCharacterSheet) => FMCharacterSheet) => void; addDiary: (title: string, detail: string, category?: FMCharacterSheet["diary"][number]["category"]) => void }) {
+  const sheet = getEffectiveMutantSheet(characterSheet);
   const addAttack = () => updateSheet(current => ({ ...current, attacks: [...current.attacks, { id: id(), name: "Novo ataque", mode: "melee", finesse: false, trained: true, otherBonus: 0, penalties: 0, damage: "1d6", damageType: "Impacto", reach: "Toque", notes: "" }] }));
   const addDefense = () => updateSheet(current => ({ ...current, defenses: [...current.defenses, { id: id(), name: "Nova defesa", trigger: "Ao ser alvo de um ataque", action: "reaction", effect: "", cost: 0, notes: "" }] }));
   const addCombatant = () => updateSheet(current => ({ ...current, combatants: [...current.combatants, { id: id(), name: "Novo participante", initiative: 0, isPlayer: false }] }));

@@ -8,6 +8,7 @@ import { FM_DECLARED_MODIFIER_RULES, isDeclaredModifierInRange, type FMDeclaredM
 import { getInfiniteWorldLevel } from "../shared/infiniteWorlds";
 import { validateTechnique } from "../shared/fmTechniques";
 import { validateSpecializationAbilityChoices } from "../shared/fmSpecializationAbilities";
+import { FM_MUTANT_CORE_COUNT, FM_MUTANT_CURSED_CORPSE_ORIGIN } from "../shared/fmMutantCores";
 import { validateHouseRules } from "../shared/fmHouseRules";
 import { FM_CLAN_CATALOG, FM_ORIGIN_CATALOG, getClanCatalogEntry, getOriginAttributeAllocation, getOriginCatalogEntry } from "../shared/fmOrigins";
 import { FM_INVOCATION_GRADE_RULES } from "../shared/fmInvocations";
@@ -218,6 +219,51 @@ function validateAptitudeDefinition(value: unknown, path: (string | number)[], c
     validateAptitudeEffects(item?.effects, [...path, "evolutions", index, "effects"], context);
   });
   if (typeof aptitude.selectedEvolutionId === "string" && Array.isArray(aptitude.evolutions) && !aptitude.evolutions.some(item => asRecord(item)?.id === aptitude.selectedEvolutionId)) context.addIssue({ code: "custom", path: [...path, "selectedEvolutionId"], message: "A evolução selecionada não pertence à Aptidão." });
+}
+
+function validateMutantCores(value: unknown, level: number, context: z.RefinementCtx) {
+  const path = ["sheet", "mutantCores"] as (string | number)[];
+  if (!value || typeof value !== "object") { context.addIssue({ code: "custom", path, message: "Corpo Amaldiçoado Mutante precisa registrar os três núcleos." }); return; }
+  const state = value as Record<string, unknown>;
+  if (!Array.isArray(state.cores) || state.cores.length !== FM_MUTANT_CORE_COUNT) { context.addIssue({ code: "custom", path: [...path, "cores"], message: "Corpo Amaldiçoado Mutante precisa possuir exatamente três núcleos." }); return; }
+  const cores = state.cores as Array<Record<string, unknown>>;
+  const ids = cores.map(core => core.id).filter((id): id is string => typeof id === "string" && Boolean(id.trim()));
+  if (ids.length !== cores.length || new Set(ids).size !== ids.length) context.addIssue({ code: "custom", path: [...path, "cores"], message: "Cada núcleo precisa de um identificador único." });
+  if (typeof state.primaryCoreId !== "string" || !ids.includes(state.primaryCoreId)) context.addIssue({ code: "custom", path: [...path, "primaryCoreId"], message: "Selecione um Núcleo Primário válido." });
+  if (typeof state.activeCoreId !== "string" || !ids.includes(state.activeCoreId)) context.addIssue({ code: "custom", path: [...path, "activeCoreId"], message: "Selecione um Núcleo ativo válido." });
+  const primary = cores.find(core => core.id === state.primaryCoreId) ?? cores[0];
+  const getTotal = (core: Record<string, unknown>) => fmAttributeKeys.reduce((total, attribute) => total + (typeof (core.attributes as Record<string, unknown> | undefined)?.[attribute] === "number" ? Number((core.attributes as Record<string, unknown>)[attribute]) : 0), 0);
+  const primaryTotal = getTotal(primary);
+  cores.forEach((core, index) => {
+    const corePath = [...path, "cores", index] as (string | number)[];
+    if (typeof core.name !== "string" || !core.name.trim()) context.addIssue({ code: "custom", path: [...corePath, "name"], message: "Todo núcleo precisa de um nome." });
+    if (typeof core.specialization !== "string" || !FM_SPECIALIZATION_PROFILES[core.specialization as keyof typeof FM_SPECIALIZATION_PROFILES]) context.addIssue({ code: "custom", path: [...corePath, "specialization"], message: "Especialização do núcleo inválida." });
+    const attributes = core.attributes as Record<string, unknown> | undefined;
+    if (!attributes || fmAttributeKeys.some(attribute => !Number.isInteger(attributes[attribute]) || Number(attributes[attribute]) < 0 || Number(attributes[attribute]) > 30)) context.addIssue({ code: "custom", path: [...corePath, "attributes"], message: "Cada núcleo deve declarar atributos inteiros entre 0 e 30." });
+    else if (getTotal(core) !== primaryTotal) context.addIssue({ code: "custom", path: [...corePath, "attributes"], message: "Todos os núcleos devem redistribuir a mesma soma de atributos do Núcleo Primário." });
+    const resources = core.resources as Record<string, Record<string, unknown>> | undefined;
+    (["health", "energy"] as const).forEach(resource => {
+      const entry = resources?.[resource];
+      if (!entry || typeof entry.current !== "number" || entry.current < 0) context.addIssue({ code: "custom", path: [...corePath, "resources", resource, "current"], message: "O recurso atual do núcleo deve ser um número não negativo." });
+      if (entry) validateDeclaredModifier(entry.bonusMaximum, [...corePath, "resources", resource, "bonusMaximum"], "sheet", context);
+    });
+    if (typeof core.damaged === "boolean" && core.id === state.activeCoreId && core.damaged) context.addIssue({ code: "custom", path: [...path, "activeCoreId"], message: "Um núcleo Danificado não pode permanecer ativo." });
+    if (typeof core.destroyed === "boolean" && core.id === state.activeCoreId && core.destroyed) context.addIssue({ code: "custom", path: [...path, "activeCoreId"], message: "Um núcleo destruído não pode permanecer ativo." });
+    if (!Array.isArray(core.spells)) context.addIssue({ code: "custom", path: [...corePath, "spells"], message: "Os feitiços de cada núcleo devem ser uma lista." });
+    else {
+      const spells = core.spells as Array<Record<string, unknown>>;
+      const highestSpellLevel = getHighestSpellLevel(level);
+      const sourcePowerIds = spells.map(spell => spell.sourcePowerId).filter((id): id is string => typeof id === "string");
+      if (new Set(sourcePowerIds).size !== sourcePowerIds.length) context.addIssue({ code: "custom", path: [...corePath, "spells"], message: "Um poder da Técnica só pode ser selecionado uma vez por núcleo." });
+      spells.forEach((spell, spellIndex) => {
+        if (typeof spell.level !== "number" || spell.level < 0 || spell.level > highestSpellLevel) context.addIssue({ code: "custom", path: [...corePath, "spells", spellIndex, "level"], message: `O nível do feitiço excede o máximo liberado (${highestSpellLevel}).` });
+        if (spell.counterplay !== undefined && (typeof spell.counterplay !== "string" || !spell.counterplay.trim())) context.addIssue({ code: "custom", path: [...corePath, "spells", spellIndex, "counterplay"], message: "Todo feitiço do núcleo precisa declarar contrajogo quando esse campo for registrado." });
+      });
+    }
+    const coreSpecialization = core.specialization as Parameters<typeof validateSpecializationAbilityChoices>[0]["specialization"];
+    const choiceErrors = validateSpecializationAbilityChoices({ level, specialization: coreSpecialization, specializationLevels: level, specializationTracks: [{ specialization: coreSpecialization, level }], specializationAbilityChoices: Array.isArray(core.specializationAbilityChoices) ? core.specializationAbilityChoices as Parameters<typeof validateSpecializationAbilityChoices>[0]["specializationAbilityChoices"] : [] });
+    choiceErrors.forEach(message => context.addIssue({ code: "custom", path: [...corePath, "specializationAbilityChoices"], message }));
+  });
 }
 
 const characterInput = z.object({
@@ -469,6 +515,7 @@ const characterInput = z.object({
       if (entries.some(([, value]) => typeof value !== "number" || value < 0 || value > allocation.maximumPerAttribute) || total > allocation.total || allowedViolation || requiredViolation) context.addIssue({ code: "custom", path: ["sheet", "origin", "attributeBonuses"], message: `Os bônus desta origem devem respeitar ${allocation.total} ponto(s), máximo ${allocation.maximumPerAttribute} por atributo e os atributos permitidos.` });
     }
   }
+  if (origin?.catalogId === FM_MUTANT_CURSED_CORPSE_ORIGIN) validateMutantCores(input.sheet.mutantCores, level, context);
   const invocations = input.sheet.invocations;
   if (invocations !== undefined && !Array.isArray(invocations)) {
     context.addIssue({ code: "custom", path: ["sheet", "invocations"], message: "Invocações devem ser uma lista." });

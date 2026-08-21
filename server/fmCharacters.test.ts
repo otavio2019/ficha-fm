@@ -124,6 +124,30 @@ describe("biblioteca de fichas", () => {
     await expect(caller.characters.save({ id: "ficha-legada", name: "Yuta", sheet: { identity: { name: "Yuta" } } })).resolves.toMatchObject({ name: "Yuta" });
   });
 
+  it("persiste Corpo Amaldiçoado Mutante com três núcleos sem duplicá-los em salvamentos repetidos", async () => {
+    const sheet = createEmptyFMSheet();
+    sheet.origin.catalogId = "mutant-cursed-corpse";
+    sheet.mutantCores = {
+      cores: [
+        { id: "nucleo-primario", name: "Núcleo Primário", description: "", specialization: "fighter", attributes: { ...sheet.attributes.base }, resources: { health: { ...sheet.resources.health }, energy: { ...sheet.resources.energy } }, spells: [], abilities: [], characteristics: [], specializationAbilityChoices: [], size: "small", damaged: false, destroyed: false, deathSaveFailures: 0, notes: "" },
+        { id: "nucleo-secundario-1", name: "Núcleo Secundário I", description: "", specialization: "fighter", attributes: { ...sheet.attributes.base }, resources: { health: { current: 0, bonusMaximum: 0 }, energy: { current: 0, bonusMaximum: 0 } }, spells: [], abilities: [], characteristics: [], specializationAbilityChoices: [], size: "small", damaged: false, destroyed: false, deathSaveFailures: 0, notes: "" },
+        { id: "nucleo-secundario-2", name: "Núcleo Secundário II", description: "", specialization: "fighter", attributes: { ...sheet.attributes.base }, resources: { health: { current: 0, bonusMaximum: 0 }, energy: { current: 0, bonusMaximum: 0 } }, spells: [], abilities: [], characteristics: [], specializationAbilityChoices: [], size: "small", damaged: false, destroyed: false, deathSaveFailures: 0, notes: "" },
+      ],
+      primaryCoreId: "nucleo-primario",
+      activeCoreId: "nucleo-primario",
+      soulIntegrityCurrent: null,
+    };
+    vi.mocked(getFMCharacter).mockResolvedValue(undefined);
+    vi.mocked(saveFMCharacter).mockResolvedValue({ id: "ficha-mutante", ownerId: 1, name: "Panda", portraitUrl: null, sheet, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+
+    await caller.characters.save({ id: "ficha-mutante", name: "Panda", sheet });
+    await caller.characters.save({ id: "ficha-mutante", name: "Panda", sheet });
+
+    expect(saveFMCharacter).toHaveBeenCalledTimes(2);
+    expect(vi.mocked(saveFMCharacter).mock.calls.every(([stored]) => (stored.sheet as typeof sheet).mutantCores?.cores.length === 3)).toBe(true);
+  });
+
   it("persiste fontes estruturadas e não grava o identificador transitório do cliente", async () => {
     const sheet = createEmptyFMSheet();
     const grants = { abilities: [], techniques: [], skills: [], aptitudes: [], trainings: [], equipment: [], modifiers: [], limitations: [] };

@@ -35,6 +35,30 @@ export type FMRaceChoiceSelection = { choiceId: string; optionId: string };
 export type FMRaceEvolution = { id: string; name: string; description: string; replacesBaseModifiers?: boolean; requirements: FMRequirement[]; modifiers: FMModifierDefinition[]; characteristics: string[]; abilities: string[]; grants?: FMGrantBundle; choices?: FMRaceChoice[] };
 export type FMCharacterRace = { id: string; sourceId?: string; sourceKind: "homebrew" | "custom"; name: string; description: string; active: boolean; requirements: FMRequirement[]; modifiers: FMModifierDefinition[]; characteristics: string[]; abilities: string[]; grants?: FMGrantBundle; choices?: FMRaceChoice[]; selectedChoices?: FMRaceChoiceSelection[]; evolutions: FMRaceEvolution[]; selectedEvolutionId: string | null };
 export type FMCharacterMechanics = { race: FMCharacterRace | null; originGrants?: FMGrantBundle };
+export type FMMutantCoreSize = "small" | "medium" | "large";
+export type FMMutantCore = {
+  id: string;
+  name: string;
+  description: string;
+  specialization: FMSpecializationKey;
+  attributes: FMAttributes;
+  resources: { health: FMResourceState; energy: FMResourceState };
+  spells: FMSpell[];
+  abilities: string[];
+  characteristics: string[];
+  specializationAbilityChoices: FMSpecializationAbilityChoice[];
+  size: FMMutantCoreSize;
+  damaged: boolean;
+  destroyed: boolean;
+  deathSaveFailures: number;
+  notes: string;
+};
+export type FMMutantCoreState = {
+  cores: FMMutantCore[];
+  primaryCoreId: string | null;
+  activeCoreId: string | null;
+  soulIntegrityCurrent: number | null;
+};
 export type FMAptitudeSkillEffect = { id: string; type: "skill-modifier"; skillId: string; value: number; note?: string };
 export type FMAptitudeUnlockEffect = { id: string; type: "unlock"; target: "technique" | "ability" | "training" | "vow" | "item"; referenceId: string; label: string; description?: string };
 export type FMAptitudeFeatureEffect = { id: string; type: "feature"; label: string; description: string };
@@ -466,6 +490,7 @@ export type FMCharacterSheet = {
   domainExpansion: FMDomainExpansion | null;
   customResources?: FMCustomResource[];
   transformations?: FMTransformation[];
+  mutantCores?: FMMutantCoreState;
 };
 
 export const createEmptyFMSheet = (): FMCharacterSheet => ({
@@ -540,4 +565,5 @@ export const createEmptyFMSheet = (): FMCharacterSheet => ({
   domainExpansion: null,
   customResources: [],
   transformations: [],
+  mutantCores: undefined,
 });

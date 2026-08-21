@@ -256,3 +256,10 @@
 - [x] Validar no backend a estrutura, a propriedade e os requisitos de Raça/Evolução preservando conteúdo existente.
 - [x] Cobrir criação, escolha, troca, recarga, evolução por nível, habilidades e ausência de duplicação com testes.
 - [x] Validar desktop/celular, tipagem e build; registrar evidências, publicar checkpoint e sincronizar no GitHub.
+- [x] Mapear a regra de Corpo Amaldiçoado Mutante no livro v2.5.2 e os módulos existentes de Origem, atributos, recursos, feitiços, técnica e salvamento.
+- [x] Modelar núcleos pertencentes à mesma ficha, com núcleo primário, núcleo ativo e valores seguros para fichas legadas.
+- [x] Aplicar os valores do núcleo ativo aos cálculos permitidos, preservando técnica do primário e dados compartilhados sem duplicação.
+- [x] Criar gerenciamento visual de núcleos, recursos, atributos, habilidades e feitiços vinculados ao núcleo ativo.
+- [x] Validar contrato de salvamento, autorização e compatibilidade de fichas sem Corpo Amaldiçoado Mutante.
+- [x] Cobrir criação, troca, PV, energia, feitiços, atributos, recarga e múltiplos salvamentos com testes.
+- [x] Validar desktop/celular, tipagem e build; registrar evidências, publicar checkpoint e sincronizar no GitHub.

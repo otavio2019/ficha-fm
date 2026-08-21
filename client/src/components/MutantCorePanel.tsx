@@ -1,0 +1,68 @@
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { FM_ATTRIBUTE_LABELS, FM_SPECIALIZATION_LABELS, getDerivedValues } from "@shared/fmRules";
+import { getEffectiveMutantSheet, getMutantActiveCore, getMutantPrimaryCore, getMutantResourceAfterCoreSwap, isMutantCursedCorpse } from "@shared/fmMutantCores";
+import { getSpecializationAbilityProgress } from "@shared/fmSpecializationAbilities";
+import { fmAttributeKeys, type FMAttributeKey, type FMCharacterSheet, type FMMutantCore, type FMSpecializationKey } from "@shared/fmTypes";
+import { ArrowLeftRight, CircleDot, Crown, HeartPulse, LockKeyhole, Sparkles } from "lucide-react";
+
+type Props = { sheet: FMCharacterSheet; onUpdate: (updater: (current: FMCharacterSheet) => FMCharacterSheet) => void };
+
+const clamp = (value: number, minimum: number, maximum: number) => Math.min(maximum, Math.max(minimum, value));
+
+function coreSheet(sheet: FMCharacterSheet, coreId: string) {
+  if (!sheet.mutantCores) return sheet;
+  return getEffectiveMutantSheet({ ...sheet, mutantCores: { ...sheet.mutantCores, activeCoreId: coreId } });
+}
+
+export function MutantCorePanel({ sheet, onUpdate }: Props) {
+  if (!isMutantCursedCorpse(sheet) || !sheet.mutantCores) return null;
+  const state = sheet.mutantCores;
+  const primary = getMutantPrimaryCore(state);
+  const active = getMutantActiveCore(state);
+  if (!primary || !active) return null;
+  const activeDerived = getDerivedValues(sheet);
+  const primaryDerived = getDerivedValues(coreSheet(sheet, primary.id));
+  const attributeTotal = (core: FMMutantCore) => fmAttributeKeys.reduce((total, key) => total + core.attributes[key], 0);
+
+  const updateCore = (coreId: string, updater: (core: FMMutantCore) => FMMutantCore) => onUpdate(current => {
+    if (!current.mutantCores) return current;
+    return { ...current, mutantCores: { ...current.mutantCores, cores: current.mutantCores.cores.map(core => core.id === coreId ? updater(core) : core) } };
+  });
+
+  const switchCore = (target: FMMutantCore) => {
+    if (target.id === active.id || target.destroyed || target.damaged || target.resources.health.current <= 0) return;
+    const targetDerived = getDerivedValues(coreSheet(sheet, target.id));
+    onUpdate(current => {
+      if (!current.mutantCores) return current;
+      const nextHealth = getMutantResourceAfterCoreSwap(active.resources.health.current, activeDerived.healthMaximum, targetDerived.healthMaximum);
+      const nextEnergy = getMutantResourceAfterCoreSwap(active.resources.energy.current, activeDerived.energyMaximum, targetDerived.energyMaximum);
+      return { ...current, mutantCores: { ...current.mutantCores, activeCoreId: target.id, cores: current.mutantCores.cores.map(core => core.id === target.id ? { ...core, resources: { health: { ...core.resources.health, current: nextHealth }, energy: { ...core.resources.energy, current: nextEnergy } }, damaged: nextHealth <= 0 } : core) } };
+    });
+  };
+
+  const moveAttribute = (core: FMMutantCore, from: FMAttributeKey, to: FMAttributeKey) => {
+    if (from === to || core.attributes[from] <= 0 || core.attributes[to] >= 30) return;
+    updateCore(core.id, item => ({ ...item, attributes: { ...item.attributes, [from]: item.attributes[from] - 1, [to]: item.attributes[to] + 1 } }));
+  };
+
+  return <section className="mt-4 overflow-hidden rounded-2xl border border-violet-300/20 bg-[linear-gradient(135deg,rgba(124,58,237,.12),transparent_48%),#100916] p-4 sm:p-5">
+    <div className="flex flex-col gap-3 border-b border-violet-300/15 pb-4 lg:flex-row lg:items-end lg:justify-between"><div><p className="font-display text-xs uppercase tracking-[.2em] text-violet-200/75">Corpo Amaldiçoado Mutante</p><h3 className="mt-1 font-display text-2xl text-stone-100">Três núcleos, uma alma</h3><p className="mt-2 max-w-3xl text-sm leading-6 text-stone-400">O Núcleo Primário define a Técnica compartilhada, os limites de PV e Energia e os treinamentos. Alternar o núcleo ativo ajusta recursos pela diferença entre máximos; em combate, a troca é uma ação bônus.</p></div><div className="rounded-xl border border-amber-300/20 bg-amber-300/[.06] px-3 py-2 text-sm text-amber-100"><span className="block text-[10px] uppercase tracking-[.14em] text-amber-200/70">Integridade da Alma</span>{state.soulIntegrityCurrent ?? activeDerived.integrity}/{activeDerived.integrity}</div></div>
+    <div className="mt-4 grid gap-3 md:grid-cols-3"><div className="rounded-xl border border-violet-300/10 bg-black/25 p-3"><p className="text-[10px] uppercase tracking-[.13em] text-stone-500">Primário</p><p className="mt-1 font-medium text-amber-100">{primary.name}</p><p className="mt-1 text-xs text-stone-500">PV/PE máximos do primário limitam todos os núcleos.</p></div><div className="rounded-xl border border-violet-300/10 bg-black/25 p-3"><p className="text-[10px] uppercase tracking-[.13em] text-stone-500">Ativo</p><p className="mt-1 font-medium text-violet-100">{active.name}</p><p className="mt-1 text-xs text-stone-500">Iniciativa atual: {activeDerived.initiative >= 0 ? "+" : ""}{activeDerived.initiative}.</p></div><div className="rounded-xl border border-violet-300/10 bg-black/25 p-3"><p className="text-[10px] uppercase tracking-[.13em] text-stone-500">Limite comum</p><p className="mt-1 font-medium text-stone-100">PV {primaryDerived.healthMaximum} · PE {primaryDerived.energyMaximum}</p><p className="mt-1 text-xs text-stone-500">Perícias, equipamentos e Técnica permanecem compartilhados.</p></div></div>
+    <div className="mt-4 space-y-3">{state.cores.map(core => {
+      const derived = getDerivedValues(coreSheet(sheet, core.id));
+      const isPrimary = core.id === primary.id;
+      const isActive = core.id === active.id;
+      const abilityProgress = getSpecializationAbilityProgress(coreSheet(sheet, core.id)).find(progress => progress.specialization === core.specialization);
+      const selectable = !core.destroyed && !core.damaged && core.resources.health.current > 0;
+      return <article key={core.id} className={`rounded-2xl border p-4 ${isActive ? "border-amber-300/35 bg-amber-300/[.045]" : "border-violet-300/12 bg-black/20"}`}><div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between"><div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><Input className="h-9 max-w-xs font-display text-lg" value={core.name} onChange={event => updateCore(core.id, item => ({ ...item, name: event.target.value }))} /><span className="rounded-full border border-violet-300/15 px-2 py-1 text-[10px] uppercase tracking-[.12em] text-violet-100">{core.size === "small" ? "Pequeno" : core.size === "medium" ? "Médio" : "Grande"}</span>{isPrimary ? <span className="flex items-center gap-1 rounded-full border border-amber-300/25 bg-amber-300/10 px-2 py-1 text-[10px] uppercase tracking-[.12em] text-amber-100"><Crown className="h-3 w-3" />Primário</span> : null}{isActive ? <span className="flex items-center gap-1 rounded-full border border-emerald-300/25 bg-emerald-300/10 px-2 py-1 text-[10px] uppercase tracking-[.12em] text-emerald-100"><CircleDot className="h-3 w-3" />Ativo</span> : null}</div><p className="mt-2 text-xs leading-5 text-stone-500">Especialização própria, feitiços próprios e atributos realocados; o total de atributos deve permanecer igual ao Núcleo Primário.</p></div><div className="flex flex-wrap gap-2">{!isPrimary ? <Button type="button" size="sm" variant="outline" onClick={() => onUpdate(current => current.mutantCores ? { ...current, mutantCores: { ...current.mutantCores, primaryCoreId: core.id } } : current)}><Crown className="mr-1 h-3.5 w-3.5" />Definir primário</Button> : null}<Button type="button" size="sm" disabled={!selectable || isActive} onClick={() => switchCore(core)} className="bg-violet-600 text-violet-50 hover:bg-violet-500 disabled:opacity-50"><ArrowLeftRight className="mr-1 h-3.5 w-3.5" />Ativar</Button></div></div>
+        {!selectable && !isActive ? <p className="mt-3 rounded-lg border border-red-300/20 bg-red-500/[.06] p-2 text-xs text-red-100">Núcleo Danificado ou destruído: recupere PV antes de ativá-lo.</p> : null}
+        <div className="mt-4 grid gap-3 xl:grid-cols-4"><label className="text-xs text-stone-400">Especialização<select className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground" value={core.specialization} onChange={event => updateCore(core.id, item => ({ ...item, specialization: event.target.value as FMSpecializationKey, specializationAbilityChoices: [] }))}>{(Object.keys(FM_SPECIALIZATION_LABELS) as FMSpecializationKey[]).map(key => <option key={key} value={key}>{FM_SPECIALIZATION_LABELS[key]}</option>)}</select></label><label className="text-xs text-stone-400">PV atual / máximo<Input className="mt-1" type="number" min={0} max={derived.healthMaximum} value={core.resources.health.current} onChange={event => updateCore(core.id, item => { const current = clamp(Number(event.target.value) || 0, 0, derived.healthMaximum); return { ...item, resources: { ...item.resources, health: { ...item.resources.health, current } }, damaged: current <= 0 }; })} /></label><label className="text-xs text-stone-400">Energia atual / máximo<Input className="mt-1" type="number" min={0} max={derived.energyMaximum} value={core.resources.energy.current} onChange={event => updateCore(core.id, item => ({ ...item, resources: { ...item.resources, energy: { ...item.resources.energy, current: clamp(Number(event.target.value) || 0, 0, derived.energyMaximum) } } }))} /></label><label className="text-xs text-stone-400">Tamanho{sheet.progression.level >= 15 ? <select className="mt-1 h-10 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground" value={core.size} onChange={event => updateCore(core.id, item => ({ ...item, size: event.target.value as FMMutantCore["size"] }))}><option value="medium">Médio</option><option value="large">Grande</option></select> : <Input className="mt-1" readOnly value={core.size === "small" ? "Pequeno" : "Médio"} />}</label></div>
+        <div className="mt-4 grid gap-3 xl:grid-cols-[1.1fr_.9fr]"><div className="rounded-xl border border-violet-300/10 bg-black/20 p-3"><div className="flex flex-wrap items-center justify-between gap-2"><p className="text-xs uppercase tracking-[.14em] text-stone-500">Realocação de atributos</p><span className={`text-xs ${attributeTotal(core) === attributeTotal(primary) ? "text-emerald-200" : "text-amber-200"}`}>{attributeTotal(core)}/{attributeTotal(primary)} pontos</span></div><div className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-3">{fmAttributeKeys.map(attribute => <div key={attribute} className="rounded-lg border border-violet-300/10 bg-black/25 p-2"><p className="text-[10px] uppercase tracking-[.12em] text-stone-500">{FM_ATTRIBUTE_LABELS[attribute]}</p><p className="mt-1 font-display text-xl text-amber-100">{core.attributes[attribute]}</p><div className="mt-2 flex flex-wrap gap-1">{fmAttributeKeys.filter(candidate => candidate !== attribute).map(target => <Button key={target} type="button" size="sm" variant="outline" title={`Mover 1 ponto de ${FM_ATTRIBUTE_LABELS[attribute]} para ${FM_ATTRIBUTE_LABELS[target]}`} onClick={() => moveAttribute(core, attribute, target)} className="h-7 px-1 text-[10px]">→ {FM_ATTRIBUTE_LABELS[target].slice(0, 3)}</Button>)}</div></div>)}</div></div><div className="rounded-xl border border-violet-300/10 bg-black/20 p-3"><p className="text-xs uppercase tracking-[.14em] text-stone-500">Habilidades do núcleo</p><p className="mt-2 text-sm text-stone-200">{FM_SPECIALIZATION_LABELS[core.specialization]} · nível geral {sheet.progression.level}</p><div className="mt-3 space-y-2 text-xs leading-5 text-stone-400">{abilityProgress?.automatic.length ? abilityProgress.automatic.map(ability => <p key={ability.id}><Sparkles className="mr-1 inline h-3.5 w-3.5 text-amber-200" />{ability.name}</p>) : <p>Nenhuma habilidade automática catalogada neste nível.</p>}{abilityProgress?.choiceSlots.filter(slot => slot.selectedAbility).map(slot => <p key={slot.id}><LockKeyhole className="mr-1 inline h-3.5 w-3.5 text-violet-200" />{slot.label}: {slot.selectedAbility?.name}</p>)}</div></div></div>
+        <div className="mt-3 grid gap-3 md:grid-cols-2"><label className="text-xs text-stone-400">Características do núcleo<Textarea className="mt-1 min-h-20" value={core.characteristics.join("\n")} onChange={event => updateCore(core.id, item => ({ ...item, characteristics: event.target.value.split("\n").map(value => value.trim()).filter(Boolean) }))} placeholder="Uma característica por linha" /></label><label className="text-xs text-stone-400">Habilidades narrativas do núcleo<Textarea className="mt-1 min-h-20" value={core.abilities.join("\n")} onChange={event => updateCore(core.id, item => ({ ...item, abilities: event.target.value.split("\n").map(value => value.trim()).filter(Boolean) }))} placeholder="Uma habilidade por linha" /></label><label className="text-xs text-stone-400 md:col-span-2">Notas e limitações<Textarea className="mt-1 min-h-16" value={core.notes} onChange={event => updateCore(core.id, item => ({ ...item, notes: event.target.value }))} placeholder="Registre acordos da mesa, aparência, limitações ou condições deste núcleo." /></label></div>
+      </article>;
+    })}</div>
+    <p className="mt-4 text-xs leading-5 text-stone-500"><HeartPulse className="mr-1 inline h-3.5 w-3.5 text-amber-200" />Ao chegar a 0 PV, o núcleo ativo pode ser trocado por Reação em combate. Um núcleo inativo a 0 PV fica Danificado e não pode ser ativado até recuperar PV.</p>
+  </section>;
+}

@@ -40,6 +40,15 @@ describe("hidratação de fichas legadas", () => {
     expect(sheet.progression.specializationAbilityChoices).toEqual([]);
   });
 
+  it("cria e preserva os três núcleos ao hidratar Corpo Amaldiçoado Mutante mais de uma vez", () => {
+    const first = hydrateSheet({ origin: { catalogId: "mutant-cursed-corpse" }, attributes: { base: { strength: 12, dexterity: 11, constitution: 10, intelligence: 10, wisdom: 9, presence: 8 } } });
+    const second = hydrateSheet(first);
+    expect(first.mutantCores?.cores).toHaveLength(3);
+    expect(second.mutantCores?.cores).toHaveLength(3);
+    expect(second.mutantCores?.primaryCoreId).toBe(first.mutantCores?.primaryCoreId);
+    expect(new Set(second.mutantCores?.cores.map(core => core.id)).size).toBe(3);
+  });
+
   it("preserva identidade, características, técnica, equipamento e diário após recarregar a ficha reorganizada", () => {
     const sheet = hydrateSheet({
       identity: { name: "Maki", player: "Jogadora", grade: "2º Grau" },
