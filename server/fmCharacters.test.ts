@@ -20,6 +20,7 @@ vi.mock("./storage", () => ({ storagePut: vi.fn() }));
 import { createFMCharacterShare, deleteFMCharacter, deleteFMTechnique, getFMCharacter, getFMCharacterShare, getFMTechnique, getSharedFMCharacter, listFMTechniques, saveFMCharacter, saveFMTechnique } from "./db";
 import { appRouter } from "./routers";
 import { storagePut } from "./storage";
+import { createTechniqueFromPreset } from "../shared/fmCreationAssistant";
 import { applyInfiniteWorldMission } from "../shared/infiniteWorlds";
 import { createEmptyFMSheet } from "../shared/fmTypes";
 
@@ -380,6 +381,18 @@ describe("biblioteca independente de técnicas", () => {
     await expect(caller.techniques.list()).resolves.toHaveLength(1);
     await expect(caller.techniques.save({ id: "tecnica-002", name: technique.name, technique })).resolves.toMatchObject({ ownerId: 1, name: technique.name });
     expect(saveFMTechnique).toHaveBeenCalledWith(expect.objectContaining({ ownerId: 1, technique: expect.objectContaining({ name: technique.name }) }));
+  });
+
+  it("salva um modelo automatizado de estilo marcial com poderes e contrajogo", async () => {
+    const automated = { ...createTechniqueFromPreset("martial-guard"), name: "Guarda da Lua" };
+    vi.mocked(getFMTechnique).mockResolvedValue(undefined);
+    vi.mocked(saveFMTechnique).mockResolvedValue({ id: "tecnica-modelo", ownerId: 1, name: automated.name, technique: automated, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+
+    const saved = await caller.techniques.save({ id: "tecnica-modelo", name: automated.name, technique: automated });
+    expect(saved).toMatchObject({ name: "Guarda da Lua", technique: { kind: "martial" } });
+    expect((saved.technique as typeof automated).powers[0]).toMatchObject({ type: "auxiliary" });
+    expect(saveFMTechnique).toHaveBeenCalledWith(expect.objectContaining({ ownerId: 1, technique: expect.objectContaining({ limitations: expect.stringContaining("postura"), powers: expect.any(Array) }) }));
   });
 
   it("bloqueia edição e remoção de técnica pertencente a outro usuário", async () => {

@@ -64,3 +64,8 @@ export function createAutomatedSpell(type: FMSpell["type"] = "damage", sourcePow
   const level = sourcePower?.spellLevel ?? (type === "level-zero" ? 0 : 1);
   return { id: crypto.randomUUID(), sourcePowerId: sourcePower?.id, name: sourcePower?.name ?? `Novo ${type === "damage" ? "feitiço ofensivo" : "feitiço"}`, type, level, ...defaults, durationDetail: "", effect: sourcePower?.summary ?? "Descreva o efeito da aplicação escolhida.", requirement: sourcePower?.requirement ?? "", costAdjustment: 0, combatModifierTarget: "none", combatModifier: 0, notes: "", active: false };
 }
+
+export function applyAutomatedSpellType(spell: FMSpell, type: FMSpell["type"]): FMSpell {
+  const defaults = getAutomatedSpellDefaults(type);
+  return { ...spell, type, ...defaults, level: (type === "level-zero" ? 0 : Math.max(1, spell.level)) as FMSpellLevel, durationDetail: "" };
+}

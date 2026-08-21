@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createAutomatedSpell, createTechniqueFromPreset, getAutomatedSpellDefaults, getTechniqueCreationPresets } from "./fmCreationAssistant";
+import { applyAutomatedSpellType, createAutomatedSpell, createTechniqueFromPreset, getAutomatedSpellDefaults, getTechniqueCreationPresets } from "./fmCreationAssistant";
 import { validateTechnique } from "./fmTechniques";
 
 describe("assistente de criação", () => {
@@ -20,5 +20,6 @@ describe("assistente de criação", () => {
   it("cria feitiços automatizados com contrajogo e resolução coerentes", () => {
     expect(getAutomatedSpellDefaults("damage")).toMatchObject({ resolution: "attack", counterplay: expect.stringContaining("Defesa") });
     expect(createAutomatedSpell("auxiliary")).toMatchObject({ level: 1, resolution: "saving-throw", savingThrow: "Vontade ou Reflexos", counterplay: expect.any(String) });
+    expect(applyAutomatedSpellType(createAutomatedSpell("damage"), "passive")).toMatchObject({ type: "passive", casting: "free", reach: "Pessoal", resolution: "none" });
   });
 });
