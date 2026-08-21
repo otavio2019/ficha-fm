@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { getSpecializationAbilityEffects, getSpecializationAbilityProgress, updateSpecializationAbilityChoice, validateSpecializationAbilityChoices } from "./fmSpecializationAbilities";
+import { getSpecializationAbilityEffects, getSpecializationAbilityProgress, mergeSpecializationAbilityUnlockHistory, updateSpecializationAbilityChoice, validateSpecializationAbilityChoices } from "./fmSpecializationAbilities";
 import { createEmptyFMSheet } from "./fmTypes";
 
 describe("habilidades de Especialização", () => {
@@ -37,5 +37,23 @@ describe("habilidades de Especialização", () => {
       "Manobra de Empolgação III exige nível 6 em fighter.",
     ]));
     expect(updateSpecializationAbilityChoice(sheet.progression.specializationAbilityChoices, "fighter", "fighter-excitement-1a", null)).toHaveLength(2);
+  });
+
+  it("produz o marco de nível 3 e preserva o histórico de habilidades desbloqueadas", () => {
+    const sheet = createEmptyFMSheet();
+    sheet.progression.level = 3;
+    sheet.progression.specialization = "support";
+    sheet.progression.specializationLevels = 3;
+    sheet.progression.specializationTracks = [{ specialization: "support", level: 3 }];
+
+    const [progress] = getSpecializationAbilityProgress(sheet);
+    expect(progress.automatic.map(ability => ability.id)).toContain("support-inspiring-presence");
+    expect(progress.choiceSlots).toHaveLength(0);
+    expect(progress.catalogPendingLevels).toEqual([]);
+    const history = mergeSpecializationAbilityUnlockHistory([{ abilityId: "support-combat", specialization: "support", coreId: null, unlockedAt: 100, status: "unlocked", selected: false }], [{ abilityId: "support-inspiring-presence", specialization: "support", coreId: null, unlockedAt: null, status: "unlocked", selected: false }], 200);
+    expect(history).toEqual(expect.arrayContaining([
+      expect.objectContaining({ abilityId: "support-combat", unlockedAt: 100 }),
+      expect.objectContaining({ abilityId: "support-inspiring-presence", unlockedAt: 200 }),
+    ]));
   });
 });

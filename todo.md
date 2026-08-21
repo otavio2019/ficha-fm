@@ -263,3 +263,8 @@
 - [x] Validar contrato de salvamento, autorização e compatibilidade de fichas sem Corpo Amaldiçoado Mutante.
 - [x] Cobrir criação, troca, PV, energia, feitiços, atributos, recarga e múltiplos salvamentos com testes.
 - [x] Validar desktop/celular, tipagem e build; registrar evidências, publicar checkpoint e sincronizar no GitHub.
+- [x] Auditar e documentar a lacuna entre o catálogo oficial, o banco existente, a progressão e os efeitos de Habilidades de Especialização.
+- [x] Criar um catálogo oficial estruturado e persistível para Habilidades de Especialização, sem duplicar conteúdo Homebrew.
+- [x] Modelar status de desbloqueio idempotente por personagem, especialização e núcleo quando aplicável, preservando fichas legadas.
+- [x] Aplicar efeitos estruturados catalogados pelo motor de personagem e manter habilidades de escolha pendentes sem efeito arbitrário.
+- [x] Validar contrato, salvamento, recarga, níveis 1/2/3/posteriores, interface desktop/celular, tipagem, testes, build, checkpoint e GitHub.

@@ -7,7 +7,7 @@ import { getEquipmentCatalogEntry, getSkillCatalogEntry } from "../shared/fmCata
 import { FM_DECLARED_MODIFIER_RULES, isDeclaredModifierInRange, type FMDeclaredModifierRule } from "../shared/fmModifiers";
 import { getInfiniteWorldLevel } from "../shared/infiniteWorlds";
 import { validateTechnique } from "../shared/fmTechniques";
-import { validateSpecializationAbilityChoices } from "../shared/fmSpecializationAbilities";
+import { getSheetSpecializationAbilityUnlocks, mergeSpecializationAbilityUnlockHistory, validateSpecializationAbilityChoices } from "../shared/fmSpecializationAbilities";
 import { FM_MUTANT_CORE_COUNT, FM_MUTANT_CURSED_CORPSE_ORIGIN } from "../shared/fmMutantCores";
 import { validateHouseRules } from "../shared/fmHouseRules";
 import { FM_CLAN_CATALOG, FM_ORIGIN_CATALOG, getClanCatalogEntry, getOriginAttributeAllocation, getOriginCatalogEntry } from "../shared/fmOrigins";
@@ -15,10 +15,11 @@ import { FM_INVOCATION_GRADE_RULES } from "../shared/fmInvocations";
 import { getAptitudeCatalogEntry, getAptitudeDefinition } from "../shared/fmCampaignCapabilities";
 import { FM_HOMEBREW_KINDS, FM_REVIEW_KINDS, FM_REVIEW_STATUSES, validateHomebrew, validateReview } from "../shared/fmHomebrew";
 import { normalizeHomebrewContent } from "../shared/fmHomebrew";
-import { fmAttributeKeys, type FMModifierTarget, type FMRequirement } from "../shared/fmTypes";
+import { fmAttributeKeys, type FMCharacterSheet, type FMModifierTarget, type FMRequirement } from "../shared/fmTypes";
 import { calculateCharacterState } from "../shared/fmCharacterState";
 import { storagePut } from "./storage";
-import { createFMChangeHistory, createFMCharacterShare, createFMContentShare, createFMReview, deleteFMCharacter, deleteFMHomebrew, deleteFMTechnique, getFMCharacter, getFMCharacterShare, getFMContentShare, getFMHomebrew, getFMReview, getFMTechnique, getSharedFMCharacter, getSharedFMContent, listFMChangeHistory, listFMCharacters, listFMCharacterShares, listFMContentShares, listFMHomebrews, listFMReviews, listFMTechniques, regenerateFMContentShare, saveFMCharacter, saveFMHomebrew, saveFMTechnique, setFMContentShareEnabled, updateFMReview } from "./db";
+import { createFMChangeHistory, createFMCharacterShare, createFMContentShare, createFMReview, deleteFMCharacter, deleteFMHomebrew, deleteFMTechnique, getFMCharacter, getFMCharacterShare, getFMContentShare, getFMHomebrew, getFMReview, getFMTechnique, getSharedFMCharacter, getSharedFMContent, listFMChangeHistory, listFMCharacters, listFMCharacterShares, listFMContentShares, listFMHomebrews, listFMReviews, listFMTechniques, regenerateFMContentShare, saveFMCharacter, saveFMHomebrew, saveFMTechnique, syncFMCharacterSpecializationAbilities, setFMContentShareEnabled, updateFMReview } from "./db";
+import { ensureFMSpecializationAbilityCatalog, listSeededFMSpecializationAbilities } from "./fmSpecializationAbilityCatalog";
 import { emitCharacterUpdated } from "./live";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
@@ -560,6 +561,9 @@ export const appRouter = router({
       return { success: true } as const;
     }),
   }),
+  specializationAbilities: router({
+    list: protectedProcedure.input(z.object({ specialization: z.string().max(48).optional() }).optional()).query(async ({ input }) => listSeededFMSpecializationAbilities(input?.specialization)),
+  }),
   techniques: router({
     list: protectedProcedure.query(({ ctx }) => listFMTechniques(ctx.user.id)),
     get: protectedProcedure.input(characterIdInput).query(async ({ ctx, input }) => {
@@ -750,9 +754,22 @@ export const appRouter = router({
       if (nextVow?.locked && !existingVow?.locked && (nextVow.type === "none" || nextVow.approved !== true || typeof nextVow.description !== "string" || !nextVow.description.trim())) {
         throw new TRPCError({ code: "BAD_REQUEST", message: "Um voto só pode ser fixado após descrição e aprovação antes da campanha." });
       }
+      const projectedUnlocks = getSheetSpecializationAbilityUnlocks(sheetForSave as FMCharacterSheet);
+      const rootProgression = sheetForSave.progression as Record<string, unknown> | undefined;
+      const previousProgression = existing?.sheet.progression as Record<string, unknown> | undefined;
+      const previousUnlocks = (Array.isArray(previousProgression?.specializationAbilityUnlocks) ? previousProgression.specializationAbilityUnlocks as FMCharacterSheet["progression"]["specializationAbilityUnlocks"] : []) ?? [];
+      if (previousUnlocks.length || projectedUnlocks.length) {
+        sheetForSave = { ...sheetForSave, progression: { ...rootProgression, specializationAbilityUnlocks: mergeSpecializationAbilityUnlockHistory(previousUnlocks, projectedUnlocks.filter(unlock => !unlock.coreId)) } };
+      }
       const { clientId: _clientId, ...characterInputForStorage } = input;
       const saved = await saveFMCharacter({ ...characterInputForStorage, sheet: sheetForSave, ownerId: ctx.user.id, portraitUrl: input.portraitUrl ?? null });
       if (!saved) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Não foi possível salvar a ficha." });
+      try {
+        await ensureFMSpecializationAbilityCatalog();
+        await syncFMCharacterSpecializationAbilities(input.id, projectedUnlocks);
+      } catch (error) {
+        console.error("[Especialização] Não foi possível sincronizar os desbloqueios após o salvamento:", error);
+      }
       const previousAptitudes = Array.isArray(existing?.sheet.aptitudes) ? existing.sheet.aptitudes.filter((entry): entry is Record<string, unknown> => Boolean(entry && typeof entry === "object")) : [];
       const nextAptitudes = Array.isArray(sheetForSave.aptitudes) ? sheetForSave.aptitudes.filter((entry): entry is Record<string, unknown> => Boolean(entry && typeof entry === "object")) : [];
       for (const aptitude of nextAptitudes) {

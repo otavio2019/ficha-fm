@@ -1,4 +1,4 @@
-import { index, int, json, mysqlEnum, mysqlTable, text, timestamp, uniqueIndex, varchar } from "drizzle-orm/mysql-core";
+import { boolean, index, int, json, mysqlEnum, mysqlTable, text, timestamp, uniqueIndex, varchar } from "drizzle-orm/mysql-core";
 
 export const users = mysqlTable("users", {
   id: int("id").autoincrement().primaryKey(),
@@ -23,6 +23,47 @@ export const fmCharacters = mysqlTable("fm_characters", {
 }, table => ({
   ownerIndex: index("fm_characters_owner_index").on(table.ownerId),
   ownerUpdatedIndex: index("fm_characters_owner_updated_index").on(table.ownerId, table.updatedAt),
+}));
+
+export const fmSpecializationAbilities = mysqlTable("fm_specialization_abilities", {
+  id: varchar("id", { length: 160 }).primaryKey(),
+  specialization: varchar("specialization", { length: 48 }).notNull(),
+  name: varchar("name", { length: 160 }).notNull(),
+  description: text("description").notNull(),
+  abilityType: mysqlEnum("abilityType", ["passive", "active", "choice", "evolution", "modifier", "unlock", "special"]).notNull(),
+  unlockLevel: int("unlockLevel").notNull(),
+  requirements: json("requirements").$type<Record<string, unknown>[]>().notNull(),
+  modifiers: json("modifiers").$type<Record<string, unknown>[]>().notNull(),
+  effects: json("effects").$type<Record<string, unknown>[]>().notNull(),
+  status: mysqlEnum("status", ["official", "draft", "retired"]).default("official").notNull(),
+  isAutomatic: boolean("isAutomatic").default(false).notNull(),
+  requiresChoice: boolean("requiresChoice").default(false).notNull(),
+  evolutionOf: varchar("evolutionOf", { length: 160 }),
+  displayOrder: int("displayOrder").default(0).notNull(),
+  rulesVersion: varchar("rulesVersion", { length: 32 }).default("2.5.2").notNull(),
+  source: text("source").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, table => ({
+  specializationLevelIndex: index("fm_specialization_abilities_specialization_level_index").on(table.specialization, table.unlockLevel, table.displayOrder),
+  statusIndex: index("fm_specialization_abilities_status_index").on(table.status),
+}));
+
+export const fmCharacterSpecializationAbilities = mysqlTable("fm_character_specialization_abilities", {
+  id: varchar("id", { length: 191 }).primaryKey(),
+  characterId: varchar("characterId", { length: 64 }).notNull(),
+  abilityId: varchar("abilityId", { length: 160 }).notNull(),
+  specialization: varchar("specialization", { length: 48 }).notNull(),
+  coreId: varchar("coreId", { length: 64 }).default("").notNull(),
+  unlockedAt: timestamp("unlockedAt").defaultNow().notNull(),
+  selected: boolean("selected").default(false).notNull(),
+  status: mysqlEnum("status", ["unlocked", "selected", "pending", "inactive"]).default("unlocked").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, table => ({
+  characterIndex: index("fm_character_specialization_abilities_character_index").on(table.characterId),
+  characterStatusIndex: index("fm_character_specialization_abilities_character_status_index").on(table.characterId, table.status),
+  characterAbilityCoreUnique: uniqueIndex("fm_character_specialization_abilities_unique").on(table.characterId, table.abilityId, table.coreId),
 }));
 
 export const fmCharacterShares = mysqlTable("fm_character_shares", {
@@ -119,6 +160,9 @@ export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 export type FMCharacter = typeof fmCharacters.$inferSelect;
 export type InsertFMCharacter = typeof fmCharacters.$inferInsert;
+export type FMSpecializationAbilityCatalogItem = typeof fmSpecializationAbilities.$inferSelect;
+export type InsertFMSpecializationAbilityCatalogItem = typeof fmSpecializationAbilities.$inferInsert;
+export type FMCharacterSpecializationAbility = typeof fmCharacterSpecializationAbilities.$inferSelect;
 export type FMCharacterShare = typeof fmCharacterShares.$inferSelect;
 export type FMTechniqueLibraryItem = typeof fmTechniques.$inferSelect;
 export type InsertFMTechniqueLibraryItem = typeof fmTechniques.$inferInsert;
@@ -127,4 +171,3 @@ export type InsertFMHomebrew = typeof fmHomebrews.$inferInsert;
 export type FMContentShare = typeof fmContentShares.$inferSelect;
 export type FMReview = typeof fmReviews.$inferSelect;
 export type FMChangeHistory = typeof fmChangeHistory.$inferSelect;
-import { boolean } from "drizzle-orm/mysql-core";

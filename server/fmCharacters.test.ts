@@ -27,17 +27,20 @@ vi.mock("./db", () => ({
   saveFMCharacter: vi.fn(),
   saveFMHomebrew: vi.fn(),
   saveFMTechnique: vi.fn(),
+  syncFMCharacterSpecializationAbilities: vi.fn(),
   regenerateFMContentShare: vi.fn(),
   setFMContentShareEnabled: vi.fn(),
   updateFMReview: vi.fn(),
 }));
 vi.mock("./storage", () => ({ storagePut: vi.fn() }));
+vi.mock("./fmSpecializationAbilityCatalog", () => ({ ensureFMSpecializationAbilityCatalog: vi.fn(), listSeededFMSpecializationAbilities: vi.fn() }));
 
-import { createFMChangeHistory, createFMCharacterShare, createFMContentShare, createFMReview, deleteFMCharacter, deleteFMHomebrew, deleteFMTechnique, getFMCharacter, getFMCharacterShare, getFMContentShare, getFMHomebrew, getFMReview, getFMTechnique, getSharedFMCharacter, getSharedFMContent, listFMHomebrews, listFMTechniques, regenerateFMContentShare, saveFMCharacter, saveFMHomebrew, saveFMTechnique, setFMContentShareEnabled, updateFMReview } from "./db";
+import { createFMChangeHistory, createFMCharacterShare, createFMContentShare, createFMReview, deleteFMCharacter, deleteFMHomebrew, deleteFMTechnique, getFMCharacter, getFMCharacterShare, getFMContentShare, getFMHomebrew, getFMReview, getFMTechnique, getSharedFMCharacter, getSharedFMContent, listFMHomebrews, listFMTechniques, regenerateFMContentShare, saveFMCharacter, saveFMHomebrew, saveFMTechnique, setFMContentShareEnabled, syncFMCharacterSpecializationAbilities, updateFMReview } from "./db";
+import { ensureFMSpecializationAbilityCatalog } from "./fmSpecializationAbilityCatalog";
 import { appRouter } from "./routers";
 import { storagePut } from "./storage";
 import { createTechniqueFromPreset } from "../shared/fmCreationAssistant";
-import { applyInfiniteWorldMission } from "../shared/infiniteWorlds";
+import { applyInfiniteWorldMission, getExperienceForLevel } from "../shared/infiniteWorlds";
 import { createEmptyFMSheet } from "../shared/fmTypes";
 
 function createContext(userId = 1): TrpcContext {
@@ -229,6 +232,29 @@ describe("biblioteca de fichas", () => {
       { specialization: "fighter", slotId: "fighter-excitement-6", abilityId: "fighter-command" },
     ];
     await expect(caller.characters.save({ id: "ficha-especializacao-invalida", name: "Yuji", sheet: invalid })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+  });
+
+  it("desbloqueia e sincroniza a Habilidade de Suporte de nível 3 sem duplicá-la", async () => {
+    const sheet = createEmptyFMSheet();
+    sheet.progression.level = 3;
+    sheet.progression.experience = getExperienceForLevel(3);
+    sheet.progression.specialization = "support";
+    sheet.progression.specializationLevels = 3;
+    sheet.progression.primarySpecialization = "support";
+    sheet.progression.primarySpecializationLocked = true;
+    sheet.progression.specializationTracks = [{ specialization: "support", level: 3 }];
+    vi.mocked(getFMCharacter).mockResolvedValue(undefined);
+    vi.mocked(saveFMCharacter).mockResolvedValue({ id: "ficha-suporte-3", ownerId: 1, name: "Shoko", portraitUrl: null, sheet, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+
+    await caller.characters.save({ id: "ficha-suporte-3", name: "Shoko", sheet });
+    await caller.characters.save({ id: "ficha-suporte-3", name: "Shoko", sheet });
+
+    expect(ensureFMSpecializationAbilityCatalog).toHaveBeenCalledTimes(2);
+    expect(syncFMCharacterSpecializationAbilities).toHaveBeenCalledTimes(2);
+    expect(vi.mocked(syncFMCharacterSpecializationAbilities).mock.calls.every(([, unlocks]) => unlocks.filter(unlock => unlock.abilityId === "support-inspiring-presence").length === 1)).toBe(true);
+    const stored = vi.mocked(saveFMCharacter).mock.calls[0]?.[0].sheet as typeof sheet;
+    expect(stored.progression.specializationAbilityUnlocks).toEqual(expect.arrayContaining([expect.objectContaining({ abilityId: "support-inspiring-presence", specialization: "support", status: "unlocked" })]));
   });
 
   it("persiste e recupera o bloco completo de Regras da Casa", async () => {

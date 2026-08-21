@@ -1,7 +1,9 @@
-import { and, desc, eq } from "drizzle-orm";
+import { and, asc, desc, eq, sql } from "drizzle-orm";
+import { createHash } from "node:crypto";
 import { drizzle } from "drizzle-orm/mysql2";
-import { fmChangeHistory, fmCharacters, fmCharacterShares, fmContentShares, fmHomebrews, fmReviews, fmTechniques, type InsertFMCharacter, type InsertFMHomebrew, type InsertFMTechniqueLibraryItem, type InsertUser, users } from "../drizzle/schema";
+import { fmChangeHistory, fmCharacterSpecializationAbilities, fmCharacters, fmCharacterShares, fmContentShares, fmHomebrews, fmReviews, fmSpecializationAbilities, fmTechniques, type InsertFMCharacter, type InsertFMHomebrew, type InsertFMSpecializationAbilityCatalogItem, type InsertFMTechniqueLibraryItem, type InsertUser, users } from "../drizzle/schema";
 import { ENV } from "./_core/env";
+import type { FMSpecializationAbilityUnlock } from "../shared/fmTypes";
 
 let database: ReturnType<typeof drizzle> | null = null;
 
@@ -53,6 +55,63 @@ export async function getFMCharacter(id: string) {
   if (!db) return undefined;
   const records = await db.select().from(fmCharacters).where(eq(fmCharacters.id, id)).limit(1);
   return records[0];
+}
+
+export async function listFMSpecializationAbilities(specialization?: string) {
+  const db = await getDb();
+  if (!db) return [];
+  if (specialization) return db.select().from(fmSpecializationAbilities).where(eq(fmSpecializationAbilities.specialization, specialization)).orderBy(asc(fmSpecializationAbilities.unlockLevel), asc(fmSpecializationAbilities.displayOrder));
+  return db.select().from(fmSpecializationAbilities).orderBy(asc(fmSpecializationAbilities.specialization), asc(fmSpecializationAbilities.unlockLevel), asc(fmSpecializationAbilities.displayOrder));
+}
+
+export async function upsertFMSpecializationAbilities(items: InsertFMSpecializationAbilityCatalogItem[]) {
+  const db = await getDb();
+  if (!db || items.length === 0) return;
+  await db.insert(fmSpecializationAbilities).values(items).onDuplicateKeyUpdate({
+    set: {
+      specialization: sql`values(${fmSpecializationAbilities.specialization})`,
+      name: sql`values(${fmSpecializationAbilities.name})`,
+      description: sql`values(${fmSpecializationAbilities.description})`,
+      abilityType: sql`values(${fmSpecializationAbilities.abilityType})`,
+      unlockLevel: sql`values(${fmSpecializationAbilities.unlockLevel})`,
+      requirements: sql`values(${fmSpecializationAbilities.requirements})`,
+      modifiers: sql`values(${fmSpecializationAbilities.modifiers})`,
+      effects: sql`values(${fmSpecializationAbilities.effects})`,
+      status: sql`values(${fmSpecializationAbilities.status})`,
+      isAutomatic: sql`values(${fmSpecializationAbilities.isAutomatic})`,
+      requiresChoice: sql`values(${fmSpecializationAbilities.requiresChoice})`,
+      evolutionOf: sql`values(${fmSpecializationAbilities.evolutionOf})`,
+      displayOrder: sql`values(${fmSpecializationAbilities.displayOrder})`,
+      rulesVersion: sql`values(${fmSpecializationAbilities.rulesVersion})`,
+      source: sql`values(${fmSpecializationAbilities.source})`,
+      updatedAt: new Date(),
+    },
+  });
+}
+
+export async function listFMCharacterSpecializationAbilities(characterId: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(fmCharacterSpecializationAbilities).where(eq(fmCharacterSpecializationAbilities.characterId, characterId)).orderBy(asc(fmCharacterSpecializationAbilities.createdAt));
+}
+
+export async function syncFMCharacterSpecializationAbilities(characterId: string, unlocks: FMSpecializationAbilityUnlock[]) {
+  const db = await getDb();
+  if (!db || unlocks.length === 0) return;
+  const uniqueUnlocks = Array.from(new Map(unlocks.map(unlock => [`${unlock.specialization}:${unlock.abilityId}:${unlock.coreId ?? ""}`, unlock])).values());
+  await db.insert(fmCharacterSpecializationAbilities).values(uniqueUnlocks.map(unlock => {
+    const coreId = unlock.coreId ?? "";
+    return {
+      id: createHash("sha256").update(`${characterId}:${unlock.specialization}:${unlock.abilityId}:${coreId}`).digest("hex"),
+      characterId,
+      abilityId: unlock.abilityId,
+      specialization: unlock.specialization,
+      coreId,
+      unlockedAt: unlock.unlockedAt ? new Date(unlock.unlockedAt) : new Date(),
+      selected: unlock.selected,
+      status: unlock.status,
+    };
+  })).onDuplicateKeyUpdate({ set: { selected: sql`values(${fmCharacterSpecializationAbilities.selected})`, status: sql`values(${fmCharacterSpecializationAbilities.status})`, updatedAt: new Date() } });
 }
 
 export async function listFMTechniques(ownerId: number) {

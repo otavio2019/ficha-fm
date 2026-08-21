@@ -47,6 +47,7 @@ export type FMMutantCore = {
   abilities: string[];
   characteristics: string[];
   specializationAbilityChoices: FMSpecializationAbilityChoice[];
+  specializationAbilityUnlocks?: FMSpecializationAbilityUnlock[];
   size: FMMutantCoreSize;
   damaged: boolean;
   destroyed: boolean;
@@ -239,6 +240,17 @@ export type FMSpecializationAbilityChoice = {
   abilityId: string;
 };
 
+export type FMSpecializationAbilityKind = "passive" | "active" | "choice" | "evolution" | "modifier" | "unlock" | "special";
+export type FMSpecializationAbilityStatus = "unlocked" | "selected" | "pending" | "inactive";
+export type FMSpecializationAbilityUnlock = {
+  abilityId: string;
+  specialization: FMSpecializationKey;
+  coreId?: string | null;
+  unlockedAt: number | null;
+  status: FMSpecializationAbilityStatus;
+  selected: boolean;
+};
+
 export type FMAttack = {
   id: string;
   name: string;
@@ -429,6 +441,7 @@ export type FMCharacterSheet = {
     primarySpecializationLocked: boolean;
     specializationTracks: FMSpecializationTrack[];
     specializationAbilityChoices?: FMSpecializationAbilityChoice[];
+    specializationAbilityUnlocks?: FMSpecializationAbilityUnlock[];
     skillTrainingAttribute: FMSkillTrainingAttribute | null;
     skillTrainingAttributeLocked: boolean;
     healthMode: "average" | "rolled";
@@ -506,6 +519,7 @@ export const createEmptyFMSheet = (): FMCharacterSheet => ({
     primarySpecializationLocked: false,
     specializationTracks: [],
     specializationAbilityChoices: [],
+    specializationAbilityUnlocks: [],
     skillTrainingAttribute: null,
     skillTrainingAttributeLocked: false,
     healthMode: "average",

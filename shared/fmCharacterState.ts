@@ -1,5 +1,5 @@
 import { fmAttributeKeys, type FMAttributeKey, type FMAttributes, type FMAptitudeEffect, type FMCharacterSheet, type FMGrantBundle, type FMModifierDefinition, type FMModifierTarget, type FMRequirement, type FMSkill } from "./fmTypes";
-import { getSpecializationAbilityEffects } from "./fmSpecializationAbilities";
+import { getSpecializationAbilityGrants } from "./fmSpecializationAbilities";
 import { getEffectiveMutantSheet } from "./fmMutantCores";
 export type FMModifierSourceType = "permanent" | "origin" | "race" | "evolution" | "training" | "aptitude" | "equipment" | "cursed-tool" | "vow" | "custom-vow" | "technique" | "domain" | "invocation" | "transformation" | "custom-resource" | "specialization";
 export type FMModifierSource = { type: FMModifierSourceType; id: string; name: string; enabled: boolean; requirements: FMRequirement[]; modifiers: FMModifierDefinition[]; effects: FMAptitudeEffect[] };
@@ -96,7 +96,7 @@ export function requirementIsMet(sheet: FMCharacterSheet, requirement: FMRequire
 export function getCharacterModifierSources(sheet: FMCharacterSheet): FMModifierSource[] {
   const sources: FMModifierSource[] = [];
   fmAttributeKeys.forEach(attribute => sources.push(source("permanent", `permanent:${attribute}`, "Bônus permanente", true, [{ id: `permanent:${attribute}`, target: attribute, operation: "add", value: sheet.attributes.permanentBonuses[attribute], note: "Bônus permanente declarado na ficha." }])));
-  getSpecializationAbilityEffects(sheet).forEach(effect => sources.push(source("specialization", effect.id, "Habilidades da Especialização", true, [], [], [effect])));
+  getSpecializationAbilityGrants(sheet).forEach(ability => sources.push(source("specialization", `specialization:${ability.specialization}:${ability.id}`, ability.name, true, ability.modifiers, ability.requirements, ability.effects)));
   const originName = sheet.origin.clan || sheet.origin.name || "Origem";
   fmAttributeKeys.forEach(attribute => sources.push(source("origin", `origin:${attribute}`, originName, true, [{ id: `origin:${attribute}`, target: attribute, operation: "add", value: sheet.origin.attributeBonuses[attribute] ?? 0, note: "Bônus de atributo da origem." }, ...((sheet.origin.grants?.modifiers ?? []).filter(modifier => modifier.target === attribute))], [], grantEffects(sheet.origin.grants))));
   if (sheet.origin.grants?.modifiers.some(modifier => !fmAttributeKeys.includes(modifier.target as FMAttributeKey))) sources.push(source("origin", "origin:grants", originName, true, sheet.origin.grants.modifiers.filter(modifier => !fmAttributeKeys.includes(modifier.target as FMAttributeKey)), [], grantEffects(sheet.origin.grants)));
