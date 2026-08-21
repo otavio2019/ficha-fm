@@ -10,6 +10,7 @@
   body { @apply bg-[#09060f] font-sans text-stone-100 antialiased; }
   .font-display { font-family: var(--font-display); }
   input, textarea, select { color-scheme: dark; }
+  select option, select optgroup { background: #120c1d; color: #f2ece5; }
   @media print {
     @page { size: A4 portrait; margin: 12mm; }
     .no-print { display: none !important; }

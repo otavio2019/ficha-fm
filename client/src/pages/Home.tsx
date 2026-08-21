@@ -10,7 +10,8 @@ import { HomebrewHub } from "@/components/HomebrewHub";
 import { ReviewCenter } from "@/components/ReviewCenter";
 import { CharacterTechniqueSelector } from "@/components/CharacterTechniqueSelector";
 import { ModifierEditor, RaceProgressPanel, RaceSelectionPanel } from "@/components/RaceSelectionPanel";
-import { AssetsPanelWithActions, DomainExpansionPanel } from "@/components/CampaignCapabilitiesPanels";
+import { AssetsPanelWithActions } from "@/components/CampaignCapabilitiesPanels";
+import { DomainExpansionPanel } from "@/components/DomainExpansionPanel";
 import { AptitudeManagerPanel } from "@/components/AptitudeManagerPanel";
 import { CharacterAuditPanel } from "@/components/CharacterAuditPanel";
 import { SourceEffectsPanel } from "@/components/SourceEffectsPanel";
@@ -151,7 +152,7 @@ function createNewSheet(name: string) {
 }
 
 function SectionTitle({ eyebrow, title, description, action }: { eyebrow: string; title: string; description?: string; action?: React.ReactNode }) {
-  return <div className="mb-6 flex flex-col gap-3 border-b border-violet-300/10 pb-5 sm:flex-row sm:items-end sm:justify-between">
+  return <div className="mb-6 flex flex-col gap-3 border-b border-violet-300/10 bg-[linear-gradient(110deg,rgba(86,43,121,.13),transparent_52%)] px-1 pb-5 sm:flex-row sm:items-end sm:justify-between">
     <div>
       <p className="font-display text-xs uppercase tracking-[0.24em] text-amber-300/70">{eyebrow}</p>
       <h2 className="mt-1 font-display text-2xl text-stone-100">{title}</h2>
@@ -162,12 +163,12 @@ function SectionTitle({ eyebrow, title, description, action }: { eyebrow: string
 }
 
 function Panel({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return <section className={`rounded-2xl border border-violet-300/10 bg-[#120c1d]/80 p-4 shadow-[0_18px_55px_rgba(0,0,0,0.28)] backdrop-blur sm:p-5 ${className}`}>{children}</section>;
+  return <section className={`relative overflow-hidden rounded-2xl border border-violet-300/12 bg-[linear-gradient(145deg,rgba(32,18,46,.94),rgba(12,7,19,.92))] p-4 shadow-[0_18px_55px_rgba(0,0,0,0.28)] backdrop-blur sm:p-5 ${className}`}>{children}</section>;
 }
 
 function Field({ label, children, hint, className = "" }: { label: string; children: React.ReactNode; hint?: string; className?: string }) {
-  return <label className={`grid gap-1.5 text-sm font-medium text-stone-300 ${className}`}>
-    <span>{label}</span>
+  return <label className={`grid gap-1.5 rounded-xl border border-transparent px-1.5 py-1 text-sm font-medium text-stone-300 transition-colors focus-within:border-violet-300/15 focus-within:bg-violet-300/[.025] ${className}`}>
+    <span className="text-[11px] uppercase tracking-[.12em] text-stone-400">{label}</span>
     {children}
     {hint ? <span className="text-xs font-normal leading-5 text-stone-500">{hint}</span> : null}
   </label>;

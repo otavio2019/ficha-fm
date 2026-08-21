@@ -268,3 +268,8 @@
 - [x] Modelar status de desbloqueio idempotente por personagem, especialização e núcleo quando aplicável, preservando fichas legadas.
 - [x] Aplicar efeitos estruturados catalogados pelo motor de personagem e manter habilidades de escolha pendentes sem efeito arbitrário.
 - [x] Validar contrato, salvamento, recarga, níveis 1/2/3/posteriores, interface desktop/celular, tipagem, testes, build, checkpoint e GitHub.
+- [x] Mapear e corrigir contrastes, selects nativos, espaçamentos e hierarquia visual da ficha e da central Homebrew mostrados nas capturas.
+- [x] Reorganizar a Central Homebrew em etapas e grupos de formulário coerentes, sem alterar conteúdo, regras ou persistência.
+- [x] Reestruturar os painéis de Resumo, Raça e Domínio com cartões de leitura, edição e estados vazios consistentes.
+- [x] Padronizar controles, ações, cabeçalhos e comportamento responsivo em todas as telas afetadas.
+- [x] Cobrir a reorganização com testes, inspeções desktop/celular, checkpoint e sincronização no GitHub.
