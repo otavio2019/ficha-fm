@@ -273,3 +273,8 @@
 - [x] Reestruturar os painéis de Resumo, Raça e Domínio com cartões de leitura, edição e estados vazios consistentes.
 - [x] Padronizar controles, ações, cabeçalhos e comportamento responsivo em todas as telas afetadas.
 - [x] Cobrir a reorganização com testes, inspeções desktop/celular, checkpoint e sincronização no GitHub.
+- [x] Auditar campos de notas, descrições, atualização parcial, compartilhamento e revisão para identificar estruturas reutilizáveis.
+- [x] Definir um contrato compatível de observação por entidade, com valor seguro em registros legados e sem APIs paralelas.
+- [x] Criar um componente editável de observação reutilizável e integrá-lo aos dados de ficha, Domínio, Aptidões, Treinamentos, Invocações, Equipamentos e Aliados aplicáveis.
+- [x] Exibir observações em compartilhamentos permitidos e encaminhar sugestões externas ao fluxo de revisão já existente.
+- [x] Cobrir criação, edição, cancelamento, recarga, permissões, revisão, responsividade, checkpoint e GitHub.

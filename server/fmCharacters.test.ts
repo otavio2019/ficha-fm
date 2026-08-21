@@ -640,6 +640,19 @@ describe("Homebrew e revisão", () => {
     expect(updateFMReview).toHaveBeenCalledWith("review-1", 1, { status: "accepted", ownerResponse: "Vamos testar em mesa." });
   });
 
+  it("aplica uma sugestão aceita de observação somente à entidade indicada da ficha", async () => {
+    const sheet = createEmptyFMSheet();
+    sheet.allies = [{ id: "ally-1", name: "Panda", role: "Aliado", bond: "Guilda", healthCurrent: 10, healthMaximum: 10, defense: 12, actions: [], notes: "Protege o grupo." }];
+    vi.mocked(getFMReview).mockResolvedValue({ id: "review-observation-1", ownerId: 1, targetType: "character", targetId: "ficha-observation-1", reviewerName: "Avaliador", reviewerUserId: null, kind: "suggestion", section: "Aliado · Panda", field: "observation:ally:ally-1", currentValue: "Protege o grupo.", suggestedValue: "Protege o grupo durante a retirada.", reason: "Esclarecer o papel narrativo.", status: "pending", ownerResponse: "", createdAt: new Date(), updatedAt: new Date() });
+    vi.mocked(getFMCharacter).mockResolvedValue({ id: "ficha-observation-1", ownerId: 1, name: "Yuji", portraitUrl: null, sheet, createdAt: new Date(), updatedAt: new Date() });
+    vi.mocked(saveFMCharacter).mockResolvedValue({ id: "ficha-observation-1", ownerId: 1, name: "Yuji", portraitUrl: null, sheet: { ...sheet, allies: [{ ...sheet.allies[0], notes: "Protege o grupo durante a retirada." }] }, createdAt: new Date(), updatedAt: new Date() });
+    vi.mocked(updateFMReview).mockResolvedValue({ id: "review-observation-1", ownerId: 1, targetType: "character", targetId: "ficha-observation-1", reviewerName: "Avaliador", reviewerUserId: null, kind: "suggestion", section: "Aliado · Panda", field: "observation:ally:ally-1", currentValue: "Protege o grupo.", suggestedValue: "Protege o grupo durante a retirada.", reason: "Esclarecer o papel narrativo.", status: "accepted", ownerResponse: "Aplicado.", createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+
+    await expect(caller.reviews.update({ id: "review-observation-1", status: "accepted", ownerResponse: "Aplicado." })).resolves.toMatchObject({ status: "accepted" });
+    expect(saveFMCharacter).toHaveBeenCalledWith(expect.objectContaining({ id: "ficha-observation-1", ownerId: 1, sheet: expect.objectContaining({ allies: [expect.objectContaining({ id: "ally-1", notes: "Protege o grupo durante a retirada." })] }) }));
+  });
+
   it("exige aceite antes de permitir marcar uma sugestão como implementada", async () => {
     vi.mocked(getFMReview).mockResolvedValue({ id: "review-pendente", ownerId: 1, targetType: "homebrew", targetId: aptitude.id, reviewerName: "Avaliador", reviewerUserId: null, kind: "suggestion", section: "Técnica", field: "Custo", currentValue: "2 PE", suggestedValue: "1 PE", reason: "Adequar ao benefício inicial.", status: "pending", ownerResponse: "", createdAt: new Date(), updatedAt: new Date() });
     const caller = appRouter.createCaller(createContext(1));

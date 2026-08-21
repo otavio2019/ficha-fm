@@ -15,6 +15,7 @@ import { FM_INVOCATION_GRADE_RULES } from "../shared/fmInvocations";
 import { getAptitudeCatalogEntry, getAptitudeDefinition } from "../shared/fmCampaignCapabilities";
 import { FM_HOMEBREW_KINDS, FM_REVIEW_KINDS, FM_REVIEW_STATUSES, validateHomebrew, validateReview } from "../shared/fmHomebrew";
 import { normalizeHomebrewContent } from "../shared/fmHomebrew";
+import { applyCharacterObservationSuggestion } from "../shared/fmObservations";
 import { fmAttributeKeys, type FMCharacterSheet, type FMModifierTarget, type FMRequirement } from "../shared/fmTypes";
 import { calculateCharacterState } from "../shared/fmCharacterState";
 import { storagePut } from "./storage";
@@ -626,10 +627,19 @@ export const appRouter = router({
       const transitions: Record<typeof previous.status, Array<typeof previous.status>> = { pending: ["accepted", "rejected"], accepted: ["implemented", "rejected"], rejected: [], implemented: [] };
       if (input.status !== previous.status && !transitions[previous.status].includes(input.status)) throw new TRPCError({ code: "BAD_REQUEST", message: "Esta transição de status não é permitida para a revisão atual." });
       if ((previous.status === "rejected" || previous.status === "implemented") && input.ownerResponse.trim() !== previous.ownerResponse) throw new TRPCError({ code: "BAD_REQUEST", message: "A resposta só pode ser editada enquanto a revisão estiver pendente ou aceita." });
+      const requestsObservationUpdate = previous.kind === "suggestion" && previous.field.startsWith("observation:");
+      if (input.status === "accepted" && requestsObservationUpdate) {
+        if (previous.targetType !== "character") throw new TRPCError({ code: "BAD_REQUEST", message: "Esta observação não pertence a uma ficha editável." });
+        const character = await getFMCharacter(previous.targetId);
+        if (!character || character.ownerId !== ctx.user.id) throw new TRPCError({ code: "FORBIDDEN", message: "Você não pode aplicar esta sugestão de observação." });
+        const sheet = applyCharacterObservationSuggestion(character.sheet as FMCharacterSheet, previous.field, previous.suggestedValue);
+        if (!sheet) throw new TRPCError({ code: "BAD_REQUEST", message: "A observação sugerida não corresponde a uma entidade atual da ficha." });
+        await saveFMCharacter({ id: character.id, ownerId: ctx.user.id, name: character.name, portraitUrl: character.portraitUrl ?? null, sheet });
+      }
       const review = await updateFMReview(input.id, ctx.user.id, { status: input.status, ownerResponse: input.ownerResponse.trim() });
       if (!review) throw new TRPCError({ code: "FORBIDDEN", message: "Você não pode atualizar esta sugestão." });
       const eventType = input.status === previous.status ? "responded" : input.status === "accepted" ? "accepted" : input.status === "rejected" ? "rejected" : "implemented";
-      await createFMChangeHistory({ id: nanoid(22), ownerId: ctx.user.id, targetType: review.targetType, targetId: review.targetId, actorName: ctx.user.name || "Criador", eventType, detail: { reviewId: review.id, section: review.section, status: input.status, response: input.ownerResponse.trim() } });
+      await createFMChangeHistory({ id: nanoid(22), ownerId: ctx.user.id, targetType: review.targetType, targetId: review.targetId, actorName: ctx.user.name || "Criador", eventType, detail: { reviewId: review.id, section: review.section, status: input.status, response: input.ownerResponse.trim(), observationApplied: input.status === "accepted" && requestsObservationUpdate } });
       return review;
     }),
     getPublic: publicProcedure.input(z.object({ token: z.string().min(8).max(64) })).query(async ({ input }) => {

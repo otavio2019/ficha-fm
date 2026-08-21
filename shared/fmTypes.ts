@@ -101,6 +101,7 @@ export type FMOriginKey = "innate" | "inherited" | "derived" | "restricted" | "c
 export type FMClanKey = "gojo" | "inumaki" | "kamo" | "zenin" | "custom";
 export type FMInvocationGrade = "fourth" | "third" | "second" | "first" | "special";
 export type FMInvocationActionKind = "simple" | "complex" | "trait";
+export type FMObservationEntityType = "character" | "history" | "domain" | "aptitude" | "technique" | "training" | "invocation" | "equipment" | "advantage" | "disadvantage" | "ally" | "homebrew";
 
 export type FMTechnique = {
   kind: FMTechniqueKind;
@@ -112,6 +113,7 @@ export type FMTechnique = {
   limitations: string;
   requiredItems: string;
   reviewNotes: string;
+  notes?: string;
   powers: FMTechniquePower[];
   modifiers?: FMModifierDefinition[];
   requirements?: FMRequirement[];
@@ -332,6 +334,7 @@ export type FMAptitude = {
   effects?: FMAptitudeEffect[];
   evolutions?: FMAptitudeEvolution[];
   selectedEvolutionId?: string | null;
+  notes?: string;
 };
 
 export type FMTrainingProgress = {
@@ -400,6 +403,7 @@ export type FMDomainExpansion = {
   effect: string;
   counterplay: string;
   approved: boolean;
+  notes?: string;
   active?: boolean;
   modifiers?: FMModifierDefinition[];
   requirements?: FMRequirement[];
