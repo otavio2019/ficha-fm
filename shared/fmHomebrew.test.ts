@@ -13,7 +13,7 @@ describe("Homebrew genérico", () => {
   });
 
   it("preserva mecânicas estruturadas e fornece valores seguros para conteúdo legado", () => {
-    expect(normalizeHomebrewContent({ description: "Legado" }).mechanics).toEqual({ modifiers: [], requirements: [], evolutions: [], raceChoices: [], aptitude: { description: "", requirements: [], modifiers: [], effects: [], limitations: "", evolutions: [] } });
+    expect(normalizeHomebrewContent({ description: "Legado" }).mechanics).toEqual({ modifiers: [], requirements: [], evolutions: [], raceChoices: [], aptitude: { description: "", requirements: [], modifiers: [], effects: [], limitations: "", evolutions: [] }, specialization: { enabled: false, type: "", effects: [], conditions: "", parameters: {} } });
     expect(normalizeHomebrewContent({ mechanics: { modifiers: [{ id: "forca", target: "strength", operation: "add", value: 4 }], requirements: [{ type: "level-min", minimum: 3 }] } }).mechanics).toMatchObject({ modifiers: [{ target: "strength", value: 4 }], requirements: [{ type: "level-min", minimum: 3 }], evolutions: [] });
   });
 

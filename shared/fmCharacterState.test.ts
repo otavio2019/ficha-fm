@@ -141,4 +141,20 @@ describe("motor de estado do personagem", () => {
     expect(afterSwitch.attributes.strength).toBe(11);
     expect(afterSwitch.attributes.dexterity).toBe(12);
   });
+
+  it("aplica uma Especialização Homebrew somente quando sua seleção e mecânica declarada estão ativas", () => {
+    const sheet = createEmptyFMSheet();
+    sheet.attributes.base.strength = 10;
+    sheet.progression.homebrewSpecializations = [{
+      id: "especializacao-hb", homebrewId: "hb-1", name: "Especialista Adaptado", description: "", source: "homebrew", author: "Mestre", version: "1", status: "review", requirements: [], active: true, notes: "",
+      mechanics: { enabled: true, type: "Bônus", conditions: "", parameters: {}, effects: [], modifiers: [{ id: "hb-for", target: "strength", operation: "add", value: 2 }] },
+    }];
+
+    expect(calculateCharacterState(sheet).attributes.strength).toBe(12);
+    sheet.progression.homebrewSpecializations[0].active = false;
+    expect(calculateCharacterState(sheet).attributes.strength).toBe(10);
+    sheet.progression.homebrewSpecializations[0].active = true;
+    sheet.progression.homebrewSpecializations[0].mechanics.enabled = false;
+    expect(calculateCharacterState(sheet).attributes.strength).toBe(10);
+  });
 });

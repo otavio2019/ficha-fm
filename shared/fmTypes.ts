@@ -290,6 +290,28 @@ export type FMSpecializationTrack = {
   level: number;
 };
 
+export type FMHomebrewSpecializationSelection = {
+  id: string;
+  homebrewId: string;
+  name: string;
+  description: string;
+  source: "homebrew";
+  author: string;
+  version: string;
+  status: string;
+  requirements: FMRequirement[];
+  mechanics: {
+    enabled: boolean;
+    type: string;
+    modifiers: FMModifierDefinition[];
+    effects: FMAptitudeEffect[];
+    conditions: string;
+    parameters: Record<string, string>;
+  };
+  active: boolean;
+  notes: string;
+};
+
 export type FMSpecializationAbilityChoice = {
   specialization: FMSpecializationKey;
   slotId: string;
@@ -421,7 +443,7 @@ export type FMTrainingProgress = {
   notes: string;
   modifiers?: FMModifierDefinition[];
   requirements?: FMRequirement[];
-  stageEffects?: Partial<Record<1 | 2 | 3 | 4, { description: string; modifiers: FMModifierDefinition[]; unlocks: FMAptitudeUnlockEffect[]; limitations: string }>>;
+  stageEffects?: Partial<Record<number, { description: string; modifiers: FMModifierDefinition[]; unlocks: FMAptitudeUnlockEffect[]; limitations: string }>>;
 };
 
 export type FMCustomResource = { id: string; name: string; description: string; current: number; baseMaximum: number; minimum: number; unit: string; notes: string; modifiers?: FMModifierDefinition[] };
@@ -523,6 +545,7 @@ export type FMCharacterSheet = {
     primarySpecialization: FMSpecializationKey | null;
     primarySpecializationLocked: boolean;
     specializationTracks: FMSpecializationTrack[];
+    homebrewSpecializations?: FMHomebrewSpecializationSelection[];
     specializationAbilityChoices?: FMSpecializationAbilityChoice[];
     specializationAbilityUnlocks?: FMSpecializationAbilityUnlock[];
     skillTrainingAttribute: FMSkillTrainingAttribute | null;
@@ -611,6 +634,7 @@ export const createEmptyFMSheet = (): FMCharacterSheet => ({
     primarySpecialization: null,
     primarySpecializationLocked: false,
     specializationTracks: [],
+    homebrewSpecializations: [],
     specializationAbilityChoices: [],
     specializationAbilityUnlocks: [],
     skillTrainingAttribute: null,

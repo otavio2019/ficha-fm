@@ -317,3 +317,8 @@
 - [x] Auditar a aderência dos módulos de regras, fontes, ficha, aptidões, revisão, versionamento, guia e comunidade.
 - [x] Implementar apenas integrações ou correções prioritárias confirmadas pela auditoria, sem duplicação de sistemas.
 - [x] Validar a consolidação, salvar checkpoint e sincronizar a revisão no GitHub.
+
+- [x] Auditar os contratos, motor, backend e painéis atuais de Aptidões, Treinamentos e Especializações Homebrew contra o anexo.
+- [x] Exibir progressão completa de Aptidões e Treinamentos com requisitos, benefícios por etapa, próximo nível e fonte, usando os dados existentes.
+- [x] Implementar seleção manual e persistível de Especializações Homebrew, com requisitos, identificação de fonte e mecânica opcional sem aplicação automática.
+- [x] Cobrir integração ponta a ponta, responsividade, checkpoint e sincronização no GitHub.

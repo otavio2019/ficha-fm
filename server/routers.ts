@@ -61,7 +61,8 @@ const aptitudeEffectInput = z.discriminatedUnion("type", [
 ]);
 const aptitudeEvolutionInput = z.object({ id: z.string().min(1).max(64), name: z.string().min(1).max(160), description: z.string().max(4000), level: z.number().int().min(1).max(30), requirements: z.array(requirementInput).default([]), modifiers: z.array(modifierDefinitionInput).default([]), effects: z.array(aptitudeEffectInput).default([]), limitations: z.string().max(4000).default(""), replacesBaseEffects: z.boolean().optional() });
 const aptitudeMechanicsInput = z.object({ description: z.string().max(8000).default(""), requirements: z.array(requirementInput).default([]), modifiers: z.array(modifierDefinitionInput).default([]), effects: z.array(aptitudeEffectInput).default([]), limitations: z.string().max(4000).default(""), evolutions: z.array(aptitudeEvolutionInput).default([]) }).default({ description: "", requirements: [], modifiers: [], effects: [], limitations: "", evolutions: [] });
-const homebrewMechanicsInput = z.object({ modifiers: z.array(modifierDefinitionInput).default([]), requirements: z.array(requirementInput).default([]), evolutions: z.array(raceEvolutionInput).default([]), raceChoices: z.array(raceChoiceInput).default([]), aptitude: aptitudeMechanicsInput }).default({ modifiers: [], requirements: [], evolutions: [], raceChoices: [], aptitude: { description: "", requirements: [], modifiers: [], effects: [], limitations: "", evolutions: [] } });
+const specializationMechanicsInput = z.object({ enabled: z.boolean().default(false), type: z.string().max(160).default(""), effects: z.array(aptitudeEffectInput).default([]), conditions: z.string().max(4000).default(""), parameters: z.record(z.string(), z.string().max(1000)).default({}) }).default({ enabled: false, type: "", effects: [], conditions: "", parameters: {} });
+const homebrewMechanicsInput = z.object({ modifiers: z.array(modifierDefinitionInput).default([]), requirements: z.array(requirementInput).default([]), evolutions: z.array(raceEvolutionInput).default([]), raceChoices: z.array(raceChoiceInput).default([]), aptitude: aptitudeMechanicsInput, specialization: specializationMechanicsInput }).default({ modifiers: [], requirements: [], evolutions: [], raceChoices: [], aptitude: { description: "", requirements: [], modifiers: [], effects: [], limitations: "", evolutions: [] }, specialization: { enabled: false, type: "", effects: [], conditions: "", parameters: {} } });
 const homebrewContentInput = z.object({ description: z.string().max(8000), requirements: z.string().max(8000), effects: z.string().max(8000), cost: z.string().max(1000), level: z.string().max(1000), notes: z.string().max(8000), fields: z.record(z.string(), z.string().max(4000)), mechanics: homebrewMechanicsInput });
 const homebrewInput = z.object({ id: z.string().min(6).max(64), kind: z.enum(FM_HOMEBREW_KINDS), name: z.string().trim().min(1).max(160), summary: z.string().trim().min(1).max(1000), content: homebrewContentInput }).superRefine((input, context) => validateHomebrew(input).forEach(message => context.addIssue({ code: "custom", path: ["content"], message })));
 const reviewSubmissionInput = z.object({ token: z.string().min(8).max(64), reviewerName: z.string().trim().min(1).max(160), kind: z.enum(FM_REVIEW_KINDS), section: z.string().trim().min(1).max(160), field: z.string().trim().max(160).default(""), currentValue: z.string().max(8000).default(""), suggestedValue: z.string().max(8000).default(""), reason: z.string().trim().min(1).max(8000) }).superRefine((input, context) => validateReview({ ...input, targetId: "shared" }).forEach(message => context.addIssue({ code: "custom", path: message.includes("campo específico") ? ["field"] : ["reason"], message })));
@@ -812,6 +813,35 @@ export const appRouter = router({
       const existingVow = (existing?.sheet.houseRules as Record<string, unknown> | undefined)?.birthVow as Record<string, unknown> | undefined;
       const existingProgression = existing?.sheet.progression as Record<string, unknown> | undefined;
       const nextProgression = input.sheet.progression as Record<string, unknown> | undefined;
+      const selectedHomebrewSpecializations = Array.isArray(nextProgression?.homebrewSpecializations) ? nextProgression.homebrewSpecializations.filter((entry): entry is Record<string, unknown> => Boolean(entry && typeof entry === "object")) : [];
+      const selectedHomebrewIds = new Set<string>();
+      for (const specialization of selectedHomebrewSpecializations) {
+        const homebrewId = typeof specialization.homebrewId === "string" ? specialization.homebrewId : "";
+        if (!homebrewId || selectedHomebrewIds.has(homebrewId)) throw new TRPCError({ code: "BAD_REQUEST", message: "Cada Especialização Homebrew só pode ser vinculada uma vez." });
+        selectedHomebrewIds.add(homebrewId);
+        const homebrew = await getFMHomebrew(homebrewId);
+        if (!homebrew || homebrew.ownerId !== ctx.user.id || homebrew.kind !== "specialization") throw new TRPCError({ code: "BAD_REQUEST", message: "A Especialização Homebrew precisa pertencer à sua central e ter a categoria correta." });
+        const content = normalizeHomebrewContent(homebrew.content);
+        const expected = {
+          name: homebrew.name,
+          description: content.description,
+          source: "homebrew",
+          author: content.fields.author?.trim() || "Autor não informado",
+          version: content.fields.version?.trim() || "Sem versão informada",
+          status: content.fields.status?.trim() || "Pendente de revisão",
+          requirements: content.mechanics.requirements,
+          mechanics: {
+            enabled: content.mechanics.specialization.enabled,
+            type: content.mechanics.specialization.type || content.fields.mechanicType || "Narrativa",
+            modifiers: content.mechanics.modifiers,
+            effects: content.mechanics.specialization.effects,
+            conditions: content.mechanics.specialization.conditions || content.fields.conditions || "",
+            parameters: content.mechanics.specialization.parameters,
+          },
+        };
+        const serialized = (entry: unknown) => JSON.stringify(entry ?? null);
+        if (specialization.name !== expected.name || specialization.description !== expected.description || specialization.source !== expected.source || specialization.author !== expected.author || specialization.version !== expected.version || specialization.status !== expected.status || serialized(specialization.requirements) !== serialized(expected.requirements) || serialized(specialization.mechanics) !== serialized(expected.mechanics) || typeof specialization.active !== "boolean" || typeof specialization.notes !== "string") throw new TRPCError({ code: "BAD_REQUEST", message: "A Especialização Homebrew precisa corresponder ao conteúdo estruturado salvo na central." });
+      }
       const establishedPrimary = typeof existingProgression?.primarySpecialization === "string" ? existingProgression.primarySpecialization : existingProgression?.specialization;
       const requestedPrimary = typeof nextProgression?.primarySpecialization === "string" ? nextProgression.primarySpecialization : nextProgression?.specialization;
       if (typeof establishedPrimary === "string" && typeof requestedPrimary === "string" && establishedPrimary !== requestedPrimary) {

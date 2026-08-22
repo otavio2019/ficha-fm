@@ -93,7 +93,7 @@ export const fmTechniques = mysqlTable("fm_techniques", {
 export const fmHomebrews = mysqlTable("fm_homebrews", {
   id: varchar("id", { length: 64 }).primaryKey(),
   ownerId: int("ownerId").notNull(),
-  kind: mysqlEnum("kind", ["technique", "vow", "aptitude", "race", "domain", "training", "item", "ability", "rule", "other"]).notNull(),
+  kind: mysqlEnum("kind", ["technique", "vow", "aptitude", "specialization", "race", "domain", "training", "item", "ability", "rule", "other"]).notNull(),
   name: varchar("name", { length: 160 }).notNull(),
   summary: text("summary").notNull(),
   content: json("content").$type<Record<string, unknown>>().notNull(),

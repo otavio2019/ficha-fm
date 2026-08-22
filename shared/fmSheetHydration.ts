@@ -23,6 +23,7 @@ export function hydrateSheet(raw: Record<string, unknown> | null | undefined): F
       primarySpecialization: source.progression && Object.prototype.hasOwnProperty.call(source.progression, "primarySpecialization") ? source.progression.primarySpecialization : source.progression?.specialization ?? empty.progression.primarySpecialization,
       primarySpecializationLocked: source.progression && Object.prototype.hasOwnProperty.call(source.progression, "primarySpecializationLocked") ? Boolean(source.progression.primarySpecializationLocked) : Boolean(source.progression?.specialization),
       specializationTracks: Array.isArray(source.progression?.specializationTracks) ? source.progression.specializationTracks : [{ specialization: source.progression?.specialization ?? empty.progression.specialization, level: Math.max(1, source.progression?.specializationLevels ?? source.progression?.level ?? 1) }],
+      homebrewSpecializations: Array.isArray(source.progression?.homebrewSpecializations) ? source.progression.homebrewSpecializations : [],
       specializationAbilityChoices: Array.isArray(source.progression?.specializationAbilityChoices) ? source.progression.specializationAbilityChoices : [],
       specializationAbilityUnlocks: Array.isArray(source.progression?.specializationAbilityUnlocks) ? source.progression.specializationAbilityUnlocks : [],
       experience: typeof source.progression?.experience === "number" ? source.progression.experience : getExperienceForLevel(typeof source.progression?.level === "number" ? source.progression.level : 1),
