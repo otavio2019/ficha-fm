@@ -307,8 +307,8 @@
 
 - [x] Auditar lacunas reais entre a ficha editável, a visualização compartilhada, a impressão e as regras do livro F&M.
 - [x] Priorizar e implementar melhorias confirmadas, sem duplicar sistemas existentes ou inventar regras.
-- [ ] Validar a nova revisão, registrar evidências, salvar checkpoint e sincronizar no GitHub.
+- [x] Validar a nova revisão, registrar evidências, salvar checkpoint e sincronizar no GitHub.
 
 - [x] Preservar alterações locais não enviadas e atualizar a branch para a versão mais recente de `infinite-worlds`.
 - [x] Revisar a consolidação recente e adaptar as superfícies afetadas sem perder recursos existentes.
-- [ ] Validar a integração, salvar checkpoint e sincronizar a versão adaptada no GitHub.
+- [x] Validar a integração, salvar checkpoint e sincronizar a versão adaptada no GitHub.
