@@ -312,3 +312,8 @@
 - [x] Preservar alterações locais não enviadas e atualizar a branch para a versão mais recente de `infinite-worlds`.
 - [x] Revisar a consolidação recente e adaptar as superfícies afetadas sem perder recursos existentes.
 - [x] Validar a integração, salvar checkpoint e sincronizar a versão adaptada no GitHub.
+
+- [x] Mapear integralmente a especificação consolidada anexada, distinguindo requisitos já implementados de lacunas reais.
+- [x] Auditar a aderência dos módulos de regras, fontes, ficha, aptidões, revisão, versionamento, guia e comunidade.
+- [x] Implementar apenas integrações ou correções prioritárias confirmadas pela auditoria, sem duplicação de sistemas.
+- [ ] Validar a consolidação, salvar checkpoint e sincronizar a revisão no GitHub.

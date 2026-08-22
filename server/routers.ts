@@ -836,6 +836,15 @@ export const appRouter = router({
       const { clientId: _clientId, ...characterInputForStorage } = input;
       const saved = await saveFMCharacter({ ...characterInputForStorage, sheet: sheetForSave, ownerId: ctx.user.id, portraitUrl: input.portraitUrl ?? null });
       if (!saved) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Não foi possível salvar a ficha." });
+      await recordContentVersion({
+        ownerId: ctx.user.id,
+        targetType: "character",
+        targetId: input.id,
+        content: sheetForSave as unknown as Record<string, unknown>,
+        authorName: ctx.user.name || "Jogador",
+        reason: existing ? "Atualização da ficha" : "Criação da ficha",
+        rulesVersion: typeof sheetForSave.rulesVersion === "string" ? sheetForSave.rulesVersion : "2.5.2",
+      });
       try {
         await ensureFMSpecializationAbilityCatalog();
         await syncFMCharacterSpecializationAbilities(input.id, projectedUnlocks);

@@ -31,3 +31,9 @@ Foi incluído um teste de renderização do link compartilhado cobrindo os novos
 A base foi atualizada até `de15a3e`, preservando os ajustes locais em um stash antes da sincronização e reaplicando-os sem conflito. A migração de versões e votos foi aplicada de forma idempotente para que os contratos novos tenham tabelas disponíveis no banco.
 
 A rota `/guia` foi inspecionada em 1280×720 e 375×812. Em desktop, capítulos, busca, conteúdo e chamada para a guilda mantêm hierarquia clara. Em celular, os capítulos refluem para uma coluna, o conteúdo permanece legível e o botão de continuidade se mantém acessível sem sobreposição ou overflow visível.
+
+## Consolidação da especificação mestre — revisão pública e versões
+
+A auditoria da especificação anexada confirmou que Motor, modificadores, fontes, ficha, conteúdos, compartilhamento, votos, Guia, segurança e compatibilidade já reutilizam a estrutura consolidada. As lacunas reais estavam no versionamento de personagens e na leitura da ficha pela rota pública de avaliação.
+
+O salvamento de personagem agora gera uma versão imutável e auditável somente quando o conteúdo muda, pelo mesmo helper já utilizado para Técnicas e Homebrews. A rota de avaliação pública passou a renderizar uma prévia somente leitura com identidade, atributos derivados, recursos, Testes de Morte, resistências, reduções, Magias, Invocações, Aptidões e Treinamentos. A cobertura inclui a criação de versão na rota protegida e a renderização de dados estruturados do personagem. A suíte concluiu 163 testes, tipagem e build de produção.

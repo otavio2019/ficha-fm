@@ -42,7 +42,7 @@ vi.mock("./db", () => ({
 vi.mock("./storage", () => ({ storagePut: vi.fn() }));
 vi.mock("./fmSpecializationAbilityCatalog", () => ({ ensureFMSpecializationAbilityCatalog: vi.fn(), listSeededFMSpecializationAbilities: vi.fn() }));
 
-import { createFMChangeHistory, createFMCharacterShare, createFMContentShare, createFMReview, deleteFMCharacter, deleteFMHomebrew, deleteFMTechnique, getFMCharacter, getFMCharacterShare, getFMContentShare, getFMHomebrew, getFMReview, getFMTechnique, getSharedFMCharacter, getSharedFMContent, listFMHomebrews, listFMTechniques, regenerateFMContentShare, saveFMCharacter, saveFMHomebrew, saveFMTechnique, setFMContentShareEnabled, syncFMCharacterSpecializationAbilities, updateFMReview } from "./db";
+import { createFMChangeHistory, createFMCharacterShare, createFMContentShare, createFMContentVersion, createFMReview, deleteFMCharacter, deleteFMHomebrew, deleteFMTechnique, getFMCharacter, getFMCharacterShare, getFMContentShare, getFMHomebrew, getFMReview, getFMTechnique, getSharedFMCharacter, getSharedFMContent, listFMHomebrews, listFMTechniques, regenerateFMContentShare, saveFMCharacter, saveFMHomebrew, saveFMTechnique, setFMContentShareEnabled, syncFMCharacterSpecializationAbilities, updateFMReview } from "./db";
 import { ensureFMSpecializationAbilityCatalog } from "./fmSpecializationAbilityCatalog";
 import { appRouter } from "./routers";
 import { storagePut } from "./storage";
@@ -478,6 +478,24 @@ describe("biblioteca de fichas", () => {
     vi.mocked(saveFMCharacter).mockResolvedValue({ id: "ficha-mecanica-valida", ownerId: 1, name: "Yuji", portraitUrl: null, sheet, createdAt: new Date(), updatedAt: new Date() });
     const caller = appRouter.createCaller(createContext(1));
     await expect(caller.characters.save({ id: "ficha-mecanica-valida", name: "Yuji", sheet })).resolves.toMatchObject({ name: "Yuji" });
+  });
+
+  it("registra uma versão auditável sempre que uma ficha é salva", async () => {
+    const sheet = createEmptyFMSheet();
+    sheet.identity.name = "Yuji";
+    vi.mocked(getFMCharacter).mockResolvedValue(undefined);
+    vi.mocked(saveFMCharacter).mockResolvedValue({ id: "ficha-versionada", ownerId: 1, name: "Yuji", portraitUrl: null, sheet, createdAt: new Date(), updatedAt: new Date() });
+    const caller = appRouter.createCaller(createContext(1));
+
+    await expect(caller.characters.save({ id: "ficha-versionada", name: "Yuji", sheet })).resolves.toMatchObject({ name: "Yuji" });
+    expect(createFMContentVersion).toHaveBeenCalledWith(expect.objectContaining({
+      ownerId: 1,
+      targetType: "character",
+      targetId: "ficha-versionada",
+      authorName: "Teste",
+      reason: "Criação da ficha",
+      content: expect.objectContaining({ identity: expect.objectContaining({ name: "Yuji" }) }),
+    }));
   });
 
   it("preserva escolha racial válida e recusa opção que não pertence à raça atual", async () => {
