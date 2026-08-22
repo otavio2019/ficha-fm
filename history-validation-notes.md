@@ -19,3 +19,15 @@ A prévia local de Combate e Aptidões foi capturada em 1280×720. O painel de C
 ## Novos painéis — validação móvel
 
 A prévia local de Combate e Aptidões foi capturada em 375×812. Os cartões de resumo refluem para uma coluna, os cabeçalhos permanecem legíveis e não foi observado overflow horizontal na área visível. A continuidade dos painéis abaixo da dobra permanece acessível por rolagem. O aviso de técnica indisponível segue sendo o aviso histórico da prévia local.
+
+## Link compartilhado — paridade de leitura
+
+A página pública de ficha passou a reutilizar o hidratador central, eliminando a duplicação que deixava blocos recentes fora do compartilhamento. O link agora apresenta Testes de Morte, Inspiração, limite de Energia, resistências, vulnerabilidades, reduções de dano, Invocações com valores derivados e descrições de Treinamentos em modo somente leitura.
+
+Foi incluído um teste de renderização do link compartilhado cobrindo os novos cartões. A suíte registrou 158 testes aprovados, além de tipagem e build de produção concluídos. A auditoria atual também registrou, como próximas lacunas de escopo, uma prévia rica para revisão pública de personagem e uma composição completa para impressão/PDF.
+
+## Guia consolidado — integração da versão mais recente
+
+A base foi atualizada até `de15a3e`, preservando os ajustes locais em um stash antes da sincronização e reaplicando-os sem conflito. A migração de versões e votos foi aplicada de forma idempotente para que os contratos novos tenham tabelas disponíveis no banco.
+
+A rota `/guia` foi inspecionada em 1280×720 e 375×812. Em desktop, capítulos, busca, conteúdo e chamada para a guilda mantêm hierarquia clara. Em celular, os capítulos refluem para uma coluna, o conteúdo permanece legível e o botão de continuidade se mantém acessível sem sobreposição ou overflow visível.
